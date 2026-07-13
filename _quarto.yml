@@ -1,0 +1,62 @@
+project:
+  type: website
+  output-dir: _site
+  resources:
+    - "Lectures/**/*.pdf"
+
+website:
+  title: "Applied Data Science with Python"
+  description: "CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026"
+  site-url: https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/
+  repo-url: https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python
+  page-navigation: true
+  navbar:
+    background: primary
+    search: true
+    left:
+      - href: index.qmd
+        text: Home
+    right:
+      - icon: github
+        href: https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python
+        aria-label: GitHub repository
+  sidebar:
+    style: docked
+    search: true
+    collapse-level: 2
+    contents:
+      - href: index.qmd
+        text: "Course Information"
+      - href: Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.qmd
+        text: "Lecture 1 - A Short History of AI"
+      - section: "Theme 1 - Python Programming"
+        contents:
+          - href: "Lectures/Theme_1-Python_Programming/Lecture_2-Data_Types_in_Python/Lecture_2-Data_Types.ipynb"
+            text: "Lecture 2 - Data Types in Python"
+          - href: "Lectures/Theme_1-Python_Programming/Lecture_3-Statements,_Files/Lecture_3-Statements,_Files.ipynb"
+            text: "Lecture 3 - Statements, Files"
+          - href: "Lectures/Theme_1-Python_Programming/Lecture_4-Functions,_Iterators/Lecture_4-Functions,_Iterators.ipynb"
+            text: "Lecture 4 - Functions, Iterators"
+          - href: "Lectures/Theme_1-Python_Programming/Lecture_5-OOP,_Modules,_Packages/Lecture_5-OOP,_Modules,_Packages.ipynb"
+            text: "Lecture 5 - OOP, Modules, Packages"
+      - section: "Tutorials"
+        contents:
+          - href: "Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"
+            text: "Tutorial 1 - Jupyter Notebooks"
+  page-footer:
+    center: "CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026"
+
+format:
+  html:
+    theme: cosmo
+    toc: true
+    toc-depth: 3
+    code-copy: true
+    code-overflow: wrap
+    grid:
+      body-width: 1000px
+      sidebar-width: 300px
+
+# Notebooks are rendered from their saved outputs; never execute them during builds
+execute:
+  enabled: false
