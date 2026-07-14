@@ -1,3 +1,9 @@
+/* Main content panel: 16px instead of Quarto's 17px default.
+   Scoped to the document body so the sidebar keeps its size. */
+#quarto-document-content {
+  font-size: 16px;
+}
+
 /* Top-level sidebar entries (Course Information, Lecture 1, Theme sections, Tutorials):
    bold + theme blue. Nested lecture/tutorial links keep the default style. */
 #quarto-sidebar .sidebar-menu-container > ul > li > .sidebar-item-container > .sidebar-link {
