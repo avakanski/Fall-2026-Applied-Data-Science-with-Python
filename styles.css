@@ -8,10 +8,10 @@
    bold + theme blue. Nested lecture/tutorial links keep the default style. */
 #quarto-sidebar .sidebar-menu-container > ul > li > .sidebar-item-container > .sidebar-link {
   font-weight: 700;
-  color: #2780e3;
+  color: var(--bs-primary);
 }
 
 /* Keep the section collapse chevron matching the header color */
 #quarto-sidebar .sidebar-menu-container > ul > li > .sidebar-item-container > .sidebar-item-toggle {
-  color: #2780e3;
+  color: var(--bs-primary);
 }

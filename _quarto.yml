@@ -48,10 +48,11 @@ website:
 
 format:
   html:
-    theme: cosmo
+    theme: zephyr
     css: styles.css
     toc: true
     toc-depth: 3
+    toc-expand: true
     code-copy: true
     code-overflow: wrap
     grid:
