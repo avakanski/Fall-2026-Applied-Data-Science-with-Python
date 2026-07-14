@@ -4,9 +4,11 @@ project:
   render:
     - "**/*.qmd"
     - "**/*.ipynb"
-    # superseded by the combined Lecture 2 - Python Data Types, Statements
+    # superseded by the combined Lectures 2-4 (Python material merged into 3 lectures)
     - "!Lectures/Theme_1-Python_Programming/Lecture_2-Data_Types_in_Python/"
     - "!Lectures/Theme_1-Python_Programming/Lecture_3-Statements,_Files/"
+    - "!Lectures/Theme_1-Python_Programming/Lecture_4-Functions,_Iterators/"
+    - "!Lectures/Theme_1-Python_Programming/Lecture_5-OOP,_Modules,_Packages/"
   resources:
     - "Lectures/**/*.pdf"
 
@@ -49,10 +51,10 @@ website:
         contents:
           - href: "Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.ipynb"
             text: "Lecture 2 - Python Data Types, Statements"
-          - href: "Lectures/Theme_1-Python_Programming/Lecture_4-Functions,_Iterators/Lecture_4-Functions,_Iterators.ipynb"
-            text: "Lecture 4 - Functions, Iterators"
-          - href: "Lectures/Theme_1-Python_Programming/Lecture_5-OOP,_Modules,_Packages/Lecture_5-OOP,_Modules,_Packages.ipynb"
-            text: "Lecture 5 - OOP, Modules, Packages"
+          - href: "Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.ipynb"
+            text: "Lecture 3 - Files, Functions"
+          - href: "Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.ipynb"
+            text: "Lecture 4 - OOP, Modules, Packages"
       - section: "Tutorials"
         contents:
           - href: "Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"
