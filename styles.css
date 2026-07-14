@@ -4,10 +4,31 @@
   font-size: 16px;
 }
 
+/* Notebook in-page anchors: keep the jump target clear of the navbar */
+#quarto-document-content a[id] {
+  scroll-margin-top: 4rem;
+}
+
 /* Right-pane table of contents: nested subsection titles noticeably
    smaller than top-level section titles */
 #TOC ul ul {
   font-size: 0.8em;
+}
+
+/* Expand/collapse arrows added to TOC entries by toc-arrows.html */
+.toc-chevron {
+  display: inline-block;
+  cursor: pointer;
+  margin-left: 0.4em;
+  color: var(--bs-primary);
+  transition: transform 0.2s ease;
+  user-select: none;
+}
+.toc-chevron::before {
+  content: "\25B8"; /* small right-pointing triangle */
+}
+.toc-chevron-expanded {
+  transform: rotate(90deg);
 }
 
 /* Top-level sidebar entries (Course Information, Lecture 1, Theme sections, Tutorials):
