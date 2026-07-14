@@ -50,6 +50,7 @@ format:
   html:
     theme: zephyr
     css: styles.css
+    include-after-body: toc-arrows.html
     toc: true
     toc-depth: 3
     code-copy: true
