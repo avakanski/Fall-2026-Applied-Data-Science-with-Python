@@ -10,20 +10,17 @@ website:
   site-url: https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/
   repo-url: https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python
   page-navigation: true
-  navbar:
-    background: primary
-    search: true
-    left:
-      - href: index.qmd
-        text: Home
-    right:
-      - icon: github
-        href: https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python
-        aria-label: GitHub repository
   sidebar:
     style: docked
+    background: "#D9E3E4"
+    pinned: true
+    align: center
     search: true
     collapse-level: 2
+    tools:
+      - icon: github
+        href: https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python
+        text: GitHub repository
     contents:
       - href: index.qmd
         text: "Course Information"
@@ -45,10 +42,12 @@ website:
             text: "Tutorial 1 - Jupyter Notebooks"
   page-footer:
     center: "CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026"
+    background: "#D9E3E4"
 
 format:
   html:
-    theme: zephyr
+    theme: [cosmo, theme.scss]
+    mainfont: "Atkinson Hyperlegible"
     css: styles.css
     include-after-body: toc-arrows.html
     toc: true
