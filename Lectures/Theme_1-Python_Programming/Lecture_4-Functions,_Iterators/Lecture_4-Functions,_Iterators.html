@@ -319,11 +319,11 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
       <div class="sidebar-item-container"> 
             <a href="../../../index.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Course Information</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../index.html#course-syllabus" class="sidebar-item-text sidebar-link">
@@ -405,13 +405,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   </li>
         <li class="sidebar-item sidebar-item-section">
       <div class="sidebar-item-container"> 
-            <a class="sidebar-item-text sidebar-link text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false">
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
  <span class="menu-text">Tutorials</span></a>
-          <a class="sidebar-item-toggle text-start collapsed" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="false" aria-label="Toggle section">
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
             <i class="bi bi-chevron-right ms-2"></i>
           </a> 
       </div>
-      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 ">  
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
   <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
@@ -2380,6 +2380,22 @@ Cell <span class="ansi-green-fg ansi-bold">In[185], line 1</span>
 </section>
 
 </main> <!-- /main -->
+<script>
+// Left sidebar: start with the "Course Information" section collapsed
+// while lecture sections stay expanded (collapse-level: 2 expands all;
+// Quarto has no per-section setting, so this collapses just that one).
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#quarto-sidebar .sidebar-item-section").forEach(function (sec) {
+    var text = sec.querySelector(":scope > .sidebar-item-container .menu-text");
+    if (!text || text.textContent.trim() !== "Course Information") return;
+    var sub = sec.querySelector(":scope > ul.collapse");
+    if (sub) sub.classList.remove("show");
+    sec.querySelectorAll(":scope > .sidebar-item-container a[data-bs-toggle]").forEach(function (a) {
+      a.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
 <script>
 // Add expand/collapse arrows to right-pane TOC entries that have subsections.
 // Clicking the arrow toggles the subsection list without navigating; an
