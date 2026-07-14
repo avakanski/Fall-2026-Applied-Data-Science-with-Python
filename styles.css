@@ -19,10 +19,15 @@
 .toc-chevron {
   display: inline-block;
   cursor: pointer;
-  margin-left: 0.4em;
+  margin-left: 0.3em;
+  padding: 0 0.35em;
+  border-radius: 0.25rem;
   color: var(--bs-primary);
-  transition: transform 0.2s ease;
+  transition: transform 0.2s ease, background-color 0.15s ease;
   user-select: none;
+}
+.toc-chevron:hover {
+  background-color: rgba(52, 89, 230, 0.12);
 }
 .toc-chevron::before {
   content: "\25B8"; /* small right-pointing triangle */
