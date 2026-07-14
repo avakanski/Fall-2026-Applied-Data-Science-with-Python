@@ -2,7 +2,7 @@
 
 [University of Idaho](https://www.uidaho.edu) - [Department of Computer Science](https://www.uidaho.edu/engr/departments/cs)
 
-Instructor: [Alex Vakanski](https://www.webpages.uidaho.edu/vakanski/index.html) (vakanski@uidaho.edu)
+Instructor: [Alex Vakanski](https://www.idahofallshighered.org/vakanski/) (vakanski@uidaho.edu)
 
 Semester: Fall 2026 (August 24 – December 18)
 
