@@ -16,7 +16,7 @@ website:
     pinned: true
     align: center
     search: true
-    collapse-level: 2
+    collapse-level: 1
     tools:
       - icon: github
         href: https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python
@@ -59,7 +59,9 @@ website:
 
 format:
   html:
-    theme: [cosmo, theme.scss]
+    theme:
+      light: [cosmo, theme.scss]
+      dark: [cosmo, theme-dark.scss]
     mainfont: "Atkinson Hyperlegible"
     css: styles.css
     include-after-body: toc-arrows.html
