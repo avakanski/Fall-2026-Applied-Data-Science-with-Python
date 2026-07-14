@@ -1,4 +1,20 @@
 <script>
+// Left sidebar: start with the "Course Information" section collapsed
+// while lecture sections stay expanded (collapse-level: 2 expands all;
+// Quarto has no per-section setting, so this collapses just that one).
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#quarto-sidebar .sidebar-item-section").forEach(function (sec) {
+    var text = sec.querySelector(":scope > .sidebar-item-container .menu-text");
+    if (!text || text.textContent.trim() !== "Course Information") return;
+    var sub = sec.querySelector(":scope > ul.collapse");
+    if (sub) sub.classList.remove("show");
+    sec.querySelectorAll(":scope > .sidebar-item-container a[data-bs-toggle]").forEach(function (a) {
+      a.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
+<script>
 // Add expand/collapse arrows to right-pane TOC entries that have subsections.
 // Clicking the arrow toggles the subsection list without navigating; an
 // inline display style is used so Quarto's scroll-spy can't override it.
