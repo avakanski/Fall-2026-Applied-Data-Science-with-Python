@@ -56,7 +56,7 @@ format:
     code-overflow: wrap
     grid:
       body-width: 1000px
-      sidebar-width: 300px
+      sidebar-width: 360px
 
 # Notebooks are rendered from their saved outputs; never execute them during builds
 execute:
