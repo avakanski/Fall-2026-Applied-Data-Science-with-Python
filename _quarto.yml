@@ -22,8 +22,21 @@ website:
         href: https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python
         text: GitHub repository
     contents:
-      - href: index.qmd
-        text: "Course Information"
+      - section: "Course Information"
+        href: index.qmd
+        contents:
+          - href: index.qmd#course-syllabus
+            text: "Syllabus"
+          - href: index.qmd#course-description
+            text: "Course Description"
+          - href: index.qmd#textbooks
+            text: "Textbooks"
+          - href: index.qmd#learning-outcomes
+            text: "Learning Outcomes"
+          - href: index.qmd#prerequisites
+            text: "Prerequisites"
+          - href: index.qmd#grading
+            text: "Grading"
       - href: Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.qmd
         text: "Lecture 1 - A Short History of AI"
       - section: "Theme 1 - Python Programming"
