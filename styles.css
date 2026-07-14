@@ -4,6 +4,12 @@
   font-size: 16px;
 }
 
+/* Right-pane table of contents: nested subsection titles noticeably
+   smaller than top-level section titles */
+#TOC ul ul {
+  font-size: 0.8em;
+}
+
 /* Top-level sidebar entries (Course Information, Lecture 1, Theme sections, Tutorials):
    bold + theme blue. Nested lecture/tutorial links keep the default style. */
 #quarto-sidebar .sidebar-menu-container > ul > li > .sidebar-item-container > .sidebar-link {
