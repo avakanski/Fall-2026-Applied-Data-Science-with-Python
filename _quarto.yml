@@ -49,6 +49,7 @@ website:
 format:
   html:
     theme: cosmo
+    css: styles.css
     toc: true
     toc-depth: 3
     code-copy: true
