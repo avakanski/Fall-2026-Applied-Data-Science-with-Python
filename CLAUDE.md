@@ -96,3 +96,24 @@ For a new theme, add a `- section: "Theme X - Name"` block. PDF-based pages
   `_quarto.yml`. Exclude, don't delete, superseded material.
 - The user sometimes edits via the GitHub web UI — run `git fetch` and check
   `origin/main` before diagnosing "missing" changes locally.
+
+## Windows long paths (phantom deletions)
+
+If `git status` shows dozens of files deleted under
+`Lecture_5-OOP,_Modules,_Packages/MyRelativeImportPackage/…` that nobody
+deleted, it is the Windows 260-character `MAX_PATH` limit, not a real deletion
+and not a OneDrive sync problem. The deepest paths in that folder reach ~268
+characters because the OneDrive prefix
+(`C:\Users\…\OneDrive - University of Idaho\…\Fall-2026-Applied-Data-Science-with-Python\`)
+alone consumes ~136 of them, so Git cannot create the files and reports them
+missing on every status.
+
+Fix, do not commit the deletions:
+
+```bash
+git config core.longpaths true   # already set in this clone; --global fixes it machine-wide
+git restore -- Lectures
+```
+
+`core.longpaths` lives in `.git/config` and is **not** committed, so a fresh
+clone on Windows hits this again. Cloning to a shorter path avoids it entirely.

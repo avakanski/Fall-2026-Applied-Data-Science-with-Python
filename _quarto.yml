@@ -45,6 +45,8 @@ website:
             text: "Prerequisites"
           - href: index.qmd#grading
             text: "Grading"
+          - href: index.qmd#course-schedule
+            text: "Course Schedule"
       - href: Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.qmd
         text: "Lecture 1 - A Short History of AI"
       - section: "Theme 1 - Python Programming"

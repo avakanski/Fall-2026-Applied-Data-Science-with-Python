@@ -7,6 +7,8 @@ toc: true
 
 Instructor: [Alex Vakanski](https://www.idahofallshighered.org/vakanski/) (vakanski@uidaho.edu)
 
+Office Hours: Fridays, 12:00 – 1:00 PM Pacific (1:00 – 2:00 PM Mountain), held on Zoom — link available on Canvas. The instructor is located at the Idaho Falls Center; office hours are held online, and in-person meetings are not available.
+
 Semester: Fall 2026 (August 24 – December 18)
 
 *Course website*: <https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/>
@@ -45,3 +47,35 @@ The course requires basic programming skills in Python. Prior knowledge of data 
 ## Grading
 
 Student assessment will be based on 6 homework assignments (worth 45 marks), 6 quizzes (worth 45 marks), and class participation and engagement (worth 10 marks).
+
+| Assessment Component | Marks |
+|----------------------|:-----:|
+| Assignments (×6)     | 45    |
+| Quizzes (×6)         | 45    |
+| Class participation  | 10    |
+| **Total**            | **100** |
+
+## Course Schedule
+
+The schedule below is tentative and lists the topics covered each week. Lecture titles link to the corresponding pages as they are posted.
+
+| Week | Topics | Due |
+|------|--------|-----|
+| **Week 1**<br>Aug. 24 | **Introduction**<br>[Lecture 1 - A Short History and Current State of Artificial Intelligence](Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.qmd)<br>**Python Review**<br>[Lecture 2 - Python Data Types, Statements](Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.ipynb)<br>*Numbers, strings, lists, dictionaries, tuples, sets, other types; conditional statements, loop statements*<br>[Tutorial 1 - Jupyter Notebooks](Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb) | |
+| **Week 2**<br>Aug. 31 | **Python Review**<br>[Lecture 3 - Files, Functions](Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.ipynb)<br>*File handling, opening, writing, appending, storing objects in files; function definition, function call, argument passing, namespace and scope*<br>[Lecture 4 - Object-Oriented Programming, Modules, Packages](Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.ipynb)<br>*Class definition, attributes, methods, inheritance, polymorphism, special methods; creating and using modules, module namespaces, organizing modules into packages*<br>Tutorial 2 - Python IDEs, Visual Studio Code | |
+| **Week 3**<br>Sep. 7 | **Data Engineering Pipelines**<br>Lecture 5 - NumPy for Array Operations<br>*Array creation, indexing, broadcasting and vectorization, reshaping arrays, linear algebra with NumPy*<br>Lecture 6 - Data Manipulation with Pandas<br>*Importing data, indexing and slicing, merging, sorting, exporting data, dealing with missing values*<br>Tutorial 3 - Terminal and Command Line | Homework 1 |
+| **Week 4**<br>Sep. 14 | **Data Engineering Pipelines**<br>Lecture 7 - Data Visualization with Matplotlib and Seaborn<br>*State-based approach, customizing plot appearance, saving figures, subplots, plotting functions, object-oriented approach; creating statistical plots, visualizing relationships between variables, customizing plot styles*<br>Lecture 8 - Databases and SQL<br>*Intro to SQLite, creating databases, querying, sorting, filtering, joining tables, conditional expressions, grouping data, subqueries*<br>Tutorial 4 - Virtual Environments | Quiz 1 |
+| **Week 5**<br>Sep. 21 | **Data Engineering Pipelines**<br>Lecture 9 - Data Exploration and Preprocessing<br>*Exploratory data analysis, preprocessing numerical data, preprocessing categorical data*<br>**Model Engineering Pipelines**<br>Lecture 10 - Scikit-Learn Library for Data Science<br>*Supervised learning algorithms: k-Nearest Neighbors, Support Vector Machines, Logistic Regression, Decision Trees, Random Forest, Naïve Bayes, Stochastic Gradient Descent*<br>Tutorial 5 - Google Colab | Homework 2 |
+| **Week 6**<br>Sep. 28 | **Model Engineering Pipelines**<br>Lecture 10 - Scikit-Learn Library for Data Science (continued)<br>*Regression methods, unsupervised learning algorithms, clustering*<br>Lecture 11 - Ensemble Models<br>*Voting, bagging, boosting, stacking ensembles*<br>Tutorial 6 - Image Processing with Python | Quiz 2 |
+| **Week 7**<br>Oct. 5 | **Model Engineering Pipelines**<br>Lecture 12 - Artificial Neural Networks with Keras-TensorFlow<br>*Activation functions, losses, backpropagation, fully-connected layers, classification and regression*<br>Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow<br>*Convolutional layers, models for image classification, transfer learning, fine-tuning pretrained models* | Homework 3 |
+| **Week 8**<br>Oct. 12 | | Quiz 3 |
+| **Week 9**<br>Oct. 19 | **Model Engineering Pipelines**<br>Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks<br>*Grid search, cross-validation, model evaluation, callbacks for model monitoring*<br>Lecture 15 - Artificial Neural Networks with PyTorch<br>*Data loaders, model definition, training, and evaluation, custom datasets, model saving and loading*<br>Tutorial 7 - TensorFlow | |
+| **Week 10**<br>Oct. 26 | **Model Engineering Pipelines**<br>Lecture 16 - Natural Language Processing<br>*Preprocessing text data, tokenization, representation of word groups, sequence model approach, word embeddings; pipelines for NLP tasks, tokenizers, datasets, models*<br>Lecture 17 - Transformer Networks<br>*Self-attention mechanism, multi-head attention, positional encoding, encoder and decoder blocks, fine-tuning pretrained models*<br>Tutorial 8 - PyTorch | Homework 4 |
+| **Week 11**<br>Nov. 2 | **Deployment Pipelines**<br>Lecture 18 - Deploying Projects as Web Applications<br>*Intro to Flask, FastAPI, Django, creating RESTful API to serve data and model predictions*<br>**Model Engineering Pipelines**<br>Lecture 19 - Large Language Models<br>*Fine-tuning a pretrained model, low-rank adaptation (LoRA), prefix tuning, prompt tuning, mixture of expert models*<br>Tutorial 9 - Git and Version Control | Quiz 4 |
+| **Week 12**<br>Nov. 9 | **Model Engineering Pipelines**<br>Lecture 20 - Retrieval-Augmented Generation<br>*Embedding models, vector databases, similarity search, retrieval pipelines, grounding responses*<br>Lecture 21 - Multi-modal Models<br>*Vision-language models, image-text embeddings, architectures, multimodal reasoning*<br>Tutorial 10 - Bash Scripting | Homework 5 |
+| **Week 13**<br>Nov. 16 | **Model Engineering Pipelines**<br>Lecture 22 - Reasoning Large Language Models<br>*Test-time compute scaling, chain-of-thought, search against verifier models, reinforcement learning-based reasoning*<br>Lecture 23 - Agentic AI<br>*Planning, tool use, memory, reflection, agent frameworks and architectures, applications*<br>Tutorial 11 - Deployment on the Cloud with Microsoft Azure | |
+| **Week 14**<br>Nov. 30 | **Model Engineering Pipelines**<br>Lecture 24 - AI Orchestration and Agent Frameworks<br>*Tool integration, memory, harnesses, workflow orchestration, LangChain, LangGraph, CrewAI, AutoGen*<br>**Deployment Pipelines**<br>Lecture 25 - LLM Deployment<br>*LLM serving and inference optimization, evaluation pipelines* | Quiz 5 |
+| **Week 15**<br>Dec. 7 | **Deployment Pipelines**<br>Lecture 26 - Introduction to Data Operations (DataOps)<br>*DS project life cycle, levels of automation, model deployment, model serving in production*<br>Lecture 27 - Reproducible Projects, Docker Containers<br>*Intro to Docker and containerization, building and managing Docker containers* | Homework 6 |
+| **Week 16**<br>Dec. 14 | | Quiz 6 |
+
+: {tbl-colwidths="[10,75,15]"}
