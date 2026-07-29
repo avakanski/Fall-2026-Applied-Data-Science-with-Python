@@ -2,7 +2,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
 
 <meta charset="utf-8">
-<meta name="generator" content="quarto-1.9.38">
+<meta name="generator" content="quarto-1.10.18">
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
@@ -12,10 +12,13 @@
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
 */
-code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
-div.columns{display: flex; gap: min(4vw, 1.5em);}
-div.column{flex: auto; overflow-x: auto;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
 div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
 ul.task-list{list-style: none;}
 ul.task-list li input[type="checkbox"] {
@@ -39,14 +42,14 @@ ul.task-list li input[type="checkbox"] {
 <script src="site_libs/quarto-html/tippy.umd.min.js"></script>
 <script src="site_libs/quarto-html/anchor.min.js"></script>
 <link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-0a6b7249c26820e032cb0bd839ff02b1.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-15634bcf2e68342d4ad2dfa704d543f6.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-6e527d37c5000948aadd36bcb5e3d00a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="site_libs/bootstrap/bootstrap-dark-83f98c9003a1bb2d1a699679449c523a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="site_libs/bootstrap/bootstrap-6e527d37c5000948aadd36bcb5e3d00a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-30cfe5eb96654ef2a44f8db6862c0306.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="site_libs/bootstrap/bootstrap-dark-632147e588e0ea9558f14a7f16a6f4f4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="site_libs/bootstrap/bootstrap-30cfe5eb96654ef2a44f8db6862c0306.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -324,6 +327,12 @@ ul.task-list li input[type="checkbox"] {
  <span class="menu-text">Grading</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="./index.html#course-schedule" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Schedule</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item">
@@ -394,6 +403,7 @@ ul.task-list li input[type="checkbox"] {
   <li><a href="#learning-outcomes" id="toc-learning-outcomes" class="nav-link" data-scroll-target="#learning-outcomes">Learning Outcomes</a></li>
   <li><a href="#prerequisites" id="toc-prerequisites" class="nav-link" data-scroll-target="#prerequisites">Prerequisites</a></li>
   <li><a href="#grading" id="toc-grading" class="nav-link" data-scroll-target="#grading">Grading</a></li>
+  <li><a href="#course-schedule" id="toc-course-schedule" class="nav-link" data-scroll-target="#course-schedule">Course Schedule</a></li>
   </ul>
 </nav>
     </div>
@@ -422,6 +432,7 @@ ul.task-list li input[type="checkbox"] {
 
 <p><a href="https://www.uidaho.edu">University of Idaho</a> - <a href="https://www.uidaho.edu/engr/departments/cs">Department of Computer Science</a></p>
 <p>Instructor: <a href="https://www.idahofallshighered.org/vakanski/">Alex Vakanski</a> (vakanski@uidaho.edu)</p>
+<p>Office Hours: Fridays, 12:00 – 1:00 PM Pacific (1:00 – 2:00 PM Mountain), held on Zoom — link available on Canvas.</p>
 <p>Semester: Fall 2026 (August 24 – December 18)</p>
 <p><em>Course website</em>: <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/" class="uri">https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/</a></p>
 <p><em>GitHub repository</em>: <a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python" class="uri">https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python</a></p>
@@ -458,6 +469,132 @@ ul.task-list li input[type="checkbox"] {
 <section id="grading" class="level2">
 <h2 class="anchored" data-anchor-id="grading">Grading</h2>
 <p>Student assessment will be based on 6 homework assignments (worth 45 marks), 6 quizzes (worth 45 marks), and class participation and engagement (worth 10 marks).</p>
+<table class="caption-top table">
+<thead>
+<tr class="header">
+<th>Assessment Component</th>
+<th style="text-align: center;">Marks</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>Assignments (×6)</td>
+<td style="text-align: center;">45</td>
+</tr>
+<tr class="even">
+<td>Quizzes (×6)</td>
+<td style="text-align: center;">45</td>
+</tr>
+<tr class="odd">
+<td>Class participation</td>
+<td style="text-align: center;">10</td>
+</tr>
+<tr class="even">
+<td><strong>Total</strong></td>
+<td style="text-align: center;"><strong>100</strong></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="course-schedule" class="level2">
+<h2 class="anchored" data-anchor-id="course-schedule">Course Schedule</h2>
+<p>The schedule below is tentative and lists the topics covered each week. Lecture titles link to the corresponding pages as they are posted.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 10%">
+<col style="width: 75%">
+<col style="width: 15%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Week</th>
+<th>Topics</th>
+<th>Due</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><strong>Week 1</strong><br>Aug.&nbsp;24</td>
+<td><strong>Introduction</strong><br><a href="./Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html">Lecture 1 - A Short History and Current State of Artificial Intelligence</a><br><strong>Python Review</strong><br><a href="./Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html">Lecture 2 - Python Data Types, Statements</a><br><em>Numbers, strings, lists, dictionaries, tuples, sets, other types; conditional statements, loop statements</em><br><a href="./Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>Week 2</strong><br>Aug.&nbsp;31</td>
+<td><strong>Python Review</strong><br><a href="./Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html">Lecture 3 - Files, Functions</a><br><em>File handling, opening, writing, appending, storing objects in files; function definition, function call, argument passing, namespace and scope</em><br><a href="./Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html">Lecture 4 - Object-Oriented Programming, Modules, Packages</a><br><em>Class definition, attributes, methods, inheritance, polymorphism, special methods; creating and using modules, module namespaces, organizing modules into packages</em><br>Tutorial 2 - Python IDEs, Visual Studio Code</td>
+<td></td>
+</tr>
+<tr class="odd">
+<td><strong>Week 3</strong><br>Sep.&nbsp;7</td>
+<td><strong>Data Engineering Pipelines</strong><br>Lecture 5 - NumPy for Array Operations<br><em>Array creation, indexing, broadcasting and vectorization, reshaping arrays, linear algebra with NumPy</em><br>Lecture 6 - Data Manipulation with Pandas<br><em>Importing data, indexing and slicing, merging, sorting, exporting data, dealing with missing values</em><br>Tutorial 3 - Terminal and Command Line</td>
+<td>Homework 1</td>
+</tr>
+<tr class="even">
+<td><strong>Week 4</strong><br>Sep.&nbsp;14</td>
+<td><strong>Data Engineering Pipelines</strong><br>Lecture 7 - Data Visualization with Matplotlib and Seaborn<br><em>State-based approach, customizing plot appearance, saving figures, subplots, plotting functions, object-oriented approach; creating statistical plots, visualizing relationships between variables, customizing plot styles</em><br>Lecture 8 - Databases and SQL<br><em>Intro to SQLite, creating databases, querying, sorting, filtering, joining tables, conditional expressions, grouping data, subqueries</em><br>Tutorial 4 - Virtual Environments</td>
+<td>Quiz 1</td>
+</tr>
+<tr class="odd">
+<td><strong>Week 5</strong><br>Sep.&nbsp;21</td>
+<td><strong>Data Engineering Pipelines</strong><br>Lecture 9 - Data Exploration and Preprocessing<br><em>Exploratory data analysis, preprocessing numerical data, preprocessing categorical data</em><br><strong>Model Engineering Pipelines</strong><br>Lecture 10 - Scikit-Learn Library for Data Science<br><em>Supervised learning algorithms: k-Nearest Neighbors, Support Vector Machines, Logistic Regression, Decision Trees, Random Forest, Naïve Bayes, Stochastic Gradient Descent</em><br>Tutorial 5 - Google Colab</td>
+<td>Homework 2</td>
+</tr>
+<tr class="even">
+<td><strong>Week 6</strong><br>Sep.&nbsp;28</td>
+<td><strong>Model Engineering Pipelines</strong><br>Lecture 10 - Scikit-Learn Library for Data Science (continued)<br><em>Regression methods, unsupervised learning algorithms, clustering</em><br>Lecture 11 - Ensemble Models<br><em>Voting, bagging, boosting, stacking ensembles</em><br>Tutorial 6 - Image Processing with Python</td>
+<td>Quiz 2</td>
+</tr>
+<tr class="odd">
+<td><strong>Week 7</strong><br>Oct.&nbsp;5</td>
+<td><strong>Model Engineering Pipelines</strong><br>Lecture 12 - Artificial Neural Networks with Keras-TensorFlow<br><em>Activation functions, losses, backpropagation, fully-connected layers, classification and regression</em><br>Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow<br><em>Convolutional layers, models for image classification, transfer learning, fine-tuning pretrained models</em></td>
+<td>Homework 3</td>
+</tr>
+<tr class="even">
+<td><strong>Week 8</strong><br>Oct.&nbsp;12</td>
+<td></td>
+<td>Quiz 3</td>
+</tr>
+<tr class="odd">
+<td><strong>Week 9</strong><br>Oct.&nbsp;19</td>
+<td><strong>Model Engineering Pipelines</strong><br>Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks<br><em>Grid search, cross-validation, model evaluation, callbacks for model monitoring</em><br>Lecture 15 - Artificial Neural Networks with PyTorch<br><em>Data loaders, model definition, training, and evaluation, custom datasets, model saving and loading</em><br>Tutorial 7 - TensorFlow</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>Week 10</strong><br>Oct.&nbsp;26</td>
+<td><strong>Model Engineering Pipelines</strong><br>Lecture 16 - Natural Language Processing<br><em>Preprocessing text data, tokenization, representation of word groups, sequence model approach, word embeddings; pipelines for NLP tasks, tokenizers, datasets, models</em><br>Lecture 17 - Transformer Networks<br><em>Self-attention mechanism, multi-head attention, positional encoding, encoder and decoder blocks, fine-tuning pretrained models</em><br>Tutorial 8 - PyTorch</td>
+<td>Homework 4</td>
+</tr>
+<tr class="odd">
+<td><strong>Week 11</strong><br>Nov.&nbsp;2</td>
+<td><strong>Deployment Pipelines</strong><br>Lecture 18 - Deploying Projects as Web Applications<br><em>Intro to Flask, FastAPI, Django, creating RESTful API to serve data and model predictions</em><br><strong>Model Engineering Pipelines</strong><br>Lecture 19 - Large Language Models<br><em>Fine-tuning a pretrained model, low-rank adaptation (LoRA), prefix tuning, prompt tuning, mixture of expert models</em><br>Tutorial 9 - Git and Version Control</td>
+<td>Quiz 4</td>
+</tr>
+<tr class="even">
+<td><strong>Week 12</strong><br>Nov.&nbsp;9</td>
+<td><strong>Model Engineering Pipelines</strong><br>Lecture 20 - Retrieval-Augmented Generation<br><em>Embedding models, vector databases, similarity search, retrieval pipelines, grounding responses</em><br>Lecture 21 - Multi-modal Models<br><em>Vision-language models, image-text embeddings, architectures, multimodal reasoning</em><br>Tutorial 10 - Bash Scripting</td>
+<td>Homework 5</td>
+</tr>
+<tr class="odd">
+<td><strong>Week 13</strong><br>Nov.&nbsp;16</td>
+<td><strong>Model Engineering Pipelines</strong><br>Lecture 22 - Reasoning Large Language Models<br><em>Test-time compute scaling, chain-of-thought, search against verifier models, reinforcement learning-based reasoning</em><br>Lecture 23 - Agentic AI<br><em>Planning, tool use, memory, reflection, agent frameworks and architectures, applications</em><br>Tutorial 11 - Deployment on the Cloud with Microsoft Azure</td>
+<td></td>
+</tr>
+<tr class="even">
+<td><strong>Week 14</strong><br>Nov.&nbsp;30</td>
+<td><strong>Model Engineering Pipelines</strong><br>Lecture 24 - AI Orchestration and Agent Frameworks<br><em>Tool integration, memory, harnesses, workflow orchestration, LangChain, LangGraph, CrewAI, AutoGen</em><br><strong>Deployment Pipelines</strong><br>Lecture 25 - LLM Deployment<br><em>LLM serving and inference optimization, evaluation pipelines</em></td>
+<td>Quiz 5</td>
+</tr>
+<tr class="odd">
+<td><strong>Week 15</strong><br>Dec.&nbsp;7</td>
+<td><strong>Deployment Pipelines</strong><br>Lecture 26 - Introduction to Data Operations (DataOps)<br><em>DS project life cycle, levels of automation, model deployment, model serving in production</em><br>Lecture 27 - Reproducible Projects, Docker Containers<br><em>Intro to Docker and containerization, building and managing Docker containers</em></td>
+<td>Homework 6</td>
+</tr>
+<tr class="even">
+<td><strong>Week 16</strong><br>Dec.&nbsp;14</td>
+<td></td>
+<td>Quiz 6</td>
+</tr>
+</tbody>
+</table>
 
 
 </section>
