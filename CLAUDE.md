@@ -95,7 +95,42 @@ For a new theme, add a `- section: "Theme X - Name"` block. PDF-based pages
   but are excluded from rendering via `project.render` negations in
   `_quarto.yml`. Exclude, don't delete, superseded material.
 - The user sometimes edits via the GitHub web UI — run `git fetch` and check
-  `origin/main` before diagnosing "missing" changes locally.
+  `origin/main` before diagnosing "missing" changes locally (see Git workflow).
+
+## Git workflow
+
+Local-first is the default: edit here, commit, push. The web UI is the
+exception — single binary drops (a revised syllabus or lecture PDF) when the
+user is away from this machine. Notebooks must never be edited on the web:
+`execute: enabled: false` means the site renders whatever outputs are saved in
+the `.ipynb`, and only a local run produces them.
+
+Publishing a local edit:
+
+```bash
+git pull --ff-only              # sync first, in case of web-UI edits
+git add index.qmd               # or -A for everything changed
+git commit -m "Short message"
+git push                        # → Actions rebuilds the site (~2 min)
+```
+
+Start every local session with `git pull --ff-only`. It fast-forwards or
+refuses; plain `git pull` would silently create a merge commit instead. To
+inspect before pulling, `git fetch origin` (never touches files) then
+`git status`, which reports one of:
+
+| Status | Meaning | Action |
+|--------|---------|--------|
+| up to date | nothing new | work |
+| `behind … can be fast-forwarded` | web-UI edits not local yet | `git pull --ff-only` |
+| `ahead by N` | local commits not pushed | `git push` |
+| `have diverged` | both sides moved | `git pull --rebase` |
+
+Divergence comes from alternating directions — the fix is to never leave
+unpushed local commits sitting while editing on the web. `git pull --rebase`
+suits this repo, since local `.qmd` edits usually sit on top of web-UI PDF
+uploads. If a pull is blocked by uncommitted work: `git stash`, pull,
+`git stash pop`.
 
 ## Windows long paths (phantom deletions)
 
