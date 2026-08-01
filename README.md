@@ -4,7 +4,7 @@
 
 Instructor: [Alex Vakanski](https://www.idahofallshighered.org/vakanski/) (vakanski@uidaho.edu)
 
-Office Hours: Fridays, 12:00 – 1:00 PM Pacific (1:00 – 2:00 PM Mountain), held on Zoom — link available on Canvas.
+Office Hours: Fridays, 12:00 – 1:00 PM Pacific (1:00 – 2:00 PM Mountain), held on Zoom, link available on Canvas.
 
 Semester: Fall 2026 (August 24 – December 18)
 
