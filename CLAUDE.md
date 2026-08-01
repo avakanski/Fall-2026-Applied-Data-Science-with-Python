@@ -107,9 +107,12 @@ PDF-based pages (like Lecture 1) instead use a small `.qmd` with an
   right-hand TOC, and it collapses the sidebar section literally named
   "Course Information" on load — if that section is renamed, update the
   string there too.
-- Retired notebooks (old Lectures 2–5 before consolidation) stay in the repo
-  but are excluded from rendering via `project.render` negations in
-  `_quarto.yml`. Exclude, don't delete, superseded material.
+- Superseded material is deleted, not kept. The old Lectures 2–5 were first
+  excluded from rendering via `project.render` negations, but students
+  browsing the repo saw both sets of Python lectures side by side, so the
+  four folders were removed outright (recoverable from git history at
+  `db24897~1`). If a lecture is retired, delete its folder and drop any render
+  negation that referenced it.
 - The user sometimes edits via the GitHub web UI — run `git fetch` and check
   `origin/main` before diagnosing "missing" changes locally (see Git workflow).
 
@@ -151,9 +154,9 @@ uploads. If a pull is blocked by uncommitted work: `git stash`, pull,
 ## Windows long paths (phantom deletions)
 
 If `git status` shows dozens of files deleted under
-`Lecture_5-OOP,_Modules,_Packages/MyRelativeImportPackage/…` that nobody
+`Lecture_4-OOP,_Modules,_Packages/MyRelativeImportPackage/…` that nobody
 deleted, it is the Windows 260-character `MAX_PATH` limit, not a real deletion
-and not a OneDrive sync problem. The deepest paths in that folder reach ~268
+and not a OneDrive sync problem. The deepest paths in that folder reach ~269
 characters because the OneDrive prefix
 (`C:\Users\…\OneDrive - University of Idaho\…\Fall-2026-Applied-Data-Science-with-Python\`)
 alone consumes ~136 of them, so Git cannot create the files and reports them
