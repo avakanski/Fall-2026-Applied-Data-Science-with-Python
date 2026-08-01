@@ -4,6 +4,8 @@
 
 Instructor: [Alex Vakanski](https://www.idahofallshighered.org/vakanski/) (vakanski@uidaho.edu)
 
+Office Hours: Fridays, 12:00 – 1:00 PM Pacific (1:00 – 2:00 PM Mountain), held on Zoom — link available on Canvas.
+
 Semester: Fall 2026 (August 24 – December 18)
 
 <a href="Lectures/CS_4622_5622-Applied_Data_Science_with_Python-Syllabus.pdf">Course Syllabus</a>
@@ -18,10 +20,9 @@ Semester: Fall 2026 (August 24 – December 18)
 
 ### Theme 1: Python Programming
 
-* <a href="Lectures/Theme_1-Python_Programming/Lecture_2-Data_Types_in_Python/Lecture_2-Data_Types.ipynb">Lecture 2 - Data Types in Python</a>
-* <a href="Lectures/Theme_1-Python_Programming/Lecture_3-Statements,_Files/Lecture_3-Statements,_Files.ipynb">Lecture 3 - Statements, Files</a>
-* <a href="Lectures/Theme_1-Python_Programming/Lecture_4-Functions,_Iterators/Lecture_4-Functions,_Iterators.ipynb">Lecture 4 - Functions, Iterators</a>
-* <a href="Lectures/Theme_1-Python_Programming/Lecture_5-OOP,_Modules,_Packages/Lecture_5-OOP,_Modules,_Packages.ipynb">Lecture 5 - Object-Oriented Programming, Modules, Packages</a>
+* <a href="Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.ipynb">Lecture 2 - Python Data Types, Statements</a>
+* <a href="Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.ipynb">Lecture 3 - Files, Functions</a>
+* <a href="Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.ipynb">Lecture 4 - Object-Oriented Programming, Modules, Packages</a>
 
 *(Additional lectures will be added during the semester.)*
 
@@ -56,7 +57,18 @@ The course requires basic programming skills in Python. Prior knowledge of data 
 
 ## Grading
 
-Student assessment will be based on 6 homework assignments (worth 45 marks), 6 quizzes (worth 45 marks), and class participation and engagement (worth 10 marks).
+Student assessment will be based on 6 homework assignments (worth 45 marks), 4 quizzes (worth 45 marks), and class participation and engagement (worth 10 marks).
+
+| Assessment Component | Marks |
+|----------------------|:-----:|
+| Assignments (×6)     | 45    |
+| Quizzes (×4)         | 45    |
+| Class participation  | 10    |
+| **Total**            | **100** |
+
+## Course Schedule
+
+The week-by-week schedule of topics is on the [course website](https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/#course-schedule).
 
 ## Building the Website
 
