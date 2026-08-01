@@ -56,6 +56,13 @@ heading text — both break in-page links on the website (browsers treat `<a/>`
 as an unclosed tag, and Quarto clones heading contents into the right-hand
 TOC, duplicating the id).
 
+`## References` is the one heading that needs **no** manual anchor. Anchors are
+required because a numbered heading like `3.1.2 Opening a file` gets a Quarto
+auto-id that the TOC link `#3.1.2-opening-a-file` would not match. "References"
+carries no number, so Quarto's auto-id is already exactly `references` — adding
+`<a id="references"></a>` just emits that id twice on the page. The TOC's
+`[References](#references)` link resolves to the auto-id on its own.
+
 ### 4. Register the lecture in all three places
 
 A lecture is listed in three files, and they drift apart if you update only
