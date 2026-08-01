@@ -56,19 +56,33 @@ heading text — both break in-page links on the website (browsers treat `<a/>`
 as an unclosed tag, and Quarto clones heading contents into the right-hand
 TOC, duplicating the id).
 
-### 4. Register the lecture in `_quarto.yml`
+### 4. Register the lecture in all three places
 
-Add a sidebar entry under the right theme section (`website.sidebar.contents`):
+A lecture is listed in three files, and they drift apart if you update only
+one. Change all three whenever a lecture is added, renamed, or consolidated:
 
-```yaml
-- href: "Lectures/Theme_X-Theme_Name/Lecture_N-Short_Title/Lecture_N-Short_Title.ipynb"
-  text: "Lecture N - Full Title"
-```
+1. **`_quarto.yml`** — sidebar entry under the right theme section
+   (`website.sidebar.contents`):
 
-Sidebar text can abbreviate (e.g. "OOP") to avoid wrapping in the 360px pane.
-For a new theme, add a `- section: "Theme X - Name"` block. PDF-based pages
-(like Lecture 1) instead use a small `.qmd` with an `<iframe>` — copy
-`Lectures/Lecture_1-A_Short_History_of_AI/` as a template.
+   ```yaml
+   - href: "Lectures/Theme_X-Theme_Name/Lecture_N-Short_Title/Lecture_N-Short_Title.ipynb"
+     text: "Lecture N - Full Title"
+   ```
+
+   Sidebar text can abbreviate (e.g. "OOP") to avoid wrapping in the 360px
+   pane. For a new theme, add a `- section: "Theme X - Name"` block.
+
+2. **`index.qmd`** — the week's row in the Course Schedule table. Lecture
+   titles start as plain `**bold**` text and become links once the notebook is
+   posted.
+
+3. **`README.md`** — the repo's landing page on GitHub, and the one that gets
+   forgotten. It duplicates the header, lecture list, and grading information
+   from `index.qmd`; keep those sections in sync. Its links are repo-relative
+   (`.ipynb`/`.pdf`), not website `.html` links.
+
+PDF-based pages (like Lecture 1) instead use a small `.qmd` with an
+`<iframe>` — copy `Lectures/Lecture_1-A_Short_History_of_AI/` as a template.
 
 ### 5. Verify and publish
 
@@ -76,6 +90,8 @@ For a new theme, add a `- section: "Theme X - Name"` block. PDF-based pages
   `quarto render` — quarto lives at `%LOCALAPPDATA%\Programs\quarto\bin\quarto.cmd`
   and needs `C:\Windows\System32` on PATH in sandboxed shells.
 - Check the new page in `_site/`: section ids unique, sidebar entry present.
+- Check that `index.qmd` and `README.md` both list the lecture and that the
+  README's paths point at files that exist (renames silently break them).
 - Commit and push to `main`; GitHub Actions rebuilds the site (~2 min).
 - Browsers cache pages for 10 min — if a page looks unstyled or stale after a
   deploy, **Ctrl+F5**, don't debug.
