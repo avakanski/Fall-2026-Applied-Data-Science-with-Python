@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tutorial 1 - Working with Jupyter Notebooks – Applied Data Science with Python</title>
+<title>Tutorial 3 - Terminal and Command Line – Applied Data Science with Python</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -35,8 +35,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" rel="next">
-<link href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" rel="prev">
+<link href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" rel="next">
+<link href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" rel="prev">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
@@ -79,35 +79,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -283,7 +254,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html">Tutorial 3 - Terminal and Command Line</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -411,7 +382,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
   </div>
 </li>
@@ -423,7 +394,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Tutorial 3 - Terminal and Command Line</span></a>
   </div>
 </li>
@@ -451,19 +422,28 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-jupyter-notebooks" id="toc-introduction-to-jupyter-notebooks" class="nav-link active" data-scroll-target="#introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+  <li><a href="#introduction-to-command-line-interface" id="toc-introduction-to-command-line-interface" class="nav-link active" data-scroll-target="#introduction-to-command-line-interface">3.1 Introduction to Command Line Interface</a>
   <ul class="collapse">
-  <li><a href="#creating-a-new-notebook" id="toc-creating-a-new-notebook" class="nav-link" data-scroll-target="#creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-  <li><a href="#cells-in-jupyter-notebooks" id="toc-cells-in-jupyter-notebooks" class="nav-link" data-scroll-target="#cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+  <li><a href="#basic-cli-definitions" id="toc-basic-cli-definitions" class="nav-link" data-scroll-target="#basic-cli-definitions">3.1.1 Basic CLI Definitions</a></li>
+  <li><a href="#access-the-command-prompt-in-windows" id="toc-access-the-command-prompt-in-windows" class="nav-link" data-scroll-target="#access-the-command-prompt-in-windows">3.1.2 Access the Command Prompt in Windows</a></li>
+  <li><a href="#other-ways-to-access-cli-in-windows" id="toc-other-ways-to-access-cli-in-windows" class="nav-link" data-scroll-target="#other-ways-to-access-cli-in-windows">3.1.3 Other Ways to Access CLI in Windows</a></li>
+  <li><a href="#access-the-powershell-in-windows" id="toc-access-the-powershell-in-windows" class="nav-link" data-scroll-target="#access-the-powershell-in-windows">3.1.4 Access the PowerShell in Windows</a></li>
   </ul></li>
-  <li><a href="#jupyter-lab-user-interface" id="toc-jupyter-lab-user-interface" class="nav-link" data-scroll-target="#jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+  <li><a href="#command-prompt-basics" id="toc-command-prompt-basics" class="nav-link" data-scroll-target="#command-prompt-basics">3.2 Command Prompt Basics</a>
   <ul class="collapse">
-  <li><a href="#drop-down-menus" id="toc-drop-down-menus" class="nav-link" data-scroll-target="#drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-  <li><a href="#left-sidebar-in-jupyter-lab" id="toc-left-sidebar-in-jupyter-lab" class="nav-link" data-scroll-target="#left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-  <li><a href="#cell-types" id="toc-cell-types" class="nav-link" data-scroll-target="#cell-types">1.2.3 Cell Types</a></li>
-  <li><a href="#markdown-language" id="toc-markdown-language" class="nav-link" data-scroll-target="#markdown-language">1.2.4 Markdown Language</a></li>
+  <li><a href="#listing-and-changing-directories" id="toc-listing-and-changing-directories" class="nav-link" data-scroll-target="#listing-and-changing-directories">3.2.1 Listing and Changing Directories</a></li>
+  <li><a href="#creating-and-deleting-filesfolders-in-command-prompt" id="toc-creating-and-deleting-filesfolders-in-command-prompt" class="nav-link" data-scroll-target="#creating-and-deleting-filesfolders-in-command-prompt">3.2.2 Creating and Deleting Files/Folders in Command Prompt</a></li>
+  <li><a href="#copy-and-move-filesfolders-in-command-prompt" id="toc-copy-and-move-filesfolders-in-command-prompt" class="nav-link" data-scroll-target="#copy-and-move-filesfolders-in-command-prompt">3.2.3 Copy and Move Files/Folders in Command Prompt</a></li>
+  <li><a href="#redirection-pipes-and-chaining" id="toc-redirection-pipes-and-chaining" class="nav-link" data-scroll-target="#redirection-pipes-and-chaining">3.2.4 Redirection, Pipes, and Chaining</a></li>
+  <li><a href="#autocomplete" id="toc-autocomplete" class="nav-link" data-scroll-target="#autocomplete">3.2.5 Autocomplete</a></li>
+  <li><a href="#cli-management" id="toc-cli-management" class="nav-link" data-scroll-target="#cli-management">3.2.6 CLI Management</a></li>
+  <li><a href="#run-python-files-in-command-prompt" id="toc-run-python-files-in-command-prompt" class="nav-link" data-scroll-target="#run-python-files-in-command-prompt">3.2.7 Run Python Files in Command Prompt</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">1.3 Summary</a></li>
+  <li><a href="#terminal-in-ubuntu-linux-basics" id="toc-terminal-in-ubuntu-linux-basics" class="nav-link" data-scroll-target="#terminal-in-ubuntu-linux-basics">3.3 Terminal in Ubuntu (Linux) Basics</a>
+  <ul class="collapse">
+  <li><a href="#basic-commands-in-ubuntu-linux" id="toc-basic-commands-in-ubuntu-linux" class="nav-link" data-scroll-target="#basic-commands-in-ubuntu-linux">3.3.1 Basic Commands in Ubuntu (Linux)</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -471,9 +451,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html">Tutorial 3 - Terminal and Command Line</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Tutorial 1 - Working with Jupyter Notebooks</h1>
+<h1 class="title">Tutorial 3 - Terminal and Command Line</h1>
 </div>
 
 
@@ -490,183 +470,265 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
 <p><a id="top"></a></p>
 <ul>
-<li><a href="#1.1-introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+<li><a href="#3.1-introduction-to-command-line-interface">3.1 Introduction to Command Line Interface</a>
 <ul>
-<li><a href="#1.1.1-creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-<li><a href="#1.1.2-cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+<li><a href="#3.1.1-basic-cli-definitions">3.1.1 Basic CLI Definitions</a></li>
+<li><a href="#3.1.2-access-the-command-prompt-in-windows">3.1.2 Access the Command Prompt in Windows</a></li>
+<li><a href="#3.1.3-other-ways-to-access-cli-in-windows">3.1.3 Other Ways to Access CLI in Windows</a></li>
+<li><a href="#3.1.4-access-the-powershell-in-windows">3.1.4 Access the PowerShell in Windows</a></li>
 </ul></li>
-<li><a href="#1.2-jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+<li><a href="#3.2-command-prompt-basics">3.2 Command Prompt Basics</a>
 <ul>
-<li><a href="#1.2.1-drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-<li><a href="#1.2.2-left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-<li><a href="#1.2.3-cell-types">1.2.3 Cell Types</a></li>
-<li><a href="#1.2.4-markdown-language">1.2.4 Markdown Language</a></li>
+<li><a href="#3.2.1-listing-and-changing-directories">3.2.1 Listing and Changing Directories</a></li>
+<li><a href="#3.2.2-creating-and-deleting-files-folders-in-command-prompt">3.2.2 Creating and Deleting Files/Folders in Command Prompt</a></li>
+<li><a href="#3.2.3-copy-and-move-files-folders-in-command-prompt">3.2.3 Copy and Move Files/Folders in Command Prompt</a></li>
+<li><a href="#3.2.4-redirection,-pipes,-and-chaining">3.2.4 Redirection, Pipes, and Chaining</a></li>
+<li><a href="#3.2.5-autocomplete">3.2.5 Autocomplete</a></li>
+<li><a href="#3.2.6-cli-management">3.2.6 CLI Management</a></li>
+<li><a href="#3.2.7-run-python-files-in-command-prompt">3.2.7 Run Python Files in Command Prompt</a></li>
 </ul></li>
-<li><a href="#1.3-summary">1.3 Summary</a></li>
-</ul>
-<p><a id="1.1-introduction-to-jupyter-notebooks"></a></p>
-<section id="introduction-to-jupyter-notebooks" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</h2>
-<p>Jupyter Notebook is an open-source web-based interactive computational environment, designed for sharing documents that contain code, text, equations, and visualizations. It is part of <a href="https://jupyter.org/">Project Jupyter</a>, which also includes Jupyter Lab - an updated version of Jupyter Notebook with enhanced capabilities.</p>
-<blockquote class="blockquote">
-<p><strong>Jupyter notebooks</strong> are documents that contain both code and text elements, such as equations, visualizations (i.e., figures and graphs), links, and similar related elements.</p>
-</blockquote>
-<p>The name Jupyter does not really relate to the largest planet in the Solar system (spelled Jupiter), but instead, it is a coined word from the three core programming languages supported by Jupyter notebooks: Julia, Python, and R.</p>
-<p>Jupyter Notebook was built upon an older IDE for Python called IPython.</p>
-<p>The recommended user interface for this course is Jupyter Lab, since it offers advanced functionalities in comparison to Jupyter Notebook, such as access to a terminal, interactive widgets for exploring data, it allows multiple views into the same document, quick switching between opened files, etc.</p>
-<p>Both Jupyter Lab and Jupyter Notebook are part of the Anaconda distribution, therefore if you have installed Anaconda on your computer, they will also be installed. And if you don’t have Anaconda installed, you can install Jupyter Lab and Jupyter Notebook separately as any other package, e.g., <code>pip install jupyterlab</code>.</p>
-<p>The Jupyter Lab environment can be started by running the command <code>jupyter lab</code> in the Command Prompt on Windows systems, or in a shell or terminal window on computers with other operating systems.</p>
-<p><img src="images/img1.png" width="500"></p>
-<p>Jupyter will open in your default browser, or in a new tab if the browser has other open tabs, at the following URL: http://localhost:8889/lab. Localhost is not a website, it only indicates that the content is being served from your local machine. Therefore, Jupyter can be run on a computer without Internet access, or it can be run on a remote server accessed through the Internet.</p>
-<p>The Jupyter Lab environment on my computer looks like in the figure below. The start-up directory for the Jupyter Dashboard can be changed to a preferred directory.</p>
-<p><img src="images/img2.png" width="1000"></p>
-<p>It is also possible to open Jupyter Lab from the Anaconda Prompt, by typing <code>jupyter-lab</code> in the command line.</p>
-<p><img src="images/img3.png" width="500"></p>
-<p>And probably the most convenient way is to create a shortcut to Jupyter Lab on your desktop for direct access.</p>
-<p><a id="1.1.1-creating-a-new-notebook"></a></p>
-<section id="creating-a-new-notebook" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-new-notebook">1.1.1 Creating a New Notebook</h3>
-<p>Now, let’s create a new notebook. One way to do that is to click on the <code>File</code> tab in the top menu, then select the <code>New</code> button, and in the drop-down menu choose <code>Notebook</code>. Note that the <code>New</code> button also have options to open a new console or terminal (which allows to run shell commands directly in your browser, instead of the Windows Command Prompt), or create a new text file, markdown file, or Python file.</p>
-<p><img src="images/img4.png" width="600"></p>
-<p>In the newly opened window you will be prompted to select the kernel for the notebook. We can select the default Python 3 kernel. The next section explains more about the kernels in notebooks.</p>
-<p><img src="images/img5.png" width="500"></p>
-<p>Or, an even simpler way for creating a new notebook, is to directly click on <code>Notebook Python 3 (ipykernel)</code> icon on the Jupyter Dashboard.</p>
-<p><img src="images/img6.png" width="600"></p>
-<p>The newly created notebook will look like this.</p>
-<p><img src="images/img7.png" width="700"></p>
-<p>The default assigned title to new notebooks is <code>Untitled</code>. You can see the title at the top of the page.</p>
-<p>To change the title into a more descriptive one, right-click on the word <code>Untitled</code>, in the drop-down menu select <code>Rename Notebook..</code>, and enter the name <code>Hello_world</code>, for example.</p>
-<p><img src="images/img8.png" width="600"></p>
-<p>The new title of the Notebook should now show at the top of the page. Also, in the left-side panel you will see the new notebook <code>Hello_world.ipynb</code> listed in the current working directory.</p>
-<p>The extension for Jupyter Notebook documents is <code>.ipynb</code>, which is an acronym for IPython Notebook.</p>
-<p><a id="1.1.2-cells-in-jupyter-notebooks"></a></p>
-</section>
-<section id="cells-in-jupyter-notebooks" class="level3">
-<h3 class="anchored" data-anchor-id="cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</h3>
-<p>Jupyter Notebooks organize codes in cells. Our newly created notebook has one empty cell in it.</p>
-<p>The cells use the Python 3 kernel that we chose when we created the notebook. The used kernel for Python code execution in Jupyter Notebooks is also called IPython kernel. The kernel allows to execute Python code in the cell.</p>
-<blockquote class="blockquote">
-<p>A <strong>cell</strong> is a container for code that is to be executed by the notebook’s kernel, or text that is to be displayed in the notebook.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A <strong>kernel</strong> is a program that executes the code in a cell. Jupyter Notebook has a kernel for Python code, but also there are other kernels available for other programming languages.</p>
-</blockquote>
-<p>Let’s give it a try and write <code>print('Hello world!')</code> in the cell. To execute the cell, we can either click on the <code>Run button</code> in the toolbar on the top of the screen, or we can press the <code>Shift</code> and <code>Enter</code> keys on the keyboard.</p>
-<p><img src="images/img9.png" width="450"></p>
-<p>When you run a code cell, the kernel executes the code and the output of the code is returned back to the cell to be displayed.</p>
-<p>Notice that each cell has a number, enclosed in square brackets <code>[1]</code> to the left of the cell. If we write another statement in the next cell, the order of the cell will be automatically changed to <code>[2]</code>. But also, if we run the first cell multiple times, each time the cell is executed the cell number will increase. This way, in a program with many cells, we can tell the order in which the cells were executed.</p>
-<p>Using multiple cells in a module allows to separate the code into logical groups for improved code readability.</p>
-<p>Furthermore, the variables and imported packages are shared across cells. For instance, if we define a variable <code>X</code> in cell 2, we can invoke the same variable in cell 3. Therefore, importing libraries or defining functions needs to be done only once in a notebook, and they are afterward shared by all cells in the notebook.</p>
-<p><img src="images/img10.png" width="450"></p>
-<p><a id="1.2-jupyter-lab-user-interface"></a></p>
-</section>
-</section>
-<section id="jupyter-lab-user-interface" class="level2">
-<h2 class="anchored" data-anchor-id="jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</h2>
-<p><a id="1.2.1-drop-down-menus"></a></p>
-<section id="drop-down-menus" class="level3">
-<h3 class="anchored" data-anchor-id="drop-down-menus">1.2.1 Drop-Down Menus</h3>
-<p>Jupyter Notebooks have the following drop-down menus on the top of the screen:</p>
+<li><a href="#3.3-terminal-in-ubuntu-linux-basics">3.3 Terminal in Ubuntu (Linux) Basics</a>
 <ul>
-<li><strong>File</strong>: allows to create a new notebook, open existing notebooks, or save, download, and close notebooks.</li>
-<li><strong>Edit</strong>: have cut, copy, and paste cells buttons, and also allows to delete, split, merge, or reorder the cells in a notebook.</li>
-<li><strong>View</strong>: offers commands for toggling the visibility of the header, toolbar, and line numbers.</li>
-<li><strong>Run</strong>: have various commands for running cells above or below a cell.</li>
-<li><strong>Kernel</strong>: is for working with the selected kernel, allowing to restart the kernel, reconnect to the kernel, shut it down, or change the kernel.</li>
-<li><strong>Tabs</strong>: provides a tabbed interface to manage and navigate open documents and interfaces.</li>
-<li><strong>Settings</strong>: has access to configuration options and preferences for customizing Jupyter Lab.</li>
-<li><strong>Help</strong>: to get help about Jupyter Notebooks, learn about keyboard shortcuts, or access links to reference materials.</li>
+<li><a href="#3.3.1-basic-commands-in-ubuntu-linux">3.3.1 Basic Commands in Ubuntu (Linux)</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
 </ul>
-<p>Beside the top menus, several functions that are the most commonly used can be invoked from the top toolbar. If you hover the mouse over the icons, a brief description will show up. The icons include: save, insert a new cell, cut, copy, and paste selected cells, run cells, interrupt the kernel, restart the kernel, select the cell type, and render with panel.</p>
-<p><img src="images/img11.png" width="500"></p>
-<p><a id="1.2.2-left-sidebar-in-jupyter-lab"></a></p>
-</section>
-<section id="left-sidebar-in-jupyter-lab" class="level3">
-<h3 class="anchored" data-anchor-id="left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</h3>
-<p>The <strong>left side-bar</strong> or the left-side panel in Jupyter Lab contains several tabs, including:</p>
+<p><a id="3.1-introduction-to-command-line-interface"></a></p>
+<section id="introduction-to-command-line-interface" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-command-line-interface">3.1 Introduction to Command Line Interface</h2>
+<p><strong>Command Line Interface (CLI)</strong> is a text-based interface that allows users to interact with a computer system by typing commands.</p>
+<p>Through the CLI, users can run programs, navigate the file system, automate tasks, and perform many other operations.</p>
+<p><strong>Why use CLI?</strong></p>
 <ul>
-<li><strong>File browser</strong>: shows the content of the current working directory.</li>
-<li><strong>Running terminals and kernels</strong>: lists the terminals and notebooks that are currently running (shown below). It allows to shut down notebooks and release computational resources.<br>
+<li>CLI is more efficient for certain tasks, since we can execute a task with a single command instead of multiple clicks in different windows.<br>
 </li>
-<li><strong>Table of contents</strong>: allows to navigate the structure of the notebook.</li>
-<li><strong>Extension manager</strong>: for managing third party-extensions.</li>
+<li>Although Windows offers features like Windows Task Scheduler, the CLI is often more flexible and easier for automating tasks.</li>
+<li>CLI provides access to advanced features not available in graphical interfaces.</li>
+<li>For some tasks, such as running tasks on a remote server, CLI is the only way to interact with a computer.</li>
 </ul>
-<p><img src="images/img13.png" width="400"></p>
-<p>Note that even if we close the tab of a notebook, the kernel will continue to run in the background, and it needs to be shut down to be fully “closed”.</p>
-<p>Otherwise, Jupyter Notebooks are auto-saved pretty frequently (every 120 seconds), and it is rare to lose data.When the notebook is saved, aA checkpoint file is created in a subdirectory of the working directory named<code>.ipynb_checkpoint</code>s. The checkpoint file enables to recoveranyr unsaved work in the event of an unexpected issue.</p>
-<p><a id="1.2.3-cell-types"></a></p>
+<p><a id="3.1.1-basic-cli-definitions"></a></p>
+<section id="basic-cli-definitions" class="level3">
+<h3 class="anchored" data-anchor-id="basic-cli-definitions">3.1.1 Basic CLI Definitions</h3>
+<p><strong>Terminal:</strong> A terminal is the program (window) that offers access to the CLI. It is the interface where the command line is displayed, and the users type command inputs and see the outputs.</p>
+<p><strong>Shell:</strong> A shell is the command interpreter that executes the commands entered by users through the command line. It translates user commands into instructions comprehensible by the operating system for execution. The shell also manages tasks like input and output redirection, environment variables, scripting, and various other functionalities.</p>
+<p>Different operating systems deploy distinct shell programs. For example, Windows uses the Command Prompt and PowerShell, while Unix-like systems typically utilize shells such as Bash (default on most Linux distributions), Zsh, Fish, or Dash.</p>
+<p>In summary, the command line functions as a text-based instruction method, the terminal provides the visual interface for the command line, and the shell is the program responsible for interpreting and executing user commands through the command line.</p>
+<p><a id="3.1.2-access-the-command-prompt-in-windows"></a></p>
 </section>
-<section id="cell-types" class="level3">
-<h3 class="anchored" data-anchor-id="cell-types">1.2.3 Cell Types</h3>
-<p>There are three cell types in Jupyter Notebooks: Code, Markdown, and Raw.</p>
-<p>The default one is <strong>Code</strong>, which we use for running codes.</p>
-<p><strong>Markdown</strong> cells are used for Markdown, which is a markup language that is a superset of HTML. In fact, I created this file using Markdown language cells. If you click within the cells of this file, you can see the original markdown text. Markdown is a simple language, that adds formatting elements to plain text. For example, headings are created by adding the <code>#</code> mark (as in <code># Lecture 1</code>), for <strong>bold font</strong> use two asterisks, for <em>italic font</em> use a single asterisk, etc. Still, Markdown accepts standard HTML language, which can add complexity when needed. See several examples in the next section, and to learn more about the syntax of Markdown language please visit follow this <a href="https://www.markdownguide.org/basic-syntax/">link</a>.</p>
-<p><strong>Raw</strong> cell type are not executed or rendered. They are mainly useful when exporting with nbconvert, since their content is passed through unchanged. These cells are only intended for special use cases.</p>
-<p><img src="images/img12.png" width="500"></p>
-<p><a id="1.2.4-markdown-language"></a></p>
+<section id="access-the-command-prompt-in-windows" class="level3">
+<h3 class="anchored" data-anchor-id="access-the-command-prompt-in-windows">3.1.2 Access the Command Prompt in Windows</h3>
+<p>The Command Prompt in Windows is the traditional command line. PowerShell in Windows is a modern shell with advanced scripting capabilities, which can run most commands from the traditional Command Prompt,but it can also run additional commands and it is object-oriented and not just text-based.</p>
+<p>To access the Command Prompt in Windows, enter <code>"command prompt"</code> in the Start menu’s search bar to search for it. Alternatively, you can enter <code>"cmd"</code>, which is the abbreviated name of the executable responsible for running the Command Prompt.</p>
+<p><img src="images/cmd1.png" width="500"></p>
+<p>Also, you can press <code>Win</code> + <code>R</code> to open the Run box, then enter <code>"cmd"</code> and press Enter.</p>
+<p><img src="images/cmd2.png" width="300"></p>
+<p>To run Command Prompt as an admin, right-click on the Command Prompt to select <code>"Run as administrator"</code>, or you can also hold <code>Ctrl</code> + <code>Shift</code> before pressing Enter.</p>
+<p><img src="images/cmd3.png" width="400"></p>
+<p><a id="3.1.3-other-ways-to-access-cli-in-windows"></a></p>
 </section>
-<section id="markdown-language" class="level3">
-<h3 class="anchored" data-anchor-id="markdown-language">1.2.4 Markdown Language</h3>
-<p>The following cell shows examples of Markdown language code, and the cell afterward displays the output of the cell. Note that unlike the code cells that have line numbers on the left, the markdown cells don’t have line numbers.</p>
-<pre><code>### Example Heading: This is Level 3 Heading
-This is some plain text that forms a paragraph.
-Add emphasis via **bold** and __bold__, *italic* and _italic_, or ***bold and italic*** and ___bold and italic___.
-Paragraphs must be separated by an empty line.
-
-- Sometimes we want to include lists.
-    - Which can be indented.      
-
-[It is possible to include hyperlinks](https://www.example.com).
-
-1. Lists can also be numbered.
-2. For ordered lists.
-
-We can add inline equations using LaTeX code, e.g., $c = \sqrt{a^2 + b^2}$,
-and equations in a new line: $$c = \sqrt{a^2 + b^2}$$
-
-Inline code uses single backticks: `foo()`, and code blocks use triple backticks or they can be indented by 4 spaces:
-
-    foo()
-    
-And finally, adding images is easy: ![Image title text](images/house.png)</code></pre>
-<h3 class="anchored">
-Example Heading: This is Level 3 Heading
-</h3>
-<p>This is some plain text that forms a paragraph. Add emphasis via <strong>bold</strong> and <strong>bold</strong>, <em>italic</em> and <em>italic</em>, or <strong><em>bold and italic</em></strong> and <strong><em>bold and italic</em></strong>. Paragraphs must be separated by an empty line.</p>
+<section id="other-ways-to-access-cli-in-windows" class="level3">
+<h3 class="anchored" data-anchor-id="other-ways-to-access-cli-in-windows">3.1.3 Other Ways to Access CLI in Windows</h3>
+<p>If you have installed <strong>Jupyter Lab</strong>, you can access the terminal through it. After opening Jupyter Lab, in the top menu select the <strong>File</strong> tab, then click <strong>New</strong>, and select <strong>Terminal</strong>.</p>
+<p><img src="images/cmd6.png" width="450"></p>
+<p>Alternatively, if you have installed <strong>Anaconda</strong>, you can use the <strong>Anaconda Prompt</strong> in the Start menu to access the terminal. The difference between Anaconda Prompt and Command Prompt is that Anaconda Prompt offers some conda-specific features, such as conda environment management, package management, and pre-configured data science packages.</p>
+<p><img src="images/cmd7.png" width="450"></p>
+<p><a id="3.1.4-access-the-powershell-in-windows"></a></p>
+</section>
+<section id="access-the-powershell-in-windows" class="level3">
+<h3 class="anchored" data-anchor-id="access-the-powershell-in-windows">3.1.4 Access the PowerShell in Windows</h3>
+<p>To access PowerShell, press the <code>Win</code> and <code>R</code> keys, type <code>powershell</code> and press Enter.</p>
+<p>Or, open the Command Prompt, type <code>powershell</code> and press Enter.</p>
+<p>Note that the Command Prompt has black background, and the prompt shows <code>C:\Users\Username&gt;</code>, whereas the PowerShell has blue background, and the prompt shows <code>PS C:\Users\Username&gt;</code>.</p>
+<p>PowerShell is backward-compatible with most commands from Command Prompt, so we can use either interface for this tutorial.</p>
+<p><a id="3.2-command-prompt-basics"></a></p>
+</section>
+</section>
+<section id="command-prompt-basics" class="level2">
+<h2 class="anchored" data-anchor-id="command-prompt-basics">3.2 Command Prompt Basics</h2>
+<p>After opening a Command Prompt window, the current directory <code>C:\Users\[Username]&gt;</code> will be displayed as in the figure below, followed by the <code>&gt;</code> symbol.</p>
+<p><img src="images/cmd5.png" width="500"></p>
+<p>Only valid commands are accepted in the Command Prompt, otherwise a message like the one shown below will be displayed if an unknown or unrecognized command is entered.</p>
+<p><img src="images/cmd8.png" width="500"></p>
+<p><strong>Help</strong> command: typing <code>help</code> in the Command Prompt will display a list of commands and the associated descriptions.</p>
+<p><img src="images/cmd9.png" width="500"></p>
+<p>For more information on a specific command, type <code>HELP command-name</code>, e.g.&nbsp;<code>HELP DIR</code>. As you may have noticed, the commands in Windows Command Prompt are not case-sensitive, and both <code>help dir</code> and <code>HELP DIR</code> work for this case.</p>
+<p><img src="images/cmd10.png" width="500"></p>
+<p><a id="3.2.1-listing-and-changing-directories"></a></p>
+<section id="listing-and-changing-directories" class="level3">
+<h3 class="anchored" data-anchor-id="listing-and-changing-directories">3.2.1 Listing and Changing Directories</h3>
+<p>The command <code>DIR</code> is an abbreviation for directory, and it lists the contents of the directory (folder) that you are currently in.</p>
+<p><img src="images/cmd11.png" width="400"></p>
+<p>To change the current directory, use <code>CD</code> (change directory) followed by the name of the folder you want to access.</p>
+<p><img src="images/cmd12.png" width="400"></p>
+<p>To go back to the parent directory of the current directory, use <code>CD ..</code>.</p>
+<p><img src="images/cmd13.png" width="400"></p>
+<p>Also, in Windows <code>cd %USERPROFILE%</code> changes to the user’s home directory.</p>
+<p><a id="3.2.2-creating-and-deleting-files-folders-in-command-prompt"></a></p>
+</section>
+<section id="creating-and-deleting-filesfolders-in-command-prompt" class="level3">
+<h3 class="anchored" data-anchor-id="creating-and-deleting-filesfolders-in-command-prompt">3.2.2 Creating and Deleting Files/Folders in Command Prompt</h3>
+<p>Use <code>mkdir</code> followed by <code>[new-folder-name]</code> to create a new directory/folder.</p>
+<p>E.g., the command to create a folder named “test” is <code>mkdir test</code>.</p>
+<p><img src="images/cmd14.png" width="450"></p>
+<p>Use <code>rmdir</code> followed by <code>[folder-name]</code> to delete an existing directory/folder.</p>
+<p><img src="images/cmd15.png" width="450"></p>
+<p>Use <code>echo</code> followed by <code>content-of-the-file</code> &gt; <code>[file-name]</code> to write the content into a new or existing file.</p>
+<p><img src="images/echo.png" width="450"></p>
+<p>Beside writing to files, the <code>echo</code> command is also used to display messages, show variable names, and control whether commands are shown while a file is running.</p>
+<p>Use <code>del</code> followed by <code>[file-name]</code> to delete a file.</p>
+<p><img src="images/cmd16.png" width="400"></p>
+<p><a id="3.2.3-copy-and-move-files-folders-in-command-prompt"></a></p>
+</section>
+<section id="copy-and-move-filesfolders-in-command-prompt" class="level3">
+<h3 class="anchored" data-anchor-id="copy-and-move-filesfolders-in-command-prompt">3.2.3 Copy and Move Files/Folders in Command Prompt</h3>
+<p>Use <code>copy</code> followed by <code>[source]</code> <code>[destination]</code> to make a copy of a file or folder from a source directory to a destination directory. E.g., in the figure below, copy the <code>"test.txt"</code> file to the <code>test_folder</code>.</p>
+<p>Similarly, use <code>move</code> followed by <code>[source]</code> <code>[destination]</code> to move a file/folder between directories.</p>
+<p><img src="images/copy_cmd.png" width="550"></p>
+<section id="miscellaneous-commands" class="level4">
+<h4 class="anchored" data-anchor-id="miscellaneous-commands">Miscellaneous Commands</h4>
+<p>Other important commands in Windows Command Prompt include:</p>
 <ul>
-<li>Sometimes we want to include lists.
-<ul>
-<li>Which can be indented.</li>
-</ul></li>
+<li><code>type</code>, display file contents (equivalent to <code>cat</code> in Linux).</li>
+<li><code>where</code>, find location of executable files.</li>
+<li><code>tree</code>, display directory structure in tree format.</li>
+<li><code>attrib</code>, view/modify file attributes.</li>
+<li><code>findstr</code>, search for text within files.</li>
+<li><code>tasklist</code> and <code>taskkill</code>, view and terminate processes.</li>
+<li><code>ipconfig</code>, network configuration information.</li>
 </ul>
-<p><a href="https://www.example.com">It is possible to include hyperlinks</a>.</p>
+<p><a id="3.2.4-redirection,-pipes,-and-chaining"></a></p>
+</section>
+</section>
+<section id="redirection-pipes-and-chaining" class="level3">
+<h3 class="anchored" data-anchor-id="redirection-pipes-and-chaining">3.2.4 Redirection, Pipes, and Chaining</h3>
+<p>Output redirection can be done with:</p>
+<ul>
+<li><code>command &gt; file.txt</code>, redirect output to file (overwrite).</li>
+<li><code>command &gt;&gt; file.txt</code>, redirect output to file (append).</li>
+<li><code>command 2&gt; error.txt</code>, redirect error output to file.</li>
+</ul>
+<p>Pipes (the output of the first command becomes the input of the second command):</p>
+<ul>
+<li><code>dir | findstr ".txt"</code>, e.g., list files in the current directory that are <code>.txt</code> files.</li>
+<li><code>tasklist | findstr "notepad"</code>, list currently running notepad processes.</li>
+</ul>
+<p>Command chaining include:</p>
+<ul>
+<li><code>command1 &amp;&amp; command2</code>, run command2 only if command1 succeeds.</li>
+<li><code>command1 || command2</code>, run command2 only if command1 fails.</li>
+<li><code>command1 &amp; command2</code>, run both commands sequentially.</li>
+</ul>
+<p><a id="3.2.5-autocomplete"></a></p>
+</section>
+<section id="autocomplete" class="level3">
+<h3 class="anchored" data-anchor-id="autocomplete">3.2.5 Autocomplete</h3>
+<p>When working with files and directories in Command Prompt, use the <code>Tab</code> key to autocomplete the names of files or directories.</p>
 <ol type="1">
-<li>Lists can also be numbered.</li>
-<li>For ordered lists.</li>
+<li><p>The Command Prompt will complete the name based on the files and directories available in the current directory.</p></li>
+<li><p>If there are multiple matches, pressing Tab repeatedly will cycle through all the possible completions.</p></li>
 </ol>
-<p>We can add inline equations using LaTeX code, e.g., <span class="math inline">\(c = \sqrt{a^2 + b^2}\)</span>, and equations in a new line: <span class="math display">\[c = \sqrt{a^2 + b^2}\]</span></p>
-<p>Inline code uses single backticks: <code>foo()</code>, and code blocks use triple backticks or they can be indented by 4 spaces:</p>
-<pre><code>foo()</code></pre>
-<p>And finally, adding images is easy: <img src="images/house.png" class="img-fluid" alt="Image title text"></p>
-<p><a id="1.3-summary"></a></p>
+<p><a id="3.2.6-cli-management"></a></p>
 </section>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">1.3 Summary</h2>
-<p>In conclusion, Jupyter Notebooks are very useful for learning Python and testing your codes, as well as for sharing Python codes because others can directly see the outputs of the codes, which may include numerical results, graphs, tables, and other visualizations. The notebooks also display any error messages and other important information in the code. For instance, when training neural networks it can sometimes take hours for executing the code. Being able to see all the results and outputs from the models without the need to run the codes is extremely helpful and simplifies collaboration with others.</p>
-<p>The following are tips for best practices when working with Jupyter Notebooks:</p>
+<section id="cli-management" class="level3">
+<h3 class="anchored" data-anchor-id="cli-management">3.2.6 CLI Management</h3>
+<p>Enter <code>cls</code> to clear the previous content of the Command Prompt and move the prompt back to the top of the window.</p>
+<p>Press <code>Ctrl</code> + <code>C</code> to interrupt or terminate a command or process that is running.</p>
+<p>Use the <code>Up</code> and <code>Down</code> keys to navigate to previous and next commands.</p>
+<section id="wildcards-and-pattern-matching" class="level4">
+<h4 class="anchored" data-anchor-id="wildcards-and-pattern-matching">Wildcards and Pattern Matching</h4>
+<p>Wildcard characters include:</p>
 <ul>
-<li>Don’t forget to name your notebooks, and don’t have several notebooks <code>Untitled</code>, <code>Untitled (1)</code>, etc. in each folder.</li>
-<li>Provide comments to your code to improve the code readability, and help others understand your code.</li>
-<li>Arrange your code into cells, using logical grouping of the code lines.</li>
-<li>Keep the cells simple, and don’t put too many functions into one cell.<br>
-</li>
-<li>Try to import all packages in the first code cell of the notebook.</li>
-<li>Display the graphs and plots inline, so that they are visible to others.</li>
+<li><code>*</code>, matches any number of characters.</li>
+<li><code>?</code>, matches any single character.</li>
 </ul>
+<p>Examples:</p>
+<ul>
+<li><code>dir *.txt</code>, list all <code>.txt</code> files.</li>
+<li><code>del temp*.log</code>, delete all log files starting with <code>'temp'</code>.</li>
+<li><code>copy file?.txt backup\</code>, copy files like <code>file1.txt</code>, <code>fileA.txt</code> to <code>backup\</code>.</li>
+</ul>
+<p><a id="3.2.7-run-python-files-in-command-prompt"></a></p>
+</section>
+</section>
+<section id="run-python-files-in-command-prompt" class="level3">
+<h3 class="anchored" data-anchor-id="run-python-files-in-command-prompt">3.2.7 Run Python Files in Command Prompt</h3>
+<p>To execute a Python file, simply type <strong>python</strong> followed by the path to the file. Or, on some systems you might need to use <strong>python3</strong> followed by the path to the file.</p>
+<p>E.g., the path of the <code>test.py</code> file is <code>C:\Users\L\Desktop\TA\test.py</code>. To run this file, use the command <code>python "C:\Users\L\Desktop\TA\test.py"</code>.</p>
+<p><img src="images/cmd19.png" width="400"></p>
+<p>For Python package management use:</p>
+<ul>
+<li><code>pip install package_name</code>, install Python package.</li>
+<li><code>pip list</code>, list installed packages.</li>
+<li><code>pip show package_name</code>, show package information.</li>
+<li><code>pip freeze &gt; requirements.txt</code>, export package list.</li>
+</ul>
+<p>If you have installed Anaconda, note that it also comes with its own package manager <code>conda</code>, which can manage both Python packages and non-Python dependencies (such as C libraries, compilers, system tools).</p>
+<p>Examples:</p>
+<ul>
+<li><code>conda install package_name</code>, install Python package.</li>
+<li><code>conda list</code>, list installed packages.</li>
+<li><code>conda remove package_name</code>, remove a package.</li>
+</ul>
+<p><a id="3.3-terminal-in-ubuntu-linux-basics"></a></p>
+</section>
+</section>
+<section id="terminal-in-ubuntu-linux-basics" class="level2">
+<h2 class="anchored" data-anchor-id="terminal-in-ubuntu-linux-basics">3.3 Terminal in Ubuntu (Linux) Basics</h2>
+<p>To access the terminal, click on the Activities on the upper left of the screen, and type keywords like <strong>“shell”</strong>, or <strong>“terminal”</strong>, or <strong>“command”</strong>, <strong>“prompt”</strong>.</p>
+<p><img src="images/terminal1.png" width="500"></p>
+<p>After opening a terminal window, <strong>username@linux-desktop:~$</strong> will be displayed.</p>
+<p><img src="images/terminal2.png" width="500"></p>
+<p><a id="3.3.1-basic-commands-in-ubuntu-linux"></a></p>
+<section id="basic-commands-in-ubuntu-linux" class="level3">
+<h3 class="anchored" data-anchor-id="basic-commands-in-ubuntu-linux">3.3.1 Basic Commands in Ubuntu (Linux)</h3>
+<p>Note that commands in Linux are case-sensitive, but commands in Windows are NOT case-sensitive.</p>
+<p>The command <code>help</code> in Linux is the same command as in Windows, and it displays the available command names.</p>
+<p><img src="images/help.png" width="900"></p>
+<p>Similarly, <code>help</code> followed by command name will show the specific information of that command.</p>
+<p><img src="images/help_example.png" width="500"></p>
+<p>The command <code>pwd</code> stands for “print working directory” and it returns the current working directory, showing where you are in the file system.</p>
+<p><img src="images/pwd.png" width="500"></p>
+<p>The <code>cd</code> command in Linux is the same as in Windows, and it is used to navigate between different directories in the file system. For example, <code>cd /</code> takes you to the root directory.</p>
+<p>In Linux, <code>ls</code> is used to list the files in a directory, instead of the command <code>dir</code> in Windows.</p>
+<p><img src="images/ls.png" width="500"></p>
+<p>The <code>mkdir</code> command in Linux is used to create new directories within the file system, and it is the same as in Windows.</p>
+<p>The <code>touch</code> command allows you to create an empty file in the current directory.</p>
+<p>The <code>rm</code> command is used to delete a file in the current directory.</p>
+<p><img src="images/mkdir.png" width="300"></p>
+<p>The <code>cp</code> command allows you to copy files or directories.</p>
+<p><img src="images/cp.png" width="300"></p>
+<p>The <code>mv</code> command is used to move a file or directory from one place to another.</p>
+<p><img src="images/mv.png" width="300"></p>
+<p>Pressing the keys <code>Ctrl+C</code> is used to interrupt or terminate a running command or process in the terminal.</p>
+<p>The <code>clear</code> command is used to clear the terminal screen, removing all the previous output and providing a clean slate for new commands. This command doesn’t affect the running processes or the state of the system, and it simply clears the visual clutter from the terminal window.</p>
+<p>By pressing <code>Up</code> and <code>Down</code> keys you can navigate through the previous commands you entered.</p>
+<p>By hitting <code>tab</code> you will get autocompletion based on the text written so far.</p>
+<p>To run a Python file in the Linux terminal, type <code>python3</code> followed by the file name.</p>
+<p>Other important commands in Linux terminal include:</p>
+<ul>
+<li><code>cat</code>, display file contents.</li>
+<li><code>grep</code>, search text patterns in files.</li>
+<li><code>find</code>, search for files and directories.</li>
+<li><code>chmod</code>, change file permissions.</li>
+<li><code>ps</code>, show running processes.</li>
+<li><code>kill</code>, terminate processes.</li>
+<li><code>sudo</code>, execute commands with elevated privileges.</li>
+<li><code>man</code>, manual pages (more comprehensive than help).</li>
+<li><code>which</code>, locate executable files.</li>
+<li><code>head</code> and <code>tail</code>, display first/last lines of files.</li>
+<li><code>apt</code>, system package management.</li>
+</ul>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>“A Beginner’s Guide to the Windows Command Prompt” by Ben Stegner, available at: <a href="https://www.makeuseof.com/tag/a-beginners-guide-to-the-windows-command-line/">https://www.makeuseof.com/tag/a-beginners-guide-to-the-windows-command-line/</a>.</li>
+<li>“Command Line for Beginners – How to Use the Terminal Like a Pro” by German Cocca, available at: <a href="https://www.freecodecamp.org/news/command-line-for-beginners/">https://www.freecodecamp.org/news/command-line-for-beginners/</a>.</li>
+</ol>
 <p><a href="#top">BACK TO TOP</a></p>
 
 
@@ -1138,13 +1200,13 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="pagination-link" aria-label="Lecture 4 - OOP, Modules, Packages">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 4 - OOP, Modules, Packages</span>
+      <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="pagination-link" aria-label="Tutorial 2 - Python IDEs, VS Code">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial 2 - Python IDEs, VS Code</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="pagination-link" aria-label="Tutorial 2 - Python IDEs, VS Code">
-        <span class="nav-page-text">Tutorial 2 - Python IDEs, VS Code</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="pagination-link" aria-label="Tutorial 4 - Virtual Environments">
+        <span class="nav-page-text">Tutorial 4 - Virtual Environments</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

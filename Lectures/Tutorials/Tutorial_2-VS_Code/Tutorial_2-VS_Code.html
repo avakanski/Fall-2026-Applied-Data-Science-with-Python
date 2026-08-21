@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tutorial 1 - Working with Jupyter Notebooks – Applied Data Science with Python</title>
+<title>Tutorial 2 - Python IDEs, VS Code – Applied Data Science with Python</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -35,8 +35,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" rel="next">
-<link href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" rel="prev">
+<link href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" rel="next">
+<link href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" rel="prev">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
@@ -79,35 +79,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -283,7 +254,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html">Tutorial 2 - Python IDEs, VS Code</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -411,13 +382,13 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
   </div>
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Tutorial 2 - Python IDEs, VS Code</span></a>
   </div>
 </li>
@@ -451,19 +422,25 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-jupyter-notebooks" id="toc-introduction-to-jupyter-notebooks" class="nav-link active" data-scroll-target="#introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+  <li><a href="#python-ides" id="toc-python-ides" class="nav-link active" data-scroll-target="#python-ides">2.1 Python IDEs</a>
   <ul class="collapse">
-  <li><a href="#creating-a-new-notebook" id="toc-creating-a-new-notebook" class="nav-link" data-scroll-target="#creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-  <li><a href="#cells-in-jupyter-notebooks" id="toc-cells-in-jupyter-notebooks" class="nav-link" data-scroll-target="#cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+  <li><a href="#idle" id="toc-idle" class="nav-link" data-scroll-target="#idle">2.1.1 IDLE</a></li>
+  <li><a href="#spyder" id="toc-spyder" class="nav-link" data-scroll-target="#spyder">2.1.2 Spyder</a></li>
+  <li><a href="#visual-studio" id="toc-visual-studio" class="nav-link" data-scroll-target="#visual-studio">2.1.3 Visual Studio</a></li>
+  <li><a href="#eclipse-and-pydev" id="toc-eclipse-and-pydev" class="nav-link" data-scroll-target="#eclipse-and-pydev">2.1.4 Eclipse and PyDev</a></li>
+  <li><a href="#pycharm" id="toc-pycharm" class="nav-link" data-scroll-target="#pycharm">2.1.5 PyCharm</a></li>
+  <li><a href="#other-ides" id="toc-other-ides" class="nav-link" data-scroll-target="#other-ides">2.1.6 Other IDEs</a></li>
   </ul></li>
-  <li><a href="#jupyter-lab-user-interface" id="toc-jupyter-lab-user-interface" class="nav-link" data-scroll-target="#jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+  <li><a href="#introduction-to-vs-code" id="toc-introduction-to-vs-code" class="nav-link" data-scroll-target="#introduction-to-vs-code">2.2 Introduction to VS Code</a>
   <ul class="collapse">
-  <li><a href="#drop-down-menus" id="toc-drop-down-menus" class="nav-link" data-scroll-target="#drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-  <li><a href="#left-sidebar-in-jupyter-lab" id="toc-left-sidebar-in-jupyter-lab" class="nav-link" data-scroll-target="#left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-  <li><a href="#cell-types" id="toc-cell-types" class="nav-link" data-scroll-target="#cell-types">1.2.3 Cell Types</a></li>
-  <li><a href="#markdown-language" id="toc-markdown-language" class="nav-link" data-scroll-target="#markdown-language">1.2.4 Markdown Language</a></li>
+  <li><a href="#vs-code-download-and-installation" id="toc-vs-code-download-and-installation" class="nav-link" data-scroll-target="#vs-code-download-and-installation">2.2.1 VS Code Download and Installation</a></li>
+  <li><a href="#vs-code-user-interface" id="toc-vs-code-user-interface" class="nav-link" data-scroll-target="#vs-code-user-interface">2.2.2 VS Code User Interface</a></li>
+  <li><a href="#extensions-installation-and-vs-code-configuration" id="toc-extensions-installation-and-vs-code-configuration" class="nav-link" data-scroll-target="#extensions-installation-and-vs-code-configuration">2.2.3 Extensions Installation and VS Code Configuration</a></li>
+  <li><a href="#working-with-jupyter-notebooks-in-vs-code" id="toc-working-with-jupyter-notebooks-in-vs-code" class="nav-link" data-scroll-target="#working-with-jupyter-notebooks-in-vs-code">2.2.4 Working with Jupyter Notebooks in VS Code</a></li>
+  <li><a href="#running-cells" id="toc-running-cells" class="nav-link" data-scroll-target="#running-cells">2.2.5 Running Cells</a></li>
+  <li><a href="#intellisense-support-in-jupyter-notebooks" id="toc-intellisense-support-in-jupyter-notebooks" class="nav-link" data-scroll-target="#intellisense-support-in-jupyter-notebooks">2.2.6 IntelliSense Support in Jupyter Notebooks</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">1.3 Summary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -471,9 +448,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html">Tutorial 2 - Python IDEs, VS Code</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Tutorial 1 - Working with Jupyter Notebooks</h1>
+<h1 class="title">Tutorial 2 - Python IDEs, VS Code</h1>
 </div>
 
 
@@ -490,183 +467,213 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
 <p><a id="top"></a></p>
 <ul>
-<li><a href="#1.1-introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+<li><a href="#2.1-python-ides">2.1 Python IDEs</a>
 <ul>
-<li><a href="#1.1.1-creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-<li><a href="#1.1.2-cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+<li><a href="#2.1.1-idle">2.1.1 IDLE</a></li>
+<li><a href="#2.1.2-spyder">2.1.2 Spyder</a></li>
+<li><a href="#2.1.3-visual-studio">2.1.3 Visual Studio</a></li>
+<li><a href="#2.1.4-eclipse-and-pydev">2.1.4 Eclipse and PyDev</a></li>
+<li><a href="#2.1.5-pycharm">2.1.5 PyCharm</a></li>
+<li><a href="#2.1.6-other-ides">2.1.6 Other IDEs</a></li>
 </ul></li>
-<li><a href="#1.2-jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+<li><a href="#2.2-introduction-to-vs-code">2.2 Introduction to VS Code</a>
 <ul>
-<li><a href="#1.2.1-drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-<li><a href="#1.2.2-left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-<li><a href="#1.2.3-cell-types">1.2.3 Cell Types</a></li>
-<li><a href="#1.2.4-markdown-language">1.2.4 Markdown Language</a></li>
+<li><a href="#2.2.1-vs-code-download-and-installation">2.2.1 VS Code Download and Installation</a></li>
+<li><a href="#2.2.2-vs-code-user-interface">2.2.2 VS Code User Interface</a></li>
+<li><a href="#2.2.3-extensions-installation-and-vs-code-configuration">2.2.3 Extensions Installation and VS Code Configuration</a></li>
+<li><a href="#2.2.4-working-with-jupyter-notebooks-in-vs-code">2.2.4 Working with Jupyter Notebooks in VS Code</a></li>
+<li><a href="#2.2.5-running-cells">2.2.5 Running Cells</a></li>
+<li><a href="#2.2.6-intellisense-support-in-jupyter-notebooks">2.2.6 IntelliSense Support in Jupyter Notebooks</a></li>
 </ul></li>
-<li><a href="#1.3-summary">1.3 Summary</a></li>
+<li><a href="#references">References</a></li>
 </ul>
-<p><a id="1.1-introduction-to-jupyter-notebooks"></a></p>
-<section id="introduction-to-jupyter-notebooks" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</h2>
-<p>Jupyter Notebook is an open-source web-based interactive computational environment, designed for sharing documents that contain code, text, equations, and visualizations. It is part of <a href="https://jupyter.org/">Project Jupyter</a>, which also includes Jupyter Lab - an updated version of Jupyter Notebook with enhanced capabilities.</p>
+<p>This tutorial first presents several common environments and editors for Python code development, and afterward describes VS Code in more detail.</p>
+<p><a id="2.1-python-ides"></a></p>
+<section id="python-ides" class="level2">
+<h2 class="anchored" data-anchor-id="python-ides">2.1 Python IDEs</h2>
 <blockquote class="blockquote">
-<p><strong>Jupyter notebooks</strong> are documents that contain both code and text elements, such as equations, visualizations (i.e., figures and graphs), links, and similar related elements.</p>
+<p>An <strong>IDE (or Integrated Development Environment)</strong> is a program that integrates tools to facilitate software development, such as a code editor, tools for program execution and debugging, and source control.</p>
 </blockquote>
-<p>The name Jupyter does not really relate to the largest planet in the Solar system (spelled Jupiter), but instead, it is a coined word from the three core programming languages supported by Jupyter notebooks: Julia, Python, and R.</p>
-<p>Jupyter Notebook was built upon an older IDE for Python called IPython.</p>
-<p>The recommended user interface for this course is Jupyter Lab, since it offers advanced functionalities in comparison to Jupyter Notebook, such as access to a terminal, interactive widgets for exploring data, it allows multiple views into the same document, quick switching between opened files, etc.</p>
-<p>Both Jupyter Lab and Jupyter Notebook are part of the Anaconda distribution, therefore if you have installed Anaconda on your computer, they will also be installed. And if you don’t have Anaconda installed, you can install Jupyter Lab and Jupyter Notebook separately as any other package, e.g., <code>pip install jupyterlab</code>.</p>
-<p>The Jupyter Lab environment can be started by running the command <code>jupyter lab</code> in the Command Prompt on Windows systems, or in a shell or terminal window on computers with other operating systems.</p>
-<p><img src="images/img1.png" width="500"></p>
-<p>Jupyter will open in your default browser, or in a new tab if the browser has other open tabs, at the following URL: http://localhost:8889/lab. Localhost is not a website, it only indicates that the content is being served from your local machine. Therefore, Jupyter can be run on a computer without Internet access, or it can be run on a remote server accessed through the Internet.</p>
-<p>The Jupyter Lab environment on my computer looks like in the figure below. The start-up directory for the Jupyter Dashboard can be changed to a preferred directory.</p>
-<p><img src="images/img2.png" width="1000"></p>
-<p>It is also possible to open Jupyter Lab from the Anaconda Prompt, by typing <code>jupyter-lab</code> in the command line.</p>
-<p><img src="images/img3.png" width="500"></p>
-<p>And probably the most convenient way is to create a shortcut to Jupyter Lab on your desktop for direct access.</p>
-<p><a id="1.1.1-creating-a-new-notebook"></a></p>
-<section id="creating-a-new-notebook" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-new-notebook">1.1.1 Creating a New Notebook</h3>
-<p>Now, let’s create a new notebook. One way to do that is to click on the <code>File</code> tab in the top menu, then select the <code>New</code> button, and in the drop-down menu choose <code>Notebook</code>. Note that the <code>New</code> button also have options to open a new console or terminal (which allows to run shell commands directly in your browser, instead of the Windows Command Prompt), or create a new text file, markdown file, or Python file.</p>
-<p><img src="images/img4.png" width="600"></p>
-<p>In the newly opened window you will be prompted to select the kernel for the notebook. We can select the default Python 3 kernel. The next section explains more about the kernels in notebooks.</p>
-<p><img src="images/img5.png" width="500"></p>
-<p>Or, an even simpler way for creating a new notebook, is to directly click on <code>Notebook Python 3 (ipykernel)</code> icon on the Jupyter Dashboard.</p>
-<p><img src="images/img6.png" width="600"></p>
-<p>The newly created notebook will look like this.</p>
-<p><img src="images/img7.png" width="700"></p>
-<p>The default assigned title to new notebooks is <code>Untitled</code>. You can see the title at the top of the page.</p>
-<p>To change the title into a more descriptive one, right-click on the word <code>Untitled</code>, in the drop-down menu select <code>Rename Notebook..</code>, and enter the name <code>Hello_world</code>, for example.</p>
-<p><img src="images/img8.png" width="600"></p>
-<p>The new title of the Notebook should now show at the top of the page. Also, in the left-side panel you will see the new notebook <code>Hello_world.ipynb</code> listed in the current working directory.</p>
-<p>The extension for Jupyter Notebook documents is <code>.ipynb</code>, which is an acronym for IPython Notebook.</p>
-<p><a id="1.1.2-cells-in-jupyter-notebooks"></a></p>
+<p>In other words, an IDE is a graphical user interface for program development, that allows end-users to edit, run, browse, and debug programs from a single interface. Using an IDE is especially convenient for beginners to start editing and running codes.</p>
+<p>Most IDEs support several different programming languages. There are some that are designed specifically for Python development (like the IDLE described below).</p>
+<p>Also, most IDEs offer a <strong>code editor</strong>, although the code editor can be an independent software application. A code editor can be a simple text editor, or it can also allow code execution and debugging. In comparison to IDEs, code editors are simpler, but they are also less resource-demanding.</p>
+<p>In general, IDEs offer the following basic features: - Save and reload code files - Run code from within the environment - Debugging support - Syntax highlighting - Automatic code formatting</p>
+<p>The debugging support typically allows setting breakpoints in the code that stop the execution, showing variable values, and so on. For simpler debugging operations, most IDEs allow clicking on the text of an error message to quickly jump to the line of code where the error occurred, and after correcting the error, to quickly run the code.</p>
+<p>Syntax highlighting refers to displaying source code using different colors and fonts according to the category of the written text and commands. It facilitates code writing by providing visually distinct syntax, and it can help to identify mistakes in the code.</p>
+<p>Automatic code formatting can include features such as automated indentation, automated spacing around operators, auto-completion, etc.</p>
+<p>Other helpful features often include: advanced text and file search options, help links or pop-up windows when hovering with the mouse over an object, selection list for object attributes (e.g., after a <code>.</code> press the <code>Tab</code> key), links to definition of objects, and similar.</p>
+<p>Also note that Jupyter Notebook and Jupyter Lab, which we covered in Tutorial 1, are not traditional Python IDEs, as they were primarily designed for working with Jupyter notebooks to allow writing and running code in interactive cells. They still allow working with Python files, and can be considered code editors.</p>
+<p><a id="2.1.1-idle"></a></p>
+<section id="idle" class="level3">
+<h3 class="anchored" data-anchor-id="idle">2.1.1 IDLE</h3>
+<p><strong>IDLE</strong> is the original and oldest IDE for Python development. It is available for Windows, Unix, and Mac OS platforms, and it comes preinstalled with the Python installation. IDLE is free, easy to use, and portable across platforms.</p>
+<p>The name is a variation of IDE, and it is named after one of the members of the Monty Python group - Eric Idle.</p>
+<p>To access IDLE, type in the Anaconda Prompt/Windows Command Prompt (depending of your Python installation): <code>python -m idlelib.idle</code>. The IDLE window is shown in the figure below. Notice the <code>&gt;&gt;&gt;</code> prompt in IDLE, which allows interactive programming, i.e., we can type commands and run them immediately. Also note the syntax highlighting of the entered Python statements, and the menu bar on the top of the window that is similar to the Jupyter Notebook menu and to other MS Office apps (e.g., MS Word).</p>
+<p>IDLE is simple and easy to use, but on the other hand, it is somewhat limited compared to more recent IDEs.</p>
+<p><img src="images/pic17-1.jpg" width="600"></p>
+<p><a id="2.1.2-spyder"></a></p>
 </section>
-<section id="cells-in-jupyter-notebooks" class="level3">
-<h3 class="anchored" data-anchor-id="cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</h3>
-<p>Jupyter Notebooks organize codes in cells. Our newly created notebook has one empty cell in it.</p>
-<p>The cells use the Python 3 kernel that we chose when we created the notebook. The used kernel for Python code execution in Jupyter Notebooks is also called IPython kernel. The kernel allows to execute Python code in the cell.</p>
-<blockquote class="blockquote">
-<p>A <strong>cell</strong> is a container for code that is to be executed by the notebook’s kernel, or text that is to be displayed in the notebook.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A <strong>kernel</strong> is a program that executes the code in a cell. Jupyter Notebook has a kernel for Python code, but also there are other kernels available for other programming languages.</p>
-</blockquote>
-<p>Let’s give it a try and write <code>print('Hello world!')</code> in the cell. To execute the cell, we can either click on the <code>Run button</code> in the toolbar on the top of the screen, or we can press the <code>Shift</code> and <code>Enter</code> keys on the keyboard.</p>
-<p><img src="images/img9.png" width="450"></p>
-<p>When you run a code cell, the kernel executes the code and the output of the code is returned back to the cell to be displayed.</p>
-<p>Notice that each cell has a number, enclosed in square brackets <code>[1]</code> to the left of the cell. If we write another statement in the next cell, the order of the cell will be automatically changed to <code>[2]</code>. But also, if we run the first cell multiple times, each time the cell is executed the cell number will increase. This way, in a program with many cells, we can tell the order in which the cells were executed.</p>
-<p>Using multiple cells in a module allows to separate the code into logical groups for improved code readability.</p>
-<p>Furthermore, the variables and imported packages are shared across cells. For instance, if we define a variable <code>X</code> in cell 2, we can invoke the same variable in cell 3. Therefore, importing libraries or defining functions needs to be done only once in a notebook, and they are afterward shared by all cells in the notebook.</p>
-<p><img src="images/img10.png" width="450"></p>
-<p><a id="1.2-jupyter-lab-user-interface"></a></p>
+<section id="spyder" class="level3">
+<h3 class="anchored" data-anchor-id="spyder">2.1.2 Spyder</h3>
+<p><strong>Spyder</strong> is a Python IDE (<a href="https://github.com/spyder-ide/spyder">https://github.com/spyder-ide/spyder</a>) which is available with the Anaconda installation, so if you installed Anaconda you should have it installed on your computer. It can be accessed from the Start Program menu, as shown below. Spyder offers most of the common IDE features. An interesting feature that is not offered by many similar IDEs is the variable explorer, which displays the user data and variables in a table-based layout inside the IDE.</p>
+<p><img src="images/pic18a.jpg" width="200"></p>
+<p><img src="images/pic18b.jpg" width="600"></p>
+<p><a id="2.1.3-visual-studio"></a></p>
+</section>
+<section id="visual-studio" class="level3">
+<h3 class="anchored" data-anchor-id="visual-studio">2.1.3 Visual Studio</h3>
+<p><strong>Visual Studio</strong> is a general-purpose IDE (<a href="https://visualstudio.microsoft.com/vs/">https://visualstudio.microsoft.com/vs/</a>) developed by Microsoft. It is available for Windows and Mac OS, both as free (Community) and paid (Professional and Enterprise) versions. Visual Studio provides support for program development in different programming languages. Python Tools for Visual Studio (PTVS) enables Python coding in Visual Studio. VS is a large download, but it provides excellent tools for different languages.</p>
+<p><img src="images/pic19.jpg" width="600"></p>
+<p><a id="2.1.4-eclipse-and-pydev"></a></p>
+</section>
+<section id="eclipse-and-pydev" class="level3">
+<h3 class="anchored" data-anchor-id="eclipse-and-pydev">2.1.4 Eclipse and PyDev</h3>
+<p><strong>Eclipse and PyDev</strong> is an IDE (<a href="http://www.eclipse.org">www.eclipse.org</a>), originally developed as a Java IDE, but it supports Python development by installing the PyDev plug-in. It is a popular and powerful IDE for Python development. It is available for Windows, Linux, and Mac OS. However, it may not be the easiest IDE for beginner programmers.</p>
+<p><img src="images/pic17.jpg" width="600"></p>
+<p><a id="2.1.5-pycharm"></a></p>
+</section>
+<section id="pycharm" class="level3">
+<h3 class="anchored" data-anchor-id="pycharm">2.1.5 PyCharm</h3>
+<p><strong>PyCharm</strong> is a fully dedicated IDE for Python (<a href="https://www.jetbrains.com/pycharm/">https://www.jetbrains.com/pycharm/</a>). Available in both paid (Professional) and free open-source (Community) editions, PyCharm installs quickly and easily on Windows, Mac OS, and Linux platforms. Beside VS Code, PyCharm (especially the Professional version) is one of the most popular IDEs for Python among professional developers.</p>
+<p><img src="images/pic21.jpg" width="600"></p>
+<p><a id="2.1.6-other-ides"></a></p>
+</section>
+<section id="other-ides" class="level3">
+<h3 class="anchored" data-anchor-id="other-ides">2.1.6 Other IDEs</h3>
+<p>Beside these, there are also other general-purpose IDEs and code editors, such as <a href="http://www.activestate.com">Komodo</a>, <a href="http://www.sublimetext.com">Sublime Text</a>, <a href="https://atom.io/">Atom</a>, <a href="https://www.gnu.org/software/emacs/">GNU Emacs</a>, and other IDEs dedicated to Python code development, such as <a href="http://www.python.org/">PythonWin</a>, <a href="http://plugins.netbeans.org/plugin/61688/python">NetBeans</a>,<a href="http://thonny.org/">Thonny</a>, and many others.</p>
+<p><a id="2.2-introduction-to-vs-code"></a></p>
 </section>
 </section>
-<section id="jupyter-lab-user-interface" class="level2">
-<h2 class="anchored" data-anchor-id="jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</h2>
-<p><a id="1.2.1-drop-down-menus"></a></p>
-<section id="drop-down-menus" class="level3">
-<h3 class="anchored" data-anchor-id="drop-down-menus">1.2.1 Drop-Down Menus</h3>
-<p>Jupyter Notebooks have the following drop-down menus on the top of the screen:</p>
+<section id="introduction-to-vs-code" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-vs-code">2.2 Introduction to VS Code</h2>
+<p><strong>Visual Studio Code (VS Code)</strong> is a code editor (<a href="https://code.visualstudio.com/">https://code.visualstudio.com/</a>), available for Windows, Linux, and Mac OS. Differently from the Visual Studio IDE listed above that is a full IDE that is large and resource intensive, Visual Studio Code is a code editor that is small and lightweight, open-source, and extensible. However, although VS Code is a code editor, with extensions (such as Python, Jupyter, Git, Debugger, etc.), it provides most of the features of a full IDE.</p>
+<p>VS Code is free and versatile, and allows programming in JavaScript, C++, Java, R, Go, and other programming languages using the same editor. It runs on different OS platforms, and it supports full Git integration. Microsoft releases frequent updates, bug fixes, and new features for VS Code. Because of these features, VS Code is currently among the most popular editors for Python code development.</p>
+<p><a id="2.2.1-vs-code-download-and-installation"></a></p>
+<section id="vs-code-download-and-installation" class="level3">
+<h3 class="anchored" data-anchor-id="vs-code-download-and-installation">2.2.1 VS Code Download and Installation</h3>
+<p>VS Code can be downloaded from: https://code.visualstudio.com/</p>
+<p><img src="images/vs1.png" width="600"></p>
+<p>During the installation, choose all the default options.</p>
+<p>After the installation is completed, open the VS Code, and all initial settings can be selected as defaults.</p>
+<p>When you first open VS Code, the window will look similar to the following figure.</p>
+<p><img src="images/vs3.png" width="700"></p>
+<p><a id="2.2.2-vs-code-user-interface"></a></p>
+</section>
+<section id="vs-code-user-interface" class="level3">
+<h3 class="anchored" data-anchor-id="vs-code-user-interface">2.2.2 VS Code User Interface</h3>
+<p>The layout of VS Code is shown in the figure below. It follows a common interface design, with a file explorer on the left for browsing available folders and files, and an editor on the right for viewing and editing the selected files.</p>
+<p>The user interface is organized into five main areas:</p>
 <ul>
-<li><strong>File</strong>: allows to create a new notebook, open existing notebooks, or save, download, and close notebooks.</li>
-<li><strong>Edit</strong>: have cut, copy, and paste cells buttons, and also allows to delete, split, merge, or reorder the cells in a notebook.</li>
-<li><strong>View</strong>: offers commands for toggling the visibility of the header, toolbar, and line numbers.</li>
-<li><strong>Run</strong>: have various commands for running cells above or below a cell.</li>
-<li><strong>Kernel</strong>: is for working with the selected kernel, allowing to restart the kernel, reconnect to the kernel, shut it down, or change the kernel.</li>
-<li><strong>Tabs</strong>: provides a tabbed interface to manage and navigate open documents and interfaces.</li>
-<li><strong>Settings</strong>: has access to configuration options and preferences for customizing Jupyter Lab.</li>
-<li><strong>Help</strong>: to get help about Jupyter Notebooks, learn about keyboard shortcuts, or access links to reference materials.</li>
+<li><strong>Editor area</strong>: The central workspace where you edit files. Multiple editors can be opened side by side, both vertically and horizontally.</li>
+<li><strong>Side bar</strong>: Provides various views such as file explorer, search, and other views to help manage your project.</li>
+<li><strong>Activity bar</strong>: Positioned on the left-hand side, it offers quick access to tools including Explorer, Search, Source Control (Git), Run and Debug, and Extensions. The selected tool is displayed in the Side Bar.</li>
+<li><strong>Panels</strong>: Docked below the editor, panels can display an integrated terminal, debug console, output logs, or problems (errors and warnings).</li>
+<li><strong>Status bar</strong>: Located at the bottom of the window, it displays information about the opened project, opened files, and active environment or branch.</li>
 </ul>
-<p>Beside the top menus, several functions that are the most commonly used can be invoked from the top toolbar. If you hover the mouse over the icons, a brief description will show up. The icons include: save, insert a new cell, cut, copy, and paste selected cells, run cells, interrupt the kernel, restart the kernel, select the cell type, and render with panel.</p>
-<p><img src="images/img11.png" width="500"></p>
-<p><a id="1.2.2-left-sidebar-in-jupyter-lab"></a></p>
+<p>VS Code remembers your workspace, and when reopened, it restores the previously opened folder, files, and layout for an convenient continuation of your work.</p>
+<p><img src="images/vs22.png" width="800"></p>
+<p><strong>Activity Bar</strong></p>
+<p>The Activity Bar on the left lets you quickly switch between views in the Side Bar.</p>
+<p>This activity bar contains the following tabs: - <strong>Explorer</strong>: Displays current project’s files and folders. You can open, create, delete, and browse files directly from here. - <strong>Search</strong>: Allows to search for a keyword across all files in your workspace. - <strong>Source Control (Git)</strong>: Supports Git integration, and enables to commit, push, pull, view diffs, and manage branches without leaving VS Code. - <strong>Run and Debug</strong>: Used to launch and debug applications. Lets you set breakpoints, step through code, inspect variables, etc. - <strong>Extensions</strong>: Opens the Extensions Marketplace, where you can install extensions such as Python, Jupyter, Docker, themes, and other libraries.</p>
+<p><img src="images/vs23.png" width="700"></p>
+<p><strong>Command Palette</strong></p>
+<p>The Command Palette is a quick-access tool in VS Code that lets you run commands without navigating through the menus in the top Menu Bar. You can open the Command Palette with <strong>Ctrl+Shift+P</strong>. It can also be accessed from the <strong>View</strong> tab.</p>
+<p>Once the Command Palette is open (shown in the figure below), you can start typing to search for any command, such as changing user settings, selecting a Python interpreter, running a build task, or installing an extension, which can all be done using the same interactive window.</p>
+<p><img src="images/vs24.png" width="700"></p>
+<p><strong>Color Themes</strong></p>
+<p>VS Code provides different color themes to suit your preference and work environment. To select a color theme, open the Command Palette (Ctrl+Shift+P) and type <code>Color Theme</code>. Select <code>Preferences: Color Theme</code> and from the list of themes, select the one that you prefer.</p>
+<p><img src="images/vs25.png" width="700"></p>
+<p><a id="2.2.3-extensions-installation-and-vs-code-configuration"></a></p>
 </section>
-<section id="left-sidebar-in-jupyter-lab" class="level3">
-<h3 class="anchored" data-anchor-id="left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</h3>
-<p>The <strong>left side-bar</strong> or the left-side panel in Jupyter Lab contains several tabs, including:</p>
-<ul>
-<li><strong>File browser</strong>: shows the content of the current working directory.</li>
-<li><strong>Running terminals and kernels</strong>: lists the terminals and notebooks that are currently running (shown below). It allows to shut down notebooks and release computational resources.<br>
-</li>
-<li><strong>Table of contents</strong>: allows to navigate the structure of the notebook.</li>
-<li><strong>Extension manager</strong>: for managing third party-extensions.</li>
-</ul>
-<p><img src="images/img13.png" width="400"></p>
-<p>Note that even if we close the tab of a notebook, the kernel will continue to run in the background, and it needs to be shut down to be fully “closed”.</p>
-<p>Otherwise, Jupyter Notebooks are auto-saved pretty frequently (every 120 seconds), and it is rare to lose data.When the notebook is saved, aA checkpoint file is created in a subdirectory of the working directory named<code>.ipynb_checkpoint</code>s. The checkpoint file enables to recoveranyr unsaved work in the event of an unexpected issue.</p>
-<p><a id="1.2.3-cell-types"></a></p>
+<section id="extensions-installation-and-vs-code-configuration" class="level3">
+<h3 class="anchored" data-anchor-id="extensions-installation-and-vs-code-configuration">2.2.3 Extensions Installation and VS Code Configuration</h3>
+<p>To run Python in VS Code, we need to install the Python extension first.</p>
+<p>In the Activity Bar of the VS Code Window, select the <code>Extensions</code> tab, search for the Python extension, and install it.</p>
+<p><img src="images/vs2.png" width="250"></p>
+<p>Similarly, to work with Jupyter notebooks, we need to install the Jupyter extension. Search for the extension and install it.</p>
+<p><img src="images/vs4.png" width="250"></p>
+<p><a id="2.2.4-working-with-jupyter-notebooks-in-vs-code"></a></p>
 </section>
-<section id="cell-types" class="level3">
-<h3 class="anchored" data-anchor-id="cell-types">1.2.3 Cell Types</h3>
-<p>There are three cell types in Jupyter Notebooks: Code, Markdown, and Raw.</p>
-<p>The default one is <strong>Code</strong>, which we use for running codes.</p>
-<p><strong>Markdown</strong> cells are used for Markdown, which is a markup language that is a superset of HTML. In fact, I created this file using Markdown language cells. If you click within the cells of this file, you can see the original markdown text. Markdown is a simple language, that adds formatting elements to plain text. For example, headings are created by adding the <code>#</code> mark (as in <code># Lecture 1</code>), for <strong>bold font</strong> use two asterisks, for <em>italic font</em> use a single asterisk, etc. Still, Markdown accepts standard HTML language, which can add complexity when needed. See several examples in the next section, and to learn more about the syntax of Markdown language please visit follow this <a href="https://www.markdownguide.org/basic-syntax/">link</a>.</p>
-<p><strong>Raw</strong> cell type are not executed or rendered. They are mainly useful when exporting with nbconvert, since their content is passed through unchanged. These cells are only intended for special use cases.</p>
-<p><img src="images/img12.png" width="500"></p>
-<p><a id="1.2.4-markdown-language"></a></p>
+<section id="working-with-jupyter-notebooks-in-vs-code" class="level3">
+<h3 class="anchored" data-anchor-id="working-with-jupyter-notebooks-in-vs-code">2.2.4 Working with Jupyter Notebooks in VS Code</h3>
+<p>To open a folder in VS Code, we can just click on the <code>File</code> tab in the Menu Bar, and select <code>Open Folder</code>.</p>
+<p><img src="images/vs7.png" width="250"></p>
+<section id="workspace-trust" class="level4">
+<h4 class="anchored" data-anchor-id="workspace-trust">Workspace Trust</h4>
+<p>When opening a folder for the first time, we want to make sure that it is a trusted workspace. The Workspace Trust feature in VS Code allows to indicate which folders and their contents should be trusted to be executed.</p>
+<p>If this is a folder that you have created or it is from a trusted source, then select “Yes, I trust the authors.” If you selected untrusted mode, the files will be open in Restricted Mode, which allows to browse the files but it does not allow to execute code.</p>
+<p><img src="images/vs26.png" width="500"></p>
 </section>
-<section id="markdown-language" class="level3">
-<h3 class="anchored" data-anchor-id="markdown-language">1.2.4 Markdown Language</h3>
-<p>The following cell shows examples of Markdown language code, and the cell afterward displays the output of the cell. Note that unlike the code cells that have line numbers on the left, the markdown cells don’t have line numbers.</p>
-<pre><code>### Example Heading: This is Level 3 Heading
-This is some plain text that forms a paragraph.
-Add emphasis via **bold** and __bold__, *italic* and _italic_, or ***bold and italic*** and ___bold and italic___.
-Paragraphs must be separated by an empty line.
-
-- Sometimes we want to include lists.
-    - Which can be indented.      
-
-[It is possible to include hyperlinks](https://www.example.com).
-
-1. Lists can also be numbered.
-2. For ordered lists.
-
-We can add inline equations using LaTeX code, e.g., $c = \sqrt{a^2 + b^2}$,
-and equations in a new line: $$c = \sqrt{a^2 + b^2}$$
-
-Inline code uses single backticks: `foo()`, and code blocks use triple backticks or they can be indented by 4 spaces:
-
-    foo()
-    
-And finally, adding images is easy: ![Image title text](images/house.png)</code></pre>
-<h3 class="anchored">
-Example Heading: This is Level 3 Heading
-</h3>
-<p>This is some plain text that forms a paragraph. Add emphasis via <strong>bold</strong> and <strong>bold</strong>, <em>italic</em> and <em>italic</em>, or <strong><em>bold and italic</em></strong> and <strong><em>bold and italic</em></strong>. Paragraphs must be separated by an empty line.</p>
-<ul>
-<li>Sometimes we want to include lists.
-<ul>
-<li>Which can be indented.</li>
-</ul></li>
-</ul>
-<p><a href="https://www.example.com">It is possible to include hyperlinks</a>.</p>
-<ol type="1">
-<li>Lists can also be numbered.</li>
-<li>For ordered lists.</li>
+<section id="create-a-jupyter-notebook-file" class="level4">
+<h4 class="anchored" data-anchor-id="create-a-jupyter-notebook-file">Create a Jupyter Notebook File</h4>
+<p>There are two ways to create a new Jupyter Notebook file inside a folder.</p>
+<ol type="a">
+<li><p>Click <code>File</code> in the top Menu Bar and then select <code>New File</code>, afterward choose the <code>Jupyter Notebook</code> option.</p></li>
+<li><p>Right-click in the blank area under your folder’s name on the left side of the window, select <code>New File</code>, and type the file name with the <code>.ipynb</code> extension.</p></li>
 </ol>
-<p>We can add inline equations using LaTeX code, e.g., <span class="math inline">\(c = \sqrt{a^2 + b^2}\)</span>, and equations in a new line: <span class="math display">\[c = \sqrt{a^2 + b^2}\]</span></p>
-<p>Inline code uses single backticks: <code>foo()</code>, and code blocks use triple backticks or they can be indented by 4 spaces:</p>
-<pre><code>foo()</code></pre>
-<p>And finally, adding images is easy: <img src="images/house.png" class="img-fluid" alt="Image title text"></p>
-<p><a id="1.3-summary"></a></p>
+<p><img src="images/vs9.png" width="200"></p>
+</section>
+<section id="setting-up-the-python-kernel" class="level4">
+<h4 class="anchored" data-anchor-id="setting-up-the-python-kernel">Setting Up the Python Kernel</h4>
+<p>To work with Python in Jupyter notebook files, the first time we run a Jupyter notebook file, we need to manually select the Python kernel. If you have installed Anaconda on your computer, you can select the Python kernel from Anaconda for running Jupyter Notebooks. Alternatively, if you didn’t install Anaconda, you will need to select the Python environment in which you have installed the Jupyter package.</p>
+<p>In the upper right corner of the screen, click <code>Select Kernel</code> to select the Python interpreter. Also, you can open the Command Palette, and type <code>Python: Select Interpreter</code>. The Python installation and environment from Anaconda should be listed (shown as “Python 3.9.13 (base)” in the figure below) and we can select it for working with Jupyter notebooks.</p>
+<p><img src="images/vs11.png" width="600"></p>
+<p><img src="images/vs5.png" width="450"></p>
+<p><img src="images/vs6.png" width="450"></p>
+<p><a id="2.2.5-running-cells"></a></p>
 </section>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">1.3 Summary</h2>
-<p>In conclusion, Jupyter Notebooks are very useful for learning Python and testing your codes, as well as for sharing Python codes because others can directly see the outputs of the codes, which may include numerical results, graphs, tables, and other visualizations. The notebooks also display any error messages and other important information in the code. For instance, when training neural networks it can sometimes take hours for executing the code. Being able to see all the results and outputs from the models without the need to run the codes is extremely helpful and simplifies collaboration with others.</p>
-<p>The following are tips for best practices when working with Jupyter Notebooks:</p>
+<section id="running-cells" class="level3">
+<h3 class="anchored" data-anchor-id="running-cells">2.2.5 Running Cells</h3>
+<p>To run a single cell in Jupyter notebooks, use the <code>Run Cell</code> icon to the left of the cell (shown below).</p>
+<p><img src="images/vs27.png" width="750"></p>
+<p>To run multiple cells, we can use the double arrow in the top toolbar <code>Run All</code> to run all cells in the Jupyter notebook.</p>
+<p><img src="images/vs28.png" width="750"></p>
+<p>Also, multiple cells can be run by selecting the floating menu on the right side in the current cell shown below, which contains the following icons, from left to right:</p>
 <ul>
-<li>Don’t forget to name your notebooks, and don’t have several notebooks <code>Untitled</code>, <code>Untitled (1)</code>, etc. in each folder.</li>
-<li>Provide comments to your code to improve the code readability, and help others understand your code.</li>
-<li>Arrange your code into cells, using logical grouping of the code lines.</li>
-<li>Keep the cells simple, and don’t put too many functions into one cell.<br>
-</li>
-<li>Try to import all packages in the first code cell of the notebook.</li>
-<li>Display the graphs and plots inline, so that they are visible to others.</li>
+<li><code>Run by Line</code>, which runs the code in a cell line by line.</li>
+<li><code>Execute Above Cells</code>, which runs all the cells above the current cell.</li>
+<li><code>Execute Cell and Below Cells</code>, which runs the current and all the below cells.</li>
 </ul>
+<p><img src="images/vs29.png" width="650"></p>
+<section id="add-and-move-cells" class="level4">
+<h4 class="anchored" data-anchor-id="add-and-move-cells">Add and Move Cells</h4>
+<p>To add a new cell below the currently selected cell, use the plus icon in the top toolbar and select whether to add a Code cell or Markdown cell.</p>
+<p><img src="images/vs30.png" width="650"></p>
+<p>To render Markdown cells, select the check mark in the cell toolbar, as shown below.</p>
+<p><img src="images/vs31.png" width="650"></p>
+<p>To move cells, click and hold the blue bar in front of the cell, then move to any place you prefer.</p>
+<p><img src="images/vs16.png" width="350"></p>
+</section>
+<section id="variable-explorer-and-data-viewer" class="level4">
+<h4 class="anchored" data-anchor-id="variable-explorer-and-data-viewer">Variable Explorer and Data Viewer</h4>
+<p>The tab <code>Variables</code> enables to view, inspect, sort, and filter the variables and data within your current Jupyter notebook. It provides a visual interface for investigating the present state of variables and their values.</p>
+<p><img src="images/vs13.png" width="550"></p>
+</section>
+<section id="debug-features" class="level4">
+<h4 class="anchored" data-anchor-id="debug-features">Debug Features</h4>
+<p>To debug code in Jupyter notebooks, click the arrow next to the Run Cell button and select <code>Debug Cell</code>. This will allow to debug the code like you normally do in Python, allowing to run code by line, set breakpoints, etc.</p>
+<p><img src="images/vs18.png" width="550"></p>
+<p><a id="2.2.6-intellisense-support-in-jupyter-notebooks"></a></p>
+</section>
+</section>
+<section id="intellisense-support-in-jupyter-notebooks" class="level3">
+<h3 class="anchored" data-anchor-id="intellisense-support-in-jupyter-notebooks">2.2.6 IntelliSense Support in Jupyter Notebooks</h3>
+<p>IntelliSense is a general term for code editing features related to code completion and intelligent code assistance. The built-in IntelliSense features in VS Code provide a set of tools that enhance the Python development experience in Jupyter notebooks by making coding faster, more accurate, and more intuitive.</p>
+<p>The functions provided by the built-in IntelliSense features in VS Code include: - Code completion and auto-suggestions: It predicts and auto-generates code as you type, reducing the need for manual input and the chances of typos and syntax errors. It offers context-aware recommendations for variable names, function names, and module imports. The feature also includes pre-defined code templates for common programming patterns such as for loops and function definitions. - Parameter information and error detection: When you call a function or method, IntelliSense displays information about the function’s parameters, including their names, data types, default values, and descriptions. This makes it simpler to provide the correct arguments when calling functions. Additionally, IntelliSense provides real-time error highlighting for syntax errors, undefined variables, and type mismatches, allowing for immediate correction as you type. - Additional features: IntelliSense also provides hover information for quick access to documentation and type hints, navigation support to access function definitions, and enhanced support for popular Data Science libraries like NumPy, pandas, and matplotlib.</p>
+<p><img src="images/vs12.png" width="450"></p>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Jupyter Notebooks in VS Code, available at: <a href="https://code.visualstudio.com/docs/datascience/jupyter-notebooks">https://code.visualstudio.com/docs/datascience/jupyter-notebooks</a>.</li>
+<li>RIP Tutorial for Visual Studio Code - User Interface, available at: <a href="https://riptutorial.com/visual-studio-code/learn/100006/user-interface">https://riptutorial.com/visual-studio-code/learn/100006/user-interface</a>.</li>
+<li>SQLShackSkip, Getting started with Visual Studio Code (VS Code), by Rajendra Gupta, available at: <a href="https://www.sqlshack.com/getting-started-with-visual-studio-code-vs-code/">https://www.sqlshack.com/getting-started-with-visual-studio-code-vs-code/</a></li>
+</ol>
 <p><a href="#top">BACK TO TOP</a></p>
 
 
@@ -1138,13 +1145,13 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="pagination-link" aria-label="Lecture 4 - OOP, Modules, Packages">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 4 - OOP, Modules, Packages</span>
+      <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="pagination-link" aria-label="Tutorial 1 - Jupyter Notebooks">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial 1 - Jupyter Notebooks</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="pagination-link" aria-label="Tutorial 2 - Python IDEs, VS Code">
-        <span class="nav-page-text">Tutorial 2 - Python IDEs, VS Code</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="pagination-link" aria-label="Tutorial 3 - Terminal and Command Line">
+        <span class="nav-page-text">Tutorial 3 - Terminal and Command Line</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tutorial 1 - Working with Jupyter Notebooks – Applied Data Science with Python</title>
+<title>Tutorial 4 - Virtual Environments – Applied Data Science with Python</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -35,8 +35,8 @@ ul.task-list li input[type="checkbox"] {
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" rel="next">
-<link href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" rel="prev">
+<link href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" rel="next">
+<link href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" rel="prev">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
@@ -79,35 +79,6 @@ ul.task-list li input[type="checkbox"] {
   }
 }</script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
-
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -283,7 +254,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html">Tutorial 4 - Virtual Environments</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -411,7 +382,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
   </div>
 </li>
@@ -429,7 +400,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Tutorial 4 - Virtual Environments</span></a>
   </div>
 </li>
@@ -451,19 +422,21 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-jupyter-notebooks" id="toc-introduction-to-jupyter-notebooks" class="nav-link active" data-scroll-target="#introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+  <li><a href="#python-venv-module" id="toc-python-venv-module" class="nav-link active" data-scroll-target="#python-venv-module">4.1 Python <code>venv</code> Module</a>
   <ul class="collapse">
-  <li><a href="#creating-a-new-notebook" id="toc-creating-a-new-notebook" class="nav-link" data-scroll-target="#creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-  <li><a href="#cells-in-jupyter-notebooks" id="toc-cells-in-jupyter-notebooks" class="nav-link" data-scroll-target="#cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+  <li><a href="#creating-a-virtual-environment-with-venv" id="toc-creating-a-virtual-environment-with-venv" class="nav-link" data-scroll-target="#creating-a-virtual-environment-with-venv">4.1.1 Creating a Virtual Environment with <code>venv</code></a></li>
+  <li><a href="#activating-a-virtual-environment" id="toc-activating-a-virtual-environment" class="nav-link" data-scroll-target="#activating-a-virtual-environment">4.1.2 Activating a Virtual Environment</a></li>
+  <li><a href="#installing-and-managing-packages" id="toc-installing-and-managing-packages" class="nav-link" data-scroll-target="#installing-and-managing-packages">4.1.3 Installing and Managing Packages</a></li>
+  <li><a href="#delete-a-virtual-environment" id="toc-delete-a-virtual-environment" class="nav-link" data-scroll-target="#delete-a-virtual-environment">4.1.4 Delete a Virtual Environment</a></li>
   </ul></li>
-  <li><a href="#jupyter-lab-user-interface" id="toc-jupyter-lab-user-interface" class="nav-link" data-scroll-target="#jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+  <li><a href="#conda-environment" id="toc-conda-environment" class="nav-link" data-scroll-target="#conda-environment">4.2 Conda Environment</a>
   <ul class="collapse">
-  <li><a href="#drop-down-menus" id="toc-drop-down-menus" class="nav-link" data-scroll-target="#drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-  <li><a href="#left-sidebar-in-jupyter-lab" id="toc-left-sidebar-in-jupyter-lab" class="nav-link" data-scroll-target="#left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-  <li><a href="#cell-types" id="toc-cell-types" class="nav-link" data-scroll-target="#cell-types">1.2.3 Cell Types</a></li>
-  <li><a href="#markdown-language" id="toc-markdown-language" class="nav-link" data-scroll-target="#markdown-language">1.2.4 Markdown Language</a></li>
+  <li><a href="#creating-a-conda-environment" id="toc-creating-a-conda-environment" class="nav-link" data-scroll-target="#creating-a-conda-environment">4.2.1 Creating a Conda Environment</a></li>
+  <li><a href="#activating-a-conda-environment" id="toc-activating-a-conda-environment" class="nav-link" data-scroll-target="#activating-a-conda-environment">4.2.2 Activating a Conda Environment</a></li>
+  <li><a href="#manage-packages-in-a-conda-env" id="toc-manage-packages-in-a-conda-env" class="nav-link" data-scroll-target="#manage-packages-in-a-conda-env">4.2.3 Manage Packages in a Conda Env</a></li>
+  <li><a href="#delete-a-conda-environment" id="toc-delete-a-conda-environment" class="nav-link" data-scroll-target="#delete-a-conda-environment">4.2.4 Delete a Conda Environment</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">1.3 Summary</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -471,9 +444,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html">Tutorial 4 - Virtual Environments</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Tutorial 1 - Working with Jupyter Notebooks</h1>
+<h1 class="title">Tutorial 4 - Virtual Environments</h1>
 </div>
 
 
@@ -490,183 +463,177 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
 <p><a id="top"></a></p>
 <ul>
-<li><a href="#1.1-introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+<li><a href="#4.1-python-venv-module">4.1 Python venv Module</a>
 <ul>
-<li><a href="#1.1.1-creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-<li><a href="#1.1.2-cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+<li><a href="#4.1.1-creating-a-virtual-environment-with-venv">4.1.1 Creating a Virtual Environment with venv</a></li>
+<li><a href="#4.1.2-activating-a-virtual-environment">4.1.2 Activating a Virtual Environment</a></li>
+<li><a href="#4.1.3-installing-and-managing-packages">4.1.3 Installing and Managing Packages</a></li>
+<li><a href="#4.1.4-delete-a-virtual-environment">4.1.4 Delete a Virtual Environment</a></li>
 </ul></li>
-<li><a href="#1.2-jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+<li><a href="#4.2-conda-environment">4.2 Conda Environment</a>
 <ul>
-<li><a href="#1.2.1-drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-<li><a href="#1.2.2-left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-<li><a href="#1.2.3-cell-types">1.2.3 Cell Types</a></li>
-<li><a href="#1.2.4-markdown-language">1.2.4 Markdown Language</a></li>
+<li><a href="#4.2.1-creating-a-conda-environment">4.2.1 Creating a Conda Environment</a></li>
+<li><a href="#4.2.2-activating-a-conda-environment">4.2.2 Activating a Conda Environment</a></li>
+<li><a href="#4.2.3-manage-packages-in-a-conda-env">4.2.3 Manage Packages in a Conda Env</a></li>
+<li><a href="#4.2.4-delete-a-conda-environment">4.2.4 Delete a Conda Environment</a></li>
 </ul></li>
-<li><a href="#1.3-summary">1.3 Summary</a></li>
+<li><a href="#references">References</a></li>
 </ul>
-<p><a id="1.1-introduction-to-jupyter-notebooks"></a></p>
-<section id="introduction-to-jupyter-notebooks" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</h2>
-<p>Jupyter Notebook is an open-source web-based interactive computational environment, designed for sharing documents that contain code, text, equations, and visualizations. It is part of <a href="https://jupyter.org/">Project Jupyter</a>, which also includes Jupyter Lab - an updated version of Jupyter Notebook with enhanced capabilities.</p>
-<blockquote class="blockquote">
-<p><strong>Jupyter notebooks</strong> are documents that contain both code and text elements, such as equations, visualizations (i.e., figures and graphs), links, and similar related elements.</p>
-</blockquote>
-<p>The name Jupyter does not really relate to the largest planet in the Solar system (spelled Jupiter), but instead, it is a coined word from the three core programming languages supported by Jupyter notebooks: Julia, Python, and R.</p>
-<p>Jupyter Notebook was built upon an older IDE for Python called IPython.</p>
-<p>The recommended user interface for this course is Jupyter Lab, since it offers advanced functionalities in comparison to Jupyter Notebook, such as access to a terminal, interactive widgets for exploring data, it allows multiple views into the same document, quick switching between opened files, etc.</p>
-<p>Both Jupyter Lab and Jupyter Notebook are part of the Anaconda distribution, therefore if you have installed Anaconda on your computer, they will also be installed. And if you don’t have Anaconda installed, you can install Jupyter Lab and Jupyter Notebook separately as any other package, e.g., <code>pip install jupyterlab</code>.</p>
-<p>The Jupyter Lab environment can be started by running the command <code>jupyter lab</code> in the Command Prompt on Windows systems, or in a shell or terminal window on computers with other operating systems.</p>
-<p><img src="images/img1.png" width="500"></p>
-<p>Jupyter will open in your default browser, or in a new tab if the browser has other open tabs, at the following URL: http://localhost:8889/lab. Localhost is not a website, it only indicates that the content is being served from your local machine. Therefore, Jupyter can be run on a computer without Internet access, or it can be run on a remote server accessed through the Internet.</p>
-<p>The Jupyter Lab environment on my computer looks like in the figure below. The start-up directory for the Jupyter Dashboard can be changed to a preferred directory.</p>
-<p><img src="images/img2.png" width="1000"></p>
-<p>It is also possible to open Jupyter Lab from the Anaconda Prompt, by typing <code>jupyter-lab</code> in the command line.</p>
-<p><img src="images/img3.png" width="500"></p>
-<p>And probably the most convenient way is to create a shortcut to Jupyter Lab on your desktop for direct access.</p>
-<p><a id="1.1.1-creating-a-new-notebook"></a></p>
-<section id="creating-a-new-notebook" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-new-notebook">1.1.1 Creating a New Notebook</h3>
-<p>Now, let’s create a new notebook. One way to do that is to click on the <code>File</code> tab in the top menu, then select the <code>New</code> button, and in the drop-down menu choose <code>Notebook</code>. Note that the <code>New</code> button also have options to open a new console or terminal (which allows to run shell commands directly in your browser, instead of the Windows Command Prompt), or create a new text file, markdown file, or Python file.</p>
-<p><img src="images/img4.png" width="600"></p>
-<p>In the newly opened window you will be prompted to select the kernel for the notebook. We can select the default Python 3 kernel. The next section explains more about the kernels in notebooks.</p>
-<p><img src="images/img5.png" width="500"></p>
-<p>Or, an even simpler way for creating a new notebook, is to directly click on <code>Notebook Python 3 (ipykernel)</code> icon on the Jupyter Dashboard.</p>
-<p><img src="images/img6.png" width="600"></p>
-<p>The newly created notebook will look like this.</p>
-<p><img src="images/img7.png" width="700"></p>
-<p>The default assigned title to new notebooks is <code>Untitled</code>. You can see the title at the top of the page.</p>
-<p>To change the title into a more descriptive one, right-click on the word <code>Untitled</code>, in the drop-down menu select <code>Rename Notebook..</code>, and enter the name <code>Hello_world</code>, for example.</p>
-<p><img src="images/img8.png" width="600"></p>
-<p>The new title of the Notebook should now show at the top of the page. Also, in the left-side panel you will see the new notebook <code>Hello_world.ipynb</code> listed in the current working directory.</p>
-<p>The extension for Jupyter Notebook documents is <code>.ipynb</code>, which is an acronym for IPython Notebook.</p>
-<p><a id="1.1.2-cells-in-jupyter-notebooks"></a></p>
-</section>
-<section id="cells-in-jupyter-notebooks" class="level3">
-<h3 class="anchored" data-anchor-id="cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</h3>
-<p>Jupyter Notebooks organize codes in cells. Our newly created notebook has one empty cell in it.</p>
-<p>The cells use the Python 3 kernel that we chose when we created the notebook. The used kernel for Python code execution in Jupyter Notebooks is also called IPython kernel. The kernel allows to execute Python code in the cell.</p>
-<blockquote class="blockquote">
-<p>A <strong>cell</strong> is a container for code that is to be executed by the notebook’s kernel, or text that is to be displayed in the notebook.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A <strong>kernel</strong> is a program that executes the code in a cell. Jupyter Notebook has a kernel for Python code, but also there are other kernels available for other programming languages.</p>
-</blockquote>
-<p>Let’s give it a try and write <code>print('Hello world!')</code> in the cell. To execute the cell, we can either click on the <code>Run button</code> in the toolbar on the top of the screen, or we can press the <code>Shift</code> and <code>Enter</code> keys on the keyboard.</p>
-<p><img src="images/img9.png" width="450"></p>
-<p>When you run a code cell, the kernel executes the code and the output of the code is returned back to the cell to be displayed.</p>
-<p>Notice that each cell has a number, enclosed in square brackets <code>[1]</code> to the left of the cell. If we write another statement in the next cell, the order of the cell will be automatically changed to <code>[2]</code>. But also, if we run the first cell multiple times, each time the cell is executed the cell number will increase. This way, in a program with many cells, we can tell the order in which the cells were executed.</p>
-<p>Using multiple cells in a module allows to separate the code into logical groups for improved code readability.</p>
-<p>Furthermore, the variables and imported packages are shared across cells. For instance, if we define a variable <code>X</code> in cell 2, we can invoke the same variable in cell 3. Therefore, importing libraries or defining functions needs to be done only once in a notebook, and they are afterward shared by all cells in the notebook.</p>
-<p><img src="images/img10.png" width="450"></p>
-<p><a id="1.2-jupyter-lab-user-interface"></a></p>
-</section>
-</section>
-<section id="jupyter-lab-user-interface" class="level2">
-<h2 class="anchored" data-anchor-id="jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</h2>
-<p><a id="1.2.1-drop-down-menus"></a></p>
-<section id="drop-down-menus" class="level3">
-<h3 class="anchored" data-anchor-id="drop-down-menus">1.2.1 Drop-Down Menus</h3>
-<p>Jupyter Notebooks have the following drop-down menus on the top of the screen:</p>
+<p>A <strong>virtual environment</strong> is a tool that helps to keep dependencies required by different projects separate by creating isolated containers for each project. Within each environment, the Python interpreter, libraries, and scripts are independent and isolated from the libraries and packages that are installed in the main Python installation.</p>
+<p>Therefore, when we create and activate a virtual environment for a specific project, the project runs as an independent application with its own Python interpreter and its own <code>pip</code> for installing packages. This prevents conflicts between projects and protects the global Python installation from accidental changes.</p>
+<p>Using separate environments ensures that updates to a library in one project do not affect others, making it easier to reproduce results and collaborate on large projects. For example, one project can use TensorFlow 1.12 while another uses TensorFlow 2.5, without compatibility issues. This way, we won’t worry whether an update to the TensorFlow library in the main system-installed Python would impact the code in all our projects.</p>
+<p>There are several tools for managing virtual environments, including Python’s built-in <code>venv</code> module which has been available since Python 3.3, and also Anaconda offers a similar feature through its conda environments. Both allow to maintain separate package versions for different projects. Whenever you start a new project, you can simply create a new virtual environment to keep its dependencies isolated.</p>
+<p><a id="4.1-python-venv-module"></a></p>
+<section id="python-venv-module" class="level2">
+<h2 class="anchored" data-anchor-id="python-venv-module">4.1 Python <code>venv</code> Module</h2>
+<p>The module <code>venv</code> is typically included in the standard Python library, and does not require to be installed.</p>
+<p>If for some reason it is not available on Linux systems, you will need to install the python3-venv package using the following command :</p>
+<p><code>sudo apt install python3-venv</code> (Ubuntu/Debian-based system)</p>
 <ul>
-<li><strong>File</strong>: allows to create a new notebook, open existing notebooks, or save, download, and close notebooks.</li>
-<li><strong>Edit</strong>: have cut, copy, and paste cells buttons, and also allows to delete, split, merge, or reorder the cells in a notebook.</li>
-<li><strong>View</strong>: offers commands for toggling the visibility of the header, toolbar, and line numbers.</li>
-<li><strong>Run</strong>: have various commands for running cells above or below a cell.</li>
-<li><strong>Kernel</strong>: is for working with the selected kernel, allowing to restart the kernel, reconnect to the kernel, shut it down, or change the kernel.</li>
-<li><strong>Tabs</strong>: provides a tabbed interface to manage and navigate open documents and interfaces.</li>
-<li><strong>Settings</strong>: has access to configuration options and preferences for customizing Jupyter Lab.</li>
-<li><strong>Help</strong>: to get help about Jupyter Notebooks, learn about keyboard shortcuts, or access links to reference materials.</li>
+<li>The full official documentation for <code>venv</code> can be found <a href="https://docs.python.org/3/library/venv.html">here</a></li>
+<li>The full official user guide for <code>venv</code> can be found <a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/#creating-a-virtual-environment">here</a></li>
+<li>The PEP proposal for <code>venv</code> can be found <a href="https://peps.python.org/pep-0405/">here</a></li>
 </ul>
-<p>Beside the top menus, several functions that are the most commonly used can be invoked from the top toolbar. If you hover the mouse over the icons, a brief description will show up. The icons include: save, insert a new cell, cut, copy, and paste selected cells, run cells, interrupt the kernel, restart the kernel, select the cell type, and render with panel.</p>
-<p><img src="images/img11.png" width="500"></p>
-<p><a id="1.2.2-left-sidebar-in-jupyter-lab"></a></p>
+<p>If you are looking for practical examples, it is recommended to consult the user guide. However, if you are looking for more information about specific details of <code>venv</code>, consulting the full documentation is recommended.</p>
+<p><a id="4.1.1-creating-a-virtual-environment-with-venv"></a></p>
+<section id="creating-a-virtual-environment-with-venv" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-virtual-environment-with-venv">4.1.1 Creating a Virtual Environment with <code>venv</code></h3>
+<p>To create a virtual environment called <code>test_env</code>, run the following command:</p>
+<p><code>python3 -m venv test_env</code> (in Unix/MacOS)</p>
+<p><code>python -m venv test_env</code> (in Windows)</p>
+<p><img src="images/venv_cmd.png" width="350"></p>
+<p>The above code creates a folder <code>test_env</code> with sub-folders <code>Scripts</code>, <code>Lib</code>, <code>Include</code>, and creates a copy of the current Python executable <code>python.exe</code> inside <code>Scipts</code>. It also creates a sub-folder <code>site-packages</code> inside <code>Lib</code> where the packages installed inside the virtual environment will be stored, keeping them isolated from the main Anaconda installation.</p>
+<p><img src="images/test_env.png" width="400"></p>
+<p>If we want to create a virtual environment in a different directory, we can specify the <code>path_to_new_virtual_environment</code>:</p>
+<p><code>python3 -m venv path_to_new_virtual_environment/test_env</code> (in Unix/MacOS)</p>
+<p><code>python -m venv path_to_new_virtual_environment\test_env</code> (in Windows)</p>
+<p><a id="4.1.2-activating-a-virtual-environment"></a></p>
 </section>
-<section id="left-sidebar-in-jupyter-lab" class="level3">
-<h3 class="anchored" data-anchor-id="left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</h3>
-<p>The <strong>left side-bar</strong> or the left-side panel in Jupyter Lab contains several tabs, including:</p>
-<ul>
-<li><strong>File browser</strong>: shows the content of the current working directory.</li>
-<li><strong>Running terminals and kernels</strong>: lists the terminals and notebooks that are currently running (shown below). It allows to shut down notebooks and release computational resources.<br>
-</li>
-<li><strong>Table of contents</strong>: allows to navigate the structure of the notebook.</li>
-<li><strong>Extension manager</strong>: for managing third party-extensions.</li>
-</ul>
-<p><img src="images/img13.png" width="400"></p>
-<p>Note that even if we close the tab of a notebook, the kernel will continue to run in the background, and it needs to be shut down to be fully “closed”.</p>
-<p>Otherwise, Jupyter Notebooks are auto-saved pretty frequently (every 120 seconds), and it is rare to lose data.When the notebook is saved, aA checkpoint file is created in a subdirectory of the working directory named<code>.ipynb_checkpoint</code>s. The checkpoint file enables to recoveranyr unsaved work in the event of an unexpected issue.</p>
-<p><a id="1.2.3-cell-types"></a></p>
+<section id="activating-a-virtual-environment" class="level3">
+<h3 class="anchored" data-anchor-id="activating-a-virtual-environment">4.1.2 Activating a Virtual Environment</h3>
+<p>Before we can start installing packages in the virtual environment, we must activate it. Doing so will put the virtual environment-specific Python and pip executables in your shell’s <code>PATH</code>.</p>
+<p>To activate a virtual environment <code>test_env</code>, run the following command:</p>
+<p><code>source test_env/bin/activate</code> (in Unix/MacOS)</p>
+<p><code>test_env\Scripts\activate</code> (in Windows)</p>
+<p>Notice that the environment name <code>(test_env)</code> is listed now before the directory path, with the name enclosed in parentheses.</p>
+<p><img src="images/activate_env.png" width="350"></p>
+<p>To confirm that the virtual environment has been activated you can check the location of your Python interpreter:</p>
+<p><code>which python</code> or <code>whereis python</code> (in Unix/MacOS)</p>
+<p><code>where python</code> (in Windows)</p>
+<p>As long as the environment is active, you’ll be able to import packages installed in the environment.</p>
+<p>To leave the environment run:</p>
+<p><code>deactivate</code></p>
+<p><img src="images/deactivate_env.png" width="350"></p>
+<p><a id="4.1.3-installing-and-managing-packages"></a></p>
 </section>
-<section id="cell-types" class="level3">
-<h3 class="anchored" data-anchor-id="cell-types">1.2.3 Cell Types</h3>
-<p>There are three cell types in Jupyter Notebooks: Code, Markdown, and Raw.</p>
-<p>The default one is <strong>Code</strong>, which we use for running codes.</p>
-<p><strong>Markdown</strong> cells are used for Markdown, which is a markup language that is a superset of HTML. In fact, I created this file using Markdown language cells. If you click within the cells of this file, you can see the original markdown text. Markdown is a simple language, that adds formatting elements to plain text. For example, headings are created by adding the <code>#</code> mark (as in <code># Lecture 1</code>), for <strong>bold font</strong> use two asterisks, for <em>italic font</em> use a single asterisk, etc. Still, Markdown accepts standard HTML language, which can add complexity when needed. See several examples in the next section, and to learn more about the syntax of Markdown language please visit follow this <a href="https://www.markdownguide.org/basic-syntax/">link</a>.</p>
-<p><strong>Raw</strong> cell type are not executed or rendered. They are mainly useful when exporting with nbconvert, since their content is passed through unchanged. These cells are only intended for special use cases.</p>
-<p><img src="images/img12.png" width="500"></p>
-<p><a id="1.2.4-markdown-language"></a></p>
+<section id="installing-and-managing-packages" class="level3">
+<h3 class="anchored" data-anchor-id="installing-and-managing-packages">4.1.3 Installing and Managing Packages</h3>
+<p>To install packages, first make sure that the environment is active. Installing packages is done simply with with <code>pip</code>, as you would normally install packages. For example, to install <code>requests</code> (a popular library for making HTTP requests):</p>
+<p><code>python3 -m pip install requests</code> (in Unix/MacOS)</p>
+<p><code>pip install requests</code> (in Windows)</p>
+<p>To check the list of all packages installed in the newly created virtual environment, use:</p>
+<p><code>pip list</code></p>
+<p>To check the Python version in the newly created virtual environment, use:</p>
+<p><code>python --version</code></p>
+<p>Similarly, we can generate a text file listing all installed libraries in a virtual environment with:</p>
+<p><code>pip freeze &gt; requirements.txt</code></p>
+<p>This can be convenient, because if other users would like to replicate your virtual environment, instead of installing all libraries one by one, they can just run:</p>
+<p><code>pip install -r requirements.txt</code></p>
+<p><a id="4.1.4-delete-a-virtual-environment"></a></p>
 </section>
-<section id="markdown-language" class="level3">
-<h3 class="anchored" data-anchor-id="markdown-language">1.2.4 Markdown Language</h3>
-<p>The following cell shows examples of Markdown language code, and the cell afterward displays the output of the cell. Note that unlike the code cells that have line numbers on the left, the markdown cells don’t have line numbers.</p>
-<pre><code>### Example Heading: This is Level 3 Heading
-This is some plain text that forms a paragraph.
-Add emphasis via **bold** and __bold__, *italic* and _italic_, or ***bold and italic*** and ___bold and italic___.
-Paragraphs must be separated by an empty line.
-
-- Sometimes we want to include lists.
-    - Which can be indented.      
-
-[It is possible to include hyperlinks](https://www.example.com).
-
-1. Lists can also be numbered.
-2. For ordered lists.
-
-We can add inline equations using LaTeX code, e.g., $c = \sqrt{a^2 + b^2}$,
-and equations in a new line: $$c = \sqrt{a^2 + b^2}$$
-
-Inline code uses single backticks: `foo()`, and code blocks use triple backticks or they can be indented by 4 spaces:
-
-    foo()
-    
-And finally, adding images is easy: ![Image title text](images/house.png)</code></pre>
-<h3 class="anchored">
-Example Heading: This is Level 3 Heading
-</h3>
-<p>This is some plain text that forms a paragraph. Add emphasis via <strong>bold</strong> and <strong>bold</strong>, <em>italic</em> and <em>italic</em>, or <strong><em>bold and italic</em></strong> and <strong><em>bold and italic</em></strong>. Paragraphs must be separated by an empty line.</p>
-<ul>
-<li>Sometimes we want to include lists.
-<ul>
-<li>Which can be indented.</li>
-</ul></li>
-</ul>
-<p><a href="https://www.example.com">It is possible to include hyperlinks</a>.</p>
+<section id="delete-a-virtual-environment" class="level3">
+<h3 class="anchored" data-anchor-id="delete-a-virtual-environment">4.1.4 Delete a Virtual Environment</h3>
+<p>To delete a virtual environment, if the environment is currently active, first deactivate it with <code>deactivate</code>.</p>
+<p>Then, to completely remove a virtual environment, just delete the folder <code>test_env</code> either manually, or with:</p>
+<p><code>rm -rf test_env</code> (in Unix/MacOS)</p>
+<p><code>rmdir /s /q test_env</code> (in Windows)</p>
+<p><a id="4.2-conda-environment"></a></p>
+</section>
+</section>
+<section id="conda-environment" class="level2">
+<h2 class="anchored" data-anchor-id="conda-environment">4.2 Conda Environment</h2>
+<p><code>Conda Env</code> is a self-contained and isolated workspace within the Conda package management system, similar to <code>venv</code>. It allows to create and manage specific environments for different projects or applications, each with its own set of packages and dependencies.</p>
+<p>The full official documentation for <code>Conda Env</code> can be found <a href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html#creating-an-environment-with-commands">here</a>.</p>
+<p><code>Conda Env</code> is pre-installed with Anaconda.</p>
+<p><a id="4.2.1-creating-a-conda-environment"></a></p>
+<section id="creating-a-conda-environment" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-conda-environment">4.2.1 Creating a Conda Environment</h3>
 <ol type="1">
-<li>Lists can also be numbered.</li>
-<li>For ordered lists.</li>
+<li>Open the terminal or an Anaconda Prompt. Note that the default environment in Anaconda is <code>(base)</code> environment. This environment is where <code>conda</code> itself is installed.</li>
+<li>To create a new environment, use: <code>conda create --name myenv</code>, where <code>myenv</code> is the name of the environment.</li>
+<li>Press <code>y</code> to proceed.</li>
 </ol>
-<p>We can add inline equations using LaTeX code, e.g., <span class="math inline">\(c = \sqrt{a^2 + b^2}\)</span>, and equations in a new line: <span class="math display">\[c = \sqrt{a^2 + b^2}\]</span></p>
-<p>Inline code uses single backticks: <code>foo()</code>, and code blocks use triple backticks or they can be indented by 4 spaces:</p>
-<pre><code>foo()</code></pre>
-<p>And finally, adding images is easy: <img src="images/house.png" class="img-fluid" alt="Image title text"></p>
-<p><a id="1.3-summary"></a></p>
+<p><img src="images/conda_env.png" width="450"></p>
+<p>The above will create a new directory <code>myenv</code> in <code>anaconda3\envs</code>, however without Python interpreter and without any packages.</p>
+<p>If we specify the Python version when creating a new environment, this will add <code>python</code>, <code>pip</code>, and several other packages.</p>
+<p><code>conda create --name myenv python=3.13</code></p>
+<p>Alternatively, we can first create an environment, and install Python and other packages afterwards.</p>
+<p>Or, we can also duplicate the <code>base</code> environment if we wish to, so that the new environment has all installed packages from the <code>base</code> environment, using:</p>
+<p><code>conda create --name myenv --clone base</code></p>
+<p>Afterward, the two environments are independent, and installing a new package in <code>myenv</code> will not affect the <code>base</code> environment.</p>
+<p><a id="4.2.2-activating-a-conda-environment"></a></p>
 </section>
+<section id="activating-a-conda-environment" class="level3">
+<h3 class="anchored" data-anchor-id="activating-a-conda-environment">4.2.2 Activating a Conda Environment</h3>
+<p>To activate a <code>Conda Env</code>, type:</p>
+<p><code>conda activate myenv</code></p>
+<p>Activating a conda environment modifies the path to point to the specific isolated container we created. The command prompt will change to indicate which conda environment we currently are in by prepending <code>(myenv)</code>.</p>
+<p>To list all installed conda environments, type:</p>
+<p><code>conda env list</code></p>
+<p>In the displayed list of environments, an asterisk <code>*</code> will indicate the currently activated environment.</p>
+<p>To deactivate the <code>Conda Env</code> you are in and end the session in the current environment, type:</p>
+<p><code>conda deactivate</code></p>
+<p>This will revert the active environment to <code>base</code> environment.</p>
+<p><img src="images/conda_act.png" width="350"></p>
+<p><a id="4.2.3-manage-packages-in-a-conda-env"></a></p>
 </section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">1.3 Summary</h2>
-<p>In conclusion, Jupyter Notebooks are very useful for learning Python and testing your codes, as well as for sharing Python codes because others can directly see the outputs of the codes, which may include numerical results, graphs, tables, and other visualizations. The notebooks also display any error messages and other important information in the code. For instance, when training neural networks it can sometimes take hours for executing the code. Being able to see all the results and outputs from the models without the need to run the codes is extremely helpful and simplifies collaboration with others.</p>
-<p>The following are tips for best practices when working with Jupyter Notebooks:</p>
+<section id="manage-packages-in-a-conda-env" class="level3">
+<h3 class="anchored" data-anchor-id="manage-packages-in-a-conda-env">4.2.3 Manage Packages in a Conda Env</h3>
+<p>To list all installed packages in a conda environment, type:</p>
+<p><code>conda list</code></p>
+<p>To install a package, for example <code>numpy</code>, type:</p>
+<p><code>conda install numpy</code></p>
+<p>Or, you can use <code>pip install</code> as in:</p>
+<p><code>pip install numpy</code></p>
+<p>The main difference between using <code>conda install</code> and <code>pip install</code> is in the dependency resolution approach.</p>
 <ul>
-<li>Don’t forget to name your notebooks, and don’t have several notebooks <code>Untitled</code>, <code>Untitled (1)</code>, etc. in each folder.</li>
-<li>Provide comments to your code to improve the code readability, and help others understand your code.</li>
-<li>Arrange your code into cells, using logical grouping of the code lines.</li>
-<li>Keep the cells simple, and don’t put too many functions into one cell.<br>
-</li>
-<li>Try to import all packages in the first code cell of the notebook.</li>
-<li>Display the graphs and plots inline, so that they are visible to others.</li>
+<li><code>conda install</code>: conda has a more powerful dependency resolution mechanism. It ensures that all dependencies (both Python and non-Python) are compatible with each other. It often prevents conflicting versions by resolving the entire environment when installing or updating packages.</li>
+<li><code>pip install</code>: pip only handles Python dependencies and doesn’t handle system or non-Python libraries. Installing packages with pip can sometimes result in dependency conflicts, especially if different packages require incompatible versions of the same dependency.</li>
 </ul>
+<p>We can install multiple packages as in:</p>
+<p><code>conda install numpy pandas matplotlib</code></p>
+<p>To install a package from a specific source, like a URL addres, use:</p>
+<p><code>conda install --channel url_address package_name</code></p>
+<p>To install a package not available in Anaconda’s library, use the following code:</p>
+<p><code>conda install -c conda-forge package_name</code></p>
+<p>It instructs to install a package from a specific channel called <code>conda-forge</code> instead of using only the default channels. Here, <code>-c</code> is short for <code>--channel</code> where a channel is a repository of pre-built conda packages. <code>conda-forge</code> is a large community-maintained channel with more and newer packages than the default <code>conda</code> channel, including many scientific data science tools.</p>
+<p>To remove a package, for example <code>numpy</code>, use:</p>
+<p><code>conda remove numpy</code></p>
+<p>To save package list inside a <code>requirements.txt</code> file (similar to <code>pip freeze</code>), use:</p>
+<p><code>conda list --export &gt; requirements.txt</code></p>
+<p>Alternatively, save package list inside an <code>environment.yaml</code> file with:</p>
+<p><code>conda env export &gt; environment.yaml</code></p>
+<p>The files <code>requirements.txt</code> or <code>environment.yaml</code> can afterward be used to create a new environment with installed packages, using:</p>
+<p><code>conda create --name myenv --file requirements.txt</code></p>
+<p><a id="4.2.4-delete-a-conda-environment"></a></p>
+</section>
+<section id="delete-a-conda-environment" class="level3">
+<h3 class="anchored" data-anchor-id="delete-a-conda-environment">4.2.4 Delete a Conda Environment</h3>
+<p>To delete a conda environment, use:</p>
+<p><code>conda remove --name myenv --all</code></p>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>venv - Creation of virtual environments, Python documentation, available at: <a href="https://docs.python.org/3/library/venv.html">https://docs.python.org/3/library/venv.html</a>.</li>
+<li>PEP 405 - Python Virtual Environments, available at: <a href="https://peps.python.org/pep-0405/">https://peps.python.org/pep-0405/</a>.</li>
+<li>Install packages in a virtual environment using pip and venv, Python Packaging User Guide, available at: <a href="https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/">https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-environments/</a>.</li>
+<li>Managing environments, conda documentation, available at: <a href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html">https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-environments.html</a>.</li>
+</ol>
 <p><a href="#top">BACK TO TOP</a></p>
 
 
@@ -1138,13 +1105,13 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="pagination-link" aria-label="Lecture 4 - OOP, Modules, Packages">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 4 - OOP, Modules, Packages</span>
+      <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="pagination-link" aria-label="Tutorial 3 - Terminal and Command Line">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial 3 - Terminal and Command Line</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="pagination-link" aria-label="Tutorial 2 - Python IDEs, VS Code">
-        <span class="nav-page-text">Tutorial 2 - Python IDEs, VS Code</span> <i class="bi bi-arrow-right-short"></i>
+      <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="pagination-link" aria-label="Tutorial 5 - Google Colab">
+        <span class="nav-page-text">Tutorial 5 - Google Colab</span> <i class="bi bi-arrow-right-short"></i>
       </a>
   </div>
 </nav>

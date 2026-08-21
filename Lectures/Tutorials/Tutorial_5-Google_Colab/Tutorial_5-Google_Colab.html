@@ -7,7 +7,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
 
-<title>Tutorial 1 - Working with Jupyter Notebooks – Applied Data Science with Python</title>
+<title>Tutorial 5 - Google Colab – Applied Data Science with Python</title>
 <style>
 /* Default styles provided by pandoc.
 ** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
@@ -26,17 +26,51 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
-<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
 <script src="../../../site_libs/clipboard/clipboard.min.js"></script>
 <script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
 <script src="../../../site_libs/quarto-search/fuse.min.js"></script>
 <script src="../../../site_libs/quarto-search/quarto-search.js"></script>
 <meta name="quarto:offset" content="../../../">
-<link href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" rel="next">
-<link href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" rel="prev">
+<link href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" rel="prev">
 <script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
 <script src="../../../site_libs/quarto-html/popper.min.js"></script>
@@ -78,36 +112,10 @@ ul.task-list li input[type="checkbox"] {
     "search-label": "Search"
   }
 }</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
 
-  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
-  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
 
-<script type="text/javascript">
-const typesetMath = (el) => {
-  if (window.MathJax) {
-    // MathJax Typeset
-    window.MathJax.typeset([el]);
-  } else if (window.katex) {
-    // KaTeX Render
-    var mathElements = el.getElementsByClassName("math");
-    var macros = [];
-    for (var i = 0; i < mathElements.length; i++) {
-      var texText = mathElements[i].firstChild;
-      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
-        window.katex.render(texText.data, mathElements[i], {
-          displayMode: mathElements[i].classList.contains('display'),
-          throwOnError: false,
-          macros: macros,
-          fleqn: false
-        });
-      }
-    }
-  }
-}
-window.Quarto = {
-  typesetMath
-};
-</script>
 
 <link rel="stylesheet" href="../../../styles.css">
 </head>
@@ -283,7 +291,7 @@ window.Quarto = {
       <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
         <i class="bi bi-layout-text-sidebar-reverse"></i>
       </button>
-        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html">Tutorial 5 - Google Colab</a></li></ol></nav>
         <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
         </a>
       <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
@@ -411,7 +419,7 @@ window.Quarto = {
       <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link active">
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
  <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
   </div>
 </li>
@@ -435,7 +443,7 @@ window.Quarto = {
 </li>
           <li class="sidebar-item">
   <div class="sidebar-item-container"> 
-  <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="sidebar-item-text sidebar-link">
+  <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="sidebar-item-text sidebar-link active">
  <span class="menu-text">Tutorial 5 - Google Colab</span></a>
   </div>
 </li>
@@ -451,19 +459,19 @@ window.Quarto = {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#introduction-to-jupyter-notebooks" id="toc-introduction-to-jupyter-notebooks" class="nav-link active" data-scroll-target="#introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+  <li><a href="#top-menus" id="toc-top-menus" class="nav-link active" data-scroll-target="#top-menus">5.1 Top Menus</a></li>
+  <li><a href="#upload-files-and-mount-the-google-drive" id="toc-upload-files-and-mount-the-google-drive" class="nav-link" data-scroll-target="#upload-files-and-mount-the-google-drive">5.2 Upload Files and Mount the Google Drive</a></li>
+  <li><a href="#enable-gpu" id="toc-enable-gpu" class="nav-link" data-scroll-target="#enable-gpu">5.3 Enable GPU</a>
   <ul class="collapse">
-  <li><a href="#creating-a-new-notebook" id="toc-creating-a-new-notebook" class="nav-link" data-scroll-target="#creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-  <li><a href="#cells-in-jupyter-notebooks" id="toc-cells-in-jupyter-notebooks" class="nav-link" data-scroll-target="#cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+  <li><a href="#check-gpu" id="toc-check-gpu" class="nav-link" data-scroll-target="#check-gpu">5.3.1 Check GPU</a></li>
   </ul></li>
-  <li><a href="#jupyter-lab-user-interface" id="toc-jupyter-lab-user-interface" class="nav-link" data-scroll-target="#jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+  <li><a href="#left-pane" id="toc-left-pane" class="nav-link" data-scroll-target="#left-pane">5.4 Left Pane</a></li>
+  <li><a href="#colab-subscription-plans" id="toc-colab-subscription-plans" class="nav-link" data-scroll-target="#colab-subscription-plans">5.5 Colab Subscription Plans</a>
   <ul class="collapse">
-  <li><a href="#drop-down-menus" id="toc-drop-down-menus" class="nav-link" data-scroll-target="#drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-  <li><a href="#left-sidebar-in-jupyter-lab" id="toc-left-sidebar-in-jupyter-lab" class="nav-link" data-scroll-target="#left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-  <li><a href="#cell-types" id="toc-cell-types" class="nav-link" data-scroll-target="#cell-types">1.2.3 Cell Types</a></li>
-  <li><a href="#markdown-language" id="toc-markdown-language" class="nav-link" data-scroll-target="#markdown-language">1.2.4 Markdown Language</a></li>
+  <li><a href="#monitor-your-hardware-resources" id="toc-monitor-your-hardware-resources" class="nav-link" data-scroll-target="#monitor-your-hardware-resources">5.5.1 Monitor Your Hardware Resources</a></li>
   </ul></li>
-  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">1.3 Summary</a></li>
+  <li><a href="#welcome-page-of-colab" id="toc-welcome-page-of-colab" class="nav-link" data-scroll-target="#welcome-page-of-colab">5.6 Welcome Page of Colab</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -471,9 +479,9 @@ window.Quarto = {
 <main class="content" id="quarto-document-content">
 
 
-<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorial 1 - Jupyter Notebooks</a></li></ol></nav>
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html">Tutorial 5 - Google Colab</a></li></ol></nav>
 <div class="quarto-title">
-<h1 class="title">Tutorial 1 - Working with Jupyter Notebooks</h1>
+<h1 class="title">Tutorial 5 - Google Colab</h1>
 </div>
 
 
@@ -490,183 +498,526 @@ window.Quarto = {
 </header>
 
 
-<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
 <p><a id="top"></a></p>
 <ul>
-<li><a href="#1.1-introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</a>
+<li><a href="#5.1-top-menus">5.1 Top Menus</a></li>
+<li><a href="#5.2-upload-files-and-mount-the-google-drive">5.2 Upload Files and Mount the Google Drive</a></li>
+<li><a href="#5.3-enable-gpu">5.3 Enable GPU</a>
 <ul>
-<li><a href="#1.1.1-creating-a-new-notebook">1.1.1 Creating a New Notebook</a></li>
-<li><a href="#1.1.2-cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</a></li>
+<li><a href="#5.3.1-check-gpu">5.3.1 Check GPU</a></li>
 </ul></li>
-<li><a href="#1.2-jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</a>
+<li><a href="#5.4-left-pane">5.4 Left Pane</a></li>
+<li><a href="#5.5-colab-subscription-plans">5.5 Colab Subscription Plans</a>
 <ul>
-<li><a href="#1.2.1-drop-down-menus">1.2.1 Drop-Down Menus</a></li>
-<li><a href="#1.2.2-left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</a></li>
-<li><a href="#1.2.3-cell-types">1.2.3 Cell Types</a></li>
-<li><a href="#1.2.4-markdown-language">1.2.4 Markdown Language</a></li>
+<li><a href="#5.5.1-monitor-your-hardware-resources">5.5.1 Monitor Your Hardware Resources</a></li>
 </ul></li>
-<li><a href="#1.3-summary">1.3 Summary</a></li>
+<li><a href="#5.6-welcome-page-of-colab">5.6 Welcome Page of Colab</a></li>
+<li><a href="#references">References</a></li>
 </ul>
-<p><a id="1.1-introduction-to-jupyter-notebooks"></a></p>
-<section id="introduction-to-jupyter-notebooks" class="level2">
-<h2 class="anchored" data-anchor-id="introduction-to-jupyter-notebooks">1.1 Introduction to Jupyter Notebooks</h2>
-<p>Jupyter Notebook is an open-source web-based interactive computational environment, designed for sharing documents that contain code, text, equations, and visualizations. It is part of <a href="https://jupyter.org/">Project Jupyter</a>, which also includes Jupyter Lab - an updated version of Jupyter Notebook with enhanced capabilities.</p>
-<blockquote class="blockquote">
-<p><strong>Jupyter notebooks</strong> are documents that contain both code and text elements, such as equations, visualizations (i.e., figures and graphs), links, and similar related elements.</p>
-</blockquote>
-<p>The name Jupyter does not really relate to the largest planet in the Solar system (spelled Jupiter), but instead, it is a coined word from the three core programming languages supported by Jupyter notebooks: Julia, Python, and R.</p>
-<p>Jupyter Notebook was built upon an older IDE for Python called IPython.</p>
-<p>The recommended user interface for this course is Jupyter Lab, since it offers advanced functionalities in comparison to Jupyter Notebook, such as access to a terminal, interactive widgets for exploring data, it allows multiple views into the same document, quick switching between opened files, etc.</p>
-<p>Both Jupyter Lab and Jupyter Notebook are part of the Anaconda distribution, therefore if you have installed Anaconda on your computer, they will also be installed. And if you don’t have Anaconda installed, you can install Jupyter Lab and Jupyter Notebook separately as any other package, e.g., <code>pip install jupyterlab</code>.</p>
-<p>The Jupyter Lab environment can be started by running the command <code>jupyter lab</code> in the Command Prompt on Windows systems, or in a shell or terminal window on computers with other operating systems.</p>
-<p><img src="images/img1.png" width="500"></p>
-<p>Jupyter will open in your default browser, or in a new tab if the browser has other open tabs, at the following URL: http://localhost:8889/lab. Localhost is not a website, it only indicates that the content is being served from your local machine. Therefore, Jupyter can be run on a computer without Internet access, or it can be run on a remote server accessed through the Internet.</p>
-<p>The Jupyter Lab environment on my computer looks like in the figure below. The start-up directory for the Jupyter Dashboard can be changed to a preferred directory.</p>
-<p><img src="images/img2.png" width="1000"></p>
-<p>It is also possible to open Jupyter Lab from the Anaconda Prompt, by typing <code>jupyter-lab</code> in the command line.</p>
-<p><img src="images/img3.png" width="500"></p>
-<p>And probably the most convenient way is to create a shortcut to Jupyter Lab on your desktop for direct access.</p>
-<p><a id="1.1.1-creating-a-new-notebook"></a></p>
-<section id="creating-a-new-notebook" class="level3">
-<h3 class="anchored" data-anchor-id="creating-a-new-notebook">1.1.1 Creating a New Notebook</h3>
-<p>Now, let’s create a new notebook. One way to do that is to click on the <code>File</code> tab in the top menu, then select the <code>New</code> button, and in the drop-down menu choose <code>Notebook</code>. Note that the <code>New</code> button also have options to open a new console or terminal (which allows to run shell commands directly in your browser, instead of the Windows Command Prompt), or create a new text file, markdown file, or Python file.</p>
-<p><img src="images/img4.png" width="600"></p>
-<p>In the newly opened window you will be prompted to select the kernel for the notebook. We can select the default Python 3 kernel. The next section explains more about the kernels in notebooks.</p>
-<p><img src="images/img5.png" width="500"></p>
-<p>Or, an even simpler way for creating a new notebook, is to directly click on <code>Notebook Python 3 (ipykernel)</code> icon on the Jupyter Dashboard.</p>
-<p><img src="images/img6.png" width="600"></p>
-<p>The newly created notebook will look like this.</p>
-<p><img src="images/img7.png" width="700"></p>
-<p>The default assigned title to new notebooks is <code>Untitled</code>. You can see the title at the top of the page.</p>
-<p>To change the title into a more descriptive one, right-click on the word <code>Untitled</code>, in the drop-down menu select <code>Rename Notebook..</code>, and enter the name <code>Hello_world</code>, for example.</p>
-<p><img src="images/img8.png" width="600"></p>
-<p>The new title of the Notebook should now show at the top of the page. Also, in the left-side panel you will see the new notebook <code>Hello_world.ipynb</code> listed in the current working directory.</p>
-<p>The extension for Jupyter Notebook documents is <code>.ipynb</code>, which is an acronym for IPython Notebook.</p>
-<p><a id="1.1.2-cells-in-jupyter-notebooks"></a></p>
-</section>
-<section id="cells-in-jupyter-notebooks" class="level3">
-<h3 class="anchored" data-anchor-id="cells-in-jupyter-notebooks">1.1.2 Cells in Jupyter Notebooks</h3>
-<p>Jupyter Notebooks organize codes in cells. Our newly created notebook has one empty cell in it.</p>
-<p>The cells use the Python 3 kernel that we chose when we created the notebook. The used kernel for Python code execution in Jupyter Notebooks is also called IPython kernel. The kernel allows to execute Python code in the cell.</p>
-<blockquote class="blockquote">
-<p>A <strong>cell</strong> is a container for code that is to be executed by the notebook’s kernel, or text that is to be displayed in the notebook.</p>
-</blockquote>
-<blockquote class="blockquote">
-<p>A <strong>kernel</strong> is a program that executes the code in a cell. Jupyter Notebook has a kernel for Python code, but also there are other kernels available for other programming languages.</p>
-</blockquote>
-<p>Let’s give it a try and write <code>print('Hello world!')</code> in the cell. To execute the cell, we can either click on the <code>Run button</code> in the toolbar on the top of the screen, or we can press the <code>Shift</code> and <code>Enter</code> keys on the keyboard.</p>
-<p><img src="images/img9.png" width="450"></p>
-<p>When you run a code cell, the kernel executes the code and the output of the code is returned back to the cell to be displayed.</p>
-<p>Notice that each cell has a number, enclosed in square brackets <code>[1]</code> to the left of the cell. If we write another statement in the next cell, the order of the cell will be automatically changed to <code>[2]</code>. But also, if we run the first cell multiple times, each time the cell is executed the cell number will increase. This way, in a program with many cells, we can tell the order in which the cells were executed.</p>
-<p>Using multiple cells in a module allows to separate the code into logical groups for improved code readability.</p>
-<p>Furthermore, the variables and imported packages are shared across cells. For instance, if we define a variable <code>X</code> in cell 2, we can invoke the same variable in cell 3. Therefore, importing libraries or defining functions needs to be done only once in a notebook, and they are afterward shared by all cells in the notebook.</p>
-<p><img src="images/img10.png" width="450"></p>
-<p><a id="1.2-jupyter-lab-user-interface"></a></p>
-</section>
-</section>
-<section id="jupyter-lab-user-interface" class="level2">
-<h2 class="anchored" data-anchor-id="jupyter-lab-user-interface">1.2 Jupyter Lab User Interface</h2>
-<p><a id="1.2.1-drop-down-menus"></a></p>
-<section id="drop-down-menus" class="level3">
-<h3 class="anchored" data-anchor-id="drop-down-menus">1.2.1 Drop-Down Menus</h3>
-<p>Jupyter Notebooks have the following drop-down menus on the top of the screen:</p>
+<p>Google Colab (or Colaboratary) is a cloud-based platform created by Google that offers an environment for sharing, running, and writing Python code within Google Drive. Colab runs Jupyter notebook files, and it comes with pre-installed popular Data Science and Machine Learning libraries and frameworks, such as TensorFlow, PyTorch, NumPy, pandas, and others.</p>
+<p>Google Colab provides CPU, TPU, and GPU support. It enables real-time collaborative editing on a single notebook, much like the collaborative text editing functionality provided by Google Docs.</p>
+<p>Colab has many Machine Learning and Data Science libraries preinstalled. Hence, we don’t need to install common libraries like <code>scikit-learn</code>, <code>pandas</code>, <code>numpy</code>, <code>keras</code>, <code>pytorch</code>, etc. We can directly import these libraries.</p>
+<p>If we need to install additional libraries that are not part of Colab, we can use <code>!pip install</code> as in the following example.</p>
+<pre><code>!pip install -q matplotlib-venn</code></pre>
+<p>We can also use <code>!</code> to run shell commands in Colab notebooks.</p>
+<pre><code>!ls</code></pre>
+<p><a id="5.1-top-menus"></a></p>
+<section id="top-menus" class="level2">
+<h2 class="anchored" data-anchor-id="top-menus">5.1 Top Menus</h2>
+<p>On the top menu section, Colab provides very similar features to the original Jupyter Notebook interface.</p>
 <ul>
-<li><strong>File</strong>: allows to create a new notebook, open existing notebooks, or save, download, and close notebooks.</li>
-<li><strong>Edit</strong>: have cut, copy, and paste cells buttons, and also allows to delete, split, merge, or reorder the cells in a notebook.</li>
-<li><strong>View</strong>: offers commands for toggling the visibility of the header, toolbar, and line numbers.</li>
-<li><strong>Run</strong>: have various commands for running cells above or below a cell.</li>
-<li><strong>Kernel</strong>: is for working with the selected kernel, allowing to restart the kernel, reconnect to the kernel, shut it down, or change the kernel.</li>
-<li><strong>Tabs</strong>: provides a tabbed interface to manage and navigate open documents and interfaces.</li>
-<li><strong>Settings</strong>: has access to configuration options and preferences for customizing Jupyter Lab.</li>
-<li><strong>Help</strong>: to get help about Jupyter Notebooks, learn about keyboard shortcuts, or access links to reference materials.</li>
+<li><strong>File</strong>: create new notebook, open/rename/save/download existing notebooks</li>
+<li><strong>Edit</strong>: copy/paste cells, notebook settings</li>
+<li><strong>Insert</strong>: code/text/section header cells, code snippets, add a form field</li>
+<li><strong>Runtime</strong>: run cells, interrupt runtime, restart runtime, <strong>change runtime type (CPU, GPU, TPU)</strong></li>
+<li><strong>Tools</strong>: command palette, settings, keyboard shortcuts, etc.</li>
 </ul>
-<p>Beside the top menus, several functions that are the most commonly used can be invoked from the top toolbar. If you hover the mouse over the icons, a brief description will show up. The icons include: save, insert a new cell, cut, copy, and paste selected cells, run cells, interrupt the kernel, restart the kernel, select the cell type, and render with panel.</p>
-<p><img src="images/img11.png" width="500"></p>
-<p><a id="1.2.2-left-sidebar-in-jupyter-lab"></a></p>
+<p><a id="5.2-upload-files-and-mount-the-google-drive"></a></p>
 </section>
-<section id="left-sidebar-in-jupyter-lab" class="level3">
-<h3 class="anchored" data-anchor-id="left-sidebar-in-jupyter-lab">1.2.2 Left Sidebar in Jupyter Lab</h3>
-<p>The <strong>left side-bar</strong> or the left-side panel in Jupyter Lab contains several tabs, including:</p>
-<ul>
-<li><strong>File browser</strong>: shows the content of the current working directory.</li>
-<li><strong>Running terminals and kernels</strong>: lists the terminals and notebooks that are currently running (shown below). It allows to shut down notebooks and release computational resources.<br>
-</li>
-<li><strong>Table of contents</strong>: allows to navigate the structure of the notebook.</li>
-<li><strong>Extension manager</strong>: for managing third party-extensions.</li>
-</ul>
-<p><img src="images/img13.png" width="400"></p>
-<p>Note that even if we close the tab of a notebook, the kernel will continue to run in the background, and it needs to be shut down to be fully “closed”.</p>
-<p>Otherwise, Jupyter Notebooks are auto-saved pretty frequently (every 120 seconds), and it is rare to lose data.When the notebook is saved, aA checkpoint file is created in a subdirectory of the working directory named<code>.ipynb_checkpoint</code>s. The checkpoint file enables to recoveranyr unsaved work in the event of an unexpected issue.</p>
-<p><a id="1.2.3-cell-types"></a></p>
-</section>
-<section id="cell-types" class="level3">
-<h3 class="anchored" data-anchor-id="cell-types">1.2.3 Cell Types</h3>
-<p>There are three cell types in Jupyter Notebooks: Code, Markdown, and Raw.</p>
-<p>The default one is <strong>Code</strong>, which we use for running codes.</p>
-<p><strong>Markdown</strong> cells are used for Markdown, which is a markup language that is a superset of HTML. In fact, I created this file using Markdown language cells. If you click within the cells of this file, you can see the original markdown text. Markdown is a simple language, that adds formatting elements to plain text. For example, headings are created by adding the <code>#</code> mark (as in <code># Lecture 1</code>), for <strong>bold font</strong> use two asterisks, for <em>italic font</em> use a single asterisk, etc. Still, Markdown accepts standard HTML language, which can add complexity when needed. See several examples in the next section, and to learn more about the syntax of Markdown language please visit follow this <a href="https://www.markdownguide.org/basic-syntax/">link</a>.</p>
-<p><strong>Raw</strong> cell type are not executed or rendered. They are mainly useful when exporting with nbconvert, since their content is passed through unchanged. These cells are only intended for special use cases.</p>
-<p><img src="images/img12.png" width="500"></p>
-<p><a id="1.2.4-markdown-language"></a></p>
-</section>
-<section id="markdown-language" class="level3">
-<h3 class="anchored" data-anchor-id="markdown-language">1.2.4 Markdown Language</h3>
-<p>The following cell shows examples of Markdown language code, and the cell afterward displays the output of the cell. Note that unlike the code cells that have line numbers on the left, the markdown cells don’t have line numbers.</p>
-<pre><code>### Example Heading: This is Level 3 Heading
-This is some plain text that forms a paragraph.
-Add emphasis via **bold** and __bold__, *italic* and _italic_, or ***bold and italic*** and ___bold and italic___.
-Paragraphs must be separated by an empty line.
-
-- Sometimes we want to include lists.
-    - Which can be indented.      
-
-[It is possible to include hyperlinks](https://www.example.com).
-
-1. Lists can also be numbered.
-2. For ordered lists.
-
-We can add inline equations using LaTeX code, e.g., $c = \sqrt{a^2 + b^2}$,
-and equations in a new line: $$c = \sqrt{a^2 + b^2}$$
-
-Inline code uses single backticks: `foo()`, and code blocks use triple backticks or they can be indented by 4 spaces:
-
-    foo()
-    
-And finally, adding images is easy: ![Image title text](images/house.png)</code></pre>
-<h3 class="anchored">
-Example Heading: This is Level 3 Heading
-</h3>
-<p>This is some plain text that forms a paragraph. Add emphasis via <strong>bold</strong> and <strong>bold</strong>, <em>italic</em> and <em>italic</em>, or <strong><em>bold and italic</em></strong> and <strong><em>bold and italic</em></strong>. Paragraphs must be separated by an empty line.</p>
-<ul>
-<li>Sometimes we want to include lists.
-<ul>
-<li>Which can be indented.</li>
-</ul></li>
-</ul>
-<p><a href="https://www.example.com">It is possible to include hyperlinks</a>.</p>
+<section id="upload-files-and-mount-the-google-drive" class="level2">
+<h2 class="anchored" data-anchor-id="upload-files-and-mount-the-google-drive">5.2 Upload Files and Mount the Google Drive</h2>
+<p>If you need to work with your own data in a Colab notebook (for example, to train a model on your own dataset), first upload the files to Google Drive and then mount Google Drive in the notebook. Note that Colab cannot directly access files stored on your computer’s local drive (such as the C: drive), but it can fully access any files you upload to Google Drive.</p>
 <ol type="1">
-<li>Lists can also be numbered.</li>
-<li>For ordered lists.</li>
+<li>Login into Google Drive with your Gmail account (<a href="https://drive.google.com/">Link</a>).</li>
+<li>Create a folder to store your data files, and upload the data files to the folder (e.g., drag and drop from the files from a local directory).</li>
 </ol>
-<p>We can add inline equations using LaTeX code, e.g., <span class="math inline">\(c = \sqrt{a^2 + b^2}\)</span>, and equations in a new line: <span class="math display">\[c = \sqrt{a^2 + b^2}\]</span></p>
-<p>Inline code uses single backticks: <code>foo()</code>, and code blocks use triple backticks or they can be indented by 4 spaces:</p>
-<pre><code>foo()</code></pre>
-<p>And finally, adding images is easy: <img src="images/house.png" class="img-fluid" alt="Image title text"></p>
-<p><a id="1.3-summary"></a></p>
+<p><img width="250" src="images/img2.jpg"></p>
+<ol start="3" type="1">
+<li>Use the following code to mount your Google Drive in the Jupyter notebook.</li>
+</ol>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="c61e2d08-372a-4f32-98c3-61b8f283b2b5" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mounted at /content/drive</code></pre>
+</div>
+</div>
+<ol start="4" type="1">
+<li>Click <code>Connect to Google Drive</code> to permit the notebook to access Google Drive.</li>
+</ol>
+<p><img width="400" src="images/img4.jpg"></p>
+<ol start="5" type="1">
+<li>After you mount the Google Drive, you can load files from the drive. For example, load a csv file. Note that the path to the file needs to start with <code>drive/My Drive/...</code>.</li>
+</ol>
+<div id="cell-14" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:1000}}" data-outputid="a23d0228-5b1d-4fb2-f899-05455a341f4a" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> pandas <span class="im">as</span> pd</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>df_IMDb <span class="op">=</span> pd.read_csv(<span class="st">'drive/MyDrive/Tutorial_5-Google_Colab/IMDB-Movies-Data.csv'</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>df_IMDb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<div id="df-e45571f0-3b09-4903-be9e-cd25058c476b" class="colab-df-container">
+    <div>
+
+
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th"></th>
+<th data-quarto-table-cell-role="th">Unnamed: 0</th>
+<th data-quarto-table-cell-role="th">Movie Name</th>
+<th data-quarto-table-cell-role="th">Year of Release</th>
+<th data-quarto-table-cell-role="th">Watch Time</th>
+<th data-quarto-table-cell-role="th">Movie Rating</th>
+<th data-quarto-table-cell-role="th">Metascore of movie</th>
+<th data-quarto-table-cell-role="th">Gross</th>
+<th data-quarto-table-cell-role="th">Votes</th>
+<th data-quarto-table-cell-role="th">Description</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">0</th>
+<td>0</td>
+<td>The Shawshank Redemption</td>
+<td>1994</td>
+<td>142</td>
+<td>9.3</td>
+<td>82.0</td>
+<td>28.34</td>
+<td>27,77,378</td>
+<td>Over the course of several years, two convicts...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">1</th>
+<td>1</td>
+<td>The Godfather</td>
+<td>1972</td>
+<td>175</td>
+<td>9.2</td>
+<td>100.0</td>
+<td>134.97</td>
+<td>19,33,588</td>
+<td>Don Vito Corleone, head of a mafia family, dec...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">2</th>
+<td>2</td>
+<td>The Dark Knight</td>
+<td>2008</td>
+<td>152</td>
+<td>9.0</td>
+<td>84.0</td>
+<td>534.86</td>
+<td>27,54,087</td>
+<td>When the menace known as the Joker wreaks havo...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">3</th>
+<td>3</td>
+<td>Schindler's List</td>
+<td>1993</td>
+<td>195</td>
+<td>9.0</td>
+<td>95.0</td>
+<td>96.9</td>
+<td>13,97,886</td>
+<td>In German-occupied Poland during World War II,...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">4</th>
+<td>4</td>
+<td>12 Angry Men</td>
+<td>1957</td>
+<td>96</td>
+<td>9.0</td>
+<td>97.0</td>
+<td>4.36</td>
+<td>8,24,211</td>
+<td>The jury in a New York City murder trial is fr...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">...</th>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+<td>...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">995</th>
+<td>995</td>
+<td>Philomena</td>
+<td>2013</td>
+<td>98</td>
+<td>7.6</td>
+<td>77.0</td>
+<td>37.71</td>
+<td>1,02,336</td>
+<td>A world-weary political journalist picks up th...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">996</th>
+<td>996</td>
+<td>Un long dimanche de fiançailles</td>
+<td>2004</td>
+<td>133</td>
+<td>7.6</td>
+<td>76.0</td>
+<td>6.17</td>
+<td>75,004</td>
+<td>Tells the story of a young woman's relentless ...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">997</th>
+<td>997</td>
+<td>Shine</td>
+<td>1996</td>
+<td>105</td>
+<td>7.6</td>
+<td>87.0</td>
+<td>35.81</td>
+<td>55,589</td>
+<td>Pianist David Helfgott, driven by his father a...</td>
+</tr>
+<tr class="even">
+<th data-quarto-table-cell-role="th">998</th>
+<td>998</td>
+<td>The Invisible Man</td>
+<td>1933</td>
+<td>71</td>
+<td>7.6</td>
+<td>87.0</td>
+<td>NaN</td>
+<td>37,822</td>
+<td>A scientist finds a way of becoming invisible,...</td>
+</tr>
+<tr class="odd">
+<th data-quarto-table-cell-role="th">999</th>
+<td>999</td>
+<td>Celda 211</td>
+<td>2009</td>
+<td>113</td>
+<td>7.6</td>
+<td>NaN</td>
+<td>NaN</td>
+<td>69,464</td>
+<td>The story of two men on different sides of a p...</td>
+</tr>
+</tbody>
+</table>
+
+<p>1000 rows × 9 columns</p>
+</div>
+    <div class="colab-df-buttons">
+
+  <div class="colab-df-container">
+    <button class="colab-df-convert" onclick="convertToInteractive('df-e45571f0-3b09-4903-be9e-cd25058c476b')" title="Convert this dataframe to an interactive table." style="display:none;">
+
+  <svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 -960 960 960">
+    <path d="M120-120v-720h720v720H120Zm60-500h600v-160H180v160Zm220 220h160v-160H400v160Zm0 220h160v-160H400v160ZM180-400h160v-160H180v160Zm440 0h160v-160H620v160ZM180-180h160v-160H180v160Zm440 0h160v-160H620v160Z"></path>
+  </svg>
+    </button>
+
+  <style>
+    .colab-df-container {
+      display:flex;
+      gap: 12px;
+    }
+
+    .colab-df-convert {
+      background-color: #E8F0FE;
+      border: none;
+      border-radius: 50%;
+      cursor: pointer;
+      display: none;
+      fill: #1967D2;
+      height: 32px;
+      padding: 0 0 0 0;
+      width: 32px;
+    }
+
+    .colab-df-convert:hover {
+      background-color: #E2EBFA;
+      box-shadow: 0px 1px 2px rgba(60, 64, 67, 0.3), 0px 1px 3px 1px rgba(60, 64, 67, 0.15);
+      fill: #174EA6;
+    }
+
+    .colab-df-buttons div {
+      margin-bottom: 4px;
+    }
+
+    [theme=dark] .colab-df-convert {
+      background-color: #3B4455;
+      fill: #D2E3FC;
+    }
+
+    [theme=dark] .colab-df-convert:hover {
+      background-color: #434B5C;
+      box-shadow: 0px 1px 3px 1px rgba(0, 0, 0, 0.15);
+      filter: drop-shadow(0px 1px 2px rgba(0, 0, 0, 0.3));
+      fill: #FFFFFF;
+    }
+  </style>
+
+    <script>
+      const buttonEl =
+        document.querySelector('#df-e45571f0-3b09-4903-be9e-cd25058c476b button.colab-df-convert');
+      buttonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+
+      async function convertToInteractive(key) {
+        const element = document.querySelector('#df-e45571f0-3b09-4903-be9e-cd25058c476b');
+        const dataTable =
+          await google.colab.kernel.invokeFunction('convertToInteractive',
+                                                    [key], {});
+        if (!dataTable) return;
+
+        const docLinkHtml = 'Like what you see? Visit the ' +
+          '<a target="_blank" href=https://colab.research.google.com/notebooks/data_table.ipynb>data table notebook</a>'
+          + ' to learn more about interactive tables.';
+        element.innerHTML = '';
+        dataTable['output_type'] = 'display_data';
+        await google.colab.output.renderOutput(dataTable, element);
+        const docLink = document.createElement('div');
+        docLink.innerHTML = docLinkHtml;
+        element.appendChild(docLink);
+      }
+    </script>
+  </div>
+
+
+<div id="df-81a8b2e6-344c-4802-8c8f-6e8d414f7047">
+  <button class="colab-df-quickchart" onclick="quickchart('df-81a8b2e6-344c-4802-8c8f-6e8d414f7047')" title="Suggest charts." style="display:none;">
+
+<svg xmlns="http://www.w3.org/2000/svg" height="24px" viewbox="0 0 24 24" width="24px">
+    <g>
+        <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zM9 17H7v-7h2v7zm4 0h-2V7h2v10zm4 0h-2v-4h2v4z"></path>
+    </g>
+</svg>
+  </button>
+
+<style>
+  .colab-df-quickchart {
+      --bg-color: #E8F0FE;
+      --fill-color: #1967D2;
+      --hover-bg-color: #E2EBFA;
+      --hover-fill-color: #174EA6;
+      --disabled-fill-color: #AAA;
+      --disabled-bg-color: #DDD;
+  }
+
+  [theme=dark] .colab-df-quickchart {
+      --bg-color: #3B4455;
+      --fill-color: #D2E3FC;
+      --hover-bg-color: #434B5C;
+      --hover-fill-color: #FFFFFF;
+      --disabled-bg-color: #3B4455;
+      --disabled-fill-color: #666;
+  }
+
+  .colab-df-quickchart {
+    background-color: var(--bg-color);
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: none;
+    fill: var(--fill-color);
+    height: 32px;
+    padding: 0;
+    width: 32px;
+  }
+
+  .colab-df-quickchart:hover {
+    background-color: var(--hover-bg-color);
+    box-shadow: 0 1px 2px rgba(60, 64, 67, 0.3), 0 1px 3px 1px rgba(60, 64, 67, 0.15);
+    fill: var(--button-hover-fill-color);
+  }
+
+  .colab-df-quickchart-complete:disabled,
+  .colab-df-quickchart-complete:disabled:hover {
+    background-color: var(--disabled-bg-color);
+    fill: var(--disabled-fill-color);
+    box-shadow: none;
+  }
+
+  .colab-df-spinner {
+    border: 2px solid var(--fill-color);
+    border-color: transparent;
+    border-bottom-color: var(--fill-color);
+    animation:
+      spin 1s steps(1) infinite;
+  }
+
+  @keyframes spin {
+    0% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+      border-left-color: var(--fill-color);
+    }
+    20% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    30% {
+      border-color: transparent;
+      border-left-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+      border-right-color: var(--fill-color);
+    }
+    40% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-top-color: var(--fill-color);
+    }
+    60% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+    }
+    80% {
+      border-color: transparent;
+      border-right-color: var(--fill-color);
+      border-bottom-color: var(--fill-color);
+    }
+    90% {
+      border-color: transparent;
+      border-bottom-color: var(--fill-color);
+    }
+  }
+</style>
+
+  <script>
+    async function quickchart(key) {
+      const quickchartButtonEl =
+        document.querySelector('#' + key + ' button');
+      quickchartButtonEl.disabled = true;  // To prevent multiple clicks.
+      quickchartButtonEl.classList.add('colab-df-spinner');
+      try {
+        const charts = await google.colab.kernel.invokeFunction(
+            'suggestCharts', [key], {});
+      } catch (error) {
+        console.error('Error during call to suggestCharts:', error);
+      }
+      quickchartButtonEl.classList.remove('colab-df-spinner');
+      quickchartButtonEl.classList.add('colab-df-quickchart-complete');
+    }
+    (() => {
+      let quickchartButtonEl =
+        document.querySelector('#df-81a8b2e6-344c-4802-8c8f-6e8d414f7047 button');
+      quickchartButtonEl.style.display =
+        google.colab.kernel.accessAllowed ? 'block' : 'none';
+    })();
+  </script>
+</div>
+    </div>
+  </div>
+</div>
+</div>
+<p><a id="5.3-enable-gpu"></a></p>
 </section>
-</section>
-<section id="summary" class="level2">
-<h2 class="anchored" data-anchor-id="summary">1.3 Summary</h2>
-<p>In conclusion, Jupyter Notebooks are very useful for learning Python and testing your codes, as well as for sharing Python codes because others can directly see the outputs of the codes, which may include numerical results, graphs, tables, and other visualizations. The notebooks also display any error messages and other important information in the code. For instance, when training neural networks it can sometimes take hours for executing the code. Being able to see all the results and outputs from the models without the need to run the codes is extremely helpful and simplifies collaboration with others.</p>
-<p>The following are tips for best practices when working with Jupyter Notebooks:</p>
+<section id="enable-gpu" class="level2">
+<h2 class="anchored" data-anchor-id="enable-gpu">5.3 Enable GPU</h2>
+<p>When you run a notebook, the panel in the upper right corner of the screen indicates whether the notebook is connected to a GPU or CPU.</p>
+<p>For instance, the notebook in the following figure is connected to a Tesla T4 GPU.</p>
+<p><img width="800" src="images/img12.png"></p>
+<p>To change the runtime, click on the arrow in the upper right corner of your screen, as shown in the next figure, and from the menu select <code>Change runtime type</code>.</p>
+<p><img width="400" src="images/img13.png"></p>
+<p>This will open the window shown in the following figure.</p>
+<p>The <code>Runtime type</code> arrow allows us to select between <code>Python3</code> and <code>R</code> programming languages. We can leave it at <code>Python3</code>.</p>
+<p>Importantly, the <code>Hardware accelerator</code> field allows to select the hardware for the runtime. The options include <code>CPU</code>, three <code>GPU</code> options, and <code>TPU</code>. Note that these options are based on my subscription to Colab Pro. If you are using the free Colab version, you may see only <code>T4 GPU</code> available.</p>
+<p>Also, for the Colab Pro subscription, there is a <code>High-RAM</code> button, which allows users to allocate additional RAM memory to the notebook. This feature can be helpful when working with large datasets, that exceed the available RAM memory. The standard RAM memory allocation in Colab is 12 GB, and the High-RAM option allocates 25 GB.</p>
+<p>After you select the Hardware Accelerator, click <code>Save</code>.</p>
+<p><img width="400" src="images/img14.png"></p>
+<p>There are two other methods to change the runtime type in Colab.</p>
+<p><strong><em>Method 1:</em></strong></p>
 <ul>
-<li>Don’t forget to name your notebooks, and don’t have several notebooks <code>Untitled</code>, <code>Untitled (1)</code>, etc. in each folder.</li>
-<li>Provide comments to your code to improve the code readability, and help others understand your code.</li>
-<li>Arrange your code into cells, using logical grouping of the code lines.</li>
-<li>Keep the cells simple, and don’t put too many functions into one cell.<br>
-</li>
-<li>Try to import all packages in the first code cell of the notebook.</li>
-<li>Display the graphs and plots inline, so that they are visible to others.</li>
+<li>Click <code>Runtime → Change runtime type</code>.</li>
 </ul>
+<p><img style="float: left; height:400px; width:auto" src="images/img10.jpg"></p>
+<p><strong><em>Method 2:</em></strong></p>
+<ul>
+<li>Click <code>Edit → Notebook Settings</code>.</li>
+</ul>
+<p><img width="300" src="images/img6.jpg"></p>
+<p>Also, if you have already run cells in a Colab notebook, changing the runtime type will interrupt the current session, reset the kernel, and clear all variables, imports, and temporary files. You will need to re-run all cells to restore the environment and reproduce any previous results.</p>
+<p><a id="5.3.1-check-gpu"></a></p>
+<section id="check-gpu" class="level3">
+<h3 class="anchored" data-anchor-id="check-gpu">5.3.1 Check GPU</h3>
+<p>When connected to a GPU, use the following code to check the details about the GPU.</p>
+<pre><code>!nvidia-smi</code></pre>
+<p><img width="600" src="images/img15.png"></p>
+<p>Also, the following code can be used to print whether the notebook is connected to GPU. If connected, it will print out “Found GPU at: /device:GPU:0”.</p>
+<div id="cell-22" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>device_name <span class="op">=</span> tf.test.gpu_device_name()</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> device_name <span class="op">!=</span> <span class="st">'/device:GPU:0'</span>:</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> <span class="pp">SystemError</span>(<span class="st">'GPU device not found'</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Found GPU at: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(device_name))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="5.4-left-pane"></a></p>
+</section>
+</section>
+<section id="left-pane" class="level2">
+<h2 class="anchored" data-anchor-id="left-pane">5.4 Left Pane</h2>
+<p>In the left pane, Colab provides several useful tools for managing the notebook environment.</p>
+<ul>
+<li><strong>Table of contents</strong>: display the outline of the notebook</li>
+<li><strong>Find and replace</strong>: search for text within the notebook</li>
+<li><strong>Code snippets</strong>: provides ready-to-use example code and common patterns</li>
+<li><strong>Secrets</strong>: for saving and managing API keys and other sensitive information</li>
+<li><strong>Files</strong>: display files available in your Colab environment, including files in your Google Drive</li>
+</ul>
+<p><img width="400" src="images/img18.png"></p>
+<p><a id="5.5-colab-subscription-plans"></a></p>
+</section>
+<section id="colab-subscription-plans" class="level2">
+<h2 class="anchored" data-anchor-id="colab-subscription-plans">5.5 Colab Subscription Plans</h2>
+<p>Paid Colab subsription plans provide better hardware, i.e., access to more powerful GPU, and more VRAM and RAM. They also have longer timeout sessions. For instance, Colab Pro+ allows you to run the script for up to 24 hours with the web browser closed.</p>
+<p>With the free version (Pay As You Go), only T4 GPU are available, but sometimes there would be no GPU available. The free version has at most 12 hours sessions before timeout. In practice, for the free version, your session could be timed out and your script could be interrupted at any time. If you reconnect within the next 1-2 minutes, the session can be resumed, and otherwise, you will have to re-run your script.</p>
+<p>For this course, it is recommended to use Colab Pro. Fortunately, Google recently announced that it will provide free access to Colab Pro for one year to all students in the USA and in other countries.</p>
+<p><strong style="color:red;">Please check the file “GPU Access” on the course page on Canvas (Modules section) for the link to request free access to Google Colab Pro. </strong></p>
+<p>Note that Colab Pro provides certain number of computational units, which allows to use more powerful GPUs (like A100) and High-RAM. For the purposes of this course, T4 GPUs are sufficient. Therefore, you don’t need to purchase any additional computational units, just use T4 GPU with either standard RAM of high RAM.</p>
+<p><img width="1000" src="images/img9.jpg"></p>
+<p><a id="5.5.1-monitor-your-hardware-resources"></a></p>
+<section id="monitor-your-hardware-resources" class="level3">
+<h3 class="anchored" data-anchor-id="monitor-your-hardware-resources">5.5.1 Monitor Your Hardware Resources</h3>
+<p>To monitor available and used resources, click on the arrow in the upper right corner of your screen, and select <code>View resources</code>. This will show resources stats, as in the following figure, including the current subsription, available computational units, used VRAM and RAM, and similar.</p>
+<p><img width="400" src="images/img16.png"></p>
+<p><img width="400" src="images/img17.png"></p>
+<p><a id="5.6-welcome-page-of-colab"></a></p>
+</section>
+</section>
+<section id="welcome-page-of-colab" class="level2">
+<h2 class="anchored" data-anchor-id="welcome-page-of-colab">5.6 Welcome Page of Colab</h2>
+<p>The <a href="https://research.google.com/colaboratory/">welcome page of Colab</a> offers basic tutorials about working with Jupyter notebooks, data science, and machine learning.</p>
+<p>It includes:</p>
+<ul>
+<li>Overview of Colab basic features, such as <a href="https://colab.research.google.com/notebooks/basic_features_overview.ipynb">Code Cells</a> and <a href="https://colab.research.google.com/notebooks/markdown_guide.ipynb">Markdown Cells</a></li>
+<li>Loading data: Drive, Sheets, and Google Cloud Storage <a href="https://colab.research.google.com/notebooks/io.ipynb">Link</a></li>
+<li>Data Visualization <a href="https://colab.research.google.com/notebooks/charts.ipynb">Link</a></li>
+<li>Machine Learning Introduction Course <a href="https://developers.google.com/machine-learning/crash-course/">Link</a></li>
+</ul>
+<p><img width="600" src="images/img1.jpg"></p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>“Colab 101: Your Ultimate Beginner’s Guide!” by Sam Witteveen, available at: <a href="https://www.youtube.com/watch?v=Ii6gs9zADEA">https://www.youtube.com/watch?v=Ii6gs9zADEA</a>.</li>
+</ol>
 <p><a href="#top">BACK TO TOP</a></p>
 
 
@@ -1138,14 +1489,11 @@ document.addEventListener("DOMContentLoaded", function () {
   </script>
 <nav class="page-navigation">
   <div class="nav-page nav-page-previous">
-      <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="pagination-link" aria-label="Lecture 4 - OOP, Modules, Packages">
-        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 4 - OOP, Modules, Packages</span>
+      <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="pagination-link" aria-label="Tutorial 4 - Virtual Environments">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial 4 - Virtual Environments</span>
       </a>          
   </div>
   <div class="nav-page nav-page-next">
-      <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="pagination-link" aria-label="Tutorial 2 - Python IDEs, VS Code">
-        <span class="nav-page-text">Tutorial 2 - Python IDEs, VS Code</span> <i class="bi bi-arrow-right-short"></i>
-      </a>
   </div>
 </nav>
 </div> <!-- /content -->
