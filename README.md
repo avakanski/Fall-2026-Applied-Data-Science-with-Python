@@ -29,6 +29,10 @@ Semester: Fall 2026 (August 24 – December 18)
 ## Tutorials
 
 * <a href="Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb">Tutorial 1 - Jupyter Notebooks</a>
+* <a href="Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.ipynb">Tutorial 2 - Python IDEs, Visual Studio Code</a>
+* <a href="Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.ipynb">Tutorial 3 - Terminal and Command Line</a>
+* <a href="Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.ipynb">Tutorial 4 - Virtual Environments</a>
+* <a href="Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.ipynb">Tutorial 5 - Google Colab</a>
 
 ## Course Description
 
