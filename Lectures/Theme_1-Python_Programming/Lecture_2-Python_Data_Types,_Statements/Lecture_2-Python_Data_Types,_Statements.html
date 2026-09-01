@@ -1598,12 +1598,14 @@ Cell <span class="ansi-green-fg ansi-bold">In[82], line 1</span>
 <section id="dictionaries" class="level3">
 <h3 class="anchored" data-anchor-id="dictionaries">2.1.5 Dictionaries</h3>
 <blockquote class="blockquote">
-<p>A <strong>dictionary</strong> is an unordered and mutable Python container that stores mappings of unique keys to values.</p>
+<p>A <strong>dictionary</strong> is a mutable Python collection that stores mappings of unique keys to values.</p>
 </blockquote>
 <p>We’ve been learning about <em>sequences</em> in Python so far, and now we’re going to learn about <em>mappings</em> in Python. If you’re familiar with other programming languages, you can think of dictionaries as hash tables.</p>
-<p>Mappings are a collection of objects that are stored by a unique <em>key</em>, unlike a sequence that stores objects by their relative position (index). This is an important distinction, since mappings won’t retain the order of the elements because each object is defined by a key.</p>
+<p>Mappings are collections of objects that are stored and accessed using a unique <em>key</em>, unlike a sequence that stores objects by their relative position (index). This is an important distinction, since the elements of a mapping are accessed by their keys rather than by their positions.</p>
 <p>Therefore, a Python dictionary consists of a collection of <strong>keys</strong> and associated <strong>values</strong>. A colon <code>:</code> separates each key from its value, and the keys and values are provided inside curly braces <code>{}</code>. The keys must be unique, and can appear only once in a dictionary. Also, the keys must be immutable objects, such as strings, integers, floats, or tuples. The associated values can be almost any Python object, and there are no restrictions.</p>
-<p>Dictionaries are mutable, therefore the elements can be changed, added, and removed.</p>
+<p>Dictionaries are mutable, therefore their elements can be changed, added, and removed.</p>
+<p>Python dictionaries also preserve the insertion order of their keys. For example, if three key-value pairs are added to a dictionary in the order A, B, and C, iterating over the dictionary will produce the keys in that same order. However, this was not always the case. In older versions of Python, dictionaries were considered unordered, and the order in which their elements were stored or returned was not guaranteed. Starting with Python 3.7, dictionaries preserve insertion order.</p>
+<p>This does not mean that dictionaries are sequences. Even though dictionaries preserve insertion order, their elements are still accessed using keys, rather than numerical positions or indexes.</p>
 <section id="constructing-a-dictionary" class="level4">
 <h4 class="anchored" data-anchor-id="constructing-a-dictionary">Constructing a Dictionary</h4>
 <div id="cell-184" class="cell" data-execution_count="111">
