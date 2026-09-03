@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-559887822c1a4155ede6db78efeb02e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-a2dd2ae676e512f784fbdbf35f5dcc34.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../site_libs/bootstrap/bootstrap-559887822c1a4155ede6db78efeb02e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-7e3fc592af0ccee640070cd1dae8a63f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -588,13 +588,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div id="cell-15" class="cell" data-execution_count="5">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>sam</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="5">
-<pre><code>&lt;__main__.Dog at 0x243100c6870&gt;</code></pre>
+<pre><code>&lt;__main__.Dog at 0x21b864b7c50&gt;</code></pre>
 </div>
 </div>
 <div id="cell-16" class="cell" data-execution_count="6">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>frank</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="6">
-<pre><code>&lt;__main__.Dog at 0x243100c61b0&gt;</code></pre>
+<pre><code>&lt;__main__.Dog at 0x21b864b7b10&gt;</code></pre>
 </div>
 </div>
 <p>In summary:</p>
@@ -866,8 +866,10 @@ Cell <span class="ansi-green-fg ansi-bold">In[20], line 2</span>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>Dog.__dict__</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="37">
 <pre><code>mappingproxy({'__module__': '__main__',
+              '__firstlineno__': 1,
               'species': 'animal',
               '__init__': &lt;function __main__.Dog.__init__(self, breed, name)&gt;,
+              '__static_attributes__': ('breed', 'name'),
               '__dict__': &lt;attribute '__dict__' of 'Dog' objects&gt;,
               '__weakref__': &lt;attribute '__weakref__' of 'Dog' objects&gt;,
               '__doc__': None})</code></pre>
@@ -1494,7 +1496,7 @@ The value of the variable X is: 3</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The name my_module references to the loaded module object</span></span>
 <span id="cb135-2"><a href="#cb135-2" aria-hidden="true" tabindex="-1"></a>my_module</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="79">
-<pre><code>&lt;module 'my_module' from 'C:\\Users\\avaka\\Documents\\My_Codes\\My_Codes_2025\\CS_4622_5622\\Theme_1-Python_Programming\\Lecture_5-OOP,_Modules,_Packages\\Posted\\Lecture_5-OOP,_Modules,_Packages\\my_module.py'&gt;</code></pre>
+<pre><code>&lt;module 'my_module' from 'C:\\Users\\vakanski\\Documents\\My_Codes\\CS_4622_5622_Fall_2026\\Theme_1-Python_Programming\\Lecture_4-OOP,_Modules,_Packages\\Posted Lecture\\Lecture_4-OOP,_Modules,_Packages\\my_module.py'&gt;</code></pre>
 </div>
 </div>
 <p>Overall, the name <code>my_module</code> serves two different purposes: 1. It identifies the external file <code>my_module.py</code> that needs to be loaded. 2. After the module is loaded, it becomes a reference to the module object.</p>
@@ -1679,7 +1681,7 @@ I am a function named main_report</code></pre>
 <div id="cell-193" class="cell" data-tags="[]" data-execution_count="98">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a>my_module.__dict__[<span class="st">'__file__'</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="98">
-<pre><code>'C:\\Users\\avaka\\Documents\\My_Codes\\My_Codes_2025\\CS_4622_5622\\Theme_1-Python_Programming\\Lecture_5-OOP,_Modules,_Packages\\Posted\\Lecture_5-OOP,_Modules,_Packages\\my_module.py'</code></pre>
+<pre><code>'C:\\Users\\vakanski\\Documents\\My_Codes\\CS_4622_5622_Fall_2026\\Theme_1-Python_Programming\\Lecture_4-OOP,_Modules,_Packages\\Posted Lecture\\Lecture_4-OOP,_Modules,_Packages\\my_module.py'</code></pre>
 </div>
 </div>
 <div id="cell-194" class="cell" data-tags="[]" data-execution_count="99">
@@ -2093,7 +2095,7 @@ The value of the variable Z is: 6</code></pre>
 <pre><code>An iPhone is created.</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="141">
-<pre><code>&lt;__main__.Cellphone at 0x2431d688f20&gt;</code></pre>
+<pre><code>&lt;__main__.Cellphone at 0x21b8744a350&gt;</code></pre>
 </div>
 </div>
 <div id="cell-262" class="cell" data-execution_count="142">
@@ -2142,14 +2144,14 @@ The value of the variable Z is: 6</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb254"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb254-1"><a href="#cb254-1" aria-hidden="true" tabindex="-1"></a>person2 <span class="op">=</span> Person.fromBirthYear(<span class="st">'John'</span>,  <span class="dv">1985</span>)</span>
 <span id="cb254-2"><a href="#cb254-2" aria-hidden="true" tabindex="-1"></a>person2.display()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>John's age is: 40</code></pre>
+<pre><code>John's age is: 41</code></pre>
 </div>
 </div>
 <div id="cell-269" class="cell" data-execution_count="147">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb256"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb256-1"><a href="#cb256-1" aria-hidden="true" tabindex="-1"></a><span class="co"># class method cannot modify specific instances</span></span>
 <span id="cb256-2"><a href="#cb256-2" aria-hidden="true" tabindex="-1"></a>person1.fromBirthYear(<span class="st">'John'</span>, <span class="dv">1985</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="147">
-<pre><code>&lt;__main__.Person at 0x2431dbd6c90&gt;</code></pre>
+<pre><code>&lt;__main__.Person at 0x21b8744a710&gt;</code></pre>
 </div>
 </div>
 <div id="cell-270" class="cell" data-execution_count="148">
@@ -2429,13 +2431,13 @@ Cell <span class="ansi-green-fg ansi-bold">In[167], line 1</span>
 <div id="cell-311" class="cell" data-execution_count="172">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb298"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb298-1"><a href="#cb298-1" aria-hidden="true" tabindex="-1"></a>bob</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="172">
-<pre><code>&lt;__main__.Employee at 0x2431dc60770&gt;</code></pre>
+<pre><code>&lt;__main__.Employee at 0x21b874663c0&gt;</code></pre>
 </div>
 </div>
 <div id="cell-312" class="cell" data-execution_count="173">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb300"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb300-1"><a href="#cb300-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(bob)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>&lt;__main__.Employee object at 0x000002431DC60770&gt;</code></pre>
+<pre><code>&lt;__main__.Employee object at 0x0000021B874663C0&gt;</code></pre>
 </div>
 </div>
 <p>We can implement the <code>__str__()</code> method, so that, when the class instance <code>self</code> is printed, we can customize the displayed output. The code below instructs the output to list the employee name and pay. Recall the string formatting methods, which we covered earlier: <code>%s</code> with <code>% (name)</code> formatting, <code>{}</code> with <code>.format(name)</code> formatting, and f strings <code>f</code> with <code>{name}</code> formatting.</p>
@@ -2474,7 +2476,7 @@ Cell <span class="ansi-green-fg ansi-bold">In[167], line 1</span>
 <div id="cell-319" class="cell" data-execution_count="178">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb309"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb309-1"><a href="#cb309-1" aria-hidden="true" tabindex="-1"></a>sue</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="178">
-<pre><code>&lt;__main__.Employee at 0x2431dc60da0&gt;</code></pre>
+<pre><code>&lt;__main__.Employee at 0x21b8744ae90&gt;</code></pre>
 </div>
 </div>
 <p>Besides the <code>__str__()</code> method, another similar method is <code>__repr__()</code> which stands for <em>representation</em> and it is also used for overloading the <code>print</code> method in Python. It provides another way to customize the printed outputs, and returns what is known as <em>formal string representation</em>. Similarly, the <code>__str__()</code> method is known as <em>informal string representation</em>.</p>
@@ -2580,7 +2582,7 @@ The value of the variable X is: 1</code></pre>
 The value of the variable X is: 3</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="187">
-<pre><code>&lt;module 'my_module' from 'C:\\Users\\avaka\\Documents\\My_Codes\\My_Codes_2025\\CS_4622_5622\\Theme_1-Python_Programming\\Lecture_5-OOP,_Modules,_Packages\\Posted\\Lecture_5-OOP,_Modules,_Packages\\my_module.py'&gt;</code></pre>
+<pre><code>&lt;module 'my_module' from 'C:\\Users\\vakanski\\Documents\\My_Codes\\CS_4622_5622_Fall_2026\\Theme_1-Python_Programming\\Lecture_4-OOP,_Modules,_Packages\\Posted Lecture\\Lecture_4-OOP,_Modules,_Packages\\my_module.py'&gt;</code></pre>
 </div>
 </div>
 <p>Reloading can help to examine a file, for instance, when we make changes to the file. In this case, since we use Jupyter notebooks, to <code>import</code> a file again after we have made some changes to the file we can just restart the kernel, which will allow us to import the file, without using <code>reload</code>.</p>
@@ -2600,7 +2602,7 @@ The value of the variable X is: 3</code></pre>
 The value of the variable X is: 23</code></pre>
 </div>
 <div class="cell-output cell-output-display" data-execution_count="189">
-<pre><code>&lt;module 'MyMainPackage.MySubPackage.sub_script' from 'C:\\Users\\avaka\\Documents\\My_Codes\\My_Codes_2025\\CS_4622_5622\\Theme_1-Python_Programming\\Lecture_5-OOP,_Modules,_Packages\\Posted\\Lecture_5-OOP,_Modules,_Packages\\MyMainPackage\\MySubPackage\\sub_script.py'&gt;</code></pre>
+<pre><code>&lt;module 'MyMainPackage.MySubPackage.sub_script' from 'C:\\Users\\vakanski\\Documents\\My_Codes\\CS_4622_5622_Fall_2026\\Theme_1-Python_Programming\\Lecture_4-OOP,_Modules,_Packages\\Posted Lecture\\Lecture_4-OOP,_Modules,_Packages\\MyMainPackage\\MySubPackage\\sub_script.py'&gt;</code></pre>
 </div>
 </div>
 <p>Once imported, <code>sub-script</code> becomes a module object nested in the object <code>MySubPackage</code>, which in turn is nested in the object <code>MyMainPackage</code>.</p>
@@ -2608,7 +2610,7 @@ The value of the variable X is: 23</code></pre>
 <div id="cell-349" class="cell" data-tags="[]" data-execution_count="190">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb332"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb332-1"><a href="#cb332-1" aria-hidden="true" tabindex="-1"></a>MyMainPackage.MySubPackage</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="190">
-<pre><code>&lt;module 'MyMainPackage.MySubPackage' from 'C:\\Users\\avaka\\Documents\\My_Codes\\My_Codes_2025\\CS_4622_5622\\Theme_1-Python_Programming\\Lecture_5-OOP,_Modules,_Packages\\Posted\\Lecture_5-OOP,_Modules,_Packages\\MyMainPackage\\MySubPackage\\__init__.py'&gt;</code></pre>
+<pre><code>&lt;module 'MyMainPackage.MySubPackage' from 'C:\\Users\\vakanski\\Documents\\My_Codes\\CS_4622_5622_Fall_2026\\Theme_1-Python_Programming\\Lecture_4-OOP,_Modules,_Packages\\Posted Lecture\\Lecture_4-OOP,_Modules,_Packages\\MyMainPackage\\MySubPackage\\__init__.py'&gt;</code></pre>
 </div>
 </div>
 </section>
@@ -2620,17 +2622,15 @@ The value of the variable X is: 23</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb334"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb334-1"><a href="#cb334-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> sys</span>
 <span id="cb334-2"><a href="#cb334-2" aria-hidden="true" tabindex="-1"></a>sys.path</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="191">
-<pre><code>['C:\\Users\\avaka\\Documents\\My_Codes\\My_Codes_2025\\CS_4622_5622\\Theme_1-Python_Programming\\Lecture_5-OOP,_Modules,_Packages\\Posted\\Lecture_5-OOP,_Modules,_Packages',
- 'C:\\Users\\avaka\\anaconda3\\python312.zip',
- 'C:\\Users\\avaka\\anaconda3\\DLLs',
- 'C:\\Users\\avaka\\anaconda3\\Lib',
- 'C:\\Users\\avaka\\anaconda3',
+<pre><code>['C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\python313.zip',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\DLLs',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3',
  '',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\win32',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\win32\\lib',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\Pythonwin',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\setuptools\\_vendor']</code></pre>
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages\\win32',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages\\win32\\lib',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages\\Pythonwin']</code></pre>
 </div>
 </div>
 <div id="cell-353" class="cell" data-tags="[]" data-execution_count="192">
@@ -2640,17 +2640,15 @@ The value of the variable X is: 23</code></pre>
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb337"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb337-1"><a href="#cb337-1" aria-hidden="true" tabindex="-1"></a>sys.path</span>
 <span id="cb337-2"><a href="#cb337-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The appended path is listed last</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-display" data-execution_count="193">
-<pre><code>['C:\\Users\\avaka\\Documents\\My_Codes\\My_Codes_2025\\CS_4622_5622\\Theme_1-Python_Programming\\Lecture_5-OOP,_Modules,_Packages\\Posted\\Lecture_5-OOP,_Modules,_Packages',
- 'C:\\Users\\avaka\\anaconda3\\python312.zip',
- 'C:\\Users\\avaka\\anaconda3\\DLLs',
- 'C:\\Users\\avaka\\anaconda3\\Lib',
- 'C:\\Users\\avaka\\anaconda3',
+<pre><code>['C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\python313.zip',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\DLLs',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3',
  '',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\win32',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\win32\\lib',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\Pythonwin',
- 'C:\\Users\\avaka\\anaconda3\\Lib\\site-packages\\setuptools\\_vendor',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages\\win32',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages\\win32\\lib',
+ 'C:\\Users\\vakanski\\AppData\\Local\\anaconda3\\Lib\\site-packages\\Pythonwin',
  'C:\\Users\\vakanski\\Desktop\\Data_Science\\Lecture_5']</code></pre>
 </div>
 </div>
@@ -2731,10 +2729,10 @@ I am inside the relative_import_scipt_4, which is located in MySubPackage</code>
 <pre><span class="ansi-red-fg ansi-bold">---------------------------------------------------------------------------</span>
 <span class="ansi-red-fg ansi-bold">ModuleNotFoundError</span>                       Traceback (most recent call last)
 Cell <span class="ansi-green-fg ansi-bold">In[198], line 1</span>
-<span class="ansi-green-fg ansi-bold">----&gt; 1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">MyRelativeImportPackage</span><span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">relative_import_script_5</span>
+<span class="ansi-green-fg ansi-bold">----&gt; 1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span><span style="color:rgb(188,188,188)"> </span><span style="font-weight:bold;color:rgb(0,0,255)">MyRelativeImportPackage</span><span style="font-weight:bold;color:rgb(0,0,255)">.</span><span style="font-weight:bold;color:rgb(0,0,255)">relative_import_script_5</span>
 
-File <span class="ansi-green-fg ansi-bold">~\Documents\My_Codes\My_Codes_2025\CS_4622_5622\Theme_1-Python_Programming\Lecture_5-OOP,_Modules,_Packages\Posted\Lecture_5-OOP,_Modules,_Packages\MyRelativeImportPackage\relative_import_script_5.py:1</span>
-<span class="ansi-green-fg ansi-bold">----&gt; 1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span> <span style="font-weight:bold;color:rgb(0,0,255)">script_3</span>
+File <span class="ansi-green-fg ansi-bold">~\Documents\My_Codes\CS_4622_5622_Fall_2026\Theme_1-Python_Programming\Lecture_4-OOP,_Modules,_Packages\Posted Lecture\Lecture_4-OOP,_Modules,_Packages\MyRelativeImportPackage\relative_import_script_5.py:1</span>
+<span class="ansi-green-fg ansi-bold">----&gt; 1</span> <span style="font-weight:bold;color:rgb(0,135,0)">import</span><span style="color:rgb(188,188,188)"> </span><span style="font-weight:bold;color:rgb(0,0,255)">script_3</span>
 <span class="ansi-green-fg">      3</span> <span style="color:rgb(0,135,0)">print</span>(<span style="color:rgb(98,98,98)">20</span><span style="color:rgb(98,98,98)">*</span><span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">-</span><span style="color:rgb(175,0,0)">'</span>)
 <span class="ansi-green-fg">      4</span> <span style="color:rgb(0,135,0)">print</span>(<span style="color:rgb(175,0,0)">'</span><span style="color:rgb(175,0,0)">I am inside the relative_import_scipt_5, which is located in MyMainPackage</span><span style="color:rgb(175,0,0)">'</span>)
 
