@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-559887822c1a4155ede6db78efeb02e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-a2dd2ae676e512f784fbdbf35f5dcc34.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../site_libs/bootstrap/bootstrap-559887822c1a4155ede6db78efeb02e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-7e3fc592af0ccee640070cd1dae8a63f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1476,7 +1476,7 @@ Dog created</code></pre>
 <h2 class="anchored" data-anchor-id="modules-coding-basics">4.2 Modules Coding Basics</h2>
 <p>Every Python file with code is referred to as a <strong>module</strong>. To create modules, we don’t need to write special syntax to tell Python that we are making a module. We can simply use any text editor to type Python code into a text file, and save it with a <code>.py</code> extension; any such file is automatically considered a Python module.</p>
 <p>For example, I have created a simple file called <code>my_module.py</code> that is saved in the same directory as this Jupyter notebook. The module does not do anything useful, it just defines a few names and prints a few statements. The code inside <code>my_module.py</code> is shown below.</p>
-<p><img style="float: left; height:280px;" src="images/pic1.jpg"></p>
+<p><img style="height:280px;" src="images/pic1.jpg"></p>
 <p>Similar to the rules for naming other variables in Python, module names should follow the same rules and can contain only letters, digits, and underscores. The module names cannot use Python-reserved keywords (e.g., such as a module file named <code>if.py</code>.)</p>
 <p><a id="4.2.1-the-import-statement"></a></p>
 <section id="the-import-statement" class="level3">
@@ -1599,7 +1599,7 @@ Cell <span class="ansi-green-fg ansi-bold">In[87], line 1</span>
 <h4 class="anchored" data-anchor-id="when-using-import-is-required">When Using <code>import</code> is Required</h4>
 <p>When the same name of a variable or function is defined in two different modules, and we need to use both of the names at the same time, then we must use the <code>import</code> statement.</p>
 <p>For instance, let’s assume that another module file named <code>module_no_2.py</code> also contains a variable <code>X</code> and a function <code>main_report</code>.</p>
-<p><img style="float: left; height:220px;" src="images/pic2.png"></p>
+<p><img style="height:220px;" src="images/pic2.png"></p>
 <p>Using <code>import</code> we can load the two different variables <code>X</code>, because including the name of the enclosing module makes the two names unique.</p>
 <div id="cell-181" class="cell" data-tags="[]" data-execution_count="91">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> my_module <span class="co"># when a module is imported the first time, it is executed</span></span>
@@ -1705,7 +1705,7 @@ I am a function named main_report</code></pre>
     │   ├── __init__.py
     │   ├── sub_script.py</code></pre>
 <p>To import the module file <code>sub_script.py</code> which is located inside the directory <code>MySubPackage</code>, we can use the dotted syntax shown in the following cell <code>MyMainPackage.MySubPackage.sub_script</code>. In effect, this turns the directory <code>MyMainPackage</code> into a Python namespace, which has attributes corresponding to the sub-directories and module files that the directory contains.</p>
-<p><img style="float: left; height:180px;" src="images/pic_1_1.jpg"></p>
+<p><img style="height:180px;" src="images/pic_1_1.jpg"></p>
 <div id="cell-197" class="cell" data-tags="[]" data-execution_count="100">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb176"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> MyMainPackage.MySubPackage.sub_script</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -1837,8 +1837,8 @@ Cell <span class="ansi-green-fg ansi-bold">In[109], line 1</span>
 <p>In addition, if we ever restructure or rename the directory tree, the <code>from</code> statement requires just one path update in the code, whereas the <code>import</code> statement may require updates in many lines in the code.</p>
 <p>However, <code>import</code> can be advantageous if there are two modules with the same name that are located in different directories, and are used in the same program. With the <code>from</code> statement, we can reach only one of the two modules at a time.</p>
 <p>For example, in our <code>MyMainPackage</code>, there is a function <code>sub_report</code> in both the <code>main_script</code> and <code>sub_script</code>. If we use <code>from</code> statement, the name <code>sub_report</code> will change depending on whether it is imported from the <code>main_script</code> or the <code>sub_script</code>.</p>
-<p><img style="float: left; height:180px;" src="images/pic_1_1.jpg"></p>
-<p><img style="float: left; height:280px;" src="images/pic_1_2.jpg"></p>
+<p><img style="height:180px;" src="images/pic_1_1.jpg"></p>
+<p><img style="height:280px;" src="images/pic_1_2.jpg"></p>
 <div id="cell-221" class="cell" data-tags="[]" data-execution_count="114">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb199"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb199-1"><a href="#cb199-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> MyMainPackage.MySubPackage.sub_script <span class="im">import</span> sub_report</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
@@ -2518,7 +2518,7 @@ Cell <span class="ansi-green-fg ansi-bold">In[167], line 1</span>
 <li>If the file is being run as a top-level program file, <code>__name__</code> is set to the string <code>__main__</code>.</li>
 </ul>
 <p>Let’s check it with an example. The module file <code>module_no_3</code> is shown below, and note that in the first line we will print the assigned attribute <code>__name__</code> to confirm that the above is correct.</p>
-<p><img style="float: left; height:180px;" src="images/pic3.jpg"></p>
+<p><img style="height:180px;" src="images/pic3.jpg"></p>
 <p>As expected, <code>__name__</code> is assigned to <code>module_no_3</code> when imported.</p>
 <div id="cell-331" class="cell" data-tags="[]" data-execution_count="182">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb316"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb316-1"><a href="#cb316-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The module is imported</span></span>
@@ -2542,7 +2542,7 @@ The value of the variable X is: 1</code></pre>
 <p>Thus, the <code>__name__</code> attribute can be used in the following test: <code>if __name__ == '__main__'</code> to determine whether it is being run or imported.</p>
 <p>Therefore, if the module is the main script in a package and represents an entry point to a package that is run by the end-users (<code>!python mainscript.py</code>), the code after <code>if __name__ == '__main__'</code> in the main script will be executed when the main script is run. On the other hand, all other modules in the package will be imported. Any code under the <code>if __name__ == '__main__'</code> test in other modules will not be executed.</p>
 <p>Another reason why using this is helpful is during code development for self-testing code that is written at the bottom of a file under the <code>__name__</code> test. For instance, the file <code>module_no_3a</code> is similar to the file <code>module_no_3</code>, only that it includes several lines of code at the bottom, which test whether the function <code>CelsiusToFahrenheit</code> outputs expected values. When run as a command in the cell, the <code>if __name__ == '__main__'</code> is True, and the lines that test the outputs of the <code>CelsiusToFahrenheit</code> are run. Conversely, when the module file is imported, the various variables and functions are imported, but the <code>if __name__ == '__main__'</code> is False, and the lines that test the outputs of the <code>CelsiusToFahrenheit</code> are not run.</p>
-<p><img style="float: left; height:280px;" src="images/pic4.jpg"></p>
+<p><img style="height:280px;" src="images/pic4.jpg"></p>
 <div id="cell-336" class="cell" data-tags="[]" data-execution_count="184">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb320"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb320-1"><a href="#cb320-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>python module_no_3a.py</span>
 <span id="cb320-2"><a href="#cb320-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Or, alternatively</span></span>
@@ -2674,8 +2674,8 @@ The value of the variable X is: 23</code></pre>
     │   ├── sub_script</code></pre>
 <p>When modules within a package need to import other names from other modules in the same package, it is still possible to use the full path syntax for importing, as we did in the above section. This is called an <strong>absolute import</strong>.</p>
 <p>For instance, the <code>relative_import_script_1.py</code> in the first line imports <code>script_1</code> by using the full name of the directory (i.e., <code>from MyRelativeImportPackage import script_1</code>).</p>
-<p><img style="float: left; height:120px;" src="images/pic_2_1.jpg"></p>
-<p><img style="float: left; height:120px;" src="images/pic_2_7.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_1.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_7.jpg"></p>
 <div id="cell-359" class="cell" data-tags="[]" data-execution_count="194">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb340"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb340-1"><a href="#cb340-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> MyRelativeImportPackage.relative_import_script_1</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2688,8 +2688,8 @@ I am inside the relative_import_scipt_1, which is located in MyMainPackage</code
 <p>Therefore, instead of using <code>from MyRelativeImportPackage import script_1</code>, we can use <code>from . import script_1</code>. This is implemented in the <code>relative_import_script_2.py</code> to import <code>script_2</code>.</p>
 <p>This syntax is referred to as a <strong>relative import</strong> because the path to the module to be imported is related to the current directory in which the module that imports is located.</p>
 <p>The convenience of using relative imports is that we don’t need to write the name or the path of the current directory.</p>
-<p><img style="float: left; height:120px;" src="images/pic_2_2.jpg"></p>
-<p><img style="float: left; height:120px;" src="images/pic_2_8.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_2.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_8.jpg"></p>
 <div id="cell-362" class="cell" data-tags="[]" data-execution_count="195">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb342"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb342-1"><a href="#cb342-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> MyRelativeImportPackage.relative_import_script_2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2699,8 +2699,8 @@ I am inside the relative_import_scipt_2, which is located in MyMainPackage</code
 </div>
 </div>
 <p>One more example is presented in the next cell, where the module <code>relative_import_script_3.py</code> is located in the directory <code>MySubPackage</code> and it imports the module <code>sub_script</code> which is located in the same directory by using the <code>.</code> syntax.</p>
-<p><img style="float: left; height:120px;" src="images/pic_2_3.jpg"></p>
-<p><img style="float: left; height:120px;" src="images/pic_2_10.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_3.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_10.jpg"></p>
 <div id="cell-365" class="cell" data-tags="[]" data-execution_count="196">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb344"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb344-1"><a href="#cb344-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> MyRelativeImportPackage.MySubPackage.relative_import_script_3</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2710,8 +2710,8 @@ I am inside the relative_import_scipt_3, which is located in MySubPackage</code>
 </div>
 </div>
 <p>If we use two dots syntax as in <code>..</code>, then a module can import another module that is located in its parent directory of the current package (i.e., the directory above). For example, the <code>relative_import_script_4.py</code> is located in the <code>MySubPackage</code> directory, and it uses <code>from .. import script_3</code> to import the <code>script_3</code> module that is located in the parent directory of <code>MySubPackage</code>, that is, <code>MyMainPacakage</code>.</p>
-<p><img style="float: left; height:120px;" src="images/pic_2_4.jpg"></p>
-<p><img style="float: left; height:120px;" src="images/pic_2_9.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_4.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_9.jpg"></p>
 <div id="cell-368" class="cell" data-tags="[]" data-execution_count="197">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb346"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb346-1"><a href="#cb346-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> MyRelativeImportPackage.MySubPackage.relative_import_script_4</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
@@ -2721,7 +2721,7 @@ I am inside the relative_import_scipt_4, which is located in MySubPackage</code>
 </div>
 </div>
 <p>On the other hand, if we tried to use only <code>import script_3</code> instead of <code>from . import script_3</code>, this will fail. We must use the <code>from</code> dotted syntax to import modules located in the same package. This is illustrated in the example in the following cell.</p>
-<p><img style="float: left; height:120px;" src="images/pic_2_5.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_5.jpg"></p>
 <div id="cell-371" class="cell" data-tags="[]" data-execution_count="198">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb348"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb348-1"><a href="#cb348-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> MyRelativeImportPackage.relative_import_script_5</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
@@ -2741,8 +2741,8 @@ File <span class="ansi-green-fg ansi-bold">~\Documents\My_Codes\CS_4622_5622_Fal
 </div>
 </div>
 <p>Another way to use the relative imports is shown in the <code>relative_import_script_6.py</code> module, where the syntax <code>from .script_4 import X</code> is used to import the name <code>X</code> from the <code>script_4</code> module which is located in the same directory as the importer module. This way, we can import specific names from modules in the same package.</p>
-<p><img style="float: left; height:120px;" src="images/pic_2_6.jpg"></p>
-<p><img style="float: left; height:120px;" src="images/pic_2_11.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_6.jpg"></p>
+<p><img style="height:120px;" src="images/pic_2_11.jpg"></p>
 <div id="cell-374" class="cell" data-tags="[]" data-execution_count="199">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb349"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb349-1"><a href="#cb349-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> MyRelativeImportPackage.relative_import_script_6</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">

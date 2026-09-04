@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-559887822c1a4155ede6db78efeb02e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-a2dd2ae676e512f784fbdbf35f5dcc34.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../site_libs/bootstrap/bootstrap-559887822c1a4155ede6db78efeb02e0.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-7e3fc592af0ccee640070cd1dae8a63f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -3543,17 +3543,17 @@ The end</code></pre>
 <p>The <strong>interpreter</strong> in Python is the program that executes other programs. When you run your programs in Python, the interpreter reads your programs, and carries out the instructions contained in the program. Or, we can say that the interpreter interprets your codes and enables the hardware on your computer to execute the program.</p>
 <p>When you install Python on your computer, the Python interpreter will be part of the installation, either as an executable program, or as a set of linked libraries. Note that there are several different Python installations, and depending on the type of Python installation you have on your computer, the interpreter may be implemented as a C program, a set of Java classes, or in another programming language.</p>
 <p>Understanding how the programs are executed in Python can be helpful for programmers. For instance, I saved the following simple file as <em>module1.py</em>.</p>
-<p><img style="float: left; height:180px;" src="images/pic2.jpg"></p>
+<p><img style="height:180px;" src="images/pic2.jpg"></p>
 <p>When I run the file in the Command Prompt, Python executed the file, and the output of the program is <code>Hello world!</code> and <code>10</code>.</p>
-<p><img style="float: left; height:240px;" src="images/pic3.jpg"></p>
+<p><img style="height:240px;" src="images/pic3.jpg"></p>
 <p>When we run programs in Python, the programs are first compiled into <strong><em>byte code</em></strong>, and are afterward run by a <strong><em>Python virtual machine (PVM)</em></strong>, as shown in the figure below.</p>
 <p><img src="images/pic4.jpg" width="450"> <em>Figure source: Reference [1].</em></p>
 <p><strong>Byte code</strong> is a format into which the <strong>source code</strong> (the statements in the file) is compiled by the Python interpreter. Byte-code is platform-independent (i.e., it can be run on Windows, Linux, MacOS), and it can be run more quickly than the source code program.</p>
 <p>The byte code is stored in a file with a <em>.pyc</em> extension, which stands for compiled .py file. The <em>.pyc</em> files are saved in a subdirectory named __pycache__ located in the same directory where the source file is saved.</p>
 <p>For example, the directory where <em>module1.py</em> is saved on my computer is shown below, and the __pycache__ subdirectory was automatically created by Python.</p>
-<p><img style="float: left; height:180px;" src="images/pic5.jpg"></p>
+<p><img style="height:180px;" src="images/pic5.jpg"></p>
 <p>Within the subdirectory is the byte code file named <em>module1.cpython-36</em>. The name indicates that the Python installation on my computer uses the CPython interpreter, and the installed Python version is 3.6. Note that the file type is PYC file, meaning a .pyc extension.</p>
-<p><img style="float: left; height:140px;" src="images/pic6.jpg"></p>
+<p><img style="height:140px;" src="images/pic6.jpg"></p>
 <p>Byte code is saved for speed optimization. When I run module1.py next time, Python will skip the compilation step, and it will directly load the saved .pyc byte code file. However, if the original source code file module1.py was modified, Python will re-compile and update the byte code file. Similarly, if a different version of Python is installed, a new byte code file will be created that matches the current version of Python.</p>
 <p><strong>Python virtual machine</strong> (PVM) is the last part of the Python interpreter. PVM executes the byte code instructions one-by-one, i.e., it is the component that runs the programs. PVM is not a separate program, and it does not need to be installed separately: it is part of the Python installation. PVM needs a software layer to allocate physical computing resources—such as processors, memory, and storage.</p>
 <p>Python belongs to the group of <strong>interpreted languages</strong>, or they are also called <em>scripting languages</em> (other languages in this group are Perl, Ruby, and JavaScript). As we explained, the Python interpreter reads the statements in source files and converts them into byte code files, which are afterwards executed by the PVM. Conversely, Java, C, and C++ belong to the group of <strong>compiled languages</strong>. In these languages, a compiler converts the statements in source files into binary machine code, which is afterwards executed by the computer hardware. Note that byte code files are different than binary machine code files. Consequently, running Python programs is slower than running C or C++ programs, because the code is interpreted as it is executed. On the other hand, writing and testing Python programs is faster and easier than writing and testing programs using compiled languages. (One last clarification: Python does compile source files, but the result is not a binary machine code, and because of that it is not considered a compiled language).</p>
