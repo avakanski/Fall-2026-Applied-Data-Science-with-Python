@@ -52,6 +52,18 @@ website:
             text: "Lecture 3 - Files, Functions"
           - href: "Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.ipynb"
             text: "Lecture 4 - OOP, Modules, Packages"
+      - section: "Theme 2 - Data Engineering Pipelines"
+        contents:
+          - href: "Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.ipynb"
+            text: "Lecture 5 - NumPy for Array Operations"
+          - href: "Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.ipynb"
+            text: "Lecture 6 - Data Manipulation with Pandas"
+          - href: "Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.ipynb"
+            text: "Lecture 7 - Data Visualization with Matplotlib and Seaborn"
+          - href: "Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.ipynb"
+            text: "Lecture 8 - Databases and SQL"
+          - href: "Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.ipynb"
+            text: "Lecture 9 - Data Exploration and Preprocessing"
       - section: "Tutorials"
         contents:
           - href: "Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"

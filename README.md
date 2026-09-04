@@ -24,6 +24,14 @@ Semester: Fall 2026 (August 24 – December 18)
 * <a href="Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.ipynb">Lecture 3 - Files, Functions</a>
 * <a href="Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.ipynb">Lecture 4 - Object-Oriented Programming, Modules, Packages</a>
 
+### Theme 2: Data Engineering Pipelines
+
+* <a href="Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.ipynb">Lecture 5 - NumPy for Array Operations</a>
+* <a href="Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.ipynb">Lecture 6 - Data Manipulation with Pandas</a>
+* <a href="Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.ipynb">Lecture 7 - Data Visualization with Matplotlib and Seaborn</a>
+* <a href="Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.ipynb">Lecture 8 - Databases and SQL</a>
+* <a href="Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.ipynb">Lecture 9 - Data Exploration and Preprocessing</a>
+
 *(Additional lectures will be added during the semester.)*
 
 ## Tutorials
