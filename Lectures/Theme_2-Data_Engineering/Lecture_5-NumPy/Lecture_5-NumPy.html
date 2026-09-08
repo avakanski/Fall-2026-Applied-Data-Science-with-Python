@@ -884,6 +884,7 @@ window.Quarto = {
        [5, 6, 7]])</code></pre>
 </div>
 </div>
+<p>Vectorization replaces explicit Python for loops with optimized operations that process entire arrays simultaneously, resulting in faster execution speeds.</p>
 <p>For basic arithmetic operations we can use <code>add</code>, <code>subtract</code>, <code>divide</code>, <code>multiply</code>, <code>power</code>, and <code>exp</code> (exponential). However, NumPy uses operator overloading, and therefore, we can directly use mathematical operators (<code>+</code>, <code>-</code>, <code>/</code>, <code>*</code>, and <code>**</code>).</p>
 <div id="cell-65" class="cell" data-execution_count="31">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a>np.add(ary, <span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -1004,7 +1005,7 @@ window.Quarto = {
 </div>
 </div>
 <p><img src="images/broadcasting-2.png" width="500"> <em>Figure source: Reference [1].</em></p>
-<p>Using broadcasting in Python requires compatibility between the sizes of the arrays. For instance, if we try to add two arrays of sizes (3,3) and (2,2), Python will return an error.</p>
+<p>Broadcasting allows to repeat the smaller array to match the dimensions of the larger array, without making unnecessary copies of the data in memory. However, using broadcasting requires compatibility between the sizes of the arrays. For instance, if we try to add two arrays of sizes (3,3) and (2,2), it will return an error.</p>
 <div id="cell-91" class="cell" data-execution_count="44">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb86"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb86-1"><a href="#cb86-1" aria-hidden="true" tabindex="-1"></a>np.ones((<span class="dv">3</span>,<span class="dv">3</span>)) <span class="op">+</span> np.ones((<span class="dv">2</span>,<span class="dv">2</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-error">
@@ -1327,7 +1328,7 @@ Cell <span class="ansi-green-fg ansi-bold">In[56], line 2</span>
 </div>
 </div>
 <p>In the above code, <code>np.random.RandomState()</code> constructed a random number generator that we named <code>rng2</code>. When we call <code>rng2</code> to draw random numbers, it uses the specified seed (<code>seed=123</code>) to create random numbers in a controlled way.</p>
-<p>Note however that the seed 123 will be applied only to the <code>rng2</code> object, and it does not affect other variables in our code that use <code>np.random</code>. For instance, we can apply a different random seed to all other <code>np.random</code> functions in our code, e.g., by <code>np.random.seed(seed=11)</code>. In other words, <code>np.random.seed(seed=43)</code> is global initializer, and it affects all functions that use <code>np.random</code> in a Python module or script. Conversely, <code>np.random.RandomState()</code> is local initializer, and it affects the random states only for the variable <code>rng2</code> based on the random seed 123, and it is independent of the other instances that are controlled by the global random number generator with a random seed 11.</p>
+<p>Note however that the seed 123 will be applied only to the <code>rng2</code> object, and it does not affect other variables in our code that use <code>np.random</code>. For instance, we can apply a different random seed to all other <code>np.random</code> functions in our code, e.g., by <code>np.random.seed(seed=11)</code>. In other words, <code>np.random.seed(seed=11)</code> is global initializer, and it affects all functions that use <code>np.random</code> in a Python module or script. Conversely, <code>np.random.RandomState()</code> is local initializer, and it affects the random states only for the variable <code>rng2</code> based on the random seed 123, and it is independent of the other instances that are controlled by the global random number generator with a random seed 11.</p>
 <p><a id="5.6-reshaping-numpy-arrays"></a></p>
 </section>
 <section id="reshaping-numpy-arrays" class="level2">
