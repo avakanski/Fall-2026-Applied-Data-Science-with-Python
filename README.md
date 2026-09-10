@@ -2,13 +2,13 @@
 
 [University of Idaho](https://www.uidaho.edu) - [Department of Computer Science](https://www.uidaho.edu/engr/departments/cs)
 
+Semester: Fall 2026 (August 24 – December 18)
+
 Instructor: [Alex Vakanski](https://www.idahofallshighered.org/vakanski/) (vakanski@uidaho.edu)
 
 Office Hours: Fridays, 10:00 AM – 11:00 AM Pacific (11:00 AM – 12:00 PM Mountain), held on Zoom, link available on Canvas.
 
 Teaching Assistant: Lily Mason (lmason@uidaho.edu)
-
-Semester: Fall 2026 (August 24 – December 18)
 
 <a href="Lectures/CS_4622_5622-Applied_Data_Science_with_Python-Syllabus.pdf">Course Syllabus</a>
 
