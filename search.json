@@ -356,7 +356,7 @@
     "href": "Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html#introduction-to-pandas",
     "title": "Lecture 6 - Data Manipulation with Pandas",
     "section": "6.1 Introduction to pandas",
-    "text": "6.1 Introduction to pandas\npandas is a library designed for working with structured data, such as tabular data (e.g., from .csv files, Excel files) or relational databases (e.g., SQL).\n\nThe DataFrame object in pandas is a 2-dimensional tabular, column-oriented data structure. The DateFrame is similar to an Excel spreadsheet and can store data of different types (including text characters, integers, floating-point values, categorical data, and more).\n\n Figure source: Reference [2].\nThe pandas name is derived from the term panel data, which is a term from economics for multi-dimensional structured data.",
+    "text": "6.1 Introduction to pandas\npandas (written with a lowercase “p”) is a library designed for working with structured data, such as tabular data (e.g., from .csv files, Excel files) or relational databases (e.g., SQL).\n\nThe DataFrame object in pandas is a 2-dimensional tabular, column-oriented data structure. The DateFrame is similar to an Excel spreadsheet and can store data of different types (including text characters, integers, floating-point values, categorical data, and more).\n\n Figure source: Reference [2].\nThe pandas name is derived from the term panel data, which is a term from economics for multi-dimensional structured data.",
     "crumbs": [
       "Theme 2 - Data Engineering Pipelines",
       "Lecture 6 - Data Manipulation with Pandas"
