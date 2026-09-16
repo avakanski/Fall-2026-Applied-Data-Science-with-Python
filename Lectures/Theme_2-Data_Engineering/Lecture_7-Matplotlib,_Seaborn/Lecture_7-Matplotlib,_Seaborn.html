@@ -2602,7 +2602,7 @@ window.Quarto = {
 </div>
 </div>
 </div>
-<p>Or, if you recall from the previous lecture, we used the <code>.corr()</code> method in pandas to calculate the correlation between the features, and afterward we used <code>heatmap</code> to visualize the correlations. By applying colors that correspond to the correlation values, it makes it easier to identify relationships between the features.</p>
+<p>In the next cell, the <code>.corr()</code> method in pandas is used to calculate the correlation between the features in the <code>titanic</code> DataFrame. We can visualize the correlations by applying colors that correspond to the correlation values, which makes it easier to identify relationships between the features.</p>
 <div id="cell-213" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;,&quot;height&quot;:297}}" data-outputid="62e0ff8d-d809-46af-e3ec-ab12e53dc8f8" data-tags="[]" data-execution_count="102">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Correlation of numerical features in titanic dataset</span></span>
 <span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>correlation <span class="op">=</span> titanic.corr(numeric_only<span class="op">=</span><span class="va">True</span>)</span>
