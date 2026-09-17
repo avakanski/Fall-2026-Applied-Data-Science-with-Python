@@ -5703,14 +5703,15 @@ Done.</code></pre>
 <section id="right-join" class="level3">
 <h3 class="anchored" data-anchor-id="right-join">8.9.3 RIGHT JOIN</h3>
 <p>By analogy, <code>RIGHT JOIN</code> (or <code>RIGHT OUTER JOIN</code>) returns all rows from the right table and the matched rows from the left table. If there are no matches in the left table, the result will contain <code>None</code> values for those columns from the left table.</p>
-<p>In the example below, the entries in the <code>locations</code> table are returned, and they all have matched rows in the <code>countries</code> table.</p>
-<div id="cell-101" class="cell" data-tags="[]" data-execution_count="44">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    country_name, countries.country_id, locations.country_id, street_address, city</span>
-<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>    countries</span>
-<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>RIGHT JOIN locations ON countries.country_id <span class="op">=</span> locations.country_id<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Let’s see an example of joining the tables <code>employees</code> and <code>dependents</code>. First, we select employees from departments 1, 4, and 8 in the <code>employees</code> table and we examine the <code>dependents</code> table. Both tables have a column <code>employee_id</code> that will be used for joining.</p>
+<div id="cell-101" class="cell" data-execution_count="44">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb93"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb93-1"><a href="#cb93-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb93-2"><a href="#cb93-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb93-3"><a href="#cb93-3" aria-hidden="true" tabindex="-1"></a>    <span class="op">*</span> </span>
+<span id="cb93-4"><a href="#cb93-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb93-5"><a href="#cb93-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
+<span id="cb93-6"><a href="#cb93-6" aria-hidden="true" tabindex="-1"></a>WHERE department_id IN (<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>) </span>
+<span id="cb93-7"><a href="#cb93-7" aria-hidden="true" tabindex="-1"></a>ORDER BY department_id</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
@@ -5719,62 +5720,350 @@ Done.</code></pre>
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
-<th data-quarto-table-cell-role="th">country_name</th>
-<th data-quarto-table-cell-role="th">country_id</th>
-<th data-quarto-table-cell-role="th">country_id_1</th>
-<th data-quarto-table-cell-role="th">street_address</th>
-<th data-quarto-table-cell-role="th">city</th>
+<th data-quarto-table-cell-role="th">employee_id</th>
+<th data-quarto-table-cell-role="th">first_name</th>
+<th data-quarto-table-cell-role="th">last_name</th>
+<th data-quarto-table-cell-role="th">email</th>
+<th data-quarto-table-cell-role="th">phone_number</th>
+<th data-quarto-table-cell-role="th">hire_date</th>
+<th data-quarto-table-cell-role="th">job_id</th>
+<th data-quarto-table-cell-role="th">salary</th>
+<th data-quarto-table-cell-role="th">manager_id</th>
+<th data-quarto-table-cell-role="th">department_id</th>
 </tr>
 </thead>
 <tbody>
 <tr class="odd">
-<td>Canada</td>
-<td>CA</td>
-<td>CA</td>
-<td>147 Spadina Ave</td>
-<td>Toronto</td>
+<td>200</td>
+<td>Jennifer</td>
+<td>Whalen</td>
+<td>jennifer.whalen@sqltutorial.org</td>
+<td>515.123.4444</td>
+<td>1987-09-17</td>
+<td>3</td>
+<td>4400.0</td>
+<td>101</td>
+<td>1</td>
 </tr>
 <tr class="even">
-<td>Germany</td>
-<td>DE</td>
-<td>DE</td>
-<td>Schwanthalerstr. 7031</td>
-<td>Munich</td>
+<td>203</td>
+<td>Susan</td>
+<td>Mavris</td>
+<td>susan.mavris@sqltutorial.org</td>
+<td>515.123.7777</td>
+<td>1994-06-07</td>
+<td>8</td>
+<td>6500.0</td>
+<td>101</td>
+<td>4</td>
 </tr>
 <tr class="odd">
-<td>United Kingdom</td>
-<td>UK</td>
-<td>UK</td>
-<td>8204 Arthur St</td>
-<td>London</td>
+<td>145</td>
+<td>John</td>
+<td>Russell</td>
+<td>john.russell@sqltutorial.org</td>
+<td>None</td>
+<td>1996-10-01</td>
+<td>15</td>
+<td>14000.0</td>
+<td>100</td>
+<td>8</td>
 </tr>
 <tr class="even">
-<td>United Kingdom</td>
-<td>UK</td>
-<td>UK</td>
-<td>Magdalen Centre, The Oxford Science Park</td>
-<td>Oxford</td>
+<td>146</td>
+<td>Karen</td>
+<td>Partners</td>
+<td>karen.partners@sqltutorial.org</td>
+<td>None</td>
+<td>1997-01-05</td>
+<td>15</td>
+<td>13500.0</td>
+<td>100</td>
+<td>8</td>
 </tr>
 <tr class="odd">
-<td>United States of America</td>
-<td>US</td>
-<td>US</td>
-<td>2014 Jabberwocky Rd</td>
-<td>Southlake</td>
+<td>176</td>
+<td>Jonathon</td>
+<td>Taylor</td>
+<td>jonathon.taylor@sqltutorial.org</td>
+<td>None</td>
+<td>1998-03-24</td>
+<td>16</td>
+<td>8600.0</td>
+<td>100</td>
+<td>8</td>
 </tr>
 <tr class="even">
-<td>United States of America</td>
-<td>US</td>
-<td>US</td>
-<td>2011 Interiors Blvd</td>
-<td>South San Francisco</td>
+<td>177</td>
+<td>Jack</td>
+<td>Livingston</td>
+<td>jack.livingston@sqltutorial.org</td>
+<td>None</td>
+<td>1998-04-23</td>
+<td>16</td>
+<td>8400.0</td>
+<td>100</td>
+<td>8</td>
 </tr>
 <tr class="odd">
-<td>United States of America</td>
-<td>US</td>
-<td>US</td>
-<td>2004 Charade Rd</td>
-<td>Seattle</td>
+<td>178</td>
+<td>Kimberely</td>
+<td>Grant</td>
+<td>kimberely.grant@sqltutorial.org</td>
+<td>None</td>
+<td>1999-05-24</td>
+<td>16</td>
+<td>7000.0</td>
+<td>100</td>
+<td>8</td>
+</tr>
+<tr class="even">
+<td>179</td>
+<td>Charles</td>
+<td>Johnson</td>
+<td>charles.johnson@sqltutorial.org</td>
+<td>None</td>
+<td>2000-01-04</td>
+<td>16</td>
+<td>6200.0</td>
+<td>100</td>
+<td>8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<div id="cell-102" class="cell" data-execution_count="45">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    dependent_id, first_name, last_name, relationship, employee_id</span>
+<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>    dependents </span>
+<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>LIMIT <span class="dv">15</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> * sqlite://
+Done.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="45">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">dependent_id</th>
+<th data-quarto-table-cell-role="th">first_name</th>
+<th data-quarto-table-cell-role="th">last_name</th>
+<th data-quarto-table-cell-role="th">relationship</th>
+<th data-quarto-table-cell-role="th">employee_id</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>1</td>
+<td>Penelope</td>
+<td>Gietz</td>
+<td>Child</td>
+<td>206</td>
+</tr>
+<tr class="even">
+<td>2</td>
+<td>Nick</td>
+<td>Higgins</td>
+<td>Child</td>
+<td>205</td>
+</tr>
+<tr class="odd">
+<td>3</td>
+<td>Ed</td>
+<td>Whalen</td>
+<td>Child</td>
+<td>200</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>Jennifer</td>
+<td>King</td>
+<td>Child</td>
+<td>100</td>
+</tr>
+<tr class="odd">
+<td>5</td>
+<td>Johnny</td>
+<td>Kochhar</td>
+<td>Child</td>
+<td>101</td>
+</tr>
+<tr class="even">
+<td>6</td>
+<td>Bette</td>
+<td>De Haan</td>
+<td>Child</td>
+<td>102</td>
+</tr>
+<tr class="odd">
+<td>7</td>
+<td>Grace</td>
+<td>Faviet</td>
+<td>Child</td>
+<td>109</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>Matthew</td>
+<td>Chen</td>
+<td>Child</td>
+<td>110</td>
+</tr>
+<tr class="odd">
+<td>9</td>
+<td>Joe</td>
+<td>Sciarra</td>
+<td>Child</td>
+<td>111</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>Christian</td>
+<td>Urman</td>
+<td>Child</td>
+<td>112</td>
+</tr>
+<tr class="odd">
+<td>11</td>
+<td>Zero</td>
+<td>Popp</td>
+<td>Child</td>
+<td>113</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>Karl</td>
+<td>Greenberg</td>
+<td>Child</td>
+<td>108</td>
+</tr>
+<tr class="odd">
+<td>13</td>
+<td>Uma</td>
+<td>Mavris</td>
+<td>Child</td>
+<td>203</td>
+</tr>
+<tr class="even">
+<td>14</td>
+<td>Vivien</td>
+<td>Hunold</td>
+<td>Child</td>
+<td>103</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>Cuba</td>
+<td>Ernst</td>
+<td>Child</td>
+<td>104</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>We will join the <code>dependents</code> (left) with <code>employees</code> (right) using <code>RIGHT JOIN</code>. The output of the next cell returns all rows from the right table (<code>employees</code>), and every employee from departments 1, 4, and 8 appears in the result, even those who have no dependents listed. For employees with no dependents, the columns from the <code>dependents</code> table are filled with <code>None</code> values.</p>
+<div id="cell-104" class="cell" data-execution_count="46">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>    employees.employee_id, employees.first_name, employees.last_name, employees.department_id,</span>
+<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>    dependents.first_name AS dependent_first_name, dependents.last_name AS dependent_last_name, dependents.relationship</span>
+<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>    dependents</span>
+<span id="cb97-7"><a href="#cb97-7" aria-hidden="true" tabindex="-1"></a>RIGHT JOIN employees ON dependents.employee_id <span class="op">=</span> employees.employee_id</span>
+<span id="cb97-8"><a href="#cb97-8" aria-hidden="true" tabindex="-1"></a>WHERE employees.department_id IN (<span class="dv">1</span>, <span class="dv">4</span>, <span class="dv">8</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> * sqlite://
+Done.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="46">
+<table class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">employee_id</th>
+<th data-quarto-table-cell-role="th">first_name</th>
+<th data-quarto-table-cell-role="th">last_name</th>
+<th data-quarto-table-cell-role="th">department_id</th>
+<th data-quarto-table-cell-role="th">dependent_first_name</th>
+<th data-quarto-table-cell-role="th">dependent_last_name</th>
+<th data-quarto-table-cell-role="th">relationship</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>200</td>
+<td>Jennifer</td>
+<td>Whalen</td>
+<td>1</td>
+<td>Ed</td>
+<td>Whalen</td>
+<td>Child</td>
+</tr>
+<tr class="even">
+<td>203</td>
+<td>Susan</td>
+<td>Mavris</td>
+<td>4</td>
+<td>Uma</td>
+<td>Mavris</td>
+<td>Child</td>
+</tr>
+<tr class="odd">
+<td>145</td>
+<td>John</td>
+<td>Russell</td>
+<td>8</td>
+<td>Woody</td>
+<td>Russell</td>
+<td>Child</td>
+</tr>
+<tr class="even">
+<td>146</td>
+<td>Karen</td>
+<td>Partners</td>
+<td>8</td>
+<td>Alec</td>
+<td>Partners</td>
+<td>Child</td>
+</tr>
+<tr class="odd">
+<td>176</td>
+<td>Jonathon</td>
+<td>Taylor</td>
+<td>8</td>
+<td>Sandra</td>
+<td>Taylor</td>
+<td>Child</td>
+</tr>
+<tr class="even">
+<td>177</td>
+<td>Jack</td>
+<td>Livingston</td>
+<td>8</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="odd">
+<td>178</td>
+<td>Kimberely</td>
+<td>Grant</td>
+<td>8</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
+</tr>
+<tr class="even">
+<td>179</td>
+<td>Charles</td>
+<td>Johnson</td>
+<td>8</td>
+<td>None</td>
+<td>None</td>
+<td>None</td>
 </tr>
 </tbody>
 </table>
@@ -5785,18 +6074,36 @@ Done.</code></pre>
 <section id="full-join" class="level3">
 <h3 class="anchored" data-anchor-id="full-join">8.9.4 FULL JOIN</h3>
 <p><code>FULL JOIN</code> (also known as a <code>FULL OUTER JOIN</code>) combines the result sets of both a <code>LEFT JOIN</code> and a <code>RIGHT JOIN</code>, it returns all rows from both tables and includes rows from the left table that have no match in the right table (with <code>None</code> values for right table columns) and rows from the right table that have no match in the left table (with <code>None</code> values for left table columns).</p>
-<div id="cell-104" class="cell" data-tags="[]" data-execution_count="45">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb95"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb95-1"><a href="#cb95-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb95-2"><a href="#cb95-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb95-3"><a href="#cb95-3" aria-hidden="true" tabindex="-1"></a>    country_name, countries.country_id, locations.country_id, street_address, city</span>
-<span id="cb95-4"><a href="#cb95-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb95-5"><a href="#cb95-5" aria-hidden="true" tabindex="-1"></a>    countries</span>
-<span id="cb95-6"><a href="#cb95-6" aria-hidden="true" tabindex="-1"></a>FULL JOIN locations ON countries.country_id <span class="op">=</span> locations.country_id<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To demonstrate it, let’s temporarily insert a row into the <code>locations</code> table with a <code>country_id</code> of <code>'XX'</code> that does not exist in the <code>countries</code> table. This means:</p>
+<ul>
+<li>Countries with no matching location (e.g., Argentina, China, etc.) will produce <code>None</code> values for the <code>locations</code> columns.</li>
+<li>The new location row with <code>country_id = 'XX'</code> has no matching country, so it will produce <code>None</code> values for the <code>countries</code> columns.</li>
+</ul>
+<p>This way, <code>None</code> values appear on both sides, which is the expected result of <code>FULL JOIN</code>.</p>
+<div id="cell-107" class="cell" data-execution_count="47">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>INSERT INTO locations (street_address, postal_code, city, state_province, country_id)</span>
+<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>VALUES (<span class="st">'999 Unknown Blvd'</span>, <span class="st">'00000'</span>, <span class="st">'Nowhere'</span>, <span class="st">'NA'</span>, <span class="st">'XX'</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code> * sqlite://
+1 rows affected.</code></pre>
+</div>
+<div class="cell-output cell-output-display" data-execution_count="47">
+<pre><code>[]</code></pre>
+</div>
+</div>
+<div id="cell-108" class="cell" data-execution_count="48">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb102"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb102-1"><a href="#cb102-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb102-2"><a href="#cb102-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb102-3"><a href="#cb102-3" aria-hidden="true" tabindex="-1"></a>    country_name, countries.country_id, locations.country_id, street_address, city</span>
+<span id="cb102-4"><a href="#cb102-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb102-5"><a href="#cb102-5" aria-hidden="true" tabindex="-1"></a>    countries</span>
+<span id="cb102-6"><a href="#cb102-6" aria-hidden="true" tabindex="-1"></a>FULL JOIN locations ON countries.country_id <span class="op">=</span> locations.country_id<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="45">
+<div class="cell-output cell-output-display" data-execution_count="48">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6004,229 +6311,12 @@ Done.</code></pre>
 <td>None</td>
 <td>None</td>
 </tr>
-</tbody>
-</table>
-</div>
-</div>
-<p>And the next cell shows the <code>FULL JOIN</code> when the <code>locations</code> table is listed first, i.e., to the left side of the join clause.</p>
-<div id="cell-106" class="cell" data-tags="[]" data-execution_count="46">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb97"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb97-1"><a href="#cb97-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb97-2"><a href="#cb97-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb97-3"><a href="#cb97-3" aria-hidden="true" tabindex="-1"></a>    country_name, countries.country_id, locations.country_id, street_address, city</span>
-<span id="cb97-4"><a href="#cb97-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb97-5"><a href="#cb97-5" aria-hidden="true" tabindex="-1"></a>    locations</span>
-<span id="cb97-6"><a href="#cb97-6" aria-hidden="true" tabindex="-1"></a>FULL JOIN countries ON countries.country_id <span class="op">=</span> locations.country_id<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-<div class="cell-output cell-output-stdout">
-<pre><code> * sqlite://
-Done.</code></pre>
-</div>
-<div class="cell-output cell-output-display" data-execution_count="46">
-<table class="caption-top table table-sm table-striped small">
-<thead>
-<tr class="header">
-<th data-quarto-table-cell-role="th">country_name</th>
-<th data-quarto-table-cell-role="th">country_id</th>
-<th data-quarto-table-cell-role="th">country_id_1</th>
-<th data-quarto-table-cell-role="th">street_address</th>
-<th data-quarto-table-cell-role="th">city</th>
-</tr>
-</thead>
-<tbody>
 <tr class="odd">
-<td>United States of America</td>
-<td>US</td>
-<td>US</td>
-<td>2014 Jabberwocky Rd</td>
-<td>Southlake</td>
-</tr>
-<tr class="even">
-<td>United States of America</td>
-<td>US</td>
-<td>US</td>
-<td>2011 Interiors Blvd</td>
-<td>South San Francisco</td>
-</tr>
-<tr class="odd">
-<td>United States of America</td>
-<td>US</td>
-<td>US</td>
-<td>2004 Charade Rd</td>
-<td>Seattle</td>
-</tr>
-<tr class="even">
-<td>Canada</td>
-<td>CA</td>
-<td>CA</td>
-<td>147 Spadina Ave</td>
-<td>Toronto</td>
-</tr>
-<tr class="odd">
-<td>United Kingdom</td>
-<td>UK</td>
-<td>UK</td>
-<td>8204 Arthur St</td>
-<td>London</td>
-</tr>
-<tr class="even">
-<td>United Kingdom</td>
-<td>UK</td>
-<td>UK</td>
-<td>Magdalen Centre, The Oxford Science Park</td>
-<td>Oxford</td>
-</tr>
-<tr class="odd">
-<td>Germany</td>
-<td>DE</td>
-<td>DE</td>
-<td>Schwanthalerstr. 7031</td>
-<td>Munich</td>
-</tr>
-<tr class="even">
-<td>Argentina</td>
-<td>AR</td>
 <td>None</td>
 <td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>Australia</td>
-<td>AU</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Belgium</td>
-<td>BE</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>Brazil</td>
-<td>BR</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Switzerland</td>
-<td>CH</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>China</td>
-<td>CN</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Denmark</td>
-<td>DK</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>Egypt</td>
-<td>EG</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>France</td>
-<td>FR</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>HongKong</td>
-<td>HK</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Israel</td>
-<td>IL</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>India</td>
-<td>IN</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Italy</td>
-<td>IT</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>Japan</td>
-<td>JP</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Kuwait</td>
-<td>KW</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>Mexico</td>
-<td>MX</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Nigeria</td>
-<td>NG</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>Netherlands</td>
-<td>NL</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Singapore</td>
-<td>SG</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="odd">
-<td>Zambia</td>
-<td>ZM</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
-</tr>
-<tr class="even">
-<td>Zimbabwe</td>
-<td>ZW</td>
-<td>None</td>
-<td>None</td>
-<td>None</td>
+<td>XX</td>
+<td>999 Unknown Blvd</td>
+<td>Nowhere</td>
 </tr>
 </tbody>
 </table>
@@ -6238,17 +6328,17 @@ Done.</code></pre>
 <section id="return-data-statistics" class="level2">
 <h2 class="anchored" data-anchor-id="return-data-statistics">8.10 Return Data Statistics</h2>
 <p><em>Aggregate functions</em> in SQL take a list of values and return a single value, such as the average <code>AVG()</code>, <code>MIN()</code>, <code>MAX()</code>, <code>SUM()</code>, or <code>COUNT()</code>.</p>
-<div id="cell-109" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:42,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498869,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="78c221a1-abdf-438b-8318-50633df0f154" data-execution_count="47">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb99"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb99-1"><a href="#cb99-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb99-2"><a href="#cb99-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb99-3"><a href="#cb99-3" aria-hidden="true" tabindex="-1"></a>    AVG(salary) </span>
-<span id="cb99-4"><a href="#cb99-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb99-5"><a href="#cb99-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-111" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:42,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498869,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="78c221a1-abdf-438b-8318-50633df0f154" data-execution_count="49">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb104"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb104-1"><a href="#cb104-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb104-2"><a href="#cb104-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb104-3"><a href="#cb104-3" aria-hidden="true" tabindex="-1"></a>    AVG(salary) </span>
+<span id="cb104-4"><a href="#cb104-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb104-5"><a href="#cb104-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="47">
+<div class="cell-output cell-output-display" data-execution_count="49">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6263,17 +6353,17 @@ Done.</code></pre>
 </table>
 </div>
 </div>
-<div id="cell-110" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:39,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498869,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="aff04c02-b4c5-4727-d474-40013f61786f" data-execution_count="48">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb101"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb101-1"><a href="#cb101-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb101-2"><a href="#cb101-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb101-3"><a href="#cb101-3" aria-hidden="true" tabindex="-1"></a>    MAX(salary) </span>
-<span id="cb101-4"><a href="#cb101-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb101-5"><a href="#cb101-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-112" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:39,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498869,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="aff04c02-b4c5-4727-d474-40013f61786f" data-execution_count="50">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb106"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb106-1"><a href="#cb106-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb106-2"><a href="#cb106-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb106-3"><a href="#cb106-3" aria-hidden="true" tabindex="-1"></a>    MAX(salary) </span>
+<span id="cb106-4"><a href="#cb106-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb106-5"><a href="#cb106-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="48">
+<div class="cell-output cell-output-display" data-execution_count="50">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6288,18 +6378,18 @@ Done.</code></pre>
 </table>
 </div>
 </div>
-<div id="cell-111" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:38,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498870,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="67ba6402-7c71-42d2-8fc5-c947c494d461" data-execution_count="49">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb103"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb103-1"><a href="#cb103-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb103-2"><a href="#cb103-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb103-3"><a href="#cb103-3" aria-hidden="true" tabindex="-1"></a>    SUM(salary) </span>
-<span id="cb103-4"><a href="#cb103-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb103-5"><a href="#cb103-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
-<span id="cb103-6"><a href="#cb103-6" aria-hidden="true" tabindex="-1"></a>WHERE department_id <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-113" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:38,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498870,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="67ba6402-7c71-42d2-8fc5-c947c494d461" data-execution_count="51">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb108"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb108-1"><a href="#cb108-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb108-2"><a href="#cb108-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb108-3"><a href="#cb108-3" aria-hidden="true" tabindex="-1"></a>    SUM(salary) </span>
+<span id="cb108-4"><a href="#cb108-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb108-5"><a href="#cb108-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
+<span id="cb108-6"><a href="#cb108-6" aria-hidden="true" tabindex="-1"></a>WHERE department_id <span class="op">=</span> <span class="dv">5</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="49">
+<div class="cell-output cell-output-display" data-execution_count="51">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6315,17 +6405,17 @@ Done.</code></pre>
 </div>
 </div>
 <p><code>COUNT</code> returns the number of rows in a table. It can be used by providing the name of a column, or it can also be used with an asterisk <code>*</code> as in the following cell.</p>
-<div id="cell-113" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:36,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498870,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="77943f0a-0f96-4017-83ee-594de81c78f1" data-execution_count="50">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb105"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb105-1"><a href="#cb105-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb105-2"><a href="#cb105-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb105-3"><a href="#cb105-3" aria-hidden="true" tabindex="-1"></a>    COUNT(employee_id) </span>
-<span id="cb105-4"><a href="#cb105-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb105-5"><a href="#cb105-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-115" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:36,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498870,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="77943f0a-0f96-4017-83ee-594de81c78f1" data-execution_count="52">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb110"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb110-1"><a href="#cb110-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb110-2"><a href="#cb110-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb110-3"><a href="#cb110-3" aria-hidden="true" tabindex="-1"></a>    COUNT(employee_id) </span>
+<span id="cb110-4"><a href="#cb110-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb110-5"><a href="#cb110-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="50">
+<div class="cell-output cell-output-display" data-execution_count="52">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6340,17 +6430,17 @@ Done.</code></pre>
 </table>
 </div>
 </div>
-<div id="cell-114" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:34,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498871,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="20eb0696-cf9a-42ae-810f-48a72d61a9f1" data-execution_count="51">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb107"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb107-1"><a href="#cb107-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb107-2"><a href="#cb107-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb107-3"><a href="#cb107-3" aria-hidden="true" tabindex="-1"></a>    COUNT(<span class="op">*</span>) </span>
-<span id="cb107-4"><a href="#cb107-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb107-5"><a href="#cb107-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-116" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:34,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546498871,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="20eb0696-cf9a-42ae-810f-48a72d61a9f1" data-execution_count="53">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb112"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb112-1"><a href="#cb112-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb112-2"><a href="#cb112-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb112-3"><a href="#cb112-3" aria-hidden="true" tabindex="-1"></a>    COUNT(<span class="op">*</span>) </span>
+<span id="cb112-4"><a href="#cb112-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb112-5"><a href="#cb112-5" aria-hidden="true" tabindex="-1"></a>    employees<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="51">
+<div class="cell-output cell-output-display" data-execution_count="53">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6371,17 +6461,17 @@ Done.</code></pre>
 <h2 class="anchored" data-anchor-id="grouping-data">8.11 Grouping Data</h2>
 <p><code>GROUP BY</code> allows to group rows based on values from more than one column. It is typically combined with aggregate functions, like <code>COUNT</code>, <code>SUM</code>, <code>AVG</code>, <code>MIN</code>, and <code>MAX</code>.</p>
 <p>For instance, let’s assume that we would like to retrieve information about the average salary in each department. In the next cell we will first display the salaries of all employees per department, and in the following cell we can see how <code>GROUP BY</code> is used to calculate the average salary for each department.</p>
-<div id="cell-117" class="cell" data-tags="[]" data-execution_count="52">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb109"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb109-1"><a href="#cb109-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb109-2"><a href="#cb109-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb109-3"><a href="#cb109-3" aria-hidden="true" tabindex="-1"></a>    department_id, salary</span>
-<span id="cb109-4"><a href="#cb109-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb109-5"><a href="#cb109-5" aria-hidden="true" tabindex="-1"></a>    employees </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-119" class="cell" data-tags="[]" data-execution_count="54">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb114"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb114-1"><a href="#cb114-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb114-2"><a href="#cb114-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb114-3"><a href="#cb114-3" aria-hidden="true" tabindex="-1"></a>    department_id, salary</span>
+<span id="cb114-4"><a href="#cb114-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb114-5"><a href="#cb114-5" aria-hidden="true" tabindex="-1"></a>    employees </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="52">
+<div class="cell-output cell-output-display" data-execution_count="54">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6554,18 +6644,18 @@ Done.</code></pre>
 </table>
 </div>
 </div>
-<div id="cell-118" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:307,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499147,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="2b2f52a3-bf57-4c24-a8c0-5401f1c3569a" data-execution_count="53">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb111"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb111-1"><a href="#cb111-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb111-2"><a href="#cb111-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb111-3"><a href="#cb111-3" aria-hidden="true" tabindex="-1"></a>    department_id, AVG(salary) </span>
-<span id="cb111-4"><a href="#cb111-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb111-5"><a href="#cb111-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
-<span id="cb111-6"><a href="#cb111-6" aria-hidden="true" tabindex="-1"></a>GROUP BY department_id<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-120" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:307,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499147,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="2b2f52a3-bf57-4c24-a8c0-5401f1c3569a" data-execution_count="55">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb116"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb116-1"><a href="#cb116-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb116-2"><a href="#cb116-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb116-3"><a href="#cb116-3" aria-hidden="true" tabindex="-1"></a>    department_id, AVG(salary) </span>
+<span id="cb116-4"><a href="#cb116-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb116-5"><a href="#cb116-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
+<span id="cb116-6"><a href="#cb116-6" aria-hidden="true" tabindex="-1"></a>GROUP BY department_id<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="53">
+<div class="cell-output cell-output-display" data-execution_count="55">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6623,19 +6713,19 @@ Done.</code></pre>
 </div>
 </div>
 <p>Similarly, the following cell displays the minimum, maximum, and average salary for each department. And, instead of using the <code>department_id</code> column, it will be more convenient to display the department names. Since the <code>employees</code> table does not have a column with the department names, we will use <code>INNER JOIN</code> to retrieve the <code>department_name</code> column from the <code>departments</code> table.</p>
-<div id="cell-120" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:59,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499148,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="fb903209-ad01-4b5f-ea62-5a55b7692d1c" data-execution_count="54">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb113"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb113-1"><a href="#cb113-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb113-2"><a href="#cb113-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb113-3"><a href="#cb113-3" aria-hidden="true" tabindex="-1"></a>    department_name, MIN(salary) AS min_salary, MAX(salary) AS max_salary, ROUND(AVG(salary)) AS average_salary </span>
-<span id="cb113-4"><a href="#cb113-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb113-5"><a href="#cb113-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
-<span id="cb113-6"><a href="#cb113-6" aria-hidden="true" tabindex="-1"></a>INNER JOIN departments ON employees.department_id <span class="op">=</span> departments.department_id </span>
-<span id="cb113-7"><a href="#cb113-7" aria-hidden="true" tabindex="-1"></a>GROUP BY department_name<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-122" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:59,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499148,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="fb903209-ad01-4b5f-ea62-5a55b7692d1c" data-execution_count="56">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb118"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb118-1"><a href="#cb118-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb118-2"><a href="#cb118-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb118-3"><a href="#cb118-3" aria-hidden="true" tabindex="-1"></a>    department_name, MIN(salary) AS min_salary, MAX(salary) AS max_salary, ROUND(AVG(salary)) AS average_salary </span>
+<span id="cb118-4"><a href="#cb118-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb118-5"><a href="#cb118-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
+<span id="cb118-6"><a href="#cb118-6" aria-hidden="true" tabindex="-1"></a>INNER JOIN departments ON employees.department_id <span class="op">=</span> departments.department_id </span>
+<span id="cb118-7"><a href="#cb118-7" aria-hidden="true" tabindex="-1"></a>GROUP BY department_name<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="54">
+<div class="cell-output cell-output-display" data-execution_count="56">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6732,26 +6822,26 @@ VALUES (value1, value2, ...);</code></pre>
 VALUES (value1, value2, ...);</code></pre>
 <p>The primary data types supported by SQLite include INTEGER (integer numbers), REAL (floating-point numbers), TEXT (string of characters), VARCHAR (variable-length string with a defined maximum length), CHAR (string with a fixed length), BOOLEAN (True or False), NULL (absence of a value), and BLOB (binary large object, for storing binary data like images of files).</p>
 <p>For instance, to insert a new row into the <code>dependents</code> table, we can use the following code. The new row will be added to the bottom of the table <code>dependents</code>.</p>
-<div id="cell-123" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:56,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499148,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="ef9ceee6-74eb-4571-f2a7-2f0c65765ae8" data-execution_count="55">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb117"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb117-1"><a href="#cb117-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb117-2"><a href="#cb117-2" aria-hidden="true" tabindex="-1"></a>INSERT INTO dependents (first_name, last_name, relationship, employee_id) </span>
-<span id="cb117-3"><a href="#cb117-3" aria-hidden="true" tabindex="-1"></a>VALUES (<span class="st">'Dustin'</span>, <span class="st">'Johnson'</span>, <span class="st">'Child'</span>, <span class="dv">178</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-125" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:56,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499148,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="ef9ceee6-74eb-4571-f2a7-2f0c65765ae8" data-execution_count="57">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>INSERT INTO dependents (first_name, last_name, relationship, employee_id) </span>
+<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>VALUES (<span class="st">'Dustin'</span>, <span class="st">'Johnson'</span>, <span class="st">'Child'</span>, <span class="dv">178</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 1 rows affected.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="55">
+<div class="cell-output cell-output-display" data-execution_count="57">
 <pre><code>[]</code></pre>
 </div>
 </div>
-<div id="cell-124" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:51,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499148,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f7b03e0b-7ab4-44a3-d356-2fea09943d68" data-execution_count="56">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb120"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb120-1"><a href="#cb120-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verify the changes</span></span>
-<span id="cb120-2"><a href="#cb120-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> <span class="im">from</span> dependents</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-126" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:51,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499148,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f7b03e0b-7ab4-44a3-d356-2fea09943d68" data-execution_count="58">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verify the changes</span></span>
+<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> <span class="im">from</span> dependents</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="56">
+<div class="cell-output cell-output-display" data-execution_count="58">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -6990,32 +7080,32 @@ Done.</code></pre>
 <h3 class="anchored" data-anchor-id="update">8.12.2 UPDATE</h3>
 <p><code>UPDATE</code> is used to update existing data in a table.</p>
 <p>For instance, to update the last name of the employee with <code>id=192</code>, we can write:</p>
-<div id="cell-126" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:47,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499149,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="1bf0116b-ebde-4350-c5b8-e541f45f5740" data-execution_count="57">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb122"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb122-1"><a href="#cb122-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb122-2"><a href="#cb122-2" aria-hidden="true" tabindex="-1"></a>UPDATE employees </span>
-<span id="cb122-3"><a href="#cb122-3" aria-hidden="true" tabindex="-1"></a>SET last_name <span class="op">=</span> <span class="st">'Lopez'</span> </span>
-<span id="cb122-4"><a href="#cb122-4" aria-hidden="true" tabindex="-1"></a>WHERE employee_id <span class="op">=</span> <span class="dv">192</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-128" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:47,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499149,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="1bf0116b-ebde-4350-c5b8-e541f45f5740" data-execution_count="59">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>UPDATE employees </span>
+<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>SET last_name <span class="op">=</span> <span class="st">'Lopez'</span> </span>
+<span id="cb127-4"><a href="#cb127-4" aria-hidden="true" tabindex="-1"></a>WHERE employee_id <span class="op">=</span> <span class="dv">192</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 1 rows affected.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="57">
+<div class="cell-output cell-output-display" data-execution_count="59">
 <pre><code>[]</code></pre>
 </div>
 </div>
 <p>And we can verify the changes.</p>
-<div id="cell-128" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:44,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499149,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="b869f4cb-5424-4867-c6ed-2eebeacbadc0" data-execution_count="58">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb125"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb125-1"><a href="#cb125-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb125-2"><a href="#cb125-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
-<span id="cb125-3"><a href="#cb125-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name</span>
-<span id="cb125-4"><a href="#cb125-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb125-5"><a href="#cb125-5" aria-hidden="true" tabindex="-1"></a>    employees</span>
-<span id="cb125-6"><a href="#cb125-6" aria-hidden="true" tabindex="-1"></a>WHERE employee_id <span class="op">=</span> <span class="dv">192</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-130" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:44,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499149,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="b869f4cb-5424-4867-c6ed-2eebeacbadc0" data-execution_count="60">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb130-2"><a href="#cb130-2" aria-hidden="true" tabindex="-1"></a>SELECT</span>
+<span id="cb130-3"><a href="#cb130-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name</span>
+<span id="cb130-4"><a href="#cb130-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb130-5"><a href="#cb130-5" aria-hidden="true" tabindex="-1"></a>    employees</span>
+<span id="cb130-6"><a href="#cb130-6" aria-hidden="true" tabindex="-1"></a>WHERE employee_id <span class="op">=</span> <span class="dv">192</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="58">
+<div class="cell-output cell-output-display" data-execution_count="60">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7039,26 +7129,26 @@ Done.</code></pre>
 <section id="delete" class="level3">
 <h3 class="anchored" data-anchor-id="delete">8.12.3 DELETE</h3>
 <p><code>DELETE</code> is used to delete one or more rows from a table permanently.</p>
-<div id="cell-130" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:39,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499149,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="d69632aa-83e5-4fa7-9a8b-1766b2a65e81" data-execution_count="59">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb127"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb127-1"><a href="#cb127-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb127-2"><a href="#cb127-2" aria-hidden="true" tabindex="-1"></a>DELETE FROM dependents </span>
-<span id="cb127-3"><a href="#cb127-3" aria-hidden="true" tabindex="-1"></a>WHERE dependent_id <span class="op">=</span> <span class="dv">16</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-132" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:39,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499149,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="d69632aa-83e5-4fa7-9a8b-1766b2a65e81" data-execution_count="61">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>DELETE FROM dependents </span>
+<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>WHERE dependent_id <span class="op">=</span> <span class="dv">16</span><span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 1 rows affected.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="59">
+<div class="cell-output cell-output-display" data-execution_count="61">
 <pre><code>[]</code></pre>
 </div>
 </div>
 <p>Verify the change.</p>
-<div id="cell-132" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:37,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499150,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f4d7e8b3-7717-4a28-96da-888c6100092b" data-execution_count="60">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb130"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb130-1"><a href="#cb130-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM dependents</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-134" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:37,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499150,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f4d7e8b3-7717-4a28-96da-888c6100092b" data-execution_count="62">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM dependents</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="60">
+<div class="cell-output cell-output-display" data-execution_count="62">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7295,25 +7385,25 @@ Done.</code></pre>
 <h3 class="anchored" data-anchor-id="alter-table">8.13.1 ALTER TABLE</h3>
 <p><code>ALTER TABLE</code> allows to add new columns in an existing table using <code>ADD</code>, remove columns in a table with <code>DROP</code>, rename columns with <code>RENAME</code>, or modify attributes of a column such as primary key, default value, etc. with <code>ADD CONSTRAINT</code> or <code>DROP CONSTRAINT</code> and related commands.</p>
 <p><strong>Add a Column</strong></p>
-<div id="cell-137" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:33,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499150,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f172bab9-4605-45cb-8ee2-706dc3993eab" data-execution_count="61">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb132"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb132-1"><a href="#cb132-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb132-2"><a href="#cb132-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE cars </span>
-<span id="cb132-3"><a href="#cb132-3" aria-hidden="true" tabindex="-1"></a>ADD mileage INT<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-139" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:33,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499150,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f172bab9-4605-45cb-8ee2-706dc3993eab" data-execution_count="63">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE cars </span>
+<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>ADD mileage INT<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="61">
+<div class="cell-output cell-output-display" data-execution_count="63">
 <pre><code>[]</code></pre>
 </div>
 </div>
-<div id="cell-138" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:29,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499150,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f252596e-12d9-466c-b633-aaae79d04f92" data-execution_count="62">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb135"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb135-1"><a href="#cb135-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM cars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-140" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:29,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499150,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="f252596e-12d9-466c-b633-aaae79d04f92" data-execution_count="64">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM cars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="62">
+<div class="cell-output cell-output-display" data-execution_count="64">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7377,26 +7467,26 @@ Done.</code></pre>
 </div>
 </div>
 <p><strong>Remove a Column</strong></p>
-<div id="cell-140" class="cell" data-tags="[]" data-execution_count="63">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb137"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb137-1"><a href="#cb137-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb137-2"><a href="#cb137-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE cars </span>
-<span id="cb137-3"><a href="#cb137-3" aria-hidden="true" tabindex="-1"></a>DROP price<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-142" class="cell" data-tags="[]" data-execution_count="65">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE cars </span>
+<span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a>DROP price<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="63">
+<div class="cell-output cell-output-display" data-execution_count="65">
 <pre><code>[]</code></pre>
 </div>
 </div>
-<div id="cell-141" class="cell" data-tags="[]" data-execution_count="64">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb140"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb140-1"><a href="#cb140-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
-<span id="cb140-2"><a href="#cb140-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM cars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-143" class="cell" data-tags="[]" data-execution_count="66">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
+<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM cars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="64">
+<div class="cell-output cell-output-display" data-execution_count="66">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7451,26 +7541,26 @@ Done.</code></pre>
 </div>
 </div>
 <p><strong>Rename a Column</strong></p>
-<div id="cell-143" class="cell" data-tags="[]" data-execution_count="65">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb142"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb142-1"><a href="#cb142-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb142-2"><a href="#cb142-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE cars </span>
-<span id="cb142-3"><a href="#cb142-3" aria-hidden="true" tabindex="-1"></a>RENAME mileage TO miles<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-145" class="cell" data-tags="[]" data-execution_count="67">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE cars </span>
+<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>RENAME mileage TO miles<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="65">
+<div class="cell-output cell-output-display" data-execution_count="67">
 <pre><code>[]</code></pre>
 </div>
 </div>
-<div id="cell-144" class="cell" data-tags="[]" data-execution_count="66">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb145"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb145-1"><a href="#cb145-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
-<span id="cb145-2"><a href="#cb145-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM cars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-146" class="cell" data-tags="[]" data-execution_count="68">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
+<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM cars</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="66">
+<div class="cell-output cell-output-display" data-execution_count="68">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7526,26 +7616,26 @@ Done.</code></pre>
 </div>
 <p><strong>Rename a Table</strong></p>
 <p>Similarly, <code>ALTER TABLE</code> can be used to rename a table, as in the following example.</p>
-<div id="cell-147" class="cell" data-tags="[]" data-execution_count="67">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb147"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb147-1"><a href="#cb147-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
-<span id="cb147-2"><a href="#cb147-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE writer</span>
-<span id="cb147-3"><a href="#cb147-3" aria-hidden="true" tabindex="-1"></a>RENAME TO authors<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-149" class="cell" data-tags="[]" data-execution_count="69">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql </span>
+<span id="cb152-2"><a href="#cb152-2" aria-hidden="true" tabindex="-1"></a>ALTER TABLE writer</span>
+<span id="cb152-3"><a href="#cb152-3" aria-hidden="true" tabindex="-1"></a>RENAME TO authors<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="67">
+<div class="cell-output cell-output-display" data-execution_count="69">
 <pre><code>[]</code></pre>
 </div>
 </div>
-<div id="cell-148" class="cell" data-tags="[]" data-execution_count="68">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb150"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb150-1"><a href="#cb150-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
-<span id="cb150-2"><a href="#cb150-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT name FROM sqlite_master WHERE <span class="bu">type</span><span class="op">=</span><span class="st">'table'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-150" class="cell" data-tags="[]" data-execution_count="70">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
+<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT name FROM sqlite_master WHERE <span class="bu">type</span><span class="op">=</span><span class="st">'table'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="68">
+<div class="cell-output cell-output-display" data-execution_count="70">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7592,24 +7682,24 @@ Done.</code></pre>
 <section id="drop-table" class="level3">
 <h3 class="anchored" data-anchor-id="drop-table">8.13.2 DROP TABLE</h3>
 <p><code>DROP TABLE</code> removes a table from a database.</p>
-<div id="cell-150" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:25,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499151,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="d840cf0f-2965-410d-85b2-7dbb4ea6a5ac" data-execution_count="69">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb152"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb152-1"><a href="#cb152-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql DROP TABLE cars<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-152" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:25,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499151,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="d840cf0f-2965-410d-85b2-7dbb4ea6a5ac" data-execution_count="71">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb157"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb157-1"><a href="#cb157-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql DROP TABLE cars<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="69">
+<div class="cell-output cell-output-display" data-execution_count="71">
 <pre><code>[]</code></pre>
 </div>
 </div>
-<div id="cell-151" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:256,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499386,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="1e7d29f0-01eb-4661-e7e9-a634be774cc9" data-execution_count="70">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb155"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb155-1"><a href="#cb155-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
-<span id="cb155-2"><a href="#cb155-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT name FROM sqlite_master WHERE <span class="bu">type</span><span class="op">=</span><span class="st">'table'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-153" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:256,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499386,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="1e7d29f0-01eb-4661-e7e9-a634be774cc9" data-execution_count="72">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="co"># verfiy the change</span></span>
+<span id="cb160-2"><a href="#cb160-2" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT name FROM sqlite_master WHERE <span class="bu">type</span><span class="op">=</span><span class="st">'table'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="70">
+<div class="cell-output cell-output-display" data-execution_count="72">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7672,13 +7762,13 @@ Done.</code></pre>
     FOREIGN KEY (region_id) REFERENCES regions (region_id) ON DELETE CASCADE ON UPDATE CASCADE);</code></pre>
 <p>Note also that in the last line <code>ON DELETE CASCADE</code> specifies that if a row in the <code>regions</code> table is deleted, all rows in the <code>countries</code> table that have a matching <code>region_id</code> will also be deleted automatically. Analogously, <code>ON UPDATE CASCADE</code> specifies that if a <code>region_id</code> value in the <code>regions</code> table is updated, all corresponding rows in the <code>countries</code> table will be updated accordingly. This is useful for maintaining referential integrity between the rows in these two tables.</p>
 <p>Let’s inspect the <code>countries</code> table.</p>
-<div id="cell-154" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:19,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499386,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="ee6a2359-ed15-4107-b04a-ef7371fbba15" data-execution_count="71">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb158"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb158-1"><a href="#cb158-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM countries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-156" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:19,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499386,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="ee6a2359-ed15-4107-b04a-ef7371fbba15" data-execution_count="73">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb163"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb163-1"><a href="#cb163-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM countries</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="71">
+<div class="cell-output cell-output-display" data-execution_count="73">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7817,13 +7907,13 @@ Done.</code></pre>
 </table>
 </div>
 </div>
-<div id="cell-155" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:18,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499387,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="3de03f86-3b30-474b-b426-104504091b87" data-execution_count="72">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb160"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb160-1"><a href="#cb160-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM regions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-157" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:18,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499387,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="3de03f86-3b30-474b-b426-104504091b87" data-execution_count="74">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb165"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb165-1"><a href="#cb165-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM regions</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="72">
+<div class="cell-output cell-output-display" data-execution_count="74">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -7862,21 +7952,21 @@ Done.</code></pre>
 <p>For instance, the following cell retrieves employees in the departments that have a <code>location_id=1700</code>.</p>
 <p>The query placed inside the parentheses is a subquery. It is also known as an <em>inner query</em> or <em>inner select</em>. The query that contains the subquery is called an <em>outer query</em> or an <em>outer select</em>.</p>
 <p>To execute the query, the database system first has to execute the subquery and retrieve the departments with a <code>location_id</code> of 1700, and afterward it has to execute the outer query.</p>
-<div id="cell-158" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:16,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499388,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="8f810ab5-fbdf-465d-bf5d-118b80ef6034" data-execution_count="73">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb162"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb162-1"><a href="#cb162-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb162-2"><a href="#cb162-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb162-3"><a href="#cb162-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name, department_id</span>
-<span id="cb162-4"><a href="#cb162-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
-<span id="cb162-5"><a href="#cb162-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
-<span id="cb162-6"><a href="#cb162-6" aria-hidden="true" tabindex="-1"></a>WHERE department_id IN </span>
-<span id="cb162-7"><a href="#cb162-7" aria-hidden="true" tabindex="-1"></a>    (SELECT department_id FROM departments </span>
-<span id="cb162-8"><a href="#cb162-8" aria-hidden="true" tabindex="-1"></a>        WHERE location_id <span class="op">=</span> <span class="dv">1700</span>) </span>
-<span id="cb162-9"><a href="#cb162-9" aria-hidden="true" tabindex="-1"></a>ORDER BY first_name , last_name<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-160" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:16,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546499388,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="8f810ab5-fbdf-465d-bf5d-118b80ef6034" data-execution_count="75">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb167"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb167-1"><a href="#cb167-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb167-2"><a href="#cb167-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb167-3"><a href="#cb167-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name, department_id</span>
+<span id="cb167-4"><a href="#cb167-4" aria-hidden="true" tabindex="-1"></a>FROM </span>
+<span id="cb167-5"><a href="#cb167-5" aria-hidden="true" tabindex="-1"></a>    employees </span>
+<span id="cb167-6"><a href="#cb167-6" aria-hidden="true" tabindex="-1"></a>WHERE department_id IN </span>
+<span id="cb167-7"><a href="#cb167-7" aria-hidden="true" tabindex="-1"></a>    (SELECT department_id FROM departments </span>
+<span id="cb167-8"><a href="#cb167-8" aria-hidden="true" tabindex="-1"></a>        WHERE location_id <span class="op">=</span> <span class="dv">1700</span>) </span>
+<span id="cb167-9"><a href="#cb167-9" aria-hidden="true" tabindex="-1"></a>ORDER BY first_name , last_name<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="73">
+<div class="cell-output cell-output-display" data-execution_count="75">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -8000,20 +8090,20 @@ Done.</code></pre>
 </div>
 </div>
 <p>The next code finds the employee who has the highest salary.</p>
-<div id="cell-160" class="cell" data-execution_count="74">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb164"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb164-1"><a href="#cb164-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb164-2"><a href="#cb164-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb164-3"><a href="#cb164-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name, salary</span>
-<span id="cb164-4"><a href="#cb164-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb164-5"><a href="#cb164-5" aria-hidden="true" tabindex="-1"></a>    employees</span>
-<span id="cb164-6"><a href="#cb164-6" aria-hidden="true" tabindex="-1"></a>WHERE salary <span class="op">=</span> </span>
-<span id="cb164-7"><a href="#cb164-7" aria-hidden="true" tabindex="-1"></a>    (SELECT MAX(salary) FROM employees)</span>
-<span id="cb164-8"><a href="#cb164-8" aria-hidden="true" tabindex="-1"></a>ORDER BY first_name , last_name<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-162" class="cell" data-execution_count="76">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb169-2"><a href="#cb169-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb169-3"><a href="#cb169-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name, salary</span>
+<span id="cb169-4"><a href="#cb169-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb169-5"><a href="#cb169-5" aria-hidden="true" tabindex="-1"></a>    employees</span>
+<span id="cb169-6"><a href="#cb169-6" aria-hidden="true" tabindex="-1"></a>WHERE salary <span class="op">=</span> </span>
+<span id="cb169-7"><a href="#cb169-7" aria-hidden="true" tabindex="-1"></a>    (SELECT MAX(salary) FROM employees)</span>
+<span id="cb169-8"><a href="#cb169-8" aria-hidden="true" tabindex="-1"></a>ORDER BY first_name , last_name<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="74">
+<div class="cell-output cell-output-display" data-execution_count="76">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -8035,20 +8125,20 @@ Done.</code></pre>
 </div>
 </div>
 <p>E.g., find all employees who salaries are greater than the average salary of all employees.</p>
-<div id="cell-162" class="cell" data-execution_count="75">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb166"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb166-1"><a href="#cb166-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
-<span id="cb166-2"><a href="#cb166-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
-<span id="cb166-3"><a href="#cb166-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name, salary</span>
-<span id="cb166-4"><a href="#cb166-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
-<span id="cb166-5"><a href="#cb166-5" aria-hidden="true" tabindex="-1"></a>    employees</span>
-<span id="cb166-6"><a href="#cb166-6" aria-hidden="true" tabindex="-1"></a>WHERE</span>
-<span id="cb166-7"><a href="#cb166-7" aria-hidden="true" tabindex="-1"></a>    salary <span class="op">&gt;</span> </span>
-<span id="cb166-8"><a href="#cb166-8" aria-hidden="true" tabindex="-1"></a>    (SELECT AVG(salary) FROM employees)<span class="op">;</span>       </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-164" class="cell" data-execution_count="77">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>sql</span>
+<span id="cb171-2"><a href="#cb171-2" aria-hidden="true" tabindex="-1"></a>SELECT </span>
+<span id="cb171-3"><a href="#cb171-3" aria-hidden="true" tabindex="-1"></a>    employee_id, first_name, last_name, salary</span>
+<span id="cb171-4"><a href="#cb171-4" aria-hidden="true" tabindex="-1"></a>FROM</span>
+<span id="cb171-5"><a href="#cb171-5" aria-hidden="true" tabindex="-1"></a>    employees</span>
+<span id="cb171-6"><a href="#cb171-6" aria-hidden="true" tabindex="-1"></a>WHERE</span>
+<span id="cb171-7"><a href="#cb171-7" aria-hidden="true" tabindex="-1"></a>    salary <span class="op">&gt;</span> </span>
+<span id="cb171-8"><a href="#cb171-8" aria-hidden="true" tabindex="-1"></a>    (SELECT AVG(salary) FROM employees)<span class="op">;</span>       </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code> * sqlite://
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="75">
+<div class="cell-output cell-output-display" data-execution_count="77">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -8172,18 +8262,18 @@ Done.</code></pre>
 <p>Recall again that when we created new tables in section 8.3 or a new database in section 8.4, we used <code>sqlite://</code> to connect to the tables or to the database. This syntax is used to specify an <strong>in-memory</strong> table or database, that is, it indicates that we want to work with tables or databases that exist only in the memory of our local machine. This syntax uses two forward slashes <code>//</code> after <code>sqlite:</code>.</p>
 <p>To connect to an existing database that is stored in a local directory of our computer, we will use the syntax <code>sqlite:///database_path</code>, where <code>database_path</code> specifies the path to the local directory where the SQL database is stored. This syntax uses three forward slashes <code>///</code> after <code>sqlite:</code>.</p>
 <p>In the following cell, we use <code>sqlite:///data/EssentialSQL.db</code> to initialize the connection to the database <code>EssentialSQL.db</code> which is located in the <code>data</code> subdirectory in the current working directory.</p>
-<div id="cell-165" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:459,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546516311,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="99fd3213-304a-4abf-db31-a2ac31ed130c" data-execution_count="76">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb168"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb168-1"><a href="#cb168-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql sqlite:<span class="op">///</span>data<span class="op">/</span>EssentialSQL.db</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-167" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:459,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546516311,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="99fd3213-304a-4abf-db31-a2ac31ed130c" data-execution_count="78">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql sqlite:<span class="op">///</span>data<span class="op">/</span>EssentialSQL.db</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p>We can inspect the tables in the database <code>EssentialSQL.db</code> in the following cell.</p>
-<div id="cell-167" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:639,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546516947,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="e0981d5f-79cd-4e7a-e02e-07e49c9c4be2" data-execution_count="77">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb169"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb169-1"><a href="#cb169-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT name FROM sqlite_master WHERE <span class="bu">type</span><span class="op">=</span><span class="st">'table'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-169" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:639,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1668546516947,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="e0981d5f-79cd-4e7a-e02e-07e49c9c4be2" data-execution_count="79">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb174"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb174-1"><a href="#cb174-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT name FROM sqlite_master WHERE <span class="bu">type</span><span class="op">=</span><span class="st">'table'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   sqlite://
  * sqlite:///data/EssentialSQL.db
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="77">
+<div class="cell-output cell-output-display" data-execution_count="79">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -8211,14 +8301,14 @@ Done.</code></pre>
 </div>
 </div>
 <p>And we can inspect the data in the table <code>Customers</code>.</p>
-<div id="cell-169" class="cell" data-execution_count="78">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb171"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb171-1"><a href="#cb171-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM Customers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-171" class="cell" data-execution_count="80">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb176"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb176-1"><a href="#cb176-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql SELECT <span class="op">*</span> FROM Customers</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 <div class="cell-output cell-output-stdout">
 <pre><code>   sqlite://
  * sqlite:///data/EssentialSQL.db
 Done.</code></pre>
 </div>
-<div class="cell-output cell-output-display" data-execution_count="78">
+<div class="cell-output cell-output-display" data-execution_count="80">
 <table class="caption-top table table-sm table-striped small">
 <thead>
 <tr class="header">
@@ -8282,8 +8372,8 @@ Done.</code></pre>
 </div>
 </div>
 <p>If the database does not exist, SQLite will create a new database with the provided name in the home directory. The following cell will create a new database named <code>test.db</code> in the current working directory.</p>
-<div id="cell-171" class="cell" data-tags="[]" data-execution_count="79">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb173"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb173-1"><a href="#cb173-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql sqlite:<span class="op">///</span>test.db</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div id="cell-173" class="cell" data-tags="[]" data-execution_count="81">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb178"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb178-1"><a href="#cb178-1" aria-hidden="true" tabindex="-1"></a><span class="op">%</span>sql sqlite:<span class="op">///</span>test.db</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 </section>
 <section id="references" class="level2">
