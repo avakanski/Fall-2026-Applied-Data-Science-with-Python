@@ -34,6 +34,10 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.ipynb">Lecture 8 - Databases and SQL</a>
 * <a href="Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.ipynb">Lecture 9 - Data Exploration and Preprocessing</a>
 
+### Theme 3: Model Engineering Pipelines
+
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.ipynb">Lecture 10 - Scikit-Learn Library for Data Science</a>
+
 *(Additional lectures will be added during the semester.)*
 
 ## Tutorials
