@@ -1,0 +1,2238 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks – Applied Data Science with Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" rel="next">
+<link href="../../../Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html" rel="prev">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-7e3fc592af0ccee640070cd1dae8a63f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html">Theme 3 - Model Engineering Pipelines</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../">Applied Data Science with Python</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python" title="GitHub repository" class="quarto-navigation-tool px-1" aria-label="GitHub repository"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Information</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-syllabus" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-description" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#textbooks" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Textbooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#learning-outcomes" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#prerequisites" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#grading" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Grading</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-schedule" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 1 - A Short History of AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 1 - Python Programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2 - Python Data Types, Statements</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 3 - Files, Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 4 - OOP, Modules, Packages</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 2 - Data Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 5 - NumPy for Array Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 6 - Data Manipulation with Pandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 7 - Data Visualization with Matplotlib and Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 8 - Databases and SQL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 9 - Data Exploration and Preprocessing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 3 - Model Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 10 - Scikit-Learn Library for Data Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 11 - Ensemble Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 2 - Python IDEs, VS Code</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 3 - Terminal and Command Line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 4 - Virtual Environments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 5 - Google Colab</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#model-selection" id="toc-model-selection" class="nav-link active" data-scroll-target="#model-selection">14.1 Model Selection</a>
+  <ul class="collapse">
+  <li><a href="#hyperparameters-in-neural-networks" id="toc-hyperparameters-in-neural-networks" class="nav-link" data-scroll-target="#hyperparameters-in-neural-networks">14.1.1 Hyperparameters in Neural Networks</a></li>
+  </ul></li>
+  <li><a href="#evaluate-the-impact-of-the-learning-rate" id="toc-evaluate-the-impact-of-the-learning-rate" class="nav-link" data-scroll-target="#evaluate-the-impact-of-the-learning-rate">14.2 Evaluate the Impact of the Learning Rate</a>
+  <ul class="collapse">
+  <li><a href="#loading-a-custom-image-dataset-in-keras" id="toc-loading-a-custom-image-dataset-in-keras" class="nav-link" data-scroll-target="#loading-a-custom-image-dataset-in-keras">14.2.1 Loading a Custom Image Dataset in Keras</a></li>
+  <li><a href="#define-the-model" id="toc-define-the-model" class="nav-link" data-scroll-target="#define-the-model">14.2.2 Define the Model</a></li>
+  </ul></li>
+  <li><a href="#callbacks" id="toc-callbacks" class="nav-link" data-scroll-target="#callbacks">14.3 Callbacks</a>
+  <ul class="collapse">
+  <li><a href="#early-stopping" id="toc-early-stopping" class="nav-link" data-scroll-target="#early-stopping">14.3.1 Early Stopping</a></li>
+  <li><a href="#save-checkpoint" id="toc-save-checkpoint" class="nav-link" data-scroll-target="#save-checkpoint">14.3.2 Save Checkpoint</a></li>
+  <li><a href="#reduce-learning-rate-on-plateau" id="toc-reduce-learning-rate-on-plateau" class="nav-link" data-scroll-target="#reduce-learning-rate-on-plateau">14.3.3 Reduce Learning Rate on Plateau</a></li>
+  <li><a href="#learning-rate-scheduler" id="toc-learning-rate-scheduler" class="nav-link" data-scroll-target="#learning-rate-scheduler">14.3.4 Learning Rate Scheduler</a></li>
+  </ul></li>
+  <li><a href="#grid-search" id="toc-grid-search" class="nav-link" data-scroll-target="#grid-search">14.4 Grid Search</a></li>
+  <li><a href="#keras-tuner" id="toc-keras-tuner" class="nav-link" data-scroll-target="#keras-tuner">14.5 Keras Tuner</a>
+  <ul class="collapse">
+  <li><a href="#load-fashion-mnist-dataset" id="toc-load-fashion-mnist-dataset" class="nav-link" data-scroll-target="#load-fashion-mnist-dataset">14.5.1 Load Fashion MNIST Dataset</a></li>
+  <li><a href="#model-builder" id="toc-model-builder" class="nav-link" data-scroll-target="#model-builder">14.5.2 Model Builder</a></li>
+  <li><a href="#hyperparameter-tuning" id="toc-hyperparameter-tuning" class="nav-link" data-scroll-target="#hyperparameter-tuning">14.5.3 Hyperparameter Tuning</a></li>
+  <li><a href="#train-and-evaluate-the-model" id="toc-train-and-evaluate-the-model" class="nav-link" data-scroll-target="#train-and-evaluate-the-model">14.5.4 Train and Evaluate the Model</a></li>
+  </ul></li>
+  <li><a href="#automl" id="toc-automl" class="nav-link" data-scroll-target="#automl">14.6 AutoML</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html">Theme 3 - Model Engineering Pipelines</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a id="top"></a></p>
+<ul>
+<li><a href="#14.1-model-selection">14.1 Model Selection</a>
+<ul>
+<li><a href="#14.1.1-hyperparameters-in-neural-networks">14.1.1 Hyperparameters in Neural Networks</a></li>
+</ul></li>
+<li><a href="#14.2-evaluate-the-impact-of-the-learning-rate">14.2 Evaluate the Impact of the Learning Rate</a>
+<ul>
+<li><a href="#14.2.1-loading-a-custom-image-dataset-in-keras">14.2.1 Loading a Custom Image Dataset in Keras</a></li>
+<li><a href="#14.2.2-define-the-model">14.2.2 Define the Model</a></li>
+</ul></li>
+<li><a href="#14.3-callbacks">14.3 Callbacks</a>
+<ul>
+<li><a href="#14.3.1-early-stopping">14.3.1 Early Stopping</a></li>
+<li><a href="#14.3.2-save-checkpoint">14.3.2 Save Checkpoint</a></li>
+<li><a href="#14.3.3-reduce-learning-rate-on-plateau">14.3.3 Reduce Learning Rate on Plateau</a></li>
+<li><a href="#14.3.4-learning-rate-scheduler">14.3.4 Learning Rate Scheduler</a></li>
+</ul></li>
+<li><a href="#14.4-grid-search">14.4 Grid Search</a></li>
+<li><a href="#14.5-keras-tuner">14.5 Keras Tuner</a>
+<ul>
+<li><a href="#14.5.1-load-fashion-mnist-dataset">14.5.1 Load Fashion MNIST Dataset</a></li>
+<li><a href="#14.5.2-model-builder">14.5.2 Model Builder</a></li>
+<li><a href="#14.5.3-hyperparameter-tuning">14.5.3 Hyperparameter Tuning</a></li>
+<li><a href="#14.5.4-train-and-evaluate-the-model">14.5.4 Train and Evaluate the Model</a></li>
+</ul></li>
+<li><a href="#14.6-automl">14.6 AutoML</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<p><a id="14.1-model-selection"></a></p>
+<section id="model-selection" class="level2">
+<h2 class="anchored" data-anchor-id="model-selection">14.1 Model Selection</h2>
+<p><strong>Model selection</strong> in Machine Learning refers to selecting one final model for a given task, e.g., a model that will be deployed in production. In general, selecting the “best” final model should be based not only on the obtained values of relevant performance metrics (accuracy, specificity, sensitivity), but also based on other considerations, such as computational expense, available resources, model complexity, maintainability, and similar factors.</p>
+<p>An important phase in selecting a candidate ML model is <strong>hyperparameter tuning</strong>. <strong>Hyperparameters</strong> (also called <em>tuning parameters</em>) are a set of values that control the model’s complexity and performance, and they are chosen (tuned) by the user. Note again that the <strong>parameters (weights)</strong> of an ML model are updated iteratively during training, whereas the hyperparameters stay constant and are not updated during training.</p>
+<p>In the lecture on scikit-learn, we studied hyperparameter tuning of conventional ML models (such as Linear Regression, k-Nearest Neighbors, Decision Trees, etc.). For this purpose, we used Grid Search and Random Search to explore different combinations of hyperparameter values and to select an optimal set of values for a given performance metric. In our introductory lectures on Artificial Neural Networks (ANNs), we haven’t discussed yet how to tune their hyperparameters. That question remained hanging in the air of the pleasant autumn evenings, and it will be the focus of this lecture. Namely, ANNs are more sensitive to hyperparameter tuning than conventional ML models. We saw that even if we use default values for the models in scikit-learn without any hyperparameter tuning, the models can still achieve solid performance. This is rarely the case with ANNs, as they usually require at least some hyperparameter tuning.</p>
+<p>Another important aspect of model selection is <strong>performance evaluation</strong>. It can involve exploring various techniques for data preprocessing (e.g., different feature scaling and encoding techniques) and evaluating different feature engineering strategies (e.g., techniques for filling missing data). In addition, it is particularly important to evaluate candidate models on unseen data during training, which is typically achieved by splitting the available data into training and test datasets. We also learned that <em>k-fold cross-validation</em> can be used to draw folds from the available data, and evaluate the models on multiple folds by resampling the available data. With k-fold cross-validation, each data point appears in only one test fold when evaluating model performance.</p>
+<p>Finally, note that <em>hyperparameter tuning</em> should not be confused with <em>model fine-tuning</em> which refers to transfer learning from a model that is pretrained on a large dataset and fine-tuning its parameters on a smaller domain-specific dataset.</p>
+<p><a id="14.1.1-hyperparameters-in-neural-networks"></a></p>
+<section id="hyperparameters-in-neural-networks" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameters-in-neural-networks">14.1.1 Hyperparameters in Neural Networks</h3>
+<p>Let’s examine again the ConvNet that we used in a previous lecture to classify images in the CIFAR-10 dataset, and identify the hyperparameters of the model.</p>
+<pre><code># define the layers in the model
+inputs = Input(shape=(32, 32, 3))
+conv1a = Conv2D(filters=32, kernel_size=3, padding='same')(inputs)
+conv1b = Conv2D(filters=32, kernel_size=3, padding='same')(conv1a)
+pool1 = MaxPooling2D()(conv1b)
+conv2a = Conv2D(filters=64, kernel_size=3, padding='same')(pool1)
+conv2b = Conv2D(filters=64, kernel_size=3, padding='same')(conv2a)
+pool2 = MaxPooling2D()(conv2b)
+conv3a = Conv2D(filters=128, kernel_size=3, padding='same')(pool2)
+conv3b = Conv2D(filters=128, kernel_size=3, padding='same')(conv3a)
+pool3 = MaxPooling2D()(conv3b)
+flat = Flatten()(pool3)
+dense1 = Dense(128, activation='relu')(flat)
+dropout1 = Dropout(0.25)(dense1)
+dense2 = Dense(64, activation='relu')(dropout1)
+dropout2  = Dropout(0.25)(dense2)
+outputs = Dense(10, activation='softmax')(dropout2)
+
+# define the model with inputs and outputs
+cifar_cnn = Model(inputs, outputs)
+
+# compile the model
+cifar_cnn.compile(optimizer=Adam(learning_rate=1e-3), loss='sparse_categorical_crossentropy',  metrics=['accuracy'])
+
+# train the model
+cifar_cnn.fit(train_data, train_label_onehot, epochs=10, batch_size=128)</code></pre>
+<p>Hyperparameters in the above model include:</p>
+<ul>
+<li>Learning rate of the optimizer</li>
+<li>Batch size</li>
+<li>Number of training epochs</li>
+<li>Number of Convolutional layers</li>
+<li>Number of convolutional filters in the Convolutional layers</li>
+<li>Kernel size of the convolutional filters</li>
+<li>Type of padding in the Convolutional layers</li>
+<li>Number of Dense layers</li>
+<li>Number of neurons in each Dense layer</li>
+<li>Type of activation functions used in the layers</li>
+<li>Number of Dropout layers</li>
+<li>Dropout rate in the Dropout layers</li>
+<li>Type of optimizer (e.g., Adam, SGD, Nadam, RMSProp)</li>
+<li>Other parameters used in the optimizer (e.g., momentum)</li>
+<li>Type of initialization for the parameters in the model</li>
+</ul>
+<p>There can be other hyperparameters depending on the network, however, one immediate observation is that neural networks have a large number of hyperparameters, and tuning all hyperparameters can be challenging as it may take significant time and resources.</p>
+<p>On the other hand, not all of the hyperparameters have significant impact on the performance of the model. Out of all hyperparameters, probably the most important is the learning rate, and in most cases, some tuning of the learning rate is required. In this lecture we will present techniques for hyperparameter tuning of a ConvNet model built with TensorFlow-Keras.</p>
+<p><a id="14.2-evaluate-the-impact-of-the-learning-rate"></a></p>
+</section>
+</section>
+<section id="evaluate-the-impact-of-the-learning-rate" class="level2">
+<h2 class="anchored" data-anchor-id="evaluate-the-impact-of-the-learning-rate">14.2 Evaluate the Impact of the Learning Rate</h2>
+<p><a id="14.2.1-loading-a-custom-image-dataset-in-keras"></a></p>
+<section id="loading-a-custom-image-dataset-in-keras" class="level3">
+<h3 class="anchored" data-anchor-id="loading-a-custom-image-dataset-in-keras">14.2.1 Loading a Custom Image Dataset in Keras</h3>
+<p>In previous lectures we worked with datasets that are built-in in Keras or scikit-learn and that can be directly loaded. Let’s look at loading a custom dataset that is not part of the popular ML libraries. The dataset is saved in a folder on my Google Drive, therefore I need to first mount the Google Drive in order to access the folder with the images.</p>
+<p>For this lecture, we will use the LFW dataset (Labeled Faces in the Wild), which consists of about 5,000 images of 62 celebrities. The next cells load the dataset and plot a few images to make sure that the labels are correct.</p>
+<div id="cell-11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761486191990,&quot;user_tz&quot;:360,&quot;elapsed&quot;:24902,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="176a1ac9-e500-4795-a7b9-bae0908c31aa">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Mount Google Drive</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> google.colab <span class="im">import</span> drive</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>drive.mount(<span class="st">'/content/drive'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Mounted at /content/drive</code></pre>
+</div>
+</div>
+<div id="cell-12" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761486195497,&quot;user_tz&quot;:360,&quot;elapsed&quot;:3502,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="062f9186-0cf8-4099-8918-6527a01c7ef5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import packages</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="co"># Image utilities for loading and converting images to arrays</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.utils <span class="im">import</span> load_img, img_to_array</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># OS module for interacting with the operating system (paths, directories, etc.)</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a><span class="co"># To list files in a directory</span></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> os <span class="im">import</span> listdir</span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a><span class="co"># To read CSV files, since the labels are saved in a CSV file</span></span>
+<span id="cb4-12"><a href="#cb4-12" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> csv</span>
+<span id="cb4-13"><a href="#cb4-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Natural sorting, to sort the image names in ascending numerical order</span></span>
+<span id="cb4-14"><a href="#cb4-14" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> natsort</span>
+<span id="cb4-15"><a href="#cb4-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-16"><a href="#cb4-16" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the version of TensorFlow</span></span>
+<span id="cb4-17"><a href="#cb4-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"TensorFlow version:</span><span class="sc">{}</span><span class="st">"</span>.<span class="bu">format</span>(tf.__version__))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TensorFlow version:2.19.0</code></pre>
+</div>
+</div>
+<div id="cell-13" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Path to the directory containing the dataset (you can download the dataset from Canvas and upload it to your Google Drive)</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>unzip <span class="op">-</span>uq <span class="st">'drive/MyDrive/Data_Science_Course/Fall_2026/Lectures/Lecture_14-Model_Selection/data/LFW-dataset.zip'</span> <span class="op">-</span>d <span class="st">'sample_data/'</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-14" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Directories</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>train_dir <span class="op">=</span> <span class="st">'sample_data/LFW-dataset/Train/'</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>test_dir <span class="op">=</span> <span class="st">'sample_data/LFW-dataset/Test/'</span></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>val_dir <span class="op">=</span> <span class="st">'sample_data/LFW-dataset/Validation/'</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>labels_dir <span class="op">=</span> <span class="st">'sample_data/LFW-dataset/'</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Size of images (pixel width and height)</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>image_size <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Function for loading the images</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> load_imgs(path):</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># List of all images in the folder</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    imgList <span class="op">=</span> listdir(path)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Make sure that the images are sorted in ascending order</span></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>    imgList<span class="op">=</span>natsort.natsorted(imgList)</span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Number of images</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>    number_imgs <span class="op">=</span> <span class="bu">len</span>(imgList)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Initialize numpy arrays for the images</span></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>    images <span class="op">=</span> np.zeros((number_imgs, image_size, image_size, <span class="dv">3</span>))</span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Read the images</span></span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> i <span class="kw">in</span> <span class="bu">range</span>(number_imgs):</span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>        tmp_img <span class="op">=</span> load_img(path <span class="op">+</span> imgList[i], target_size<span class="op">=</span>(image_size, image_size, <span class="dv">3</span>))</span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>        img <span class="op">=</span> img_to_array(tmp_img)</span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>        images[i] <span class="op">=</span> img<span class="op">/</span><span class="fl">255.0</span></span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> images</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a><span class="co"># Call the above function to load the images as numpy arrays</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>imgs_train <span class="op">=</span> load_imgs(train_dir)</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>imgs_test <span class="op">=</span> load_imgs(test_dir)</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>imgs_val <span class="op">=</span> load_imgs(val_dir)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-15" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the labels as numpy arrays</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>labels_train <span class="op">=</span> np.genfromtxt(labels_dir <span class="op">+</span> <span class="st">"train_labels.csv"</span>, delimiter<span class="op">=</span><span class="st">','</span>, dtype<span class="op">=</span>np.int32)</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>labels_test <span class="op">=</span> np.genfromtxt(labels_dir <span class="op">+</span> <span class="st">"test_labels.csv"</span>, delimiter<span class="op">=</span><span class="st">','</span>, dtype<span class="op">=</span>np.int32)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>labels_val <span class="op">=</span> np.genfromtxt(labels_dir <span class="op">+</span> <span class="st">"val_labels.csv"</span>, delimiter<span class="op">=</span><span class="st">','</span>, dtype<span class="op">=</span>np.int32)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-16" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761486206121,&quot;user_tz&quot;:360,&quot;elapsed&quot;:73,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="ff926cf6-9965-4fac-d8dc-7cc10011accc">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the shapes of train, validation, and test datasets</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Images train shape: </span><span class="sc">{}</span><span class="st"> - Labels train shape: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(imgs_train.shape, labels_train.shape))</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Images validation shape: </span><span class="sc">{}</span><span class="st"> - Labels validation shape: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(imgs_val.shape, labels_val.shape))</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Images test shape: </span><span class="sc">{}</span><span class="st"> - Labels test shape: </span><span class="sc">{}</span><span class="st">'</span>.<span class="bu">format</span>(imgs_test.shape, labels_test.shape))</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Display the range of images (to make sure they are in the [0, 1] range)</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Max pixel value'</span>, np.<span class="bu">max</span>(imgs_train))</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Min pixel value'</span>, np.<span class="bu">min</span>(imgs_train))</span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Average pixel value'</span>, np.mean(imgs_train))</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Data type'</span>, imgs_train[<span class="dv">0</span>].dtype)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Images train shape: (3043, 100, 100, 3) - Labels train shape: (3043,)
+Images validation shape: (1021, 100, 100, 3) - Labels validation shape: (1021,)
+Images test shape: (1049, 100, 100, 3) - Labels test shape: (1049,)
+
+Max pixel value 1.0
+Min pixel value 0.0
+Average pixel value 0.47390351913451484
+Data type float64</code></pre>
+</div>
+</div>
+<div id="cell-17" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761486210190,&quot;user_tz&quot;:360,&quot;elapsed&quot;:4053,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="fe857f22-fea4-4589-c213-20d31012fbb7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the names of the celebrities in the dataset (there are 62 celebrities)</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>name_list <span class="op">=</span> []</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> <span class="bu">open</span>(labels_dir<span class="op">+</span><span class="st">'name_list.csv'</span>, <span class="st">'r'</span>) <span class="im">as</span> f:</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    reader <span class="op">=</span> csv.reader(f)</span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> row <span class="kw">in</span> reader:</span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a>        name_list.append(row[<span class="dv">1</span>])</span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Plot a few images to check if the labels are correct</span></span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="co"># There are a few bad images in the dataset, it needs to be cleaned</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a>plt.figure(figsize<span class="op">=</span>(<span class="dv">9</span>, <span class="dv">6</span>))</span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> n <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">9</span>):</span>
+<span id="cb11-12"><a href="#cb11-12" aria-hidden="true" tabindex="-1"></a>    i <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="bu">len</span>(imgs_train), <span class="dv">1</span>)</span>
+<span id="cb11-13"><a href="#cb11-13" aria-hidden="true" tabindex="-1"></a>    ax <span class="op">=</span> plt.subplot(<span class="dv">3</span>, <span class="dv">3</span>, n<span class="op">+</span><span class="dv">1</span>)</span>
+<span id="cb11-14"><a href="#cb11-14" aria-hidden="true" tabindex="-1"></a>    plt.imshow(imgs_train[i[<span class="dv">0</span>]])</span>
+<span id="cb11-15"><a href="#cb11-15" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'Label:'</span> <span class="op">+</span> <span class="bu">str</span>(name_list[labels_train[i[<span class="dv">0</span>]]]))</span>
+<span id="cb11-16"><a href="#cb11-16" aria-hidden="true" tabindex="-1"></a>    plt.axis(<span class="st">'off'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-8-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="14.2.2-define-the-model"></a></p>
+</section>
+<section id="define-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="define-the-model">14.2.2 Define the Model</h3>
+<p>We will use a pretrained VGG-16 model, and we will just add a classifier with 3 Dense layers on top of the model to fine-tune it to the LFW dataset.</p>
+<div id="cell-19" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.layers <span class="im">import</span> Dense, GlobalAveragePooling2D, Dropout, Input, Flatten</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.models <span class="im">import</span> Model</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.optimizers <span class="im">import</span> Adam</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.callbacks <span class="im">import</span> EarlyStopping, ModelCheckpoint, ReduceLROnPlateau, LearningRateScheduler</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.keras.applications <span class="im">import</span> vgg16</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> datetime</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>now <span class="op">=</span> datetime.datetime.now</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-20" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Network():</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    base_model <span class="op">=</span> vgg16.VGG16(weights<span class="op">=</span><span class="st">'imagenet'</span>, include_top<span class="op">=</span><span class="va">False</span>, input_shape<span class="op">=</span>(image_size, image_size, <span class="dv">3</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add a global spatial average pooling layer</span></span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> base_model.output</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> GlobalAveragePooling2D()(x)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add fully-connected layers</span></span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dense(<span class="dv">1024</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dropout(<span class="fl">0.25</span>)(x)</span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dense(<span class="dv">256</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dropout(<span class="fl">0.25</span>)(x)</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add a softmax layer</span></span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> Dense(<span class="dv">62</span>, activation<span class="op">=</span><span class="st">'softmax'</span>)(x)</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The model</span></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Model(inputs<span class="op">=</span>base_model.<span class="bu">input</span>, outputs<span class="op">=</span>predictions)</span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Let’s define a function for plotting the accuracy and loss called <code>plot_accuracy_loss</code>, which we can call with different models to examine the learning curves.</p>
+<div id="cell-22" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> plot_accuracy_loss():</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># plot the accuracy and loss</span></span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>    train_loss <span class="op">=</span> history.history[<span class="st">'loss'</span>]</span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a>    val_loss <span class="op">=</span> history.history[<span class="st">'val_loss'</span>]</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a>    acc <span class="op">=</span> history.history[<span class="st">'accuracy'</span>]</span>
+<span id="cb14-6"><a href="#cb14-6" aria-hidden="true" tabindex="-1"></a>    val_acc <span class="op">=</span> history.history[<span class="st">'val_accuracy'</span>]</span>
+<span id="cb14-7"><a href="#cb14-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-8"><a href="#cb14-8" aria-hidden="true" tabindex="-1"></a>    epochsn <span class="op">=</span> np.arange(<span class="dv">1</span>, <span class="bu">len</span>(train_loss)<span class="op">+</span><span class="dv">1</span>,<span class="dv">1</span>)</span>
+<span id="cb14-9"><a href="#cb14-9" aria-hidden="true" tabindex="-1"></a>    plt.figure(figsize<span class="op">=</span>(<span class="dv">12</span>, <span class="dv">4</span>))</span>
+<span id="cb14-10"><a href="#cb14-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-11"><a href="#cb14-11" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">1</span>)</span>
+<span id="cb14-12"><a href="#cb14-12" aria-hidden="true" tabindex="-1"></a>    plt.plot(epochsn, acc, <span class="st">'b'</span>, label<span class="op">=</span><span class="st">'Training Accuracy'</span>)</span>
+<span id="cb14-13"><a href="#cb14-13" aria-hidden="true" tabindex="-1"></a>    plt.plot(epochsn, val_acc, <span class="st">'r'</span>, label<span class="op">=</span><span class="st">'Validation Accuracy'</span>)</span>
+<span id="cb14-14"><a href="#cb14-14" aria-hidden="true" tabindex="-1"></a>    plt.grid(color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb14-15"><a href="#cb14-15" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb14-16"><a href="#cb14-16" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'ACCURACY'</span>)</span>
+<span id="cb14-17"><a href="#cb14-17" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Epochs'</span>)</span>
+<span id="cb14-18"><a href="#cb14-18" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Accuracy'</span>)</span>
+<span id="cb14-19"><a href="#cb14-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-20"><a href="#cb14-20" aria-hidden="true" tabindex="-1"></a>    plt.subplot(<span class="dv">1</span>,<span class="dv">2</span>,<span class="dv">2</span>)</span>
+<span id="cb14-21"><a href="#cb14-21" aria-hidden="true" tabindex="-1"></a>    plt.plot(epochsn,train_loss, <span class="st">'b'</span>, label<span class="op">=</span><span class="st">'Training Loss'</span>)</span>
+<span id="cb14-22"><a href="#cb14-22" aria-hidden="true" tabindex="-1"></a>    plt.plot(epochsn,val_loss, <span class="st">'r'</span>, label<span class="op">=</span><span class="st">'Validation Loss'</span>)</span>
+<span id="cb14-23"><a href="#cb14-23" aria-hidden="true" tabindex="-1"></a>    plt.grid(color<span class="op">=</span><span class="st">'gray'</span>, linestyle<span class="op">=</span><span class="st">'--'</span>)</span>
+<span id="cb14-24"><a href="#cb14-24" aria-hidden="true" tabindex="-1"></a>    plt.legend()</span>
+<span id="cb14-25"><a href="#cb14-25" aria-hidden="true" tabindex="-1"></a>    plt.title(<span class="st">'LOSS'</span>)</span>
+<span id="cb14-26"><a href="#cb14-26" aria-hidden="true" tabindex="-1"></a>    plt.xlabel(<span class="st">'Epochs'</span>)</span>
+<span id="cb14-27"><a href="#cb14-27" aria-hidden="true" tabindex="-1"></a>    plt.ylabel(<span class="st">'Loss'</span>)</span>
+<span id="cb14-28"><a href="#cb14-28" aria-hidden="true" tabindex="-1"></a>    plt.show()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="learning-rate-1e-4-epochs-10" class="level4">
+<h4 class="anchored" data-anchor-id="learning-rate-1e-4-epochs-10">Learning rate = 1e-4, Epochs = 10</h4>
+<p>In Lecture 12, we explained that most NNs employ a version of the Gradient Descent algorithm for updating the network parameters during training, depicted in the figure below. The learning rate determines the size of the updates at each step, i.e., it controls how fast the network parameters are updated.</p>
+<p><img src="images/gradient_descent.png" width="800"></p>
+<p><em>Figure: Gradient descent algorithm.</em></p>
+<p>If the learning rate is too small, the algorithm will take many epochs to converge, and it may even get stuck into a local minima. If the learning rate is too high, the algorithm may jump over the best solutions and may not be able to converge to good solutions.</p>
+<p><img src="images/learning_rate.png" width="1000"></p>
+<p><em>Figure: Impact of the learning rate.</em> Source: https://www.bdhammel.com/learning-rates/</p>
+<p>In the previous lectures, we used the following code to compile the models, which uses the Adam optimizer, but we didn’t specify the learning rate of the optimizer. For the implementation of Adam in Keras, the default learning rate is 1e-3.</p>
+<pre><code>model.compile(optimizer='adam',
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])</code></pre>
+<p>If we would like to use another value for the learning rate, then we will need to import the Adam optimizer, and compile the model with:</p>
+<pre><code>from tensorflow.keras.optimizers import Adam
+model.compile(optimizer=Adam(learning_rate=VALUE),
+              loss='sparse_categorical_crossentropy',
+              metrics=['accuracy'])</code></pre>
+<p>The following code trains a model for 10 epochs with a learning rate of <code>1e-4 = 0.0001</code>. We have selected this learning rate because we know that it works well for this combination of model and data.</p>
+<p>We can see that the model achieved close to 80% accuracy on the test set, and the training took about 3 minutes. From the plots of the accuracy and loss curves, we can tell that 10 epochs are not sufficient for training the model, because at the end of the 10th epoch, the accuracy was still increasing and the loss was decreasing.</p>
+<div id="cell-24" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761486411789,&quot;user_tz&quot;:360,&quot;elapsed&quot;:187207,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="5ae683db-37a8-4188-aaf6-96702173e2cf">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a><span class="co"># create a model</span></span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="co"># compile the model</span></span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a><span class="co"># evaluate on test data</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="ansi-escaped-output">
+<pre>Downloading data from https://storage.googleapis.com/tensorflow/keras-applications/vgg16/vgg16_weights_tf_dim_ordering_tf_kernels_notop.h5
+
+<span class="ansi-bold">58889256/58889256</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">3s</span> 0us/step
+
+
+
+Training time: 0:02:57.097061
+
+Classification Accuracy:  81.79218173027039
+</pre>
+</div>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-12-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="learning-rate-1e-4-epochs-30" class="level4">
+<h4 class="anchored" data-anchor-id="learning-rate-1e-4-epochs-30">Learning rate = 1e-4, Epochs = 30</h4>
+<p>Let’s train the model for 30 epochs using the same learning rate to see if this number of epochs would be sufficient.</p>
+<p>From the results below, we can see that the model achieved over 95% accuracy, and the training took about 7 minutes.</p>
+<p>Based on the learning curves, at epoch 30 the validation accuracy and loss were converging to a plateau level, and it was unclear if training the model for more than 30 epochs would improve the performance. An alternative is to use Early Stopping callback, so that the training is stopped automatically (e.g., when the validation loss stops decreasing). Such case is shown in a subsequent section.</p>
+<div id="cell-26" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761486884185,&quot;user_tz&quot;:360,&quot;elapsed&quot;:472391,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="b89c0c05-fed6-4a4e-8c17-3509e9f1a0aa">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">30</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:07:49.475702
+Classification Accuracy:  95.42421102523804</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-13-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="learning-rate-1e-3-epochs-20" class="level4">
+<h4 class="anchored" data-anchor-id="learning-rate-1e-3-epochs-20">Learning rate = 1e-3, Epochs = 20</h4>
+<p>Next, let’s try to train the model using different learning rates, for instance, by increasing the learning rate to <code>1e-3 = 0.001</code>.</p>
+<p>Increasing the learning rate will cause the model to apply larger values for the update of the parameters during the training. We can expect that the training will converge faster, and we can use a smaller number of epochs.</p>
+<p>However, large learning rates can cause the model to update the parameters too fast, as in this case. As we can see, the model achieved only 16% accuracy, and the accuracy curves did not improve after that level.</p>
+<div id="cell-28" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761487193972,&quot;user_tz&quot;:360,&quot;elapsed&quot;:309769,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="aa06fc08-404a-4d3f-c901-d40240ea6a93">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-3</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">20</span></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:05:06.832105
+Classification Accuracy:  16.873212158679962</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-14-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="learning-rate-1e-2-epochs-10" class="level4">
+<h4 class="anchored" data-anchor-id="learning-rate-1e-2-epochs-10">Learning rate = 1e-2, Epochs = 10</h4>
+<p>If we increase the learning rate even further to <code>0.01</code>, we can expect that training will fail, since we saw that even a learning rate of <code>0.001</code> was too high. Based on the learning curves, we can tell that the learning is too fast and too aggressive.</p>
+<div id="cell-30" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761487500576,&quot;user_tz&quot;:360,&quot;elapsed&quot;:157228,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="83239be9-dab2-43e6-d0fa-13b4b176928a">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-2</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-7"><a href="#cb22-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb22-8"><a href="#cb22-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb22-9"><a href="#cb22-9" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb22-10"><a href="#cb22-10" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb22-11"><a href="#cb22-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb22-12"><a href="#cb22-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-13"><a href="#cb22-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb22-14"><a href="#cb22-14" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb22-15"><a href="#cb22-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb22-16"><a href="#cb22-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-17"><a href="#cb22-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb22-18"><a href="#cb22-18" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:02:34.354941
+Classification Accuracy:  16.873212158679962</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-15-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="learning-rate-1e-5-epochs-50" class="level4">
+<h4 class="anchored" data-anchor-id="learning-rate-1e-5-epochs-50">Learning rate = 1e-5, Epochs = 50</h4>
+<p>Let’s try the opposite case, and reduce the learning rate to <code>1e-5 = 0.00001</code>. Smaller learning rates produce smaller updates of the model parameters, and slower learning. This may avoid the problems of learning too fast when large learning rates are used.</p>
+<p>This model achieved slightly better accuracy than with the <code>1e-4</code> learning rate. Also, the learning curves look good, because the accuracy and loss gradually change, and the validation curves follow the training curves.</p>
+<div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761488289054,&quot;user_tz&quot;:360,&quot;elapsed&quot;:788468,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="daae7b52-e1f8-41ec-ddbd-3f0579302801">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-5</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:13:05.483821
+Classification Accuracy:  93.6129629611969</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="learning-rate-1e-6-epochs-50" class="level4">
+<h4 class="anchored" data-anchor-id="learning-rate-1e-6-epochs-50">Learning rate = 1e-6, Epochs = 50</h4>
+<p>Next, let’s reduce the learning rate even further to <code>1e-6</code>.</p>
+<p>Although smaller learning rates avoid training failure when we use overly large learning rates, using very small learning rates does not necessarily lead to improved performance, since the learning can be too slow.</p>
+<p>Based on the learning curves, we can tell that at the end of epoch 50 the model parameters were gradually being updated, and that with this learning rate we would need to train the model for at least 200 or 300 epochs to reach convergence, or maybe even more.</p>
+<div id="cell-34" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761489072881,&quot;user_tz&quot;:360,&quot;elapsed&quot;:783824,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="3e90922e-1c80-4164-a96e-f4abc91d5482">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-6</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb26-11"><a href="#cb26-11" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb26-12"><a href="#cb26-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-13"><a href="#cb26-13" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb26-14"><a href="#cb26-14" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb26-15"><a href="#cb26-15" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb26-16"><a href="#cb26-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-17"><a href="#cb26-17" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb26-18"><a href="#cb26-18" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:13:00.788946
+Classification Accuracy:  71.21067643165588</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-17-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>There are also several libraries developed for estimating the learning rate of NNs. These tools change the learning rate in a range of values, typically starting with a very small learning rate and increasing it to a high learning rate. The model is trained and evaluated only for a few epochs using different learning rates. Based on a plot of the loss for different learning rates, these tools can help to find a suitable learning rate, that can afterward be used to fully train the model. However, although such tools can identify a range of suitable values for the learning rate, they should be used with caution, and the users should still run candidate models in the suggested range to fully evaluate the model performance.</p>
+<p><a id="14.3-callbacks"></a></p>
+</section>
+</section>
+</section>
+<section id="callbacks" class="level2">
+<h2 class="anchored" data-anchor-id="callbacks">14.3 Callbacks</h2>
+<p>In the lecture on ConvNets we mentioned that callbacks can be used to monitor the model performance and take certain actions. The next section provides additional examples of applying callbacks in Keras.</p>
+<p><a id="14.3.1-early-stopping"></a></p>
+<section id="early-stopping" class="level3">
+<h3 class="anchored" data-anchor-id="early-stopping">14.3.1 Early Stopping</h3>
+<p>As we know, using <strong>Early Stopping</strong> callback is often beneficial, since we don’t need to guess the optimal number of epochs to train the model. Instead, the callback will terminate the training when a selected metric is not improving. In the next cell, we specified to stop the training when the validation loss does not improve for 20 epochs (the <code>patience</code> argument). We set the <code>EPOCHS_NUM</code> argument to 1000, although we know that the model will terminate after about 50-60 epochs. Therefore, the number of epochs is not very important when we use this callback, it only needs to be large enough so that the training is not stopped prematurely.</p>
+<p>This model achieved over 94% accuracy. Notice also in the accuracy curve that the accuracy in one of the latest epochs dropped a lot. We will see next how to handdle that case by using CheckPoint callback.</p>
+<div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761490392783,&quot;user_tz&quot;:360,&quot;elapsed&quot;:1319844,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="e22e31e2-2b5b-4bda-b8c3-d9859177ab4a">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a>callbacks <span class="op">=</span> [EarlyStopping(monitor<span class="op">=</span><span class="st">'val_loss'</span>, patience<span class="op">=</span><span class="dv">20</span>)]</span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>, callbacks<span class="op">=</span>callbacks)</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb28-15"><a href="#cb28-15" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb28-16"><a href="#cb28-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb28-17"><a href="#cb28-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-18"><a href="#cb28-18" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb28-19"><a href="#cb28-19" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:21:56.945756
+Classification Accuracy:  92.56434440612793</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-18-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="14.3.2-save-checkpoint"></a></p>
+</section>
+<section id="save-checkpoint" class="level3">
+<h3 class="anchored" data-anchor-id="save-checkpoint">14.3.2 Save Checkpoint</h3>
+<p><strong>CheckPoint</strong> callback saves a checkpoint of the model (i.e., the model parameters) after every epoch when a monitored metric does not improve. We set the metrics to be the validation loss, and the values of the model parameters will be saved at the specified <code>filepath</code>. This can be useful if training the model takes hours, where if something goes wrong, we can just resume the training from a checkpoint.</p>
+<p>We choose to set <code>verbose=1</code> for the callback, to output the epochs at which a checkpoint is saved.</p>
+<p>At the beginning of the training, the checkpoint will be saved after every epoch, and after the model reaches a plateau, a new checkpoint will be saved only when there is an improvement in the performance, by overwriting the latest checkpoint.</p>
+<div id="cell-40" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761491175689,&quot;user_tz&quot;:360,&quot;elapsed&quot;:782904,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="8610b107-6c6f-4381-ba82-5ce1692dbae1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-7"><a href="#cb30-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb30-8"><a href="#cb30-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb30-9"><a href="#cb30-9" aria-hidden="true" tabindex="-1"></a>callbacks <span class="op">=</span> ModelCheckpoint(filepath<span class="op">=</span><span class="st">'sample_data/model_celeb.weights.h5'</span>, monitor<span class="op">=</span><span class="st">'val_loss'</span>, mode<span class="op">=</span><span class="st">'min'</span>,</span>
+<span id="cb30-10"><a href="#cb30-10" aria-hidden="true" tabindex="-1"></a>                            save_weights_only<span class="op">=</span><span class="va">True</span>, save_best_only<span class="op">=</span><span class="va">True</span>, verbose<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb30-11"><a href="#cb30-11" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb30-12"><a href="#cb30-12" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>, callbacks<span class="op">=</span>[callbacks])</span>
+<span id="cb30-13"><a href="#cb30-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb30-14"><a href="#cb30-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-15"><a href="#cb30-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb30-16"><a href="#cb30-16" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb30-17"><a href="#cb30-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb30-18"><a href="#cb30-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-19"><a href="#cb30-19" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb30-20"><a href="#cb30-20" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Epoch 1: val_loss improved from inf to 3.63002, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 2: val_loss improved from 3.63002 to 3.14162, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 3: val_loss improved from 3.14162 to 2.69129, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 4: val_loss improved from 2.69129 to 2.38674, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 5: val_loss improved from 2.38674 to 1.86158, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 6: val_loss improved from 1.86158 to 1.60096, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 7: val_loss improved from 1.60096 to 1.30128, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 8: val_loss improved from 1.30128 to 1.01901, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 9: val_loss improved from 1.01901 to 0.90223, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 10: val_loss improved from 0.90223 to 0.66062, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 11: val_loss did not improve from 0.66062
+
+Epoch 12: val_loss improved from 0.66062 to 0.59440, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 13: val_loss improved from 0.59440 to 0.56035, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 14: val_loss improved from 0.56035 to 0.49699, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 15: val_loss did not improve from 0.49699
+
+Epoch 16: val_loss improved from 0.49699 to 0.44442, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 17: val_loss did not improve from 0.44442
+
+Epoch 18: val_loss did not improve from 0.44442
+
+Epoch 19: val_loss improved from 0.44442 to 0.40150, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 20: val_loss improved from 0.40150 to 0.35641, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 21: val_loss did not improve from 0.35641
+
+Epoch 22: val_loss did not improve from 0.35641
+
+Epoch 23: val_loss did not improve from 0.35641
+
+Epoch 24: val_loss did not improve from 0.35641
+
+Epoch 25: val_loss did not improve from 0.35641
+
+Epoch 26: val_loss did not improve from 0.35641
+
+Epoch 27: val_loss did not improve from 0.35641
+
+Epoch 28: val_loss did not improve from 0.35641
+
+Epoch 29: val_loss did not improve from 0.35641
+
+Epoch 30: val_loss did not improve from 0.35641
+
+Epoch 31: val_loss did not improve from 0.35641
+
+Epoch 32: val_loss improved from 0.35641 to 0.35182, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 33: val_loss did not improve from 0.35182
+
+Epoch 34: val_loss did not improve from 0.35182
+
+Epoch 35: val_loss did not improve from 0.35182
+
+Epoch 36: val_loss improved from 0.35182 to 0.30715, saving model to sample_data/model_celeb.weights.h5
+
+Epoch 37: val_loss did not improve from 0.30715
+
+Epoch 38: val_loss did not improve from 0.30715
+
+Epoch 39: val_loss did not improve from 0.30715
+
+Epoch 40: val_loss did not improve from 0.30715
+
+Epoch 41: val_loss did not improve from 0.30715
+
+Epoch 42: val_loss did not improve from 0.30715
+
+Epoch 43: val_loss did not improve from 0.30715
+
+Epoch 44: val_loss did not improve from 0.30715
+
+Epoch 45: val_loss did not improve from 0.30715
+
+Epoch 46: val_loss did not improve from 0.30715
+
+Epoch 47: val_loss did not improve from 0.30715
+
+Epoch 48: val_loss did not improve from 0.30715
+
+Epoch 49: val_loss did not improve from 0.30715
+
+Epoch 50: val_loss did not improve from 0.30715
+Training time: 0:12:59.895580
+Classification Accuracy:  92.37368702888489</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-19-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="14.3.3-reduce-learning-rate-on-plateau"></a></p>
+</section>
+<section id="reduce-learning-rate-on-plateau" class="level3">
+<h3 class="anchored" data-anchor-id="reduce-learning-rate-on-plateau">14.3.3 Reduce Learning Rate on Plateau</h3>
+<p><strong>ReduceLROnPlateau</strong> stands for Reduce Learning Rate on Plateau. It is another very useful callback, since prior works have reported that training models generally benefits from using larger learning rate at the beginning of the training, and gradually reducing the learning rate when the training does not improve.</p>
+<p>This is exactly what this callback does. In the next cell, the learning rate is initially set to <code>1e-4=0.0001</code>. ReduceLROnPlateau has a patience of 10 epochs, factor of 0.1, and minimum learning rate of <code>1e-6</code>. This means that when the monitored metric (in this case, the validation loss) does not reduce for 10 epochs, the learning rate will be multiplied by the <code>factor</code> and become <code>1e-5</code>. When the model stops improving again, the learning rate will be again multiplied by the factor and become <code>1e-6</code>. Since this is the minimum value for the learning rate, we will combine this callback with Early Stopping to terminate the training. Note that the patience value for Early Stopping was set longer than the patience for ReduceLROnPlateau.</p>
+<div id="cell-42" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761492102923,&quot;user_tz&quot;:360,&quot;elapsed&quot;:927232,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="0a9d5cda-1e26-402d-ddda-cae06c96e974">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">1000</span></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate <span class="op">=</span> LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a>callbacks <span class="op">=</span> [EarlyStopping(monitor<span class="op">=</span><span class="st">'val_loss'</span>, patience <span class="op">=</span> <span class="dv">20</span>),</span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>             ReduceLROnPlateau(monitor<span class="op">=</span><span class="st">'val_loss'</span>, factor<span class="op">=</span><span class="fl">0.1</span>, patience<span class="op">=</span><span class="dv">10</span>, min_lr<span class="op">=</span><span class="fl">1e-6</span>, verbose<span class="op">=</span><span class="dv">1</span>)]</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>, callbacks<span class="op">=</span>callbacks)</span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb32-17"><a href="#cb32-17" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb32-18"><a href="#cb32-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-19"><a href="#cb32-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-20"><a href="#cb32-20" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb32-21"><a href="#cb32-21" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Epoch 50: ReduceLROnPlateau reducing learning rate to 9.999999747378752e-06.
+
+Epoch 60: ReduceLROnPlateau reducing learning rate to 1e-06.
+
+Training time: 0:15:24.325223
+Classification Accuracy:  95.71020007133484</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-20-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="14.3.4-learning-rate-scheduler"></a></p>
+</section>
+<section id="learning-rate-scheduler" class="level3">
+<h3 class="anchored" data-anchor-id="learning-rate-scheduler">14.3.4 Learning Rate Scheduler</h3>
+<p>In the previous examples, we mostly used models with a constant learning rate, except in the ReduceLROnPlateau case where the callback reduced the learning rate automatically based on certain criteria (e.g., when the validation loss plateaued).</p>
+<p><strong>Learning Rate Scheduler</strong> allows to define custom schedulers that change the learning rate during training. This process of gradually reducing the learning rate over time is conceptually similar to annealing in metallurgy, which refers to heating and slowly cooling a metal to make it stronger or less brittle. Thus, reducing the learning rate is sometimes referred to as <strong>annealing</strong>, because the model is “cooled down” to refine its parameters and achieve better convergence.</p>
+<p>Popular learning rate schedules are shown in the figure below:</p>
+<ul>
+<li>Time-based decay: reduces the learning rate continuously according to a simple time-based function that gradually slows learning over time.</li>
+<li>Step decay: keeps the learning rate constant for a set number of epochs, then drops it by a fixed factor at specified intervals, creating a staircase pattern.</li>
+<li>Exponential decay: decreases the learning rate exponentially with training steps or epochs, leading to a smooth and rapid reduction early in training.</li>
+<li>Cosine decay: follows a cosine-shaped curve that smoothly lowers the learning rate toward zero.</li>
+<li>Linear decay: linearly decreases the learning rate from its initial value to a minimum value across the total training duration.</li>
+<li>Polynomial decay: reduces the learning rate following a polynomial function of the current step, allowing fine control over the decay shape and final value. In the figure, power is the exponent of the polynomial function that controls the shape of the decay curve (e.g., power = 1 corresponds to linear decay schedule).</li>
+<li>Warm-up: starts training with a small learning rate and gradually increases it for the first few steps or epochs to prevent instability from large initial updates. Warm-up can be combined with any of the above decay functions to reduce the learning rate after reaching the target value. The warm-up phase is relatively short, with the typical number of warm-up steps ranging between 1% and 5% of the total training steps.</li>
+</ul>
+<p><img src="images/lr_schedulers.png" width="1000"></p>
+<p>The following sections present codes that implement three of the above-listed learning rate schedulers.</p>
+<section id="time-based-decay" class="level4">
+<h4 class="anchored" data-anchor-id="time-based-decay">Time-based Decay</h4>
+<p>This scheduler decreases the learning rate in each epoch by a given fixed amount. An example is shown in the next figure, where a model is trained for 100 epochs, and the learning rate is gradually reduced from 0.01 in the first epoch to 0.006 in the last epoch.</p>
+<p><img src="images/time_based_decay.png" width="500"></p>
+<p><em>Figure: Time-based decay.</em></p>
+<p>The implementation is shown below, where the Learning Rate Scheduler callback accepts a function which defines the schedule for the learning rate. The function <code>lr_time_based_decay</code> applies the <code>decay</code> amount at each epoch, where <code>lr</code> is the learning rate from the previous epoch. The value of the decay is usually set as the quotient of the initial learning rate and the number of epochs.</p>
+<div id="cell-45" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761493632970,&quot;user_tz&quot;:360,&quot;elapsed&quot;:1529987,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="f6e8b6ba-44e5-476d-c458-bb4dd87f5b26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a>INITIAL_LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">100</span></span>
+<span id="cb34-3"><a href="#cb34-3" aria-hidden="true" tabindex="-1"></a>decay <span class="op">=</span> INITIAL_LEARNING_RATE <span class="op">/</span> EPOCHS_NUM</span>
+<span id="cb34-4"><a href="#cb34-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-5"><a href="#cb34-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lr_time_based_decay(epoch, lr):</span>
+<span id="cb34-6"><a href="#cb34-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> lr <span class="op">*</span> <span class="dv">1</span> <span class="op">/</span> (<span class="dv">1</span> <span class="op">+</span> decay <span class="op">*</span> epoch)</span>
+<span id="cb34-7"><a href="#cb34-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-8"><a href="#cb34-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb34-9"><a href="#cb34-9" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>INITIAL_LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb34-10"><a href="#cb34-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-11"><a href="#cb34-11" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb34-12"><a href="#cb34-12" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb34-13"><a href="#cb34-13" aria-hidden="true" tabindex="-1"></a>callbacks <span class="op">=</span> [LearningRateScheduler(lr_time_based_decay, verbose<span class="op">=</span><span class="dv">0</span>)]</span>
+<span id="cb34-14"><a href="#cb34-14" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb34-15"><a href="#cb34-15" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>, callbacks<span class="op">=</span>callbacks)</span>
+<span id="cb34-16"><a href="#cb34-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb34-17"><a href="#cb34-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-18"><a href="#cb34-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb34-19"><a href="#cb34-19" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb34-20"><a href="#cb34-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb34-21"><a href="#cb34-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb34-22"><a href="#cb34-22" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb34-23"><a href="#cb34-23" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:25:26.746135
+Classification Accuracy:  94.85223889350891</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-21-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="step-decay" class="level4">
+<h4 class="anchored" data-anchor-id="step-decay">Step Decay</h4>
+<p>Step decay scheduler decreases the learning rate for a fixed amount after a number of training epochs. An example is shown in the figure, where the learning rate is reduced by half every 10 epochs.</p>
+<p><img src="images/step_decay.png" width="500"></p>
+<p><em>Figure: Step decay.</em></p>
+<p>In the next cell, step decay is applied with the function <code>lr_step_decay</code>, where <code>drop_rate</code> is the reduced ratio of the initial learning rate at each step, and <code>epochs_drop</code> is set to 15 epochs.</p>
+<div id="cell-47" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761494410653,&quot;user_tz&quot;:360,&quot;elapsed&quot;:777680,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="787f1958-41d1-4ac5-f517-7351a0c12094">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> math</span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a>INITIAL_LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb36-4"><a href="#cb36-4" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb36-5"><a href="#cb36-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-6"><a href="#cb36-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lr_step_decay(epoch):</span>
+<span id="cb36-7"><a href="#cb36-7" aria-hidden="true" tabindex="-1"></a>    drop_rate <span class="op">=</span> <span class="fl">0.5</span></span>
+<span id="cb36-8"><a href="#cb36-8" aria-hidden="true" tabindex="-1"></a>    epochs_drop <span class="op">=</span> <span class="dv">15</span></span>
+<span id="cb36-9"><a href="#cb36-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> INITIAL_LEARNING_RATE <span class="op">*</span> math.<span class="bu">pow</span>(drop_rate, math.floor(epoch<span class="op">/</span>epochs_drop))</span>
+<span id="cb36-10"><a href="#cb36-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-11"><a href="#cb36-11" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb36-12"><a href="#cb36-12" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>INITIAL_LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb36-13"><a href="#cb36-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-14"><a href="#cb36-14" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb36-15"><a href="#cb36-15" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb36-16"><a href="#cb36-16" aria-hidden="true" tabindex="-1"></a>callbacks <span class="op">=</span> [LearningRateScheduler(lr_step_decay, verbose<span class="op">=</span><span class="dv">0</span>)]</span>
+<span id="cb36-17"><a href="#cb36-17" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb36-18"><a href="#cb36-18" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>, callbacks<span class="op">=</span>callbacks)</span>
+<span id="cb36-19"><a href="#cb36-19" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb36-20"><a href="#cb36-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-21"><a href="#cb36-21" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb36-22"><a href="#cb36-22" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb36-23"><a href="#cb36-23" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb36-24"><a href="#cb36-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb36-25"><a href="#cb36-25" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb36-26"><a href="#cb36-26" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:12:53.993934
+Classification Accuracy:  93.32697987556458</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-22-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="exponential-decay" class="level4">
+<h4 class="anchored" data-anchor-id="exponential-decay">Exponential Decay</h4>
+<p>The scheduler decreases the learning rate at an exponential rate. In the cell below <code>k</code> is the rate of exponential decay.</p>
+<p><img src="images/exponential_decay.png" width="500"></p>
+<p><em>Figure: Exponential decay.</em></p>
+<div id="cell-49" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761495189802,&quot;user_tz&quot;:360,&quot;elapsed&quot;:779146,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="4ca8d775-096b-4a32-eb02-f7e2936634c4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a>INITIAL_LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">50</span></span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> lr_exp_decay(epoch):</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    k <span class="op">=</span> <span class="fl">0.1</span></span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> INITIAL_LEARNING_RATE <span class="op">*</span> math.exp(<span class="op">-</span>k<span class="op">*</span>epoch)</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Network()</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>INITIAL_LEARNING_RATE), loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a><span class="co"># fit model</span></span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>t <span class="op">=</span> now()</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a>callbacks <span class="op">=</span> [LearningRateScheduler(lr_exp_decay, verbose<span class="op">=</span><span class="dv">0</span>)]</span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a>history <span class="op">=</span> model.fit(imgs_train, labels_train, batch_size<span class="op">=</span><span class="dv">32</span>, epochs<span class="op">=</span>EPOCHS_NUM,</span>
+<span id="cb38-15"><a href="#cb38-15" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>, callbacks<span class="op">=</span>callbacks)</span>
+<span id="cb38-16"><a href="#cb38-16" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'</span><span class="ch">\n</span><span class="st">Training time: </span><span class="sc">%s</span><span class="st">'</span> <span class="op">%</span> (now() <span class="op">-</span> t))</span>
+<span id="cb38-17"><a href="#cb38-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-18"><a href="#cb38-18" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate on test data</span></span>
+<span id="cb38-19"><a href="#cb38-19" aria-hidden="true" tabindex="-1"></a>evals_test <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb38-20"><a href="#cb38-20" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Classification Accuracy: "</span>, <span class="dv">100</span><span class="op">*</span>evals_test[<span class="dv">1</span>])</span>
+<span id="cb38-21"><a href="#cb38-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb38-22"><a href="#cb38-22" aria-hidden="true" tabindex="-1"></a><span class="co"># plot the accuracy and loss</span></span>
+<span id="cb38-23"><a href="#cb38-23" aria-hidden="true" tabindex="-1"></a>plot_accuracy_loss()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Training time: 0:12:57.172125
+Classification Accuracy:  92.65967607498169</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_14-Model_Selection_files/figure-html/cell-23-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p><a id="14.4-grid-search"></a></p>
+</section>
+</section>
+</section>
+<section id="grid-search" class="level2">
+<h2 class="anchored" data-anchor-id="grid-search">14.4 Grid Search</h2>
+<p>Applying <strong>Grid Search</strong> over the hyperparameters of neural networks that have long training times can be prohibitively computationally expensive. On the other hand, when working with smaller datasets and models, applying Grid Search for some of the hyperparameters can be an option.</p>
+<p>This section presents a simple Grid Search over two hyperparameters in the model: number of neurons in the first Dense layer, and the batch size. We can simply write a function that takes as arguments these two hyperparameters, as in the next cell. Afterward, we can create a for-loop and train and evaluate a model for each combination of the values for the selected hyperparameters.</p>
+<p>We examined 3 values for the number of neurons and 3 values for the batch size, resulting in 9 models. The results indicate that the model with 1,024 neurons and 128 batch size achieved the best performance. Consider that training each model took about 10 minutes, and evaluating 9 models took about 1.5 hours. Tuning a large number of hyperparameters over several different values can take a long time.</p>
+<div id="cell-52" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Network(neurons_per_layer, batch_size):</span>
+<span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-3"><a href="#cb40-3" aria-hidden="true" tabindex="-1"></a>    base_model <span class="op">=</span> vgg16.VGG16(weights<span class="op">=</span><span class="st">'imagenet'</span>, include_top<span class="op">=</span><span class="va">False</span>, input_shape<span class="op">=</span>(image_size, image_size, <span class="dv">3</span>))</span>
+<span id="cb40-4"><a href="#cb40-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-5"><a href="#cb40-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add a global spatial average pooling layer</span></span>
+<span id="cb40-6"><a href="#cb40-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> base_model.output</span>
+<span id="cb40-7"><a href="#cb40-7" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> GlobalAveragePooling2D()(x)</span>
+<span id="cb40-8"><a href="#cb40-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-9"><a href="#cb40-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add dense layers</span></span>
+<span id="cb40-10"><a href="#cb40-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dense(neurons_per_layer, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb40-11"><a href="#cb40-11" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dropout(<span class="fl">0.25</span>)(x)</span>
+<span id="cb40-12"><a href="#cb40-12" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dense(<span class="dv">256</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb40-13"><a href="#cb40-13" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dropout(<span class="fl">0.25</span>)(x)</span>
+<span id="cb40-14"><a href="#cb40-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Add a softmax layer</span></span>
+<span id="cb40-15"><a href="#cb40-15" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> Dense(<span class="dv">62</span>, activation<span class="op">=</span><span class="st">'softmax'</span>)(x)</span>
+<span id="cb40-16"><a href="#cb40-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-17"><a href="#cb40-17" aria-hidden="true" tabindex="-1"></a>    <span class="co"># The model</span></span>
+<span id="cb40-18"><a href="#cb40-18" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Model(inputs<span class="op">=</span>base_model.<span class="bu">input</span>, outputs<span class="op">=</span>predictions)</span>
+<span id="cb40-19"><a href="#cb40-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-20"><a href="#cb40-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compile</span></span>
+<span id="cb40-21"><a href="#cb40-21" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span><span class="fl">1e-4</span>), loss <span class="op">=</span> <span class="st">'sparse_categorical_crossentropy'</span>, metrics <span class="op">=</span> [<span class="st">'accuracy'</span>])</span>
+<span id="cb40-22"><a href="#cb40-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-23"><a href="#cb40-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Fit</span></span>
+<span id="cb40-24"><a href="#cb40-24" aria-hidden="true" tabindex="-1"></a>    model.fit(imgs_train, labels_train, batch_size<span class="op">=</span>batch_size, epochs<span class="op">=</span><span class="dv">30</span>,</span>
+<span id="cb40-25"><a href="#cb40-25" aria-hidden="true" tabindex="-1"></a>                     validation_data<span class="op">=</span>(imgs_val, labels_val), verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb40-26"><a href="#cb40-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-27"><a href="#cb40-27" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Evaluate on test data</span></span>
+<span id="cb40-28"><a href="#cb40-28" aria-hidden="true" tabindex="-1"></a>    _, test_acc <span class="op">=</span> model.evaluate(imgs_test, labels_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb40-29"><a href="#cb40-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb40-30"><a href="#cb40-30" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> test_acc</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-53" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761499802188,&quot;user_tz&quot;:360,&quot;elapsed&quot;:3903174,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="8a6c86a8-f669-44e7-f4b1-760c0f2b39ec">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a>neurons_per_layers <span class="op">=</span> [<span class="dv">512</span>, <span class="dv">1024</span>, <span class="dv">2048</span>]</span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>batch_sizes <span class="op">=</span> [<span class="dv">32</span>, <span class="dv">64</span>, <span class="dv">128</span>]</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> number_neurons <span class="kw">in</span> neurons_per_layers:</span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch_size <span class="kw">in</span> batch_sizes:</span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>        acc <span class="op">=</span> Network(number_neurons, batch_size)</span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f"</span><span class="ch">\n</span><span class="ss">Number of neurons: </span><span class="sc">{</span>number_neurons<span class="sc">:&lt;9}</span><span class="ss"> Batch size: </span><span class="sc">{</span>batch_size<span class="sc">:&lt;9}</span><span class="ss"> Test accuracy: </span><span class="sc">{</span>acc<span class="op">*</span><span class="dv">100</span><span class="sc">:6.3f}</span><span class="ss">%"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>
+Number of neurons: 512       Batch size: 32        Test accuracy: 91.802%
+
+Number of neurons: 512       Batch size: 64        Test accuracy: 94.280%
+
+Number of neurons: 512       Batch size: 128       Test accuracy: 94.566%
+
+Number of neurons: 1024      Batch size: 32        Test accuracy: 92.946%
+
+Number of neurons: 1024      Batch size: 64        Test accuracy: 93.327%
+
+Number of neurons: 1024      Batch size: 128       Test accuracy: 94.090%
+
+Number of neurons: 2048      Batch size: 32        Test accuracy: 87.607%
+
+Number of neurons: 2048      Batch size: 64        Test accuracy: 93.899%
+
+Number of neurons: 2048      Batch size: 128       Test accuracy: 94.566%</code></pre>
+</div>
+</div>
+<p><a id="14.5-keras-tuner"></a></p>
+</section>
+<section id="keras-tuner" class="level2">
+<h2 class="anchored" data-anchor-id="keras-tuner">14.5 Keras Tuner</h2>
+<p>There are several libraries developed for tuning the hyperparameters of neural networks. One is the <strong>Keras Tuner</strong> for tuning Keras models.</p>
+<p>The Keras Tuner is somewhat similar to the Grid Search and Random Search in scikit-learn, and allows to define the search space for the hyperparameters over which the model will be fit, and it returns an optimal set of hyperparameters.</p>
+<p>Keras Tuner is not part of the <code>Keras</code> package and it needs to be installed and imported.</p>
+<div id="cell-56" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761499808554,&quot;user_tz&quot;:360,&quot;elapsed&quot;:6255,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="70b6e32d-1b44-4907-f59f-4ec99625ff26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>pip install <span class="op">-</span>q <span class="op">-</span>U keras<span class="op">-</span>tuner</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="ansi-escaped-output">
+<pre>   <span class="ansi-bright-black-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">0.0/129.1 kB</span> <span class="ansi-red-fg">?</span> eta <span class="ansi-cyan-fg">-:--:--</span>
+   <span class="ansi-bright-black-fg">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-green-fg">129.1/129.1 kB</span> <span class="ansi-red-fg">4.5 MB/s</span> eta <span class="ansi-cyan-fg">0:00:00</span>
+
+</pre>
+</div>
+</div>
+</div>
+<div id="cell-57" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> keras_tuner <span class="im">as</span> kt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="14.5.1-load-fashion-mnist-dataset"></a></p>
+<section id="load-fashion-mnist-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="load-fashion-mnist-dataset">14.5.1 Load Fashion MNIST Dataset</h3>
+<p>To demonstrate the use of the Keras Tuner we will work with the Fashion MNIST dataset.</p>
+<div id="cell-59" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761499813904,&quot;user_tz&quot;:360,&quot;elapsed&quot;:4956,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="9c42f128-9913-4f18-ca6e-8d59dac939a9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(img_train, label_train), (img_test, label_test) <span class="op">=</span> tf.keras.datasets.fashion_mnist.load_data()</span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb45-3"><a href="#cb45-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Normalize pixel values between 0 and 1</span></span>
+<span id="cb45-4"><a href="#cb45-4" aria-hidden="true" tabindex="-1"></a>img_train <span class="op">=</span> img_train.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb45-5"><a href="#cb45-5" aria-hidden="true" tabindex="-1"></a>img_test <span class="op">=</span> img_test.astype(<span class="st">'float32'</span>) <span class="op">/</span> <span class="fl">255.0</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<div class="ansi-escaped-output">
+<pre>Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-labels-idx1-ubyte.gz
+
+<span class="ansi-bold">29515/29515</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">0s</span> 0us/step
+
+Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/train-images-idx3-ubyte.gz
+
+<span class="ansi-bold">26421880/26421880</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">2s</span> 0us/step
+
+Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/t10k-labels-idx1-ubyte.gz
+
+<span class="ansi-bold">5148/5148</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">0s</span> 0us/step
+
+Downloading data from https://storage.googleapis.com/tensorflow/tf-keras-datasets/t10k-images-idx3-ubyte.gz
+
+<span class="ansi-bold">4422102/4422102</span> <span class="ansi-green-fg">━━━━━━━━━━━━━━━━━━━━</span> <span class="ansi-bold">1s</span> 0us/step
+</pre>
+</div>
+</div>
+</div>
+<p><a id="14.5.2-model-builder"></a></p>
+</section>
+<section id="model-builder" class="level3">
+<h3 class="anchored" data-anchor-id="model-builder">14.5.2 Model Builder</h3>
+<p>In the cell below, a function called <code>model_builder</code> is created, which performs search over two hyperparameters:</p>
+<ul>
+<li>Number of neurons in the first Dense layer,</li>
+<li>Learning rate.</li>
+</ul>
+<p>In the code, <code>hp</code> is an instance of the HyperParameters class provided by Keras Tuner. The line <code>hp_units = hp.Int('units', min_value=32, max_value=512, step=32)</code> defines a grid search for the number of neurons in the Dense layer in the range [32, 64, 96, …, 512].</p>
+<p>Next, a grid search for the learning rate is defined in the range <code>[1e-2, 1e-3, 1e-4]</code>.</p>
+<div id="cell-61" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> model_builder(hp):</span>
+<span id="cb46-2"><a href="#cb46-2" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Define the input layer with the given shape</span></span>
+<span id="cb46-3"><a href="#cb46-3" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> Input(shape<span class="op">=</span>(<span class="dv">28</span>, <span class="dv">28</span>))</span>
+<span id="cb46-4"><a href="#cb46-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-5"><a href="#cb46-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Flatten the input</span></span>
+<span id="cb46-6"><a href="#cb46-6" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Flatten()(inputs)</span>
+<span id="cb46-7"><a href="#cb46-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-8"><a href="#cb46-8" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tune the number of units in the Dense layer, choosing between 32-512</span></span>
+<span id="cb46-9"><a href="#cb46-9" aria-hidden="true" tabindex="-1"></a>    hp_units <span class="op">=</span> hp.Int(<span class="st">'units'</span>, min_value<span class="op">=</span><span class="dv">32</span>, max_value<span class="op">=</span><span class="dv">512</span>, step<span class="op">=</span><span class="dv">32</span>)</span>
+<span id="cb46-10"><a href="#cb46-10" aria-hidden="true" tabindex="-1"></a>    x <span class="op">=</span> Dense(units<span class="op">=</span>hp_units, activation<span class="op">=</span><span class="st">'relu'</span>)(x)</span>
+<span id="cb46-11"><a href="#cb46-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-12"><a href="#cb46-12" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Output layer with 10 units</span></span>
+<span id="cb46-13"><a href="#cb46-13" aria-hidden="true" tabindex="-1"></a>    outputs <span class="op">=</span> Dense(<span class="dv">10</span>, activation<span class="op">=</span><span class="st">'softmax'</span>)(x)</span>
+<span id="cb46-14"><a href="#cb46-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-15"><a href="#cb46-15" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Create the model using the functional API</span></span>
+<span id="cb46-16"><a href="#cb46-16" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> Model(inputs<span class="op">=</span>inputs, outputs<span class="op">=</span>outputs)</span>
+<span id="cb46-17"><a href="#cb46-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-18"><a href="#cb46-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Tune the learning rate for the optimizer, choosing from 0.01, 0.001, or 0.0001</span></span>
+<span id="cb46-19"><a href="#cb46-19" aria-hidden="true" tabindex="-1"></a>    hp_learning_rate <span class="op">=</span> hp.Choice(<span class="st">'learning_rate'</span>, values<span class="op">=</span>[<span class="fl">1e-2</span>, <span class="fl">1e-3</span>, <span class="fl">1e-4</span>])</span>
+<span id="cb46-20"><a href="#cb46-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-21"><a href="#cb46-21" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Compile the model</span></span>
+<span id="cb46-22"><a href="#cb46-22" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">compile</span>(optimizer<span class="op">=</span>Adam(learning_rate<span class="op">=</span>hp_learning_rate),</span>
+<span id="cb46-23"><a href="#cb46-23" aria-hidden="true" tabindex="-1"></a>                  loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>,</span>
+<span id="cb46-24"><a href="#cb46-24" aria-hidden="true" tabindex="-1"></a>                  metrics<span class="op">=</span>[<span class="st">'accuracy'</span>])</span>
+<span id="cb46-25"><a href="#cb46-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb46-26"><a href="#cb46-26" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> model</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="14.5.3-hyperparameter-tuning"></a></p>
+</section>
+<section id="hyperparameter-tuning" class="level3">
+<h3 class="anchored" data-anchor-id="hyperparameter-tuning">14.5.3 Hyperparameter Tuning</h3>
+<p>The Keras Tuner has four tuning algorithms available:</p>
+<ul>
+<li>RandomSearch Tuner, similar to Randomized Grid in scikit-learn performs a random search over a distribution of values for the hyperparameters.</li>
+<li>Hyperband Tuner, trains a large number of models for a few epochs and carries forward only the top-performing half of models to the next round, to converge to a high-performing model.</li>
+<li>BayesianOptimization Tuner, performs BayesianOptimization by creating a probabilistic mapping of the model to the loss function, and iteratively evaluating promising sets of hyperparameters.</li>
+<li>Sklearn Tuner, designed for use with scikit-learn models.</li>
+</ul>
+<p>In the next cell, the Hyperband tuner is used, which has as the arguments the model, objective (metric to monitor), maximum number of epochs for each configuration of hyperparameters (training will be stopped for the worst-performing configurations after this number of epochs), and factor (used to search for top-performing models, e.g., a reduction factor of 3 means that one third of the configurations will be kept for the next iteration, and the rest of the configurations will be eliminated).</p>
+<div id="cell-63" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a>tuner <span class="op">=</span> kt.Hyperband(model_builder,</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a>                     objective<span class="op">=</span><span class="st">'val_accuracy'</span>,</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a>                     max_epochs<span class="op">=</span><span class="dv">10</span>,</span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>                     factor<span class="op">=</span><span class="dv">3</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="cell-64" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="bc4db8c2-913e-43f6-9f27-ad481d4efadc">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>tuner.search(img_train, label_train, epochs<span class="op">=</span><span class="dv">50</span>, validation_split<span class="op">=</span><span class="fl">0.2</span>, callbacks<span class="op">=</span>[EarlyStopping(monitor<span class="op">=</span><span class="st">'val_loss'</span>, patience<span class="op">=</span><span class="dv">5</span>)])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Trial 30 Complete [00h 00m 37s]
+val_accuracy: 0.8877500295639038
+
+Best val_accuracy So Far: 0.8915833234786987
+Total elapsed time: 00h 08m 29s</code></pre>
+</div>
+</div>
+<div id="cell-65" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="be882a3c-585f-4b06-855c-bb6bcd5e61db">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get the optimal hyperparameters</span></span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a>best_hps <span class="op">=</span> tuner.get_best_hyperparameters(num_trials<span class="op">=</span><span class="dv">1</span>)[<span class="dv">0</span>]</span>
+<span id="cb50-3"><a href="#cb50-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb50-4"><a href="#cb50-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Optimal number of neurons in the Dense layer: </span><span class="sc">{</span>best_hps<span class="sc">.</span>get(<span class="st">'units'</span>)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb50-5"><a href="#cb50-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f"Optimal learning rate: </span><span class="sc">{</span>best_hps<span class="sc">.</span>get(<span class="st">'learning_rate'</span>)<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Optimal number of neurons in the Dense layer: 320
+Optimal learning rate: 0.001</code></pre>
+</div>
+</div>
+<p><a id="14.5.4-train-and-evaluate-the-model"></a></p>
+</section>
+<section id="train-and-evaluate-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="train-and-evaluate-the-model">14.5.4 Train and Evaluate the Model</h3>
+<p>Next, we will use the optimal hyperparameters from the Keras Tuner to create a model, and afterward we will evaluate the accuracy on the test dataset.</p>
+<div id="cell-67" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;colab&quot;,&quot;value&quot;:{&quot;base_uri&quot;:&quot;https://localhost:8080/&quot;}}" data-outputid="ee791af1-f390-4045-e994-f589e84453a2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Build the model with the optimal hyperparameters and train it on the data for 50 epochs</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> tuner.hypermodel.build(best_hps)</span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>model.fit(img_train, label_train, epochs<span class="op">=</span><span class="dv">50</span>, validation_split<span class="op">=</span><span class="fl">0.2</span>, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>eval_result <span class="op">=</span> model.evaluate(img_test, label_test, verbose<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"[test loss, test accuracy]:"</span>, eval_result)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>[test loss, test accuracy]: [0.6281461119651794, 0.8830000162124634]</code></pre>
+</div>
+</div>
+<p>Other libraries that perform model selection, hyperparameter tuning, and neural architecture search include <a href="https://autokeras.com/">AutoKeras</a>, <a href="https://github.com/automl/auto-sklearn">auto-sklearn</a>, <a href="https://optuna.org/">Optuna</a>, <a href="https://github.com/automl/Auto-PyTorch">Auto-PyTorch</a> and <a href="https://pytorch.org/tutorials/beginner/hyperparameter_tuning_tutorial.html">Ray Tune</a> for PyTorch, <a href="https://www.cs.ubc.ca/labs/algorithms/Projects/autoweka/">AutoWEKA</a>, <a href="https://wandb.ai/site/">Weights &amp; Biases</a>, and others.</p>
+<p><a id="14.6-automl"></a></p>
+</section>
+</section>
+<section id="automl" class="level2">
+<h2 class="anchored" data-anchor-id="automl">14.6 AutoML</h2>
+<p><strong>AutoML</strong> or Automated Machine Learning refers to tools and libraries that are designed to allow non-ML experts to build Machine Learning systems and solve Data Science tasks without extensive knowledge in these fields.</p>
+<p>AutoML systems range from automated <em>No Code</em> ML solutions that allow the end-users to just drag-and-drop their data, or <em>Low Code</em> systems that automate ML steps with minimal coding efforts, to systems that require coding experience and are designed to increase the efficiency of data scientists by automating hyperparameter tuning and architecture search.</p>
+<p>Most large providers of cloud computing and ML services typically provide some form of AutoML services. Examples include <a href="https://cloud.google.com/automl">Google AutoML</a>, <a href="https://azure.microsoft.com/en-us/products/machine-learning/automatedml/#overview">Microsoft Azure AutoML</a>, <a href="https://aws.amazon.com/sagemaker/">Amazon SageMaker</a>, etc.</p>
+<p>In a subsequent lecture on training and deploying models on the Cloud, we will present examples of training ML models using No Code and Low Code modes with Microsoft Azure ML.</p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>TensorFlow - ML Basics with Keras, Introduction to the Keras Tuner, available at <a href="https://www.tensorflow.org/tutorials/keras/keras_tuner#:~:text=The%20Keras%20Tuner%20is%20a,called%20hyperparameter%20tuning%20or%20hypertuning">https://www.tensorflow.org/tutorials/keras/keras_tuner#:~:text=The%20Keras%20Tuner%20is%20a,called%20hyperparameter%20tuning%20or%20hypertuning</a>.</li>
+<li>Keras Learning Rate Finder, available at <a href="https://github.com/surmenok/keras_lr_finder">https://github.com/surmenok/keras_lr_finder</a>.</li>
+<li>Learning Rate Schedule in Practice: an example with Keras and TensorFlow 2.0, B. Chen, available at <a href="https://towardsdatascience.com/learning-rate-schedule-in-practice-an-example-with-keras-and-tensorflow-2-0-2f48b2888a0c">https://towardsdatascience.com/learning-rate-schedule-in-practice-an-example-with-keras-and-tensorflow-2-0-2f48b2888a0c</a>.</li>
+<li>AutoML.org Freiburg-Hannover, AutoML, available at <a href="https://www.automl.org/automl/">https://www.automl.org/automl/</a>.</li>
+</ol>
+<p><a href="#top">BACK TO TOP</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+// Left sidebar: start with the "Course Information" section collapsed
+// while lecture sections stay expanded (collapse-level: 2 expands all;
+// Quarto has no per-section setting, so this collapses just that one).
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#quarto-sidebar .sidebar-item-section").forEach(function (sec) {
+    var text = sec.querySelector(":scope > .sidebar-item-container .menu-text");
+    if (!text || text.textContent.trim() !== "Course Information") return;
+    var sub = sec.querySelector(":scope > ul.collapse");
+    if (sub) sub.classList.remove("show");
+    sec.querySelectorAll(":scope > .sidebar-item-container a[data-bs-toggle]").forEach(function (a) {
+      a.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
+<script>
+// Add expand/collapse arrows to right-pane TOC entries that have subsections.
+// Clicking the arrow toggles the subsection list without navigating; an
+// inline display style is used so Quarto's scroll-spy can't override it.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+  toc.querySelectorAll("li").forEach(function (li) {
+    var sub = li.querySelector(":scope > ul");
+    var link = li.querySelector(":scope > a");
+    if (!sub || !link) return;
+    var btn = document.createElement("span");
+    btn.className = "toc-chevron";
+    btn.setAttribute("role", "button");
+    btn.setAttribute("tabindex", "0");
+    btn.setAttribute("aria-label", "Toggle subsections");
+    btn.setAttribute("title", "Show/hide subsections");
+    btn.setAttribute("aria-expanded", "false");
+    link.after(btn);
+    function toggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = sub.style.display === "block";
+      sub.style.display = open ? "" : "block";
+      btn.classList.toggle("toc-chevron-expanded", !open);
+      btn.setAttribute("aria-expanded", String(!open));
+    }
+    btn.addEventListener("click", toggle);
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") toggle(e);
+    });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/avakanski\.github\.io\/Fall-2026-Applied-Data-Science-with-Python\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html" class="pagination-link" aria-label="Lecture 12 - Artificial Neural Networks with Keras-TensorFlow">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="pagination-link" aria-label="Tutorial 1 - Jupyter Notebooks">
+        <span class="nav-page-text">Tutorial 1 - Jupyter Notebooks</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
