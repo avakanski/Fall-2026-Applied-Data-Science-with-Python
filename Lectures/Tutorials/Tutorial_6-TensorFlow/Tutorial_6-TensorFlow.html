@@ -1,0 +1,1759 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.18">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Tutorial 6 - TensorFlow, TensorFlow Datasets – Applied Data Science with Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" rel="prev">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b85bc7c33db8c58e0ec93c3465666fed.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-64a204ab8560d761af7679ceaba22944.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-7e3fc592af0ccee640070cd1dae8a63f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-61a524569d6cf05f6cc632c89a51798a.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html">Tutorial 6 - TensorFlow</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../">Applied Data Science with Python</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python" title="GitHub repository" class="quarto-navigation-tool px-1" aria-label="GitHub repository"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Information</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-syllabus" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-description" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#textbooks" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Textbooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#learning-outcomes" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#prerequisites" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#grading" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Grading</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-schedule" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 1 - A Short History of AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 1 - Python Programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2 - Python Data Types, Statements</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 3 - Files, Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 4 - OOP, Modules, Packages</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 2 - Data Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 5 - NumPy for Array Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 6 - Data Manipulation with Pandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 7 - Data Visualization with Matplotlib and Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 8 - Databases and SQL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 9 - Data Exploration and Preprocessing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 3 - Model Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 10 - Scikit-Learn Library for Data Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 11 - Ensemble Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 2 - Python IDEs, VS Code</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 3 - Terminal and Command Line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 4 - Virtual Environments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 5 - Google Colab</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Tutorial 6 - TensorFlow</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#tensorflow-basics" id="toc-tensorflow-basics" class="nav-link active" data-scroll-target="#tensorflow-basics">6.1 TensorFlow Basics</a>
+  <ul class="collapse">
+  <li><a href="#operations" id="toc-operations" class="nav-link" data-scroll-target="#operations">6.1.1 Operations</a></li>
+  <li><a href="#indexing-slicing" id="toc-indexing-slicing" class="nav-link" data-scroll-target="#indexing-slicing">6.1.2 Indexing, Slicing</a></li>
+  <li><a href="#fancy-indexing" id="toc-fancy-indexing" class="nav-link" data-scroll-target="#fancy-indexing">6.1.3 Fancy Indexing</a></li>
+  <li><a href="#joining" id="toc-joining" class="nav-link" data-scroll-target="#joining">6.1.4 Joining</a></li>
+  <li><a href="#gradients" id="toc-gradients" class="nav-link" data-scroll-target="#gradients">6.1.5 Gradients</a></li>
+  <li><a href="#cuda" id="toc-cuda" class="nav-link" data-scroll-target="#cuda">6.1.6 CUDA</a></li>
+  </ul></li>
+  <li><a href="#tensorflow-datasets" id="toc-tensorflow-datasets" class="nav-link" data-scroll-target="#tensorflow-datasets">6.2 TensorFlow Datasets</a>
+  <ul class="collapse">
+  <li><a href="#load-dataset-with-tfds" id="toc-load-dataset-with-tfds" class="nav-link" data-scroll-target="#load-dataset-with-tfds">6.2.1 Load Dataset with TFDS</a></li>
+  <li><a href="#slicing-api-for-customized-dataset-split" id="toc-slicing-api-for-customized-dataset-split" class="nav-link" data-scroll-target="#slicing-api-for-customized-dataset-split">6.2.2 Slicing API for Customized Dataset Split</a></li>
+  <li><a href="#cross-validation" id="toc-cross-validation" class="nav-link" data-scroll-target="#cross-validation">6.2.3 Cross-Validation</a></li>
+  <li><a href="#iterate-over-the-dataset-in-batches" id="toc-iterate-over-the-dataset-in-batches" class="nav-link" data-scroll-target="#iterate-over-the-dataset-in-batches">6.2.4 Iterate over the Dataset in Batches</a></li>
+  <li><a href="#visualization" id="toc-visualization" class="nav-link" data-scroll-target="#visualization">6.2.5 Visualization</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html">Tutorial 6 - TensorFlow</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Tutorial 6 - TensorFlow, TensorFlow Datasets</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a id="top"></a></p>
+<ul>
+<li><a href="#6.1-tensorflow-basics">6.1 TensorFlow Basics</a>
+<ul>
+<li><a href="#6.1.1-operations">6.1.1 Operations</a></li>
+<li><a href="#6.1.2-indexing,-slicing">6.1.2 Indexing, Slicing</a></li>
+<li><a href="#6.1.3-fancy-indexing">6.1.3 Fancy Indexing</a></li>
+<li><a href="#6.1.4-joining">6.1.4 Joining</a></li>
+<li><a href="#6.1.5-gradients">6.1.5 Gradients</a></li>
+<li><a href="#6.1.6-cuda">6.1.6 CUDA</a></li>
+</ul></li>
+<li><a href="#6.2-tensorflow-datasets">6.2 TensorFlow Datasets</a>
+<ul>
+<li><a href="#6.2.1-load-dataset-with-tfds">6.2.1 Load Dataset with TFDS</a></li>
+<li><a href="#6.2.2-slicing-api-for-customized-dataset-split">6.2.2 Slicing API for Customized Dataset Split</a></li>
+<li><a href="#6.2.3-cross-validation">6.2.3 Cross-Validation</a></li>
+<li><a href="#6.2.4-iterate-over-the-dataset-in-batches">6.2.4 Iterate over the Dataset in Batches</a></li>
+<li><a href="#6.2.5-visualization">6.2.5 Visualization</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
+</ul>
+<p>TensorFlow is an open-source framework developed by Google for building and training Neural Networks and other Machine Learning models. It provides tools, libraries, and community resources for implementing models ranging from linear regression to deep learning applications. TensorFlow is widely used in both research and production environments, supporting deployment across various platforms including servers, mobile devices, and web browsers.</p>
+<p>In TensorFlow, the basic data structure are tensors which represent multi-dimensional arrays. They can represent various types of data, from scalars to vectors, matrices, and higher-dimensional arrays that encode complex data like images, videos, text, or other data formats. TensorFlow efficiently handles tensors across different devices (CPUs, GPUs, TPUs), and manages data operations like reshaping, slicing, and mathematical transformations needed for Machine Learning computations.</p>
+<p>TensorFlow tensors are similar to NumPy arrays, as they both represent multi-dimensional arrays with similar indexing and slicing operations. TensorFlow allows converting between tensors and NumPy arrays, and passing NumPy arrays to create tensors.</p>
+<p>The main difference to NumPy arrays is that TensorFlow tensors support additional features like automatic differentiation for gradients and can run on GPUs and TPUs for accelerated computation, while NumPy arrays are primarily desinged for CPU operations and lack built-in gradient tracking.</p>
+<p>We will first import <code>TensorFlow</code> and <code>NumPy</code> and set the seed for their random number generators for reproducibility.</p>
+<div id="7ff53b99" class="cell" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf </span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'TF version: </span><span class="sc">{</span>tf<span class="sc">.</span>__version__ <span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TF version: 2.20.0</code></pre>
+</div>
+</div>
+<div id="7d7ae361" class="cell" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Set seed for reproducability</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(seed<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>tf.random.set_seed(seed<span class="op">=</span><span class="dv">1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="6.1-tensorflow-basics"></a></p>
+<section id="tensorflow-basics" class="level2">
+<h2 class="anchored" data-anchor-id="tensorflow-basics">6.1 TensorFlow Basics</h2>
+<p>First, we will cover some basics such as creating TensorFlow tensors and converting from common data structures to TensorFlow tensors.</p>
+<div id="0ffa9665" class="cell" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.random.normal((<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Type: </span><span class="sc">{</span>x<span class="sc">.</span>dtype<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[-1.1012203   1.5457517   0.383644  ]
+ [-0.87965786 -1.2246722  -0.9811211 ]], shape=(2, 3), dtype=float32)
+Type: &lt;dtype: 'float32'&gt;
+shape: (2, 3)</code></pre>
+</div>
+</div>
+<div id="fabb7cc0" class="cell" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Zeros and ones tensors</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.zeros((<span class="dv">2</span>, <span class="dv">3</span>), dtype<span class="op">=</span>tf.float64)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.ones((<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(
+[[0. 0. 0.]
+ [0. 0. 0.]], shape=(2, 3), dtype=float64)
+tf.Tensor(
+[[1. 1. 1.]
+ [1. 1. 1.]], shape=(2, 3), dtype=float32)</code></pre>
+</div>
+</div>
+<p>In TensorFlow, <code>tf.constant</code> creates an immutable tensor. To convert a Python list to a TensorFlow tensor, we can use the following code.</p>
+<div id="3a8b46a0" class="cell" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List to Tensor</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]])</span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'values:</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (2, 3)
+values:
+ [[1 2 3]
+ [4 5 6]]</code></pre>
+</div>
+</div>
+<p>Also, we can use <code>tf.convert_to_tensor</code> as in the following cell.</p>
+<div id="4aaabfe2-2a10-48ec-a599-7acb98daef88" class="cell" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># List to Tensor</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.convert_to_tensor([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]])</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'values:</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (2, 3)
+values:
+ [[1 2 3]
+ [4 5 6]]</code></pre>
+</div>
+</div>
+<div id="473d17c6" class="cell" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numpy array to Tensor</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant(np.random.rand(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'values:</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (2, 3)
+values:
+ [[4.17022005e-01 7.20324493e-01 1.14374817e-04]
+ [3.02332573e-01 1.46755891e-01 9.23385948e-02]]</code></pre>
+</div>
+</div>
+<p>We can also use <code>tf.Variable</code> to create a tensor that is trainable and mutable, i.e., its values can be changed during computation.</p>
+<div id="0ad1a578-88af-4683-aa52-f381deaf0403" class="cell" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Numpy array to Tensor</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.Variable(np.random.rand(<span class="dv">2</span>, <span class="dv">3</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb14-4"><a href="#cb14-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb14-5"><a href="#cb14-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'values:</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (2, 3)
+values:
+ &lt;tf.Variable 'Variable:0' shape=(2, 3) dtype=float64, numpy=
+array([[0.18626021, 0.34556073, 0.39676747],
+       [0.53881673, 0.41919451, 0.6852195 ]])&gt;</code></pre>
+</div>
+</div>
+<p><a id="6.1.1-operations"></a></p>
+<section id="operations" class="level3">
+<h3 class="anchored" data-anchor-id="operations">6.1.1 Operations</h3>
+<div id="959f09ff" class="cell" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Addition</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>], [<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>]])</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tf.constant([[<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">3</span>, <span class="dv">3</span>, <span class="dv">3</span>]])</span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> x <span class="op">+</span> y</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape: </span><span class="sc">{</span>z<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'values:</span><span class="ch">\n</span><span class="sc">{</span>z<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (2, 3)
+values:
+[[5 5 5]
+ [5 5 5]]</code></pre>
+</div>
+</div>
+<div id="36140745" class="cell" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Matrix multiplicaton</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>], [<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>]])</span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tf.constant([[<span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">3</span>, <span class="dv">3</span>], [<span class="dv">3</span>, <span class="dv">3</span>]])</span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> tf.matmul(x, y)</span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'shape: </span><span class="sc">{</span>z<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'values:</span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>z<span class="sc">}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (2, 2)
+values:
+ [[18 18]
+ [18 18]]</code></pre>
+</div>
+</div>
+<div id="fefd133b" class="cell" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb20"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Transpose</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>], [<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>]])</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"x shape: </span><span class="sc">{</span>x<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tf.transpose(x)</span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Transposed shape: </span><span class="sc">{</span>y<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x shape: (2, 3)
+Transposed shape: (3, 2)
+values: 
+ [[2 2]
+ [2 2]
+ [2 2]]</code></pre>
+</div>
+</div>
+<div id="729b4e10" class="cell" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb22"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Reshape</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>], [<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>]])</span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> tf.reshape(x, (<span class="dv">3</span>, <span class="dv">2</span>))</span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"shape: </span><span class="sc">{</span>z<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>z<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>shape: (3, 2)
+values: 
+ [[2 2]
+ [2 2]
+ [2 2]]</code></pre>
+</div>
+</div>
+<div id="bf410eb8" class="cell" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Dimensional operations</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>], [<span class="dv">2</span>, <span class="dv">2</span>, <span class="dv">2</span>]])</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">"</span>) </span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tf.reduce_sum(x, axis<span class="op">=</span><span class="dv">0</span>) <span class="co"># sum over columns</span></span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>z <span class="op">=</span> tf.reduce_sum(x, axis<span class="op">=</span><span class="dv">1</span>) <span class="co"># sum over rows</span></span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>z<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>values: 
+ [[2 2 2]
+ [2 2 2]]
+values: 
+ [4 4 4]
+values: 
+ [6 6]</code></pre>
+</div>
+</div>
+<p><a id="6.1.2-indexing,-slicing"></a></p>
+</section>
+<section id="indexing-slicing" class="level3">
+<h3 class="anchored" data-anchor-id="indexing-slicing">6.1.2 Indexing, Slicing</h3>
+<p>We can extract, separate, and join values from tensors in a similar way as with NumPy arrays.</p>
+<div id="f988ade1" class="cell" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>], [<span class="dv">7</span>, <span class="dv">8</span>, <span class="dv">10</span>], [<span class="dv">11</span>, <span class="dv">12</span>, <span class="dv">13</span>]])</span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span> (<span class="ss">f"x: </span><span class="ch">\n</span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-5"><a href="#cb26-5" aria-hidden="true" tabindex="-1"></a><span class="co"># first row</span></span>
+<span id="cb26-6"><a href="#cb26-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"x[0]: </span><span class="ch">\n</span><span class="sc">{</span> x[<span class="dv">0</span>]<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb26-7"><a href="#cb26-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb26-8"><a href="#cb26-8" aria-hidden="true" tabindex="-1"></a><span class="co"># first and second row, second and third columns</span></span>
+<span id="cb26-9"><a href="#cb26-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()</span>
+<span id="cb26-10"><a href="#cb26-10" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"x[:2, 1:3]: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x[:<span class="dv">2</span>, <span class="dv">1</span>:<span class="dv">3</span>]<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x: 
+[[ 1  2  3]
+ [ 4  5  6]
+ [ 7  8 10]
+ [11 12 13]]
+
+x[0]: 
+[1 2 3]
+
+x[:2, 1:3]: 
+ [[2 3]
+ [5 6]]</code></pre>
+</div>
+</div>
+<p><a id="6.1.3-fancy-indexing"></a></p>
+</section>
+<section id="fancy-indexing" class="level3">
+<h3 class="anchored" data-anchor-id="fancy-indexing">6.1.3 Fancy Indexing</h3>
+<div id="173e9430" class="cell" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Select with dimensional indices</span></span>
+<span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]])</span>
+<span id="cb28-3"><a href="#cb28-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-4"><a href="#cb28-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-5"><a href="#cb28-5" aria-hidden="true" tabindex="-1"></a>col_indices <span class="op">=</span> tf.constant([<span class="dv">0</span>, <span class="dv">2</span>])</span>
+<span id="cb28-6"><a href="#cb28-6" aria-hidden="true" tabindex="-1"></a>chosen <span class="op">=</span> tf.gather(x, axis<span class="op">=</span><span class="dv">1</span>, indices<span class="op">=</span>col_indices) </span>
+<span id="cb28-7"><a href="#cb28-7" aria-hidden="true" tabindex="-1"></a><span class="co"># gather elements accross an axis, e.g., values from columns 0  and 2</span></span>
+<span id="cb28-8"><a href="#cb28-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>chosen<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb28-9"><a href="#cb28-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb28-10"><a href="#cb28-10" aria-hidden="true" tabindex="-1"></a>row_indices <span class="op">=</span> tf.constant([<span class="dv">0</span>, <span class="dv">1</span>])</span>
+<span id="cb28-11"><a href="#cb28-11" aria-hidden="true" tabindex="-1"></a>col_indices <span class="op">=</span> tf.constant([<span class="dv">1</span>, <span class="dv">2</span>])</span>
+<span id="cb28-12"><a href="#cb28-12" aria-hidden="true" tabindex="-1"></a><span class="co"># gather nd (n-dimensional) elements with [row, column] index, e.g., values from (0, 1) &amp; (1, 2)</span></span>
+<span id="cb28-13"><a href="#cb28-13" aria-hidden="true" tabindex="-1"></a>chosen <span class="op">=</span> tf.gather_nd(x, indices<span class="op">=</span>[row_indices, col_indices]) </span>
+<span id="cb28-14"><a href="#cb28-14" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>chosen<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>values: 
+ [[1 2 3]
+ [4 5 6]]
+values: 
+ [[1 3]
+ [4 6]]
+values: 
+ [2 6]</code></pre>
+</div>
+</div>
+<p><a id="6.1.4-joining"></a></p>
+</section>
+<section id="joining" class="level3">
+<h3 class="anchored" data-anchor-id="joining">6.1.4 Joining</h3>
+<div id="c7df7b8f" class="cell" data-execution_count="16">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb30"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Concatenation</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant([[<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>], [<span class="dv">4</span>, <span class="dv">5</span>, <span class="dv">6</span>]])</span>
+<span id="cb30-3"><a href="#cb30-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>x<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb30-4"><a href="#cb30-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb30-5"><a href="#cb30-5" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> tf.concat([x, x], axis<span class="op">=</span><span class="dv">0</span>) <span class="co"># stack by rows (axis=1 to stack by columns)</span></span>
+<span id="cb30-6"><a href="#cb30-6" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Values: </span><span class="ch">\n</span><span class="ss"> </span><span class="sc">{</span>y<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Values: 
+ [[1 2 3]
+ [4 5 6]]
+Values: 
+ [[1 2 3]
+ [4 5 6]
+ [1 2 3]
+ [4 5 6]]</code></pre>
+</div>
+</div>
+<p><a id="6.1.5-gradients"></a></p>
+</section>
+<section id="gradients" class="level3">
+<h3 class="anchored" data-anchor-id="gradients">6.1.5 Gradients</h3>
+<p>In TensorFlow, <code>tf.GradientTape()</code> records operations over tensors to enable automatic differentiation.</p>
+<p>In the next example, it tracks the operations in <span class="math inline">\(y = x² + 2x + 1\)</span> over the watched tensor <code>x</code>, and builds a computational graph that maps how <code>y</code> depends on <code>x</code>. Aterward, the method <code>.gradient()</code> is used to compute the derivative <span class="math inline">\({dy}/{dx}\)</span>, which equals 8.</p>
+<ul>
+<li><span class="math inline">\(x = 3\)</span></li>
+<li><span class="math inline">\(y = x^2 + 2x + 2\)</span></li>
+<li><span class="math inline">\(\frac{dy}{dx} = 2x + 2 = 2*3 + 2  = 8\)</span></li>
+</ul>
+<div id="a2f90bd7-d70f-4938-a90e-7cfc21ed6af7" class="cell" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a tensor</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a>x <span class="op">=</span> tf.constant(<span class="fl">3.0</span>)</span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tf.GradientTape() <span class="im">as</span> tape:</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Watch() marks x for gradient tracking, so that gradients can be calculated later</span></span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    tape.watch(x)</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Consider a simple quadratic equation: y = x² + 2x + 1</span></span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a>    y <span class="op">=</span> x<span class="op">**</span><span class="dv">2</span> <span class="op">+</span> <span class="dv">2</span><span class="op">*</span>x <span class="op">+</span> <span class="dv">1</span>   </span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Calculate the derivative dy/dx = 2x+2 = 2*3+2 = 8</span></span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a>dy_dx <span class="op">=</span> tape.gradient(y, x)</span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(dy_dx)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tf.Tensor(8.0, shape=(), dtype=float32)</code></pre>
+</div>
+</div>
+<p><a id="6.1.6-cuda"></a></p>
+</section>
+<section id="cuda" class="level3">
+<h3 class="anchored" data-anchor-id="cuda">6.1.6 CUDA</h3>
+<p>This section details how to work with GPU to accelerate computations with Machine Learning models.</p>
+<p>The Compute Unified Device Architecture or <strong>CUDA</strong> is a parallel computing platform and API that allows software to use certain types of GPUs for general purpose processing. It is an extension of the C and C++ programming languages.</p>
+<p><code>TensorFlow</code> makes using the GPU quite transparent. If the GPU compatible version of TF is installed along with the proper drivers, TF will use the GPU.</p>
+<p>The following <a href="https://anaconda.org/anaconda/tensorflow-gpu">Link</a> is to a metapackage for easily installing <code>TensorFlow</code> GPU using a conda <code>'metapackage'</code>, which installs the required GPU drivers alongside TensorFlow.</p>
+<div id="b971d492" class="cell" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb34"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="co"># is CUDA available?</span></span>
+<span id="cb34-2"><a href="#cb34-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tf.test.is_built_with_cuda())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>False</code></pre>
+</div>
+</div>
+<div id="72b497b4" class="cell" data-execution_count="19">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb36"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb36-1"><a href="#cb36-1" aria-hidden="true" tabindex="-1"></a><span class="co"># set device to first gpu (if available)</span></span>
+<span id="cb36-2"><a href="#cb36-2" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> <span class="st">"/gpu:0"</span> <span class="cf">if</span> tf.test.is_built_with_cuda() <span class="cf">else</span> <span class="st">"cpu"</span></span>
+<span id="cb36-3"><a href="#cb36-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(device)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>cpu</code></pre>
+</div>
+</div>
+<div id="36725788" class="cell" data-execution_count="20">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> tf.device(device):</span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a>    a <span class="op">=</span> tf.constant([<span class="dv">1</span>, <span class="dv">2</span>, <span class="dv">3</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="5776a3bf" class="cell" data-execution_count="21">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="co"># print info about local cpu/gpu devices through tensorflow library</span></span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow.python.client <span class="im">import</span> device_lib</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a><span class="co"># the most useful information is found in the first two lines of the output</span></span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a><span class="co"># 1st line is name of device (cpu/gpu and number) </span></span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a><span class="co"># 2nd line gives the memory limit in bits </span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>device_lib.list_local_devices()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="21">
+<pre><code>[name: "/device:CPU:0"
+ device_type: "CPU"
+ memory_limit: 268435456
+ locality {
+ }
+ incarnation: 916004627309300128
+ xla_global_id: -1]</code></pre>
+</div>
+</div>
+<p><a id="6.2-tensorflow-datasets"></a></p>
+</section>
+</section>
+<section id="tensorflow-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="tensorflow-datasets">6.2 TensorFlow Datasets</h2>
+<p><strong>TensorFlow DataSets (TFDS)</strong> is a set of ready-to-use datasets for various Machine Learning tasks, including Computer Vision datasets, Natural Language Processing datasets, and miscellaneous other datasets for performing Unsupervised Learning, Reinforcement learning, and more.</p>
+<p>The entire list of available datasets can be found <a href="https://www.tensorflow.org/datasets/catalog/overview">here</a>.</p>
+<p>All of these datasets are contained under the <code>tensorflow_datasets</code> module of TFDS.</p>
+<p>Note that installing TFDS might cause some dependency issues. If that happens, it is recommended to create a new conda environment.</p>
+<p>To install TFDS:</p>
+<pre><code>pip install tensorflow-datasets</code></pre>
+<p>TFDS is pre-installed in Google Colab, and it can be directly imported as in the next cell.</p>
+<div id="2fa39686" class="cell" data-execution_count="22">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow_datasets <span class="im">as</span> tfds</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The following cell displays the first 10 datasets in TFDS. The full list of datasets is quite long.</p>
+<div id="cf7735fa" class="cell" data-execution_count="23">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>tfds.list_builders()[:<span class="dv">10</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="23">
+<pre><code>['abstract_reasoning',
+ 'accentdb',
+ 'aeslc',
+ 'aflw2k3d',
+ 'ag_news_subset',
+ 'ai2_arc',
+ 'ai2_arc_with_ir',
+ 'ai2dcaption',
+ 'aloha_mobile',
+ 'amazon_us_reviews']</code></pre>
+</div>
+</div>
+<p><a id="6.2.1-load-dataset-with-tfds"></a></p>
+<section id="load-dataset-with-tfds" class="level3">
+<h3 class="anchored" data-anchor-id="load-dataset-with-tfds">6.2.1 Load Dataset with TFDS</h3>
+<p>The easiest way of loading a dataset with TFDS is with <code>tfds.load</code>. It will download the data and create a <code>tf.data.Dataset</code> object that can be used to pass data into Machine Learning models.</p>
+<div id="3dbc13ee" class="cell" data-execution_count="24">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a>(training_data, test_data), info <span class="op">=</span> tfds.load(<span class="st">'mnist'</span>, with_info<span class="op">=</span><span class="va">True</span>, shuffle_files<span class="op">=</span><span class="va">True</span>, as_supervised<span class="op">=</span><span class="va">True</span>, split<span class="op">=</span>[<span class="st">'train'</span>, <span class="st">'test'</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Arguments in <code>tfds.load</code> include:</p>
+<ul>
+<li>The first argument (<code>'mnist'</code>) is the name of dataset.</li>
+<li><code>'with_info'</code> controls whether or not additional information (metadata) for the dataset is included.</li>
+<li><code>'shuffle_files'</code> controls whether or not data is shuffled between each epoch.</li>
+<li><code>'as_supervised'</code> controls whether or not a tuple <code>(features, label)</code> is returned for supervised learning (as opposed to just features for unsupervised learning).</li>
+<li><code>'split'</code> controls which split we wish to load (e.g., train, test, or validation).</li>
+<li><code>'data_dir'</code> controls where the dataset is saved (defaults to <code>~/tensorflow_datasets/</code>).</li>
+</ul>
+<p>We can access the dataset metadata with <code>info</code> as in the next cell.</p>
+<div id="fefda698" class="cell" data-execution_count="25">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb46"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb46-1"><a href="#cb46-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(info)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>tfds.core.DatasetInfo(
+    name='mnist',
+    full_name='mnist/3.0.1',
+    description="""
+    The MNIST database of handwritten digits.
+    """,
+    homepage='http://yann.lecun.com/exdb/mnist/',
+    data_dir='C:\\Users\\vakanski\\tensorflow_datasets\\mnist\\3.0.1',
+    file_format=tfrecord,
+    download_size=11.06 MiB,
+    dataset_size=21.00 MiB,
+    features=FeaturesDict({
+        'image': Image(shape=(28, 28, 1), dtype=uint8),
+        'label': ClassLabel(shape=(), dtype=int64, num_classes=10),
+    }),
+    supervised_keys=('image', 'label'),
+    disable_shuffling=False,
+    nondeterministic_order=False,
+    splits={
+        'test': &lt;SplitInfo num_examples=10000, num_shards=1&gt;,
+        'train': &lt;SplitInfo num_examples=60000, num_shards=1&gt;,
+    },
+    citation="""@article{lecun2010mnist,
+      title={MNIST handwritten digit database},
+      author={LeCun, Yann and Cortes, Corinna and Burges, CJ},
+      journal={ATT Labs [Online]. Available: http://yann.lecun.com/exdb/mnist},
+      volume={2},
+      year={2010}
+    }""",
+)</code></pre>
+</div>
+</div>
+<p>Metadata can include information about features shape, label shape, etc.</p>
+<div id="1b0fc6fe" class="cell" data-execution_count="26">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb48"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb48-1"><a href="#cb48-1" aria-hidden="true" tabindex="-1"></a>info.features</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="26">
+<pre><code>FeaturesDict({
+    'image': Image(shape=(28, 28, 1), dtype=uint8),
+    'label': ClassLabel(shape=(), dtype=int64, num_classes=10),
+})</code></pre>
+</div>
+</div>
+<p>We can also inspect the number of classes and label names.</p>
+<div id="c1960f11" class="cell" data-execution_count="27">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb50"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb50-1"><a href="#cb50-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(info.features[<span class="st">"label"</span>].num_classes)</span>
+<span id="cb50-2"><a href="#cb50-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(info.features[<span class="st">"label"</span>].names)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>10
+['0', '1', '2', '3', '4', '5', '6', '7', '8', '9']</code></pre>
+</div>
+</div>
+<div id="f2aaa224-98c2-4507-97c2-fa9ba802af50" class="cell" data-execution_count="28">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(info.features.shape)</span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(info.features[<span class="st">'image'</span>].np_dtype)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>{'image': (28, 28, 1), 'label': ()}
+&lt;class 'numpy.uint8'&gt;</code></pre>
+</div>
+</div>
+<p><a id="6.2.2-slicing-api-for-customized-dataset-split"></a></p>
+</section>
+<section id="slicing-api-for-customized-dataset-split" class="level3">
+<h3 class="anchored" data-anchor-id="slicing-api-for-customized-dataset-split">6.2.2 Slicing API for Customized Dataset Split</h3>
+<div id="98891aa2" class="cell" data-execution_count="29">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get first 1,000 examples of the train dataset</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> tfds.load(<span class="st">'fashion_mnist'</span>, split<span class="op">=</span><span class="st">'train[:1000]'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="d23dd992" class="cell" data-execution_count="30">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb55"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb55-1"><a href="#cb55-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get 25% to 75% of the train dataset </span></span>
+<span id="cb55-2"><a href="#cb55-2" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> tfds.load(<span class="st">'mnist'</span>, split<span class="op">=</span><span class="st">'train[25%:75%]'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="482a7e6f" class="cell" data-execution_count="31">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb56"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb56-1"><a href="#cb56-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Get 25% of training and all of the test data</span></span>
+<span id="cb56-2"><a href="#cb56-2" aria-hidden="true" tabindex="-1"></a>ds <span class="op">=</span> tfds.load(<span class="st">'fashion_mnist'</span>, split<span class="op">=</span><span class="st">'train[:25%]+test'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="6.2.3-cross-validation"></a></p>
+</section>
+<section id="cross-validation" class="level3">
+<h3 class="anchored" data-anchor-id="cross-validation">6.2.3 Cross-Validation</h3>
+<div id="dd4a6058" class="cell" data-execution_count="32">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb57"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb57-1"><a href="#cb57-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Splits the training data into 10 folds (each 10%) for cross-validation</span></span>
+<span id="cb57-2"><a href="#cb57-2" aria-hidden="true" tabindex="-1"></a>trains_ds <span class="op">=</span> tfds.load(<span class="st">'fashion_mnist'</span>, split<span class="op">=</span>[</span>
+<span id="cb57-3"><a href="#cb57-3" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f'train[:</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">%]+train[</span><span class="sc">{</span>k<span class="op">+</span><span class="dv">10</span><span class="sc">}</span><span class="ss">%:]'</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>)])</span>
+<span id="cb57-4"><a href="#cb57-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-5"><a href="#cb57-5" aria-hidden="true" tabindex="-1"></a>vals_ds <span class="op">=</span> tfds.load(<span class="st">'fashion_mnist'</span>, split<span class="op">=</span>[</span>
+<span id="cb57-6"><a href="#cb57-6" aria-hidden="true" tabindex="-1"></a>    <span class="ss">f'train[</span><span class="sc">{</span>k<span class="sc">}</span><span class="ss">%:</span><span class="sc">{</span>k<span class="op">+</span><span class="dv">10</span><span class="sc">}</span><span class="ss">%]'</span> <span class="cf">for</span> k <span class="kw">in</span> <span class="bu">range</span>(<span class="dv">0</span>, <span class="dv">100</span>, <span class="dv">10</span>)])</span>
+<span id="cb57-7"><a href="#cb57-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb57-8"><a href="#cb57-8" aria-hidden="true" tabindex="-1"></a><span class="co"># k = 0, 10, 20, …, 90</span></span>
+<span id="cb57-9"><a href="#cb57-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Example: third fold (k=20)</span></span>
+<span id="cb57-10"><a href="#cb57-10" aria-hidden="true" tabindex="-1"></a><span class="co"># train[:20%]+train[30%:]  → use all except data from 20% to 30% for training</span></span>
+<span id="cb57-11"><a href="#cb57-11" aria-hidden="true" tabindex="-1"></a><span class="co"># train[20%:30%]            → use data from 20% to 30% for validation</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="6.2.4-iterate-over-the-dataset-in-batches"></a></p>
+</section>
+<section id="iterate-over-the-dataset-in-batches" class="level3">
+<h3 class="anchored" data-anchor-id="iterate-over-the-dataset-in-batches">6.2.4 Iterate over the Dataset in Batches</h3>
+<div id="5094ece0" class="cell" data-execution_count="33">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb58"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb58-1"><a href="#cb58-1" aria-hidden="true" tabindex="-1"></a>batch_size <span class="op">=</span> <span class="dv">16</span></span>
+<span id="cb58-2"><a href="#cb58-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb58-3"><a href="#cb58-3" aria-hidden="true" tabindex="-1"></a>n <span class="op">=</span> <span class="dv">0</span></span>
+<span id="cb58-4"><a href="#cb58-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> img, label <span class="kw">in</span> training_data.batch(batch_size):</span>
+<span id="cb58-5"><a href="#cb58-5" aria-hidden="true" tabindex="-1"></a>    <span class="co"># print the labels for the first 10 batches</span></span>
+<span id="cb58-6"><a href="#cb58-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">while</span> n <span class="op">&lt;</span> <span class="dv">10</span>:</span>
+<span id="cb58-7"><a href="#cb58-7" aria-hidden="true" tabindex="-1"></a>        <span class="bu">print</span>(<span class="ss">f'img: </span><span class="sc">{</span>img<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">, labels: </span><span class="sc">{</span>label<span class="sc">}</span><span class="ss">'</span>) </span>
+<span id="cb58-8"><a href="#cb58-8" aria-hidden="true" tabindex="-1"></a>        <span class="co"># notice that img.shape = [batch size, pixels width, pixels heights, channels number)</span></span>
+<span id="cb58-9"><a href="#cb58-9" aria-hidden="true" tabindex="-1"></a>        <span class="co"># notice that label.shape = 16, therefore 16 labels are shown</span></span>
+<span id="cb58-10"><a href="#cb58-10" aria-hidden="true" tabindex="-1"></a>        n <span class="op">=</span> n<span class="op">+</span><span class="dv">1</span>            </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]
+img: (16, 28, 28, 1), labels: [4 1 0 7 8 1 2 7 1 6 6 4 7 7 3 3]</code></pre>
+</div>
+</div>
+<p><a id="6.2.5-visualization"></a></p>
+</section>
+<section id="visualization" class="level3">
+<h3 class="anchored" data-anchor-id="visualization">6.2.5 Visualization</h3>
+<div id="7e487193" class="cell" data-execution_count="34">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb60"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb60-1"><a href="#cb60-1" aria-hidden="true" tabindex="-1"></a><span class="co"># tfds.as_dataframe() takes 5 images and labels from mnist dataset as pandas dataframe</span></span>
+<span id="cb60-2"><a href="#cb60-2" aria-hidden="true" tabindex="-1"></a>ds, info <span class="op">=</span> tfds.load(<span class="st">'mnist'</span>, split<span class="op">=</span><span class="st">'train'</span>, with_info<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb60-3"><a href="#cb60-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb60-4"><a href="#cb60-4" aria-hidden="true" tabindex="-1"></a>tfds.as_dataframe(ds.take(<span class="dv">5</span>), info)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="34">
+<style type="text/css">
+</style>
+
+<table id="T_f14e8" class="caption-top table table-sm table-striped small">
+<thead>
+<tr class="header">
+<th class="blank level0" data-quarto-table-cell-role="th">&nbsp;</th>
+<th id="T_f14e8_level0_col0" class="col_heading level0 col0" data-quarto-table-cell-role="th">image</th>
+<th id="T_f14e8_level0_col1" class="col_heading level0 col1" data-quarto-table-cell-role="th">label</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<th id="T_f14e8_level0_row0" class="row_heading level0 row0" data-quarto-table-cell-role="th">0</th>
+<td id="T_f14e8_row0_col0" class="data row0 col0"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAAzElEQVR4nGNgGPQg5F8qjMmEIRn1XwinRvnvp2QxdTIyMjAwMDDksd17jCnpeN6CgYGBQZfhAhbzLP+WMzAwyPz8IAkXQuh8ycDAwMAQyHr1ORZJYQYGBgYGKYYDDFgkAxgZGBikMxnnISQZYQz2J0KXjwvpqV00+YfpnsS/f//++/v3bxiSGAuMYfp97rN3b1cz7MDiEQgI+bcGmYsatlH/T+PUyPD2jwVOOaOP23Br3P3vZyZOO///v7qGARd4/EkBt7FvbuOWoyIAAPBxN9oBRuu9AAAAAElFTkSuQmCC" class="img-fluid" alt="Img"></td>
+<td id="T_f14e8_row0_col1" class="data row0 col1">4</td>
+</tr>
+<tr class="even">
+<th id="T_f14e8_level0_row1" class="row_heading level0 row1" data-quarto-table-cell-role="th">1</th>
+<td id="T_f14e8_row1_col0" class="data row1 col0"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAAmklEQVR4nGNgGOyAc/5KJlxyjIv+/TPEJan9798HWRgH3YhQBoZHj3HpfP/vVxQuOYF//54ieGjGNjEwXMalkeHbv3+eeCTfseAy1oCVYeofXBp3/f8lgUtO/su/azhtnPLvXwJOycv//uGU0//5bx1OySP//hngkuN5+u8tG4oIkj/VJBmO/8Il6cvAMBunlSIvX3DjlKQmAACHtTHZmy2LVAAAAABJRU5ErkJggg==" class="img-fluid" alt="Img"></td>
+<td id="T_f14e8_row1_col1" class="data row1 col1">1</td>
+</tr>
+<tr class="odd">
+<th id="T_f14e8_level0_row2" class="row_heading level0 row2" data-quarto-table-cell-role="th">2</th>
+<td id="T_f14e8_row2_col0" class="data row2 col0"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAA+0lEQVR4nM3QvyuEARzH8feVniSFiTBcKf8A85ESNqwkdbeY5NdmY/UXiM0z+Ad0SXZ1g0vJjw0Xi86pc13eD8NleJ47q3zG76tv3x/wJxk+jQ7bf8NldT9obdNl1fWW1nGh6mtLPIm0oJVWlvuIvOvMWx1qtqWa0U2aULNNNnCtT+MQapi0waK6CoR6mcS8Wuhq4Fqj1PZjU5NQnX0DUine433dD1qZBwjOrM/EsVc9AmCj6c5MWT8XADjX2mgMi+otABN1k0/YVncAFu/VLWLbPgNBduRxLBMQHe/FZ+Zs5EtLm8kP9F81MHrZTScNelZK6sFcXzP9o3wDadaKxdoXqEQAAAAASUVORK5CYII=" class="img-fluid" alt="Img"></td>
+<td id="T_f14e8_row2_col1" class="data row2 col1">0</td>
+</tr>
+<tr class="even">
+<th id="T_f14e8_level0_row3" class="row_heading level0 row3" data-quarto-table-cell-role="th">3</th>
+<td id="T_f14e8_row3_col0" class="data row3 col0"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAAA40lEQVR4nGNgGJpg//8OdCEWKM2obvgv/++6/zcZnJQebPuNqkjvLxI4IIgiJ3/v79/3b//9/fvv7993f/9NQzE2TZ6hc8J3JwYGBgaGK7cYeJE12n79+1cCxlH9+/cVB5LOlxy/pryHSUYyMO78gSR5W/vzU7gxfAz/cfq36fvfDw445Fr+/P3bg12KMebb37+7WbDKKSz89/fvNRmscjpb//79u0YBq5z0yb9//2bhcEvXv78fs1ixyzX//PsuHYc+gbvwAMcEmX//3kFzJxOc9YCRoesJLp3sx9+p4JIjGQAAnrpmBs0pxioAAAAASUVORK5CYII=" class="img-fluid" alt="Img"></td>
+<td id="T_f14e8_row3_col1" class="data row3 col1">7</td>
+</tr>
+<tr class="odd">
+<th id="T_f14e8_level0_row4" class="row_heading level0 row4" data-quarto-table-cell-role="th">4</th>
+<td id="T_f14e8_row4_col0" class="data row4 col0"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABwAAAAcCAAAAABXZoBIAAABRUlEQVR4nM2RMUgCcRTGvwvFjjiuhqgIpG4Kg8QaQi6aWoo2JXAot6ZokxwdGxybWjJoapLCQRoaJBKkoIJuKDc7DAruIEmH967hvPJ/Nkdv+vh+fI//+/7Afxglyy+qK6UeW1MSg5p2twVp4lUMhGYuLSYiJiIec72AlzqNAVf1klUGYLaF3BqzXdQBbLJtc0Fgsx26ngQARA72miQLMEU08qM/PDkAAIgBC56TQV58apSZ+ex4Pw6k2fQdHly9fSYi7phmi6pRz/4uQZleVyUnPSo5wEPmAv2zYlFto9BgS+tnuRZXNGCJec6PgiWmExXALt8HRDS+U3n6zMkAhgxOCUg+YqJyEgAQp4bayxZr7OS7HYXfebtru8sT8w4MJQwAena4fihsjRjE9Ob+Zftc8ZUQWtan5KTkPN40i9VfCvi7+QIpz4HjFNztwwAAAABJRU5ErkJggg==" class="img-fluid" alt="Img"></td>
+<td id="T_f14e8_row4_col1" class="data row4 col1">8</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+<p>The function <code>tfds.show_examples()</code> returns a matplotlib figure with data samples and labels (only image datasets are supported with this method).</p>
+<div id="5b39ac4e" class="cell" data-execution_count="35">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb61"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb61-1"><a href="#cb61-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span>
+<span id="cb61-2"><a href="#cb61-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb61-3"><a href="#cb61-3" aria-hidden="true" tabindex="-1"></a>tfds.show_examples(ds, info, rows<span class="op">=</span><span class="dv">1</span>, cols<span class="op">=</span><span class="dv">3</span>)<span class="op">;</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Tutorial_6-TensorFlow_files/figure-html/cell-36-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+<p>You can also create your own TFDS with <code>tf.data.Dataset.from_tensor_slices()</code> as in the following example.</p>
+<div id="7a3bfe4a" class="cell" data-execution_count="36">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb62"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb62-1"><a href="#cb62-1" aria-hidden="true" tabindex="-1"></a><span class="co"># let's create random features and labels</span></span>
+<span id="cb62-2"><a href="#cb62-2" aria-hidden="true" tabindex="-1"></a>np.random.seed(<span class="dv">1</span>)</span>
+<span id="cb62-3"><a href="#cb62-3" aria-hidden="true" tabindex="-1"></a>features <span class="op">=</span> np.random.uniform(<span class="dv">0</span>,<span class="dv">1</span>, size<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">100</span>, <span class="dv">100</span>))</span>
+<span id="cb62-4"><a href="#cb62-4" aria-hidden="true" tabindex="-1"></a>labels <span class="op">=</span> np.random.randint(<span class="dv">0</span>, <span class="dv">2</span>, size<span class="op">=</span>(<span class="dv">16</span>, <span class="dv">1</span>))</span>
+<span id="cb62-5"><a href="#cb62-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-6"><a href="#cb62-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a TFDS dataset, and use a batch of 4</span></span>
+<span id="cb62-7"><a href="#cb62-7" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> tf.data.Dataset.from_tensor_slices((features, labels)).batch(<span class="dv">4</span>)</span>
+<span id="cb62-8"><a href="#cb62-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb62-9"><a href="#cb62-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the features x and labels y in the dataset</span></span>
+<span id="cb62-10"><a href="#cb62-10" aria-hidden="true" tabindex="-1"></a><span class="co"># There are 16 data points, and each batch has 4 data points</span></span>
+<span id="cb62-11"><a href="#cb62-11" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> (x_batch, y_batch) <span class="kw">in</span> dataset:</span>
+<span id="cb62-12"><a href="#cb62-12" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f'x_batch shape: </span><span class="sc">{</span>x_batch<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">, y_batch shape: </span><span class="sc">{</span>y_batch<span class="sc">.</span>shape<span class="sc">}</span><span class="ss">'</span>)</span>
+<span id="cb62-13"><a href="#cb62-13" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>()        </span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>x_batch shape: (4, 100, 100), y_batch shape: (4, 1)
+x_batch shape: (4, 100, 100), y_batch shape: (4, 1)
+x_batch shape: (4, 100, 100), y_batch shape: (4, 1)
+x_batch shape: (4, 100, 100), y_batch shape: (4, 1)
+</code></pre>
+</div>
+</div>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Made With ML, by Goku Mohandas, available at: <a href="https://madewithml.com/">https://madewithml.com/</a>.</li>
+<li>Moroney, L. (n.d.). AI and Machine Learning for Coders. O’Reilly Online Learning. https://www.oreilly.com/library/view/ai-and-machine/9781492078180/ch04.html</li>
+<li>TensorFlow datasets. TensorFlow. (n.d.). https://www.tensorflow.org/datasets/overview#iterate_over_a_dataset</li>
+</ol>
+<p><a href="#top">BACK TO TOP</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+// Left sidebar: start with the "Course Information" section collapsed
+// while lecture sections stay expanded (collapse-level: 2 expands all;
+// Quarto has no per-section setting, so this collapses just that one).
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#quarto-sidebar .sidebar-item-section").forEach(function (sec) {
+    var text = sec.querySelector(":scope > .sidebar-item-container .menu-text");
+    if (!text || text.textContent.trim() !== "Course Information") return;
+    var sub = sec.querySelector(":scope > ul.collapse");
+    if (sub) sub.classList.remove("show");
+    sec.querySelectorAll(":scope > .sidebar-item-container a[data-bs-toggle]").forEach(function (a) {
+      a.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
+<script>
+// Add expand/collapse arrows to right-pane TOC entries that have subsections.
+// Clicking the arrow toggles the subsection list without navigating; an
+// inline display style is used so Quarto's scroll-spy can't override it.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+  toc.querySelectorAll("li").forEach(function (li) {
+    var sub = li.querySelector(":scope > ul");
+    var link = li.querySelector(":scope > a");
+    if (!sub || !link) return;
+    var btn = document.createElement("span");
+    btn.className = "toc-chevron";
+    btn.setAttribute("role", "button");
+    btn.setAttribute("tabindex", "0");
+    btn.setAttribute("aria-label", "Toggle subsections");
+    btn.setAttribute("title", "Show/hide subsections");
+    btn.setAttribute("aria-expanded", "false");
+    link.after(btn);
+    function toggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = sub.style.display === "block";
+      sub.style.display = open ? "" : "block";
+      btn.classList.toggle("toc-chevron-expanded", !open);
+      btn.setAttribute("aria-expanded", String(!open));
+    }
+    btn.addEventListener("click", toggle);
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") toggle(e);
+    });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/avakanski\.github\.io\/Fall-2026-Applied-Data-Science-with-Python\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="pagination-link" aria-label="Tutorial 5 - Google Colab">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial 5 - Google Colab</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
