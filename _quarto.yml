@@ -68,6 +68,12 @@ website:
         contents:
           - href: "Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.ipynb"
             text: "Lecture 10 - Scikit-Learn Library for Data Science"
+          - href: "Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.ipynb"
+            text: "Lecture 11 - Ensemble Models"
+          - href: "Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.ipynb"
+            text: "Lecture 12 - Artificial Neural Networks with Keras-TensorFlow"
+          - href: "Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.ipynb"
+            text: "Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks"
       - section: "Tutorials"
         contents:
           - href: "Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"
