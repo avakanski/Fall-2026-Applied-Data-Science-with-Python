@@ -88,6 +88,8 @@ website:
             text: "Tutorial 4 - Virtual Environments"
           - href: "Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.ipynb"
             text: "Tutorial 5 - Google Colab"
+          - href: "Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.ipynb"
+            text: "Tutorial 6 - TensorFlow"
   page-footer:
     center: "CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026"
     background: "#D9E3E4"

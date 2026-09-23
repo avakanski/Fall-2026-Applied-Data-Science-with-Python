@@ -51,6 +51,7 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.ipynb">Tutorial 3 - Terminal and Command Line</a>
 * <a href="Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.ipynb">Tutorial 4 - Virtual Environments</a>
 * <a href="Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.ipynb">Tutorial 5 - Google Colab</a>
+* <a href="Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.ipynb">Tutorial 6 - TensorFlow, TensorFlow Datasets</a>
 
 ## Course Description
 
