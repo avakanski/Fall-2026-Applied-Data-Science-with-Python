@@ -39,6 +39,7 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.ipynb">Lecture 10 - Scikit-Learn Library for Data Science</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.ipynb">Lecture 11 - Ensemble Models</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.ipynb">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.ipynb">Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.ipynb">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</a>
 
 *(Additional lectures will be added during the semester.)*
