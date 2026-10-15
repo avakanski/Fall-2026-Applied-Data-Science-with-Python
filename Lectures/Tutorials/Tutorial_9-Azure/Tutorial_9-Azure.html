@@ -1,0 +1,1581 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.19">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Tutorial 9 - Deployment on the Cloud with Microsoft Azure – Applied Data Science with Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.html" rel="prev">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-b626d73c4c936ccc3cb08be7d45d1df6.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-e90d6670a4065f2536ac3afd6750ccb9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-49b554886c5cde5beb8c9f2b2757bc5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-e90d6670a4065f2536ac3afd6750ccb9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.html">Tutorial 9 - Deployment on the Cloud with Azure</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../">Applied Data Science with Python</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python" title="GitHub repository" class="quarto-navigation-tool px-1" aria-label="GitHub repository"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Information</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-syllabus" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-description" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#textbooks" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Textbooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#learning-outcomes" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#prerequisites" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#grading" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Grading</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-schedule" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 1 - A Short History of AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 1 - Python Programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2 - Python Data Types, Statements</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 3 - Files, Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 4 - OOP, Modules, Packages</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 2 - Data Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 5 - NumPy for Array Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 6 - Data Manipulation with Pandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 7 - Data Visualization with Matplotlib and Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 8 - Databases and SQL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 9 - Data Exploration and Preprocessing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 3 - Model Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 10 - Scikit-Learn Library for Data Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 11 - Ensemble Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 2 - Python IDEs, VS Code</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 3 - Terminal and Command Line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 4 - Virtual Environments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 5 - Google Colab</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 6 - TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_7-PyTorch/Tutorial_7-PyTorch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 7 - PyTorch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 8 - Git and Version Control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Tutorial 9 - Deployment on the Cloud with Azure</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#data-science-using-cloud-computing" id="toc-data-science-using-cloud-computing" class="nav-link active" data-scroll-target="#data-science-using-cloud-computing">9.1 Data Science using Cloud Computing</a></li>
+  <li><a href="#introduction-to-azure-machine-learning" id="toc-introduction-to-azure-machine-learning" class="nav-link" data-scroll-target="#introduction-to-azure-machine-learning">9.2 Introduction to Azure Machine Learning</a>
+  <ul class="collapse">
+  <li><a href="#azure-free-trial" id="toc-azure-free-trial" class="nav-link" data-scroll-target="#azure-free-trial">9.2.1 Azure Free Trial</a></li>
+  </ul></li>
+  <li><a href="#no-code-azure-ml" id="toc-no-code-azure-ml" class="nav-link" data-scroll-target="#no-code-azure-ml">9.3 No-Code Azure ML</a>
+  <ul class="collapse">
+  <li><a href="#creating-a-workspace-resource" id="toc-creating-a-workspace-resource" class="nav-link" data-scroll-target="#creating-a-workspace-resource">9.3.1 Creating a Workspace Resource</a></li>
+  <li><a href="#using-azure-ml-studio" id="toc-using-azure-ml-studio" class="nav-link" data-scroll-target="#using-azure-ml-studio">9.3.2 Using Azure ML Studio</a></li>
+  <li><a href="#loading-the-dataset" id="toc-loading-the-dataset" class="nav-link" data-scroll-target="#loading-the-dataset">9.3.3 Loading the Dataset</a></li>
+  <li><a href="#creating-a-compute-resource" id="toc-creating-a-compute-resource" class="nav-link" data-scroll-target="#creating-a-compute-resource">9.3.4 Creating a Compute Resource</a></li>
+  <li><a href="#training-a-model-with-automated-ml" id="toc-training-a-model-with-automated-ml" class="nav-link" data-scroll-target="#training-a-model-with-automated-ml">9.3.5 Training a Model with Automated ML</a></li>
+  <li><a href="#deploying-the-model" id="toc-deploying-the-model" class="nav-link" data-scroll-target="#deploying-the-model">9.3.6 Deploying the Model</a></li>
+  <li><a href="#consuming-the-model" id="toc-consuming-the-model" class="nav-link" data-scroll-target="#consuming-the-model">9.3.7 Consuming the Model</a></li>
+  </ul></li>
+  <li><a href="#code-based-azure-ml" id="toc-code-based-azure-ml" class="nav-link" data-scroll-target="#code-based-azure-ml">9.4 Code-based Azure ML</a>
+  <ul class="collapse">
+  <li><a href="#creating-workspace-and-compute-resource" id="toc-creating-workspace-and-compute-resource" class="nav-link" data-scroll-target="#creating-workspace-and-compute-resource">9.4.1 Creating Workspace and Compute Resource</a></li>
+  <li><a href="#using-jupyter-notebooks-in-azure-ml" id="toc-using-jupyter-notebooks-in-azure-ml" class="nav-link" data-scroll-target="#using-jupyter-notebooks-in-azure-ml">9.4.2 Using Jupyter Notebooks in Azure ML</a></li>
+  <li><a href="#loading-the-data-and-defining-the-model" id="toc-loading-the-data-and-defining-the-model" class="nav-link" data-scroll-target="#loading-the-data-and-defining-the-model">9.4.3 Loading the Data and Defining the Model</a></li>
+  <li><a href="#tracking-the-training-with-mlflow" id="toc-tracking-the-training-with-mlflow" class="nav-link" data-scroll-target="#tracking-the-training-with-mlflow">9.4.4 Tracking the Training with MLflow</a></li>
+  <li><a href="#registering-and-consuming-the-model" id="toc-registering-and-consuming-the-model" class="nav-link" data-scroll-target="#registering-and-consuming-the-model">9.4.5 Registering and Consuming the Model</a></li>
+  </ul></li>
+  <li><a href="#cleaning-up-the-resources" id="toc-cleaning-up-the-resources" class="nav-link" data-scroll-target="#cleaning-up-the-resources">9.5 Cleaning Up the Resources</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html">Tutorials</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.html">Tutorial 9 - Deployment on the Cloud with Azure</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Tutorial 9 - Deployment on the Cloud with Microsoft Azure</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a id="top"></a></p>
+<ul>
+<li><a href="#9.1-data-science-using-cloud-computing">9.1 Data Science using Cloud Computing</a></li>
+<li><a href="#9.2-introduction-to-azure-machine-learning">9.2 Introduction to Azure Machine Learning</a>
+<ul>
+<li><a href="#9.2.1-azure-free-trial">9.2.1 Azure Free Trial</a></li>
+</ul></li>
+<li><a href="#9.3-no-code-azure-ml">9.3 No-Code Azure ML</a>
+<ul>
+<li><a href="#9.3.1-creating-a-workspace-resource">9.3.1 Creating a Workspace Resource</a></li>
+<li><a href="#9.3.2-using-azure-ml-studio">9.3.2 Using Azure ML Studio</a></li>
+<li><a href="#9.3.3-loading-the-dataset">9.3.3 Loading the Dataset</a></li>
+<li><a href="#9.3.4-creating-a-compute-resource">9.3.4 Creating a Compute Resource</a></li>
+<li><a href="#9.3.5-training-a-model-with-automated-ml">9.3.5 Training a Model with Automated ML</a></li>
+<li><a href="#9.3.6-deploying-the-model">9.3.6 Deploying the Model</a></li>
+<li><a href="#9.3.7-consuming-the-model">9.3.7 Consuming the Model</a></li>
+</ul></li>
+<li><a href="#9.4-code-based-azure-ml">9.4 Code-based Azure ML</a>
+<ul>
+<li><a href="#9.4.1-creating-workspace-and-compute-resource">9.4.1 Creating Workspace and Compute Resource</a></li>
+<li><a href="#9.4.2-using-jupyter-notebooks-in-azure-ml">9.4.2 Using Jupyter Notebooks in Azure ML</a></li>
+<li><a href="#9.4.3-loading-the-data-and-defining-the-model">9.4.3 Loading the Data and Defining the Model</a></li>
+<li><a href="#9.4.4-tracking-the-training-with-mlflow">9.4.4 Tracking the Training with MLflow</a></li>
+<li><a href="#9.4.5-registering-and-consuming-the-model">9.4.5 Registering and Consuming the Model</a></li>
+</ul></li>
+<li><a href="#9.5-cleaning-up-the-resources">9.5 Cleaning Up the Resources</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<p><a id="9.1-data-science-using-cloud-computing"></a></p>
+<section id="data-science-using-cloud-computing" class="level2">
+<h2 class="anchored" data-anchor-id="data-science-using-cloud-computing">9.1 Data Science using Cloud Computing</h2>
+<p><strong>Cloud Computing</strong>, also referred to as the Cloud, delivers services hosted over a network, which can include data analytics, storage, databases, networking, and other services. The service is often in the form of a <em>public cloud</em> offered to the public over the Internet by cloud service providers, or it can be a <em>private cloud</em> that is owned by an organization that maintains the services on a private network.</p>
+<p>Public Cloud Computing services include Amazon Web Services (AWS), Google Cloud Platform (GCP), Microsoft Azure, IBM Cloud, and others.</p>
+<p>In general, Cloud Computing services can be categorized as:</p>
+<ul>
+<li><em>Infrastructure as a Service (IaaS)</em>: access to infrastructure, consisting of servers, virtual machines (VMs), storage, networks, or databases.</li>
+<li><em>Platform as a Service (PaaS)</em>: access to a platform for developing, testing, delivering, and managing software applications, using infrastructure managed by the provider.</li>
+<li><em>Software as a Service (SaaS)</em>: access to software applications that are developed and managed by the provider using the provider’s infrastructure.</li>
+</ul>
+<p>The advantages of using Cloud Computing include convenient access to the latest computational resources (without the need to purchase hardware or software), access to structured environments (preinstalled libraries) for running tasks, paying only for what you use, the ability to quickly scale projects, and improved efficiency by relying on infrastructure hosted and managed by the cloud provider.</p>
+<p>Cloud Computing is especially important for managing Data Science projects, which often require access to GPUs and large compute resources, storing large amounts of data, access to databases, and deploying solutions for access by end-users. In addition, most Cloud providers have developed some form of AutoML tools that enable organizations without Data Science expertise to incorporate data analytics workflows into their projects.</p>
+<p>This tutorial is primarily based on the course <a href="https://github.com/microsoft/Data-Science-For-Beginners/blob/main/5-Data-Science-In-Cloud/18-Low-Code/README.md">Data Science for Beginners</a> by Microsoft. The course has several lectures on deploying Data Science projects to the Cloud, as well as other lectures on Data Science in general.</p>
+<p><strong>Note:</strong> Cloud platforms change their user interface frequently. The screenshots in this tutorial were taken with an earlier version of the Azure portal and Azure ML Studio, so the names and positions of some menu items may differ slightly from what you see. The overall workflow (create a workspace, upload data, create compute, train, deploy, consume, delete the resources) is unchanged.</p>
+<p><a id="9.2-introduction-to-azure-machine-learning"></a></p>
+</section>
+<section id="introduction-to-azure-machine-learning" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-azure-machine-learning">9.2 Introduction to Azure Machine Learning</h2>
+<p><strong>Microsoft’s Azure Machine Learning</strong> (Azure ML) is a cloud platform that provides a large number of products and services designed for handling the various phases of Data Science projects. This includes capabilities for preparing and preprocessing data, training models, deploying models, and monitoring models in production. These capabilities can help to increase the efficiency of data scientists by automating many tasks and project pipelines. The availability of cloud computing resources makes it easy to scale projects and efficiently handle challenges related to processing big data and serving a large number of customers.</p>
+<p>Important tools and services provided by Azure ML include:</p>
+<ul>
+<li><em>Azure Machine Learning Studio</em>: web portal for data engineering, model training, and deployment.</li>
+<li><em>Azure Machine Learning Designer</em>: low-code ML framework that allows dragging and dropping modules for building data science pipelines.</li>
+<li><em>Azure Machine Learning SDK for Python</em> (<code>azure-ai-ml</code>): code-based environment for data science projects.</li>
+<li><em>Data Labeling</em>: tools for manual and automatic data labeling.</li>
+<li><em>Machine Learning CLI (Command-Line Interface)</em>: allows managing Azure ML resources from the command line.</li>
+<li><em>Automated Machine Learning (AutoML)</em>: tools to automate model selection and hyperparameter tuning.</li>
+<li><em>MLflow</em>: open-source framework integrated in Azure ML for tracking experiments, logging metrics, and registering models.</li>
+</ul>
+<p>Azure ML allows using Jupyter Notebooks and has built-in integration with popular ML libraries like Scikit-Learn, TensorFlow, PyTorch, and others.</p>
+<p>In this tutorial, we will explore the different levels of functionality of Azure ML, ranging from no-code AutoML, to the full-code SDK and working with our own custom models.</p>
+<p><a id="9.2.1-azure-free-trial"></a></p>
+<section id="azure-free-trial" class="level3">
+<h3 class="anchored" data-anchor-id="azure-free-trial">9.2.1 Azure Free Trial</h3>
+<p>Microsoft Azure offers a free trial for new accounts, which comes with an Azure credit (currently $200) that can be used within the first 30 days, plus free monthly amounts of selected services for 12 months.</p>
+<p>Also, Azure offers a yearly Azure credit (currently $100) to students through the <strong>Azure for Students</strong> program, which does not require a credit card. Students can sign up at <a href="https://azure.microsoft.com/free/students/">https://azure.microsoft.com/free/students/</a> with their university email address.</p>
+<p>In addition, the other Cloud providers typically offer some amount of credit to new users and students.</p>
+<p>Follow the link to the <a href="https://azure.microsoft.com/en-us/free/">Microsoft Azure webpage</a> and select the <code>Try Azure for free</code> button. This will prompt you to create an Azure account, and if you wish you can use your University of Idaho account to get access to Azure.</p>
+<p><img src="images/Azure_free_trial.png" width="800"></p>
+<p>Once you create an account and get the subscription with the Azure credits, the home page of the <a href="https://portal.azure.com">Azure portal</a> should look similar to the following.</p>
+<p><img src="images/Azure_homepage.png" width="1000"></p>
+<p><a id="9.3-no-code-azure-ml"></a></p>
+</section>
+</section>
+<section id="no-code-azure-ml" class="level2">
+<h2 class="anchored" data-anchor-id="no-code-azure-ml">9.3 No-Code Azure ML</h2>
+<p>In this section we will train and deploy a classification model without writing any code, by using the graphical interface of Azure ML Studio and its Automated ML tool.</p>
+<p><a id="9.3.1-creating-a-workspace-resource"></a></p>
+<section id="creating-a-workspace-resource" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-workspace-resource">9.3.1 Creating a Workspace Resource</h3>
+<p>From the home page of the Azure portal, we first need to create a new <strong>Resource</strong> that will indicate what type of tools and services we will be using.</p>
+<ul>
+<li>Select <code>+ Create a resource</code>.</li>
+</ul>
+<p><img src="images/Create_resource.png" width="800"></p>
+<p>Azure will next display many popular services and resources.</p>
+<ul>
+<li>In the search box write <code>Azure Machine Learning</code> and select it.</li>
+</ul>
+<p><img src="images/Resource_search.png" width="800"></p>
+<p>This will load the web page of Azure Machine Learning.</p>
+<ul>
+<li>Select <code>Create</code>.</li>
+</ul>
+<p>It will open a new page for creating an <code>Azure Machine Learning workspace</code> resource. The <strong>Workspace</strong> provides a place to work with machine learning models, and allows access to tools for training and deploying models. For instance, the Workspace will store information about training runs, such as logs of various metrics, and it will provide access to the data and scripts. Note also that when we are done using Azure resources such as workspaces, we need to delete the resources, otherwise some costs can be incurred (e.g., even if we don’t use the workspace to run a model, Azure may charge a fee for storing the data).</p>
+<p><img src="images/Create_workspace.png" width="800"></p>
+<p>When we create a new Workspace, we need to fill in the information shown in the screenshot below.</p>
+<ul>
+<li>Subscription: Azure subscription, e.g., the Azure credits obtained with the free trial or the student program.</li>
+<li>Resource group: Assign a name for the resource group, or click on <code>Create new</code> to create a resource group. A resource group is a container that holds related resources, which makes it easy to delete all of them at once at the end.</li>
+<li>Workspace name: Assign a name for the workspace (e.g., perhaps a name that is related to the project).</li>
+<li>Region: Select the geographical region (e.g., <code>West US 2</code>).</li>
+<li>Storage account: A new storage account will be created for the workspace for storing the data.</li>
+<li>Key vault: A new key vault will be created for the workspace for storing sensitive information.</li>
+<li>Application insights: A new application insights resource will be created for the workspace to store information about deployed models.</li>
+<li>Container registry: Leave it as None (it will be created automatically the first time the model is deployed).</li>
+</ul>
+<p>After the information in all fields is entered, select <code>Review + create</code>.</p>
+<p><img src="images/Workspace_form.png" width="600"></p>
+<p>The next page will show the information that we entered and we will need to confirm that everything is correct.</p>
+<ul>
+<li>Select <code>Create</code>.</li>
+</ul>
+<p><img src="images/Workspace_confirm.png" width="450"></p>
+<p>It may take a few minutes for the Workspace to be created. Once it is ready, the page will show that the deployment is complete.</p>
+<p><img src="images/Workspace_complete.png" width="800"></p>
+<p><a id="9.3.2-using-azure-ml-studio"></a></p>
+</section>
+<section id="using-azure-ml-studio" class="level3">
+<h3 class="anchored" data-anchor-id="using-azure-ml-studio">9.3.2 Using Azure ML Studio</h3>
+<p>As we mentioned in the introductory section, <strong>Azure Machine Learning Studio</strong> is the web portal for data engineering, model training, and deployment.</p>
+<ul>
+<li>Click on the following <a href="https://ml.azure.com">link</a> to navigate to Azure ML Studio, or click <code>Launch studio</code> on the page of the workspace in the Azure portal.</li>
+</ul>
+<p>The interface of Azure ML Studio is shown below. On the top of the page, our workspaces should be listed under <code>All workspaces</code>. In this case, the workspace that we just created and named <code>My_workspace_1</code> is shown.</p>
+<p><img src="images/ML_Studio.png" width="700"></p>
+<p>The various modules that are available in Azure ML Studio are listed in the left-side menu. To see the names of the modules, click on the three horizontal lines in the upper left corner. A brief description of the modules is shown in the next figure. The modules allow us to conveniently apply tools for managing the different phases of data science projects from a single place.</p>
+<p><img src="images/ML_modules.png" width="400"></p>
+<p><a id="9.3.3-loading-the-dataset"></a></p>
+</section>
+<section id="loading-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="loading-the-dataset">9.3.3 Loading the Dataset</h3>
+<p>For demonstration purposes, we will use the Heart Failure Dataset, which contains 13 columns with information about 299 patients who may or may not be at risk of heart failure. The <code>.csv</code> file with the records is available in the <code>data</code> folder with the other files for this tutorial.</p>
+<ul>
+<li>Click on the <code>Data</code> module in the left-side menu in Azure ML Studio (see figure below).</li>
+</ul>
+<p>The Data section provides various tools for data management, and it allows us to upload files or folders with data from a local machine, or provide links to web files (e.g., data from GitHub or Google Drive), load data from a list of open datasets collected by Microsoft (check <a href="https://learn.microsoft.com/en-us/azure/open-datasets/dataset-catalog">Azure Open Datasets</a>), or use files from a datastore. Datastores allow organizations that have many data files in different locations in Azure to link them together and organize them in a single view.</p>
+<ul>
+<li>Select <code>+ Create</code> to load the dataset.</li>
+</ul>
+<p>Azure ML Studio will guide us through several steps for creating the data asset.</p>
+<p><img src="images/Create_dataset.png" width="800"></p>
+<p>On the first page, we will need to enter a name for the dataset, a brief description, and also indicate the type of the data asset, which is <code>Tabular</code> for a <code>.csv</code> file. After the information is entered, select <code>Next</code>.</p>
+<p><img src="images/dataset_1.png" width="700"></p>
+<p>Afterward, we will indicate that the dataset is saved on our computer and we will upload the dataset <code>From local files</code>.</p>
+<p><img src="images/dataset_2.png" width="900"></p>
+<p>Select <code>Next</code> to accept the default datastore for storing the file, and get to the step where from the dropdown menu we select <code>Upload</code> - <code>Upload files</code> and navigate to the directory where the <code>.csv</code> file containing the heart failure records is saved.</p>
+<p><img src="images/dataset_3.png" width="700"></p>
+<p>The next page will show the columns in the dataset. Select <code>Next</code> to go to the next page.</p>
+<p>In the Schema page, we will change the data type to Boolean for the columns <code>anaemia</code>, <code>diabetes</code>, <code>high_blood_pressure</code>, <code>sex</code>, <code>smoking</code>, and <code>DEATH_EVENT</code>.</p>
+<p>Afterward, click <code>Next</code> and select <code>Create</code> to complete the creation of the data asset.</p>
+<p><img src="images/dataset_4.png" width="700"></p>
+<p>Now we can see that the dataset <code>heart-failure-dataset</code> is listed under the <code>Data assets</code> in our workspace.</p>
+<p><img src="images/data_created.png" width="800"></p>
+<p><a id="9.3.4-creating-a-compute-resource"></a></p>
+</section>
+<section id="creating-a-compute-resource" class="level3">
+<h3 class="anchored" data-anchor-id="creating-a-compute-resource">9.3.4 Creating a Compute Resource</h3>
+<p>We also need to use Compute Resources for our project to perform data preparation and processing, and to run the models. To create a compute resource, we will select <code>Compute</code> from the left-side menu.</p>
+<p>We can see that the compute resources are categorized into several tabs:</p>
+<ul>
+<li>Compute instances, are workstations for data and models; they involve creating a Virtual Machine (VM) and launching a notebook instance (e.g., compute resources to train a model are requested from the notebook).</li>
+<li>Compute clusters, VMs for on-demand code processing (e.g., training a model using AutoML); clusters can automatically scale down to zero nodes when they are idle, so that they do not incur costs.</li>
+<li>Kubernetes clusters, VMs that are orchestrated by Kubernetes.</li>
+<li>Attached computes, links to existing Azure compute resources, such as Virtual Machines or Azure Databricks clusters.</li>
+</ul>
+<p><img src="images/compute_module.png" width="800"></p>
+<p>For this task, we can use either a compute instance or a compute cluster, so let’s select the <code>Compute instances</code> tab.</p>
+<ul>
+<li>Click on the <code>+ New</code> button to create a new compute resource.</li>
+<li>Let’s assign the name <code>heart-failure-compute</code> for the resource (see the figure below).</li>
+</ul>
+<p>Selecting adequate compute resources for a project depends on several factors, which impose trade-offs between speed and cost.</p>
+<ol type="1">
+<li><em>CPU versus GPU</em>: CPUs are less expensive, but also less powerful, especially for training deep learning models. GPUs are more expensive, but they provide efficient parallel computing, and are often necessary for training deep learning models.</li>
+<li><em>Cluster size</em>: larger clusters are more expensive, but faster in completing tasks. For smaller tasks that don’t take too long, it may be better to select a small compute cluster.</li>
+<li><em>VM size</em>: similar to the cluster size, increasing the amount of RAM, number of cores, and processing speed of the VMs will reduce the computational time, but it will be more expensive.</li>
+<li><em>Dedicated versus low-priority resources</em>: dedicated resources are non-interruptible, while low-priority instances can be reassigned by Azure to other tasks, which can interrupt the job.</li>
+</ol>
+<p>For this project, we will select a VM with a CPU, and from the listed VMs we can select a small general-purpose or memory-optimized VM, which costs a fraction of a dollar per hour. The exact prices are listed next to each VM size.</p>
+<p>There are several optional steps that we can skip, and click on <code>Review + Create</code> to create the compute instance. It is recommended to enable the option to automatically shut down the compute instance after a period of inactivity, so that it does not incur costs while it is not used.</p>
+<p>It can take a few minutes for the compute resource to be created.</p>
+<p><img src="images/VM.png" width="1000"></p>
+<p><a id="9.3.5-training-a-model-with-automated-ml"></a></p>
+</section>
+<section id="training-a-model-with-automated-ml" class="level3">
+<h3 class="anchored" data-anchor-id="training-a-model-with-automated-ml">9.3.5 Training a Model with Automated ML</h3>
+<p><strong>Automated ML</strong> (AutoML) in Azure ML Studio allows us to build and deploy ML models without writing code. AutoML automatically tries many combinations of preprocessing steps, algorithms, and hyperparameters, and ranks the resulting models by a selected metric.</p>
+<ul>
+<li>Select <code>Automated ML</code> from the modules in the left-side panel.</li>
+<li>Select <code>+ New Automated ML job</code>.</li>
+</ul>
+<p><img src="images/autoML.png" width="800"></p>
+<ul>
+<li>The first step requires assigning a name for the experiment. Let’s simply name it <code>Heart_failure_experiment</code>.</li>
+</ul>
+<p><img src="images/autoML_experiment.png" width="800"></p>
+<ul>
+<li>Afterward, we need to indicate the <em>task</em>, that is, whether the goal is to perform classification, regression, time-series forecasting, etc. In this case, we select <code>Classification</code>.</li>
+<li>For the dataset, we will select the <code>heart-failure-dataset</code> that we uploaded.</li>
+</ul>
+<p><img src="images/autoML_task.png" width="800"></p>
+<ul>
+<li>Next, select the target column in the data: in this case it is <code>DEATH_EVENT</code>.</li>
+<li>We can also specify the validation type, e.g., whether we would like to use k-fold cross-validation, or whether to split the training data into train and validation sets. Also, the test data asset field allows us to upload a test dataset or specify how to evaluate the model. We can leave these fields at their defaults.</li>
+</ul>
+<p><img src="images/autoML_task_settings.png" width="800"></p>
+<ul>
+<li>Finally, use the drop-down menu to assign a compute resource, e.g., select the <code>heart-failure-compute</code> that we created.</li>
+<li>Review the AutoML job and submit it.</li>
+</ul>
+<p>Now that the setup is complete, the experiment will begin running. This means that Azure ML will train many different models, and explore different hyperparameters for the models.</p>
+<p>On the home page, under the <code>Jobs</code> section, we will see a summary of the entered information about the experiment, and we will also see that the status of the experiment is <code>Running</code>. It took about 1 hour to complete this experiment with the default settings. The maximum duration of the job, and the number of concurrent trials, can be reduced in the <code>Limits</code> settings of the job to save time and credits.</p>
+<p><img src="images/running.png" width="800"></p>
+<p>When the experiment is completed, in the <code>Best model summary</code> we can see that the highest performance was obtained by a Voting Ensemble model, which achieved 91.5% AUC.</p>
+<p><img src="images/autoML_summary.png" width="800"></p>
+<p>Also, let’s select the <code>Models + child jobs</code> tab to get more information about the training. We can see that over 50 models were trained in total, including LightGBM, XGBoost, Random Forest, and Gradient Boosting, and running most of the models took under 1 minute. We can also see that different scaling methods were used with different algorithms (MinMaxScaler, RobustScaler, StandardScaler).</p>
+<p><img src="images/models.png" width="1000"></p>
+<p><a id="9.3.6-deploying-the-model"></a></p>
+</section>
+<section id="deploying-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="deploying-the-model">9.3.6 Deploying the Model</h3>
+<p>To deploy a trained model as a web service, we will select the Voting Ensemble as the best model, and from the drop-down menu under the <code>Deploy</code> button select <code>Real-time endpoint</code>. (In earlier versions of Azure ML Studio, shown in the screenshot below, the option was named <code>Web service</code>.)</p>
+<p>A <strong>real-time endpoint</strong> is a web service with an HTTPS address (URL), which receives input data in a request, runs the model on it, and returns the predictions in the response. Azure ML packages the model, its dependencies, and a scoring script into a container, and hosts the container on the selected compute.</p>
+<p><img src="images/deploy.png" width="600"></p>
+<p>In the newly opened form, we need to assign a name for the endpoint, a brief description, and the compute (virtual machine size and the number of instances) for the deployed model. For this project, a small CPU instance (e.g., <code>Standard_DS3_v2</code>) with 1 instance is sufficient, since the model is small and we do not expect many requests. Deploying models that require large computational resources can require using other compute types with GPUs, larger RAM memory, or a larger number of cores.</p>
+<p>Next, let’s click on <code>Deploy</code> to initialize this step. It took about 15 minutes for the model to be deployed. When it is completed, the <code>Provisioning state</code> of the endpoint will change from Updating to Succeeded.</p>
+<p><img src="images/deploy_form.png" width="450"></p>
+<p><a id="9.3.7-consuming-the-model"></a></p>
+</section>
+<section id="consuming-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="consuming-the-model">9.3.7 Consuming the Model</h3>
+<p>After the model is deployed, we can find the summarized information in the <code>Endpoints</code> module in the left-hand menu.</p>
+<ul>
+<li>Select the <code>Consume</code> tab to access the script for consuming the model.</li>
+</ul>
+<p>The Consume page will provide the REST endpoint for the users’ consumption, the primary and secondary API keys for authentication, and a script for consuming the model from a local machine. The script is available in Python, C#, and R.</p>
+<p><img src="images/endpoint.png" width="800"></p>
+<p>The Python script generated by Azure ML Studio is shown below (the exact format of the <code>data</code> dictionary depends on the deployed model, therefore always copy the script from the Consume tab of your endpoint). The <code>data</code> section is a dictionary where the users enter the values of the input features; in this script, all values are set to either 0 or False. The <code>url</code> in the code is the address of the REST endpoint from the above figure, and <code>api_key</code> is the primary authentication key that is listed in the above figure as well. The last code section sends the request to the endpoint and prints the predicted <code>DEATH_EVENT</code>.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note: the codes in this tutorial are not required for quizzes or assignments</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> urllib.request</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> ssl</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> allowSelfSignedHttps(allowed):</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>    <span class="co"># bypass the server certificate verification on client side</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> allowed <span class="kw">and</span> <span class="kw">not</span> os.environ.get(<span class="st">'PYTHONHTTPSVERIFY'</span>, <span class="st">''</span>) <span class="kw">and</span> <span class="bu">getattr</span>(ssl, <span class="st">'_create_unverified_context'</span>, <span class="va">None</span>):</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        ssl._create_default_https_context <span class="op">=</span> ssl._create_unverified_context</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>allowSelfSignedHttps(<span class="va">True</span>) <span class="co"># this line is needed if you use self-signed certificate in your scoring service.</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Request data goes here</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co"># The example below assumes JSON formatting which may be updated</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a><span class="co"># depending on the format your endpoint expects.</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>data <span class="op">=</span>  {</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>  <span class="st">"Inputs"</span>: {</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>    <span class="st">"data"</span>: [</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>      {</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>        <span class="st">"age"</span>: <span class="fl">0.0</span>,</span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>        <span class="st">"anaemia"</span>: <span class="va">False</span>,</span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>        <span class="st">"creatinine_phosphokinase"</span>: <span class="dv">0</span>,</span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>        <span class="st">"diabetes"</span>: <span class="va">False</span>,</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a>        <span class="st">"ejection_fraction"</span>: <span class="dv">0</span>,</span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>        <span class="st">"high_blood_pressure"</span>: <span class="va">False</span>,</span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>        <span class="st">"platelets"</span>: <span class="fl">0.0</span>,</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a>        <span class="st">"serum_creatinine"</span>: <span class="fl">0.0</span>,</span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a>        <span class="st">"serum_sodium"</span>: <span class="dv">0</span>,</span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>        <span class="st">"sex"</span>: <span class="va">False</span>,</span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>        <span class="st">"smoking"</span>: <span class="va">False</span>,</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>        <span class="st">"time"</span>: <span class="dv">0</span></span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>      }</span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  },</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>  <span class="st">"GlobalParameters"</span>: {</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>    <span class="st">"method"</span>: <span class="st">"predict"</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  }</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>}</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>body <span class="op">=</span> <span class="bu">str</span>.encode(json.dumps(data))</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a><span class="co"># Copy the REST endpoint and the primary key from the Consume tab</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>url <span class="op">=</span> <span class="st">'https://&lt;your-endpoint-name&gt;.&lt;region&gt;.inference.ml.azure.com/score'</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>api_key <span class="op">=</span> <span class="st">'&lt;your-primary-key&gt;'</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>headers <span class="op">=</span> {<span class="st">'Content-Type'</span>: <span class="st">'application/json'</span>, <span class="st">'Authorization'</span>: (<span class="st">'Bearer '</span> <span class="op">+</span> api_key)}</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>req <span class="op">=</span> urllib.request.Request(url, body, headers)</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a><span class="cf">try</span>:</span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>    response <span class="op">=</span> urllib.request.urlopen(req)</span>
+<span id="cb1-54"><a href="#cb1-54" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-55"><a href="#cb1-55" aria-hidden="true" tabindex="-1"></a>    result <span class="op">=</span> response.read()</span>
+<span id="cb1-56"><a href="#cb1-56" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(result)</span>
+<span id="cb1-57"><a href="#cb1-57" aria-hidden="true" tabindex="-1"></a><span class="cf">except</span> urllib.error.HTTPError <span class="im">as</span> error:</span>
+<span id="cb1-58"><a href="#cb1-58" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"The request failed with status code: "</span> <span class="op">+</span> <span class="bu">str</span>(error.code))</span>
+<span id="cb1-59"><a href="#cb1-59" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-60"><a href="#cb1-60" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Print the headers - they include the request ID and the timestamp, which are useful for debugging the failure</span></span>
+<span id="cb1-61"><a href="#cb1-61" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(error.info())</span>
+<span id="cb1-62"><a href="#cb1-62" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(error.read().decode(<span class="st">"utf8"</span>, <span class="st">'ignore'</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>To consume the model, we just need to save the script to our local machine (a copy is provided in the <code>codes</code> folder for this tutorial) and execute it. The output is shown below. For this set of input parameters, the result for <code>DEATH_EVENT</code> is <code>True</code>.</p>
+<p><img src="images/result_1.png" width="1200"></p>
+<p>Let’s check the model prediction for the last record in the dataset. The input features are shown below.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co">"age"</span>: <span class="fl">50.0</span>,</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="co">"anaemia"</span>: <span class="va">False</span>,</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="co">"creatinine_phosphokinase"</span>: <span class="dv">196</span>,</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="co">"diabetes"</span>: <span class="va">False</span>,</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="co">"ejection_fraction"</span>: <span class="dv">45</span>,</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="co">"high_blood_pressure"</span>: <span class="va">False</span>,</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="co">"platelets"</span>: <span class="fl">395000.0</span>,</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="co">"serum_creatinine"</span>: <span class="fl">1.6</span>,</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a><span class="co">"serum_sodium"</span>: <span class="dv">136</span>,</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a><span class="co">"sex"</span>: <span class="va">True</span>,</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co">"smoking"</span>: <span class="va">True</span>,</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="co">"time"</span>: <span class="dv">285</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>The prediction by the model is <code>False</code>, as expected.</p>
+<p><img src="images/result_2.png" width="1200"></p>
+<p>The same request can be sent from any programming language or application that can make HTTP requests, which is what makes the deployed model available to end users: for instance, a web application created with Flask or FastAPI (Lecture 16) can call this endpoint to obtain predictions.</p>
+<p><a id="9.4-code-based-azure-ml"></a></p>
+</section>
+</section>
+<section id="code-based-azure-ml" class="level2">
+<h2 class="anchored" data-anchor-id="code-based-azure-ml">9.4 Code-based Azure ML</h2>
+<p>In this section, we will use <strong>Azure ML Studio</strong> to manage Data Science projects in a Python environment, which can include JupyterLab, Jupyter Notebooks, or VS Code. Differently from the previous section, which focused on the no-code environment of Azure ML Studio, this section focuses on the code-based environment.</p>
+<p>We will learn how to use Azure ML to train our own custom model. For this purpose, we will define a deep learning model for classification of the MNIST dataset, and we will train and evaluate the model using Azure ML resources. Afterward, we will register the model in the workspace, and load the registered model to make predictions.</p>
+<p>If we didn’t have access to GPUs from other sources, we could use the GPUs provided by Azure ML to train our models.</p>
+<p>The code in this section uses the current version of the Azure ML Python SDK (<code>azure-ai-ml</code>, also referred to as SDK v2) together with MLflow. The earlier SDK v1 (<code>azureml-core</code>), which was used in older tutorials and examples on the web, has been retired.</p>
+<p><a id="9.4.1-creating-workspace-and-compute-resource"></a></p>
+<section id="creating-workspace-and-compute-resource" class="level3">
+<h3 class="anchored" data-anchor-id="creating-workspace-and-compute-resource">9.4.1 Creating Workspace and Compute Resource</h3>
+<p>Let’s log in to the <a href="https://portal.azure.com">Azure portal</a> and create a new workspace named <code>Workspace_2</code>, by following the steps listed in Section 9.3.1 (alternatively, the workspace from Section 9.3 can be reused).</p>
+<p>Afterward, we will navigate to the <a href="https://ml.azure.com">Azure ML Studio webpage</a>, and in the newly created <code>Workspace_2</code>, we will create a new compute resource from the <code>Compute</code> module in the left-side menu. Similar to the previous section, we will select the <code>Compute instances</code> tab and click on <code>+ New</code>. For this task, we can use a CPU VM since MNIST is a relatively small dataset. If we were to work with larger datasets and models, we would need to select a GPU VM.</p>
+<p><img src="images/resources_2.png" width="800"></p>
+<p><a id="9.4.2-using-jupyter-notebooks-in-azure-ml"></a></p>
+</section>
+<section id="using-jupyter-notebooks-in-azure-ml" class="level3">
+<h3 class="anchored" data-anchor-id="using-jupyter-notebooks-in-azure-ml">9.4.2 Using Jupyter Notebooks in Azure ML</h3>
+<p>The created compute instance will be listed on our homepage. Note that in the Applications tab, the listed applications include <code>JupyterLab</code>, <code>Jupyter</code>, <code>VS Code (Desktop)</code>, and <code>VS Code (Web)</code>. We can use these applications to work with Jupyter Notebook files in the same way as we do outside of Azure ML Studio.</p>
+<p>Let’s select <code>JupyterLab</code> from the Applications tab for the newly created compute instance.</p>
+<p><img src="images/jupyter_1.png" width="800"></p>
+<p><a id="9.4.3-loading-the-data-and-defining-the-model"></a></p>
+</section>
+<section id="loading-the-data-and-defining-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="loading-the-data-and-defining-the-model">9.4.3 Loading the Data and Defining the Model</h3>
+<p>In the opened JupyterLab environment, let’s create a new notebook for training the model using the <code>Python 3.10 - SDK v2</code> kernel, which comes with the Azure ML SDK, MLflow, TensorFlow, and PyTorch preinstalled.</p>
+<p>Let’s rename the notebook to <code>mnist-demo</code>. A copy of the complete notebook is provided in the <code>codes</code> folder for this tutorial.</p>
+<p>The code in the next cells is familiar, and it simply imports libraries and loads the MNIST dataset.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> tensorflow <span class="im">as</span> tf</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> tensorflow <span class="im">import</span> keras</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.datasets <span class="im">import</span> mnist</span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.models <span class="im">import</span> Model</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> keras.layers <span class="im">import</span> Input, Dense, Dropout, Flatten, Conv2D, MaxPooling2D</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> matplotlib.pyplot <span class="im">as</span> plt</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the data</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>(X_train, y_train), (X_test, y_test) <span class="op">=</span> mnist.load_data()</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Scale the pixel values to [0, 1] and add a channel dimension</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>X_train <span class="op">=</span> X_train[..., np.newaxis] <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>X_test <span class="op">=</span> X_test[..., np.newaxis] <span class="op">/</span> <span class="fl">255.0</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">'Data shape:'</span>, X_train.shape)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>We will use the TensorFlow-Keras library to define a simple Convolutional Neural Network for MNIST classification (see Lecture 13).</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the layers in the model</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> Input(shape<span class="op">=</span>(<span class="dv">28</span>, <span class="dv">28</span>, <span class="dv">1</span>))</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>conv1a <span class="op">=</span> Conv2D(filters<span class="op">=</span><span class="dv">32</span>, kernel_size<span class="op">=</span><span class="dv">3</span>, padding<span class="op">=</span><span class="st">'same'</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(inputs)</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>conv1b <span class="op">=</span> Conv2D(filters<span class="op">=</span><span class="dv">64</span>, kernel_size<span class="op">=</span><span class="dv">3</span>, padding<span class="op">=</span><span class="st">'same'</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(conv1a)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>pool1 <span class="op">=</span> MaxPooling2D()(conv1b)</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>flat <span class="op">=</span> Flatten()(pool1)</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>dense1 <span class="op">=</span> Dense(<span class="dv">1024</span>, activation<span class="op">=</span><span class="st">'relu'</span>)(flat)</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>dropout1 <span class="op">=</span> Dropout(<span class="fl">0.5</span>)(dense1)</span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>outputs <span class="op">=</span> Dense(<span class="dv">10</span>, activation<span class="op">=</span><span class="st">'softmax'</span>)(dropout1)</span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the model with inputs and outputs</span></span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Model(inputs, outputs)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Compile the model</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">compile</span>(optimizer<span class="op">=</span><span class="st">"adam"</span>, loss<span class="op">=</span><span class="st">'sparse_categorical_crossentropy'</span>, metrics<span class="op">=</span>[<span class="st">"accuracy"</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><a id="9.4.4-tracking-the-training-with-mlflow"></a></p>
+</section>
+<section id="tracking-the-training-with-mlflow" class="level3">
+<h3 class="anchored" data-anchor-id="tracking-the-training-with-mlflow">9.4.4 Tracking the Training with MLflow</h3>
+<p>Next, we will connect to the Azure ML workspace from the notebook. The <code>MLClient</code> class from the Azure ML SDK is the entry point for managing the resources of a workspace, and it requires the subscription ID, the resource group, and the workspace name. These values can be found by clicking on the workspace name in the upper right corner of Azure ML Studio. The <code>DefaultAzureCredential</code> class automatically uses the identity of the user who is signed in to the compute instance.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> azure.ai.ml <span class="im">import</span> MLClient</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> azure.identity <span class="im">import</span> DefaultAzureCredential</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>SUBSCRIPTION <span class="op">=</span> <span class="st">"...enter your 32-digit subscription ID here..."</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>GROUP <span class="op">=</span> <span class="st">"My_resource_group_1"</span></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>WORKSPACE <span class="op">=</span> <span class="st">"Workspace_2"</span></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Create a client for the workspace using the subscription information</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>ml_client <span class="op">=</span> MLClient(</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    credential<span class="op">=</span>DefaultAzureCredential(),</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>    subscription_id<span class="op">=</span>SUBSCRIPTION,</span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>    resource_group_name<span class="op">=</span>GROUP,</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>    workspace_name<span class="op">=</span>WORKSPACE,</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Azure ML has built-in integration with the <strong>MLflow</strong> framework for managing and tracking ML experiments. Every Azure ML workspace has an MLflow tracking server, whose address is obtained from the workspace properties.</p>
+<p>In the next cell, we point MLflow to the workspace, create an experiment named <code>demo-mnist-training</code>, and use the <code>autolog()</code> function to automatically log the loss, accuracy, and other parameters of the training progress for the TensorFlow model. The experiment and the logged metrics appear in the <code>Jobs</code> module of Azure ML Studio.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> mlflow</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Track the experiment in the Azure ML workspace</span></span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>mlflow_tracking_uri <span class="op">=</span> ml_client.workspaces.get(WORKSPACE).mlflow_tracking_uri</span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>mlflow.set_tracking_uri(mlflow_tracking_uri)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>mlflow.set_experiment(<span class="st">"demo-mnist-training"</span>)</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Automatically log the training progress</span></span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>mlflow.tensorflow.autolog()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Next, we train the model for 5 epochs inside an MLflow run, and we can see that it achieved close to 99% train accuracy. When the <code>with</code> block ends, the run is closed automatically, and the logged metrics and the trained model are stored in the workspace.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the model</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> mlflow.start_run() <span class="im">as</span> run:</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>    model.fit(X_train, y_train, epochs<span class="op">=</span><span class="dv">5</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><img style="float: center; height:150px;" src="images/mnist_fit.png"></p>
+<p><a id="9.4.5-registering-and-consuming-the-model"></a></p>
+</section>
+<section id="registering-and-consuming-the-model" class="level3">
+<h3 class="anchored" data-anchor-id="registering-and-consuming-the-model">9.4.5 Registering and Consuming the Model</h3>
+<p>To make the model available for inference in the future, we will <strong>register</strong> it with Azure ML. Since <code>autolog()</code> already saved the model as an artifact of the run, registering it only requires pointing to the run and assigning a name. This will save the model under the name <code>mnist-tf-model</code> in the model registry of the workspace. The registered model can be accessed from the <code>Models</code> section under <code>Assets</code> in the left-side panel in Azure ML Studio, and each new registration of the same name creates a new version.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Register the model from the MLflow run</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>registered_model <span class="op">=</span> mlflow.register_model(</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>    model_uri<span class="op">=</span><span class="ss">f"runs:/</span><span class="sc">{</span>run<span class="sc">.</span>info<span class="sc">.</span>run_id<span class="sc">}</span><span class="ss">/model"</span>,</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"mnist-tf-model"</span>,</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Registered model version:"</span>, registered_model.version)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p>Afterward, we will load the registered model from the registry by its name and version, and use it to evaluate the test set and predict the classes for several images.</p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb11"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the registered model</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>loaded_model <span class="op">=</span> mlflow.tensorflow.load_model(<span class="ss">f"models:/mnist-tf-model/</span><span class="sc">{</span>registered_model<span class="sc">.</span>version<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Evaluate the model</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>loaded_model.evaluate(X_test, y_test, verbose<span class="op">=</span><span class="dv">0</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><img src="images/test_accuracy.png" width="600"></p>
+<div class="code-copy-outer-scaffold"><div class="sourceCode" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show images and labels</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> show_images(images, labels):</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    fig, axes <span class="op">=</span> plt.subplots(<span class="dv">1</span>, <span class="bu">len</span>(images), figsize<span class="op">=</span>(<span class="fl">1.5</span> <span class="op">*</span> <span class="bu">len</span>(images), <span class="dv">2</span>))</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> ax, image, label <span class="kw">in</span> <span class="bu">zip</span>(axes, images, labels):</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        ax.imshow(image.squeeze(), cmap<span class="op">=</span><span class="st">'gray'</span>)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>        ax.set_title(label)</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>        ax.axis(<span class="st">'off'</span>)</span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>    plt.show()</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Predict the labels for several images</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>preds <span class="op">=</span> loaded_model.predict(X_test[:<span class="dv">10</span>]).argmax(axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>show_images(X_test[:<span class="dv">10</span>], preds[:<span class="dv">10</span>])</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<p><img src="images/show_images_2.png" width="800"></p>
+<p>A registered model can be deployed to a real-time endpoint in the same way as the AutoML model in Section 9.3.6: select the model in the <code>Models</code> module, click <code>Deploy</code>, and choose <code>Real-time endpoint</code>. Azure ML generates the scoring script and the environment automatically for models that are logged with MLflow. The endpoint can then be consumed with the script from the <code>Consume</code> tab, as in Section 9.3.7.</p>
+<p><a id="9.5-cleaning-up-the-resources"></a></p>
+</section>
+</section>
+<section id="cleaning-up-the-resources" class="level2">
+<h2 class="anchored" data-anchor-id="cleaning-up-the-resources">9.5 Cleaning Up the Resources</h2>
+<p>As we mentioned earlier, always remember to release the used compute resources after training or predicting with a model, since running compute instances and deployed endpoints are billed by the hour, even when they are idle. One alternative is to <code>Stop</code> the current compute instance if we would like to reuse it later, or <code>Delete</code> the resources if they are not needed for future use.</p>
+<p><img src="images/clean_resource.png" width="700"></p>
+<p>In addition:</p>
+<ul>
+<li>Delete the deployed endpoints from the <code>Endpoints</code> module when they are no longer needed.</li>
+<li>To remove everything at once, delete the <strong>resource group</strong> in the Azure portal. This deletes the workspace together with its storage account, key vault, container registry, compute resources, and endpoints.</li>
+<li>The <code>Cost Management + Billing</code> page in the Azure portal shows the remaining credit and the costs incurred by each resource, and it allows setting up budget alerts.</li>
+</ul>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Microsoft course - Data Science for Beginners, available at <a href="https://github.com/microsoft/Data-Science-For-Beginners">https://github.com/microsoft/Data-Science-For-Beginners</a>.</li>
+<li>Azure Machine Learning documentation. Microsoft Learn. <a href="https://learn.microsoft.com/en-us/azure/machine-learning/">https://learn.microsoft.com/en-us/azure/machine-learning/</a>.</li>
+<li>Track ML experiments and models with MLflow. Microsoft Learn. <a href="https://learn.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow-cli-runs">https://learn.microsoft.com/en-us/azure/machine-learning/how-to-use-mlflow-cli-runs</a>.</li>
+<li>From No-Code to Code in Azure Machine Learning, by William VanBuskirk, available at: <a href="https://levelup.gitconnected.com/from-no-code-to-code-in-azure-machine-learning-38ee6b556de2">https://levelup.gitconnected.com/from-no-code-to-code-in-azure-machine-learning-38ee6b556de2</a>.</li>
+<li>Creating a TensorFlow Model with Python and Azure ML Studio, by Jarek Szczegielniak, available at <a href="https://www.codeproject.com/Articles/5321728/Python-Machine-Learning-on-Azure-Part-3-Creating-a">https://www.codeproject.com/Articles/5321728/Python-Machine-Learning-on-Azure-Part-3-Creating-a</a>.</li>
+</ol>
+<p><a href="#top">BACK TO TOP</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+// Left sidebar: start with the "Course Information" section collapsed
+// while lecture sections stay expanded (collapse-level: 2 expands all;
+// Quarto has no per-section setting, so this collapses just that one).
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#quarto-sidebar .sidebar-item-section").forEach(function (sec) {
+    var text = sec.querySelector(":scope > .sidebar-item-container .menu-text");
+    if (!text || text.textContent.trim() !== "Course Information") return;
+    var sub = sec.querySelector(":scope > ul.collapse");
+    if (sub) sub.classList.remove("show");
+    sec.querySelectorAll(":scope > .sidebar-item-container a[data-bs-toggle]").forEach(function (a) {
+      a.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
+<script>
+// Add expand/collapse arrows to right-pane TOC entries that have subsections.
+// Clicking the arrow toggles the subsection list without navigating; an
+// inline display style is used so Quarto's scroll-spy can't override it.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+  toc.querySelectorAll("li").forEach(function (li) {
+    var sub = li.querySelector(":scope > ul");
+    var link = li.querySelector(":scope > a");
+    if (!sub || !link) return;
+    var btn = document.createElement("span");
+    btn.className = "toc-chevron";
+    btn.setAttribute("role", "button");
+    btn.setAttribute("tabindex", "0");
+    btn.setAttribute("aria-label", "Toggle subsections");
+    btn.setAttribute("title", "Show/hide subsections");
+    btn.setAttribute("aria-expanded", "false");
+    link.after(btn);
+    function toggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = sub.style.display === "block";
+      sub.style.display = open ? "" : "block";
+      btn.classList.toggle("toc-chevron-expanded", !open);
+      btn.setAttribute("aria-expanded", String(!open));
+    }
+    btn.addEventListener("click", toggle);
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") toggle(e);
+    });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/avakanski\.github\.io\/Fall-2026-Applied-Data-Science-with-Python\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.html" class="pagination-link" aria-label="Tutorial 8 - Git and Version Control">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Tutorial 8 - Git and Version Control</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
