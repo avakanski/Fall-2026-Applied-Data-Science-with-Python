@@ -41,6 +41,12 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.ipynb">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.ipynb">Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.ipynb">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_15-ANNs_with_PyTorch/Lecture_15-ANNs_with_PyTorch.ipynb">Lecture 15 - Artificial Neural Networks with PyTorch</a>
+
+### Theme 4: Deployment Pipelines
+
+* <a href="Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.ipynb">Lecture 16 - Deploying Projects as Web Applications</a>
+* <a href="Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.ipynb">Lecture 17 - Reproducible Projects, Docker Containers</a>
 
 *(Additional lectures will be added during the semester.)*
 
