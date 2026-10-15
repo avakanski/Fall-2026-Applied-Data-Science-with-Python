@@ -2,114 +2,118 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_9-Azure/codes/mnist-demo.html</loc>
-    <lastmod>2026-10-15T17:45:18.365Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.108Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.html</loc>
-    <lastmod>2026-10-15T17:45:18.363Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.106Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html</loc>
-    <lastmod>2026-10-15T17:45:18.363Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.106Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html</loc>
-    <lastmod>2026-10-15T17:45:18.356Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.100Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html</loc>
-    <lastmod>2026-10-15T17:45:18.335Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.085Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.html</loc>
-    <lastmod>2026-10-15T17:45:18.330Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.081Z</lastmod>
   </url>
   <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_15-ANNs_with_PyTorch/Lecture_15-ANNs_with_PyTorch.html</loc>
-    <lastmod>2026-10-15T17:45:18.234Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.html</loc>
-    <lastmod>2026-10-15T17:45:18.213Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.html</loc>
-    <lastmod>2026-10-15T17:45:18.189Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.html</loc>
-    <lastmod>2026-10-15T17:45:18.170Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.html</loc>
-    <lastmod>2026-10-15T17:45:18.161Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.html</loc>
-    <lastmod>2026-10-15T17:45:18.117Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html</loc>
-    <lastmod>2026-10-15T17:45:18.110Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/index.html</loc>
-    <lastmod>2026-10-15T17:45:18.375Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html</loc>
-    <lastmod>2026-10-15T17:45:18.108Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html</loc>
-    <lastmod>2026-10-15T17:45:18.109Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html</loc>
-    <lastmod>2026-10-15T17:45:18.112Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html</loc>
-    <lastmod>2026-10-15T17:45:18.125Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.html</loc>
-    <lastmod>2026-10-15T17:45:18.163Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html</loc>
-    <lastmod>2026-10-15T17:45:18.174Z</lastmod>
-  </url>
-  <url>
-    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html</loc>
-    <lastmod>2026-10-15T17:45:18.203Z</lastmod>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.html</loc>
+    <lastmod>2026-10-15T20:42:51.003Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html</loc>
-    <lastmod>2026-10-15T17:45:18.226Z</lastmod>
+    <lastmod>2026-10-15T20:42:50.996Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html</loc>
+    <lastmod>2026-10-15T20:42:50.977Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html</loc>
+    <lastmod>2026-10-15T20:42:50.955Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.html</loc>
+    <lastmod>2026-10-15T20:42:50.946Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html</loc>
+    <lastmod>2026-10-15T20:42:50.915Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html</loc>
+    <lastmod>2026-10-15T20:42:50.906Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html</loc>
+    <lastmod>2026-10-15T20:42:50.904Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html</loc>
+    <lastmod>2026-10-15T20:42:50.903Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/index.html</loc>
+    <lastmod>2026-10-15T20:42:51.115Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html</loc>
+    <lastmod>2026-10-15T20:42:50.905Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.html</loc>
+    <lastmod>2026-10-15T20:42:50.910Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.html</loc>
+    <lastmod>2026-10-15T20:42:50.944Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.html</loc>
+    <lastmod>2026-10-15T20:42:50.951Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.html</loc>
+    <lastmod>2026-10-15T20:42:50.966Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.html</loc>
+    <lastmod>2026-10-15T20:42:50.985Z</lastmod>
+  </url>
+  <url>
+    <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_15-ANNs_with_PyTorch/Lecture_15-ANNs_with_PyTorch.html</loc>
+    <lastmod>2026-10-15T20:42:51.001Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.html</loc>
-    <lastmod>2026-10-15T17:45:18.238Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.009Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html</loc>
-    <lastmod>2026-10-15T17:45:18.334Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.085Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html</loc>
-    <lastmod>2026-10-15T17:45:18.347Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.093Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html</loc>
-    <lastmod>2026-10-15T17:45:18.358Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.102Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_7-PyTorch/Tutorial_7-PyTorch.html</loc>
-    <lastmod>2026-10-15T17:45:18.363Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.106Z</lastmod>
   </url>
   <url>
     <loc>https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.html</loc>
-    <lastmod>2026-10-15T17:45:18.364Z</lastmod>
+    <lastmod>2026-10-15T20:42:51.108Z</lastmod>
   </url>
 </urlset>
