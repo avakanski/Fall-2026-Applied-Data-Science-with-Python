@@ -78,6 +78,8 @@ website:
             text: "Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks"
           - href: "Lectures/Theme_3-Model_Engineering/Lecture_15-ANNs_with_PyTorch/Lecture_15-ANNs_with_PyTorch.ipynb"
             text: "Lecture 15 - Artificial Neural Networks with PyTorch"
+          - href: "Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.ipynb"
+            text: "Lecture 18 - Natural Language Processing"
       - section: "Theme 4 - Deployment Pipelines"
         contents:
           - href: "Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.ipynb"

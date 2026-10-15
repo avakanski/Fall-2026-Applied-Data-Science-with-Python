@@ -42,6 +42,7 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.ipynb">Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.ipynb">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_15-ANNs_with_PyTorch/Lecture_15-ANNs_with_PyTorch.ipynb">Lecture 15 - Artificial Neural Networks with PyTorch</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.ipynb">Lecture 18 - Natural Language Processing</a>
 
 ### Theme 4: Deployment Pipelines
 
