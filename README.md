@@ -52,6 +52,9 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.ipynb">Tutorial 4 - Virtual Environments</a>
 * <a href="Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.ipynb">Tutorial 5 - Google Colab</a>
 * <a href="Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.ipynb">Tutorial 6 - TensorFlow, TensorFlow Datasets</a>
+* <a href="Lectures/Tutorials/Tutorial_7-PyTorch/Tutorial_7-PyTorch.ipynb">Tutorial 7 - PyTorch</a>
+* <a href="Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.ipynb">Tutorial 8 - Git and Version Control</a>
+* <a href="Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.ipynb">Tutorial 9 - Deployment on the Cloud with Microsoft Azure</a>
 
 ## Course Description
 

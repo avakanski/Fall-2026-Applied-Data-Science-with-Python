@@ -90,6 +90,12 @@ website:
             text: "Tutorial 5 - Google Colab"
           - href: "Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.ipynb"
             text: "Tutorial 6 - TensorFlow"
+          - href: "Lectures/Tutorials/Tutorial_7-PyTorch/Tutorial_7-PyTorch.ipynb"
+            text: "Tutorial 7 - PyTorch"
+          - href: "Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.ipynb"
+            text: "Tutorial 8 - Git and Version Control"
+          - href: "Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.ipynb"
+            text: "Tutorial 9 - Deployment on the Cloud with Azure"
   page-footer:
     center: "CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026"
     background: "#D9E3E4"
