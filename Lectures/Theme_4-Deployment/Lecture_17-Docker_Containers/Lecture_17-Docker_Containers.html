@@ -592,7 +592,35 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#references1.-full-stack-deep-learning-course-lecture-11-deployment-monitoring-available-at-httpsfullstackdeeplearning.comspring2021lecture-11.2.-ml-in-production-docker-for-machine-learning-by-luigi-patruno-available-at-httpsmlinproduction.comdocker-for-ml-part-1.3.-a-beginners-guide-to-understanding-and-building-docker-images-available-at-httpsjfrog.comknowledge-basea-beginners-guide-to-understanding-and-building-docker-images.4.-machine-learning-with-docker-demonstrations-about-using-docker-for-machine-learning-available-at-httpsgithub.combinpipedocker-for-ml." id="toc-references1.-full-stack-deep-learning-course-lecture-11-deployment-monitoring-available-at-httpsfullstackdeeplearning.comspring2021lecture-11.2.-ml-in-production-docker-for-machine-learning-by-luigi-patruno-available-at-httpsmlinproduction.comdocker-for-ml-part-1.3.-a-beginners-guide-to-understanding-and-building-docker-images-available-at-httpsjfrog.comknowledge-basea-beginners-guide-to-understanding-and-building-docker-images.4.-machine-learning-with-docker-demonstrations-about-using-docker-for-machine-learning-available-at-httpsgithub.combinpipedocker-for-ml." class="nav-link active" data-scroll-target="#references1.-full-stack-deep-learning-course-lecture-11-deployment-monitoring-available-at-httpsfullstackdeeplearning.comspring2021lecture-11.2.-ml-in-production-docker-for-machine-learning-by-luigi-patruno-available-at-httpsmlinproduction.comdocker-for-ml-part-1.3.-a-beginners-guide-to-understanding-and-building-docker-images-available-at-httpsjfrog.comknowledge-basea-beginners-guide-to-understanding-and-building-docker-images.4.-machine-learning-with-docker-demonstrations-about-using-docker-for-machine-learning-available-at-httpsgithub.combinpipedocker-for-ml.">References1. Full Stack Deep Learning course, Lecture 11: Deployment &amp; Monitoring, available at https://fullstackdeeplearning.com/spring2021/lecture-11/.2. ML in Production, Docker for Machine Learning, by Luigi Patruno, available at: https://mlinproduction.com/docker-for-ml-part-1/.3. A Beginner’s Guide to Understanding and Building Docker Images, available at: https://jfrog.com/knowledge-base/a-beginners-guide-to-understanding-and-building-docker-images/.4. Machine Learning with Docker, Demonstrations about Using Docker for Machine Learning, available at: https://github.com/BINPIPE/docker-for-ml.</a></li>
+  <li><a href="#reproducibility-of-data-science-projects" id="toc-reproducibility-of-data-science-projects" class="nav-link active" data-scroll-target="#reproducibility-of-data-science-projects">17.1 Reproducibility of Data Science Projects</a></li>
+  <li><a href="#docker-containers" id="toc-docker-containers" class="nav-link" data-scroll-target="#docker-containers">17.2 Docker Containers</a>
+  <ul class="collapse">
+  <li><a href="#installing-docker" id="toc-installing-docker" class="nav-link" data-scroll-target="#installing-docker">17.2.1 Installing Docker</a></li>
+  </ul></li>
+  <li><a href="#hello-world-in-docker" id="toc-hello-world-in-docker" class="nav-link" data-scroll-target="#hello-world-in-docker">17.3 Hello World in Docker</a>
+  <ul class="collapse">
+  <li><a href="#step-1-create-a-python-script" id="toc-step-1-create-a-python-script" class="nav-link" data-scroll-target="#step-1-create-a-python-script">17.3.1 Step 1: Create a Python Script</a></li>
+  <li><a href="#step-2-create-a-dockerfile" id="toc-step-2-create-a-dockerfile" class="nav-link" data-scroll-target="#step-2-create-a-dockerfile">17.3.2 Step 2: Create a Dockerfile</a></li>
+  <li><a href="#step-3-build-the-docker-image" id="toc-step-3-build-the-docker-image" class="nav-link" data-scroll-target="#step-3-build-the-docker-image">17.3.3 Step 3: Build the Docker Image</a></li>
+  <li><a href="#step-4-run-the-docker-container" id="toc-step-4-run-the-docker-container" class="nav-link" data-scroll-target="#step-4-run-the-docker-container">17.3.4 Step 4: Run the Docker Container</a></li>
+  <li><a href="#summary" id="toc-summary" class="nav-link" data-scroll-target="#summary">17.3.5 Summary</a></li>
+  </ul></li>
+  <li><a href="#scikit-learn-models-in-docker" id="toc-scikit-learn-models-in-docker" class="nav-link" data-scroll-target="#scikit-learn-models-in-docker">17.4 Scikit-Learn Models in Docker</a>
+  <ul class="collapse">
+  <li><a href="#step-1-create-the-train.py-script" id="toc-step-1-create-the-train.py-script" class="nav-link" data-scroll-target="#step-1-create-the-train.py-script">17.4.1 Step 1: Create the train.py Script</a></li>
+  <li><a href="#step-2-create-the-inference.py-script" id="toc-step-2-create-the-inference.py-script" class="nav-link" data-scroll-target="#step-2-create-the-inference.py-script">17.4.2 Step 2: Create the inference.py Script</a></li>
+  <li><a href="#step-3-create-the-dockerfile" id="toc-step-3-create-the-dockerfile" class="nav-link" data-scroll-target="#step-3-create-the-dockerfile">17.4.3 Step 3: Create the Dockerfile</a></li>
+  <li><a href="#step-4-build-the-docker-image" id="toc-step-4-build-the-docker-image" class="nav-link" data-scroll-target="#step-4-build-the-docker-image">17.4.4 Step 4: Build the Docker Image</a></li>
+  <li><a href="#step-5-run-the-docker-container" id="toc-step-5-run-the-docker-container" class="nav-link" data-scroll-target="#step-5-run-the-docker-container">17.4.5 Step 5: Run the Docker Container</a></li>
+  <li><a href="#managing-images-and-containers" id="toc-managing-images-and-containers" class="nav-link" data-scroll-target="#managing-images-and-containers">17.4.6 Managing Images and Containers</a></li>
+  <li><a href="#docker-desktop" id="toc-docker-desktop" class="nav-link" data-scroll-target="#docker-desktop">17.4.7 Docker Desktop</a></li>
+  </ul></li>
+  <li><a href="#docker-registries-and-repositories" id="toc-docker-registries-and-repositories" class="nav-link" data-scroll-target="#docker-registries-and-repositories">17.5 Docker Registries and Repositories</a>
+  <ul class="collapse">
+  <li><a href="#pull-and-push-images-on-docker-hub" id="toc-pull-and-push-images-on-docker-hub" class="nav-link" data-scroll-target="#pull-and-push-images-on-docker-hub">17.5.1 Pull and Push Images on Docker Hub</a></li>
+  <li><a href="#benefits-of-docker" id="toc-benefits-of-docker" class="nav-link" data-scroll-target="#benefits-of-docker">17.5.2 Benefits of Docker</a></li>
+  </ul></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
     </div>
@@ -619,54 +647,419 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </header>
 
 
-<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a><a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a><a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
 <p><a id="top"></a></p>
 <ul>
-<li><a href="#17.1-reproducibility-of-data-science-projects">17.1 Reproducibility of Data Science Projects</a>- <a href="#17.2-docker-containers">17.2 Docker Containers</a> - <a href="#17.2.1-installing-docker">17.2.1 Installing Docker</a>- <a href="#17.3-hello-world-in-docker">17.3 Hello World in Docker</a> - <a href="#17.3.2-step-2:-create-a-dockerfile">17.3.2 Step 2: Create a Dockerfile</a> - <a href="#17.3.3-step-3:-build-the-docker-image">17.3.3 Step 3: Build the Docker Image</a> - <a href="#17.3.4-step-4:-run-the-docker-container">17.3.4 Step 4: Run the Docker Container</a> - <a href="#17.3.5-summary">17.3.5 Summary</a>- <a href="#17.4-scikit-learn-models-in-docker">17.4 Scikit-Learn Models in Docker</a> - <a href="#17.4.1-step-1:-create-the-train.py-script">17.4.1 Step 1: Create the train.py Script</a> - <a href="#17.4.2-step-2:-create-the-inference.py-script">17.4.2 Step 2: Create the inference.py Script</a> - <a href="#17.4.3-step-3:-create-the-dockerfile">17.4.3 Step 3: Create the Dockerfile</a> - <a href="#17.4.4-step-4:-build-the-docker-image">17.4.4 Step 4: Build the Docker Image</a> - <a href="#17.4.6-managing-images-and-containers">17.4.6 Managing Images and Containers</a> - <a href="#17.4.7-docker-desktop">17.4.7 Docker Desktop</a>- <a href="#17.5-docker-registries-and-repositories">17.5 Docker Registries and Repositories</a> - <a href="#17.5.2-benefits-of-docker">17.5.2 Benefits of Docker</a>- <a href="#references">References</a></li>
+<li><a href="#17.1-reproducibility-of-data-science-projects">17.1 Reproducibility of Data Science Projects</a></li>
+<li><a href="#17.2-docker-containers">17.2 Docker Containers</a>
+<ul>
+<li><a href="#17.2.1-installing-docker">17.2.1 Installing Docker</a></li>
+</ul></li>
+<li><a href="#17.3-hello-world-in-docker">17.3 Hello World in Docker</a>
+<ul>
+<li><a href="#17.3.1-step-1:-create-a-python-script">17.3.1 Step 1: Create a Python Script</a></li>
+<li><a href="#17.3.2-step-2:-create-a-dockerfile">17.3.2 Step 2: Create a Dockerfile</a></li>
+<li><a href="#17.3.3-step-3:-build-the-docker-image">17.3.3 Step 3: Build the Docker Image</a></li>
+<li><a href="#17.3.4-step-4:-run-the-docker-container">17.3.4 Step 4: Run the Docker Container</a></li>
+<li><a href="#17.3.5-summary">17.3.5 Summary</a></li>
+</ul></li>
+<li><a href="#17.4-scikit-learn-models-in-docker">17.4 Scikit-Learn Models in Docker</a>
+<ul>
+<li><a href="#17.4.1-step-1:-create-the-train.py-script">17.4.1 Step 1: Create the train.py Script</a></li>
+<li><a href="#17.4.2-step-2:-create-the-inference.py-script">17.4.2 Step 2: Create the inference.py Script</a></li>
+<li><a href="#17.4.3-step-3:-create-the-dockerfile">17.4.3 Step 3: Create the Dockerfile</a></li>
+<li><a href="#17.4.4-step-4:-build-the-docker-image">17.4.4 Step 4: Build the Docker Image</a></li>
+<li><a href="#17.4.5-step-5:-run-the-docker-container">17.4.5 Step 5: Run the Docker Container</a></li>
+<li><a href="#17.4.6-managing-images-and-containers">17.4.6 Managing Images and Containers</a></li>
+<li><a href="#17.4.7-docker-desktop">17.4.7 Docker Desktop</a></li>
+</ul></li>
+<li><a href="#17.5-docker-registries-and-repositories">17.5 Docker Registries and Repositories</a>
+<ul>
+<li><a href="#17.5.1-pull-and-push-images-on-docker-hub">17.5.1 Pull and Push Images on Docker Hub</a></li>
+<li><a href="#17.5.2-benefits-of-docker">17.5.2 Benefits of Docker</a></li>
+</ul></li>
+<li><a href="#references">References</a></li>
 </ul>
-<p><a id="17.1-reproducibility-of-data-science-projects"></a>## 17.1 Reproducibility of Data Science Projects</p>
-<p>Ensuring the reproducibility of Data Science projects is important for several reasons. One is that our customers (internal within your organization, or external) may use different operating systems, code dependencies, hardware, and they should be able to use our developed product and obtain the expected results. Another reason is collaborative development, where we may need to share our code with collaborators, and ensuring reproducibility of our code requires information about the full environment in which the code was developed. Predictions of Machine Learning models depend on the model architecture and parameters, code, libraries and dependencies needed to run the code. Ensuring reproducibility is a challenge that can affect the performance if not addressed. Regarding the model architecture and weights, we can simply save and load them, to ensure that the same model is used and that the predictions are consistent. Regarding code, we can use fixed random seeds and version control to ensure that the same data and code are used for training the model and making predictions. Dealing with code libraries and dependencies is more challenging, because libraries are updated frequently, and the model behavior can change, or even worse, the code can crash with some updates. To address this issue requires to apply a strategy for constraining the environment in which the model is developed and deployed. The main strategies to constrain the libraries and dependencies include:1. Interoperable standards,2. Virtual environments,3. Docker containers. The first strategy involves standards like Open Neural Network Exchange (ONNX). ONNX is an open-source format for representing neural networks that allows interoperability between different frameworks (such as PyTorch and TensorFlow), or between different platforms. E.g., it allows a model trained in PyTorch to be imported and used for predictions in TensorFlow. Despite the potential, this strategy requires to frequently update the tools as the frameworks are updated, it has limited support for some operations in neural networks, it often has bugs in the conversions between the frameworks, and the performance of models can differ after the conversion to a target framework. The second strategy is to use virtual environments in Python or Conda. Although using virtual environments can isolate Python-level dependencies, they provide only partial solution, since operating system-level dependencies or dependencies like CUDA that involve interaction with hardware may be outside the scope of virtual environments and cannot be addressed with this strategy. The differences in OS-level dependencies or CUDA can impact execution consistency.The third strategy relies on using Docker containers and it is widely adopted at present time. <strong>Docker</strong> is an open-source platform that uses containers to constrain project dependencies. Container is a standardized unit of fully packaged software used for local development, shipping code, and deploying systems.The demo folders <code>demo1</code> and <code>demo2-sklearn</code> used in this lecture are provided next to this notebook in the course repository.</p>
-<p><a id="17.2-docker-containers"></a>## 17.2 Docker ContainersAn example of the reproducibility challenge with Data Science projects is shown in the next figure, depicting the multiple points for failure when we move our code to a cluster. These issues can include different versions of libraries, dependencies, drivers, or operating system. The main advantages of Docker containers are that they contain all dependencies, including hardware libraries, and ensure reproducible and consistent code performance. <img src="images/points_of_failure.png" width="600"><em>Figure: Reproducibility challenge.</em></p>
-<p>Characteristics of containers are: - Portable: because containers encapsulate the application code, dependencies, and runtime environment, making them independent of the specific setup of the host system. Although containers share the host operating system’s kernel, they can be run seamlessly across machines with compatible operating systems and hardware architectures. This portability enables teams to easily collaborate on projects and experiment with new software or frameworks without spending time configuring environments.- Lightweight, since the containers don’t require a full operating system, and they share the kernel of the host operating system.- Scalable, applications can easily be scaled by adding or removing container instances.- Secure, the application and its dependencies run in an isolated environment, hence the containers are less exposed to attacks. - Facilitate deployment, where Data Science projects can be easily containerized and deployed for consumption by the end-users, with consistent performance between development and production environments.Note also that there are notable differences between containers and Virtual Machines (VMs). VMs run a complete operating system with its own kernel, and each VM operates as an independent instance with its dedicated resources. Containers do not require hypervisor or hardware virtualization, and they share the host’s operating system kernel. This means that containers only need to package the application, its dependencies, and the minimal required components to run, without duplicating the entire operating system. Because of that, containers are smaller in size and faster to boot. VMs offer stronger isolation than containers, because each VM operates independently of the host, whereas containers share the same kernel with the host. Orchestration tools for containers such as Kubernetes and Docker Swarm can be used to manage and scale containerized applications across clusters of machines, whereas orchestration of VMs is more complex. Containers are well-suited for microservices architectures, continuous integration and deployment (CI/CD), and scalable, distributed applications, while VMs are used for running legacy applications, and environments requiring strong isolation or using multiple operating systems.Important concepts for working with Docker include:- <em>Dockerfile</em> - script that defines the steps to build a Docker image.- <em>Image</em> - is a built package containing the application and its dependencies.- <em>Container</em> - is an instance where the Docker image is run.We will explain these concepts through several examples in the following sections.</p>
-<p><a id="17.2.1-installing-docker"></a>### 17.2.1 Installing Docker</p>
-<p>Docker is installed on a personal computer with the <a href="https://docs.docker.com/desktop/">Docker Desktop</a> application, which is available for Windows, macOS, and Linux. On Windows, Docker Desktop runs Linux containers through the Windows Subsystem for Linux (WSL 2), and depending on the version of Windows, the installer may ask to install or update WSL. On Linux servers, the Docker Engine can also be installed from the command line without the desktop application. Please follow the instructions on the <a href="https://docs.docker.com/desktop/install/windows-install/">Docker installation page</a> for more detailed information.After the installation, open a terminal (e.g., Git Bash or PowerShell on Windows) and run <code>docker --version</code> to verify that Docker is installed and running.</p>
-<p><a id="17.3-hello-world-in-docker"></a>## 17.3 Hello World in Docker</p>
-<p>Let’s start with a simple “Hello World” example in Docker, where the goal is to create a container with a Python file to print the Hello World! statement.<a id="17.3.1-step-1:-create-a-python-script"></a>### 17.3.1 Step 1: Create a Python ScriptFor this purpose, we will create the Python script shown below that has just one line of code, and we will save it under the name <code>hello_world.py</code> in the folder <code>demo1</code>. <img src="images/hello_world_script.png" width="300"></p>
-<p><a id="17.3.2-step-2:-create-a-dockerfile"></a>### 17.3.2 Step 2: Create a Dockerfile<strong>Dockerfiles</strong> provide instructions for defining custom environments for our projects. I.e., for each particular project we will define the required software packages and libraries in a Dockerfile, and we will use the Dockerfile to build a Docker image. It is common to start the Dockerfile with a <em>base environment</em>, which can simply include the latest Python version. Alternatively, as a base environment we can import pre-build environments by other developers. Docker provides access to <em>Docker Hub</em>, which is a registry with a large number of Docker images that have been published by other developers, and allows to directly import and take advantage of many pre-built environments. Dockerfiles are plain text files, and for this simple project the Dockerfile is shown below: - The first line uses the <code>FROM</code> command to instruct Docker to use Python as a base image for the environment. The term <code>latest</code> instructs Docker to retrieve the image of the latest official Python version. Docker will first check if we have the latest Python version installed on our machine, and if we don’t, Docker will automatically download the image from Docker Hub. Alternatively, if we wanted to work with an earlier Python version, we can just write <code>FROM python:3.11</code>, for example. Pinning a specific version is recommended for reproducibility, since <code>latest</code> changes over time. - The second line uses the <code>COPY</code> command to copy the created <code>hello_world.py</code> file from the local folder on my computer to the filesystem of the Docker image. The notation <code>./</code> is used for the root directory of the Docker image. The syntax is <code>COPY source_directory destination_directory</code>. - The third line uses the <code>CMD</code> command to execute the <code>hello_world.py</code> script from the root directory in the image when the container is run. <img src="images/dockerfile1.png" width="300">The file needs to be saved under the name <code>Dockerfile</code>. The organization of the <code>demo1</code> folder is:<code>demo1    ├── Dockerfile    ├── hello_world.py</code></p>
-<p><a id="17.3.3-step-3:-build-the-docker-image"></a>### 17.3.3 Step 3: Build the Docker Image<strong>Docker image</strong> is a template that contains instructions for creating a container that runs on the Docker platform. It provides a convenient way to package up code and preconfigured environments, which we can use for our own private use or share publicly with other Docker users. To build a Docker image from the Dockerfile, we will use the following code.<code>docker build -t demo1 .</code>Docker code begins with the keyword <code>docker</code>. The command <code>build</code> specifies to build a Docker image. <code>-t</code> is used to set a tag to the image, and in this case we tag the image with the name <code>demo1</code>. The dot <code>.</code> at the end of the line specifies to build the image by using the Dockerfile that is located in the current directory where <code>hello_world.py</code> script is located. <img src="images/build1.png" width="1000"></p>
-<p>The Docker image that we just built represents a collection of files that are required for an operational environment. Each of the files that make up a Docker image is referred to as a <em>layer</em>. The images can contain multiple application codes and dependencies, i.e., they can have multiple layers. In general, it is possible to build a Docker image by typing Docker commands interactively in the command line, and creating a Dockerfile is not required. However, Dockerfiles provide convenience and a documented record of the steps taken to assemble an image.</p>
-<p><a id="17.3.4-step-4:-run-the-docker-container"></a>### 17.3.4 Step 4: Run the Docker Container</p>
-<p>To run the image, we just use the <code>run</code> command, followed by the image tag <code>demo1</code>. This will execute the <code>hello-world.py</code> script in the container, which will display <code>Hello World!</code> in the terminal.<code>docker run demo1</code><img src="images/run1.png" width="1000">In summary, we created a container that is independent of our local machine and that has an implementation of Python, and we displayed a message in that container.</p>
-<p><a id="17.3.5-summary"></a>### 17.3.5 SummaryThe figure below shows the basic steps in Docker. We begin with a Dockerfile that contains the required commands to build a custom Docker image for our application. The Docker image is a custom environment, that contains the required code, libraries, and dependencies for the application. Docker containers are run using the Docker image. Within a container, the image comprises all the required files to run the application. By using containers, applications are isolated from other processes, preventing other processes from affecting the current application.<img src="images/img1.png" width="500"></p>
-<p>Docker containers have an analogy with cargo containers used for shipping products. Once we place our product (code and dependencies) in the container, we can ship it by boat or train (laptop or cloud), and when it gets to its destination, it continues to function (run) just as before the shipment was made.And one more note is that Docker has an official <code>Hello World</code> image, which can be run directly from the terminal, and it is typically used by users when they install Docker for the first time to verify that it works properly. The following figure displays the output of the <code>Hello World</code> image.<img src="images/docker_helloworld.png" width="1000"></p>
-<p><a id="17.4-scikit-learn-models-in-docker"></a>## 17.4 Scikit-Learn Models in Docker</p>
-<p>In this section, we will learn how to create a container for running a scikit-learn model. To demonstrate the concept, we will use the <em>California Housing Dataset</em> that is available in scikit-learn, and that we also used in Lecture 12 when we studied regression with ANNs. The dataset contains 20,640 records about housing prices in California, and it includes 9 features related to the number of rooms, population, latitude, longitude, and similar information. The target column is the median value of the house. This is a regression problem, where the goal is for a given set of input features to predict the housing price.</p>
-<p>For this task, we will create a new folder, containing a <code>Dockerfile</code> to build the Docker image, <code>train.py</code> script for loading the dataset, training the model, and saving the model parameters, and <code>inference.py</code> script for loading the trained model and predicting on test instances. <code>demo2-sklearn    ├── Dockerfile    ├── train.py    ├── inference.py</code></p>
-<p><a id="17.4.1-step-1:-create-the-train.py-script"></a>### 17.4.1 Step 1: Create the train.py ScriptThe code in <code>train.py</code> script is shown below (note that if you run the cell in this Jupyter notebook, it will give errors, because the code is intended to be executed as a script). This script is easy to understand. We import the necessary libraries, load the data, fit a Gradient Boosting Model, and save the model. From the imported <code>joblib</code> package we used the <code>dump</code> method to serialize the model parameters and save them at the <code>MODEL_PATH</code> location. Also note that the <code>train.py</code> script defines the paths to the directory <code>MODEL_DIR</code> and saved model <code>MODEL_FILE</code>. This will allow to pass the path to Docker at build time, and embed these locations into the Docker image. The <code>MODEL_DIR</code> and <code>MODEL_FILE</code> environmental variables are defined in the Dockerfile in the next section. Then, when the container is run, the script will read the locations of the files from the image, and use the saved model to predict on new data during inference.</p>
-<div id="2782a74b-0463-4d8d-8080-12c66aa5cf44" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import librariesimport numpy as npfrom sklearn import ensemblefrom sklearn.datasets import fetch_california_housingfrom sklearn.model_selection import train_test_splitimport osfrom joblib import dump# Load and split datahousing = fetch_california_housing(as_frame=True).frameX = housing.drop('MedHouseVal', axis=1)y = housing['MedHouseVal']X_train, X_test, y_train, y_test = train_test_split(X,  y, random_state=13, test_size=0.2)# Fit regression modelmodel = ensemble.GradientBoostingRegressor()model.fit(X_train, y_train)# Directory paths MODEL_DIR = os.environ["MODEL_DIR"]MODEL_FILE = os.environ["MODEL_FILE"]MODEL_PATH = os.path.join(MODEL_DIR, MODEL_FILE)# Save the modeldump(model, MODEL_PATH)</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><a id="17.4.2-step-2:-create-the-inference.py-script"></a>### 17.4.2 Step 2: Create the inference.py ScriptThe script <code>inference.py</code> is very similar to <code>train.py</code>, except that the trained model is loaded, and in the last few lines of code, the loaded model is used to predict the price for the first 10 instances from the test dataset. The output includes both the predicted prices and the ground-truth prices from <code>y_test</code>.</p>
-<div id="bbc48ad6-2ac4-4ff7-b978-3e93b5ddbf9c" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import librariesimport numpy as npfrom sklearn.datasets import fetch_california_housingfrom sklearn.model_selection import train_test_splitimport osfrom joblib import load# Load and split datahousing = fetch_california_housing(as_frame=True).frameX = housing.drop('MedHouseVal', axis=1)y = housing['MedHouseVal']X_train, X_test, y_train, y_test = train_test_split(X,  y, random_state=13, test_size=0.2)# Directory paths MODEL_DIR = os.environ["MODEL_DIR"]MODEL_FILE = os.environ["MODEL_FILE"]MODEL_PATH = os.path.join(MODEL_DIR, MODEL_FILE)# Load modelmodel = load(MODEL_PATH)# Run inferencey_pred = model.predict(X_test[:10])print("Predicted price by the model:", np.around(y_pred,1))print("Ground-truth price:", np.array(y_test[:10]))</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<p><a id="17.4.3-step-3:-create-the-dockerfile"></a>### 17.4.3 Step 3: Create the DockerfileThe <code>Dockerfile</code> for this project is provided below, and contains the following parts:- <code>FROM jupyter/scipy-notebook</code> uses a pre-built image <code>jupyter/scipy-notebook</code> as a base image. The image contains a <code>python</code> installation, <code>scipy</code>, and other libraries to facilitate working with <code>Jupyter</code>. This image will be downloaded from Docker Hub. - The next lines are used to first create a new directory called <code>model</code> where the trained model will be saved. Afterward, 2 environment variables are defined for <code>MODEL_DIR</code> and <code>MODEL_FILE</code> that will reference the newly created directory and the name of the saved model. The directory <code>/home/jovyan/</code> was set in the imported base image <code>jupyter/scipy-notebook</code>.- The <code>COPY</code> commands are used to copy the <code>train.py</code> and <code>inference.py</code> scripts from our local machine to the working directory of the image. - <code>RUN python train.py</code> will execute the script to train and save the model. This will ensure that the model is saved at a specific location , and it is ready to predict on new data when the image is run. An advantage is that if the model training fails, it will happen when we build the image rather than at run time, which allows to debug the issue. - <code>CMD [ "python", "./inference.py"]</code> will execute the <code>inference.py</code> script when we run the container from the image.</p>
-<div id="d997e10e-1ac3-47a6-ae27-ec44f7c910ff" class="cell">
-<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a>FROM jupyter<span class="op">/</span>scipy<span class="op">-</span>notebookRUN mkdir modelENV MODEL_DIR<span class="op">=/</span>home<span class="op">/</span>jovyan<span class="op">/</span>modelENV MODEL_FILE<span class="op">=</span>model.joblibCOPY train.py .<span class="op">/</span>train.pyCOPY inference.py .<span class="op">/</span>inference.pyRUN python train.pyCMD [ <span class="st">"python"</span>, <span class="st">"./inference.py"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
-</div>
-<section id="dockerfile-commandscommon-commands-that-are-used-in-dockerfiles-are-shown-in-the-next-table.-commandpurposefromto-specify-the-base-image-from-which-the-container-is-built.workdirto-set-the-working-directory.runto-install-any-libraries-and-packages-or-perform-setup-steps-during-image-build.copyto-copy-files-or-directories-from-the-local-build-context-into-the-image.addto-add-remote-urls-and-unpack-compressed-files.entrypointto-specify-commands-to-be-executed-when-the-container-starts.cmdcommands-the-container-executes.exposeto-define-the-port-to-access-the-container-application.labelto-add-metadata-to-the-image-such-as-author-version-or-description." class="level4">
-<h4 class="anchored" data-anchor-id="dockerfile-commandscommon-commands-that-are-used-in-dockerfiles-are-shown-in-the-next-table.-commandpurposefromto-specify-the-base-image-from-which-the-container-is-built.workdirto-set-the-working-directory.runto-install-any-libraries-and-packages-or-perform-setup-steps-during-image-build.copyto-copy-files-or-directories-from-the-local-build-context-into-the-image.addto-add-remote-urls-and-unpack-compressed-files.entrypointto-specify-commands-to-be-executed-when-the-container-starts.cmdcommands-the-container-executes.exposeto-define-the-port-to-access-the-container-application.labelto-add-metadata-to-the-image-such-as-author-version-or-description.">Dockerfile CommandsCommon commands that are used in Dockerfiles are shown in the next table. |<strong>Command</strong>|<strong>Purpose</strong>||–|–||FROM|To specify the base image from which the container is built.||WORKDIR|To set the working directory.||RUN|To install any libraries and packages or perform setup steps during image build.||COPY|To copy files or directories from the local build context into the image.||ADD|To add remote URLs and unpack compressed files.||ENTRYPOINT|To specify commands to be executed when the container starts.||CMD|Commands the container executes.||EXPOSE|To define the port to access the container application.||LABEL|To add metadata to the image, such as author, version, or description.|</h4>
-<p><a id="17.4.4-step-4:-build-the-docker-image"></a>### 17.4.4 Step 4: Build the Docker ImageNext, we will build a Docker image from the Dockerfile, similarly to the previous example. Often, tags in the form <code>image_name:tag_name</code> are used, as in this case, where we assigned the image name <code>demo2-sklearn</code> and we assigned the tag name <code>0.1</code>. The tag name allows to apply versioning to Docker images, where, for instance, we can assign tag name <code>0.2</code> to the next version of image, or <code>1.0</code> if significant updates have been applied. If the tag name is omitted, Docker will pull the most recent image version, which is identified by the tag <code>latest</code>. <code>docker build -t demo2-sklearn:0.1 .</code></p>
-<p>To list the Docker images that we have built, we can use, well, <code>docker images</code> shown in the figure. Note that the image <code>demo1</code> has the tag name <code>latest</code>, and the image <code>demo2-sklearn</code> has the tag name <code>0.1</code>.<img src="images/images_list.png" width="1000"></p>
-<p>Now that we have an image that contains a saved trained model, next, we will run a container to make predictions using the model. <a id="17.4.5-step-5:-run-the-docker-container"></a>### 17.4.5 Step 5: Run the Docker ContainerWe run the image by using <code>docker run</code> and the name of the image. This will load the saved model, make predictions, and display the predicted house prices for the first 10 records in the test dataset. For comparison, the target prices for the first 10 records are also displayed. In a real-world case, the model will make predictions on new data samples (e.g., the price for house information that may be inputted by a realtor). <code>docker run demo2-sklearn:0.1</code><img src="images/run2.png" width="1000">Note as well that we can launch multiple containers from one Docker image, with the containers maintaining their own individual state although sharing the same image. The changes to each individual container are stored in a <em>container layer</em>.</p>
-<p><a id="17.4.6-managing-images-and-containers"></a>### 17.4.6 Managing Images and ContainersBesides <code>build</code> and <code>run</code>, a few more commands are used in everyday work with Docker to inspect and clean up the images and containers on a machine.|<strong>Command</strong>|<strong>Purpose</strong>||–|–||<code>docker images</code>|List the images on the machine.||<code>docker ps</code>|List the running containers (<code>docker ps -a</code> also lists the stopped containers).||<code>docker run -it image bash</code>|Start a container and open an interactive terminal inside it (<code>-i</code> interactive, <code>-t</code> terminal).||<code>docker run -p 5000:5000 image</code>|Map port 5000 of the host machine to port 5000 of the container, e.g., to access a web application running in the container.||<code>docker run -v /local/dir:/container/dir image</code>|Mount a local directory into the container, e.g., to give the container access to a dataset without copying it into the image.||<code>docker logs container</code>|Show the output of a container.||<code>docker stop container</code>|Stop a running container.||<code>docker rm container</code>|Remove a stopped container.||<code>docker rmi image</code>|Remove an image.||<code>docker system prune</code>|Remove all stopped containers, unused images, and build cache to free disk space.|Containers are referenced by the name or ID shown by <code>docker ps</code>. Note that a container that exits (e.g., after <code>inference.py</code> finishes) still exists in the stopped state until it is removed, and the images and containers can take up a lot of disk space over time.</p>
-<p><a id="17.4.7-docker-desktop"></a>### 17.4.7 Docker DesktopDocker Desktop for Windows uses the Windows Subsystem for Linux (WSL2) to run Linux-based containers natively. It provides lists of all created images, containers, and other related information. For instance, in the Containers section, we can see the two containers that we ran, <code>demo1</code> and <code>demo2-sklearn</code>, with tag names <code>latest</code> and <code>0.1</code>, respectively.<img src="images/docker_desktop.png" width="1000"></p>
-<p><a id="17.5-docker-registries-and-repositories"></a>## 17.5 Docker Registries and Repositories</p>
-<p><strong>Container repositories</strong> are the physical locations where Docker images are stored. Each repository contains different versions of each image, where each image is referenced by a different tag. For example, on Docker Hub, <code>mysql</code> is a repository that contains different versions of the Docker image for <code>MySQL</code>.<strong>Container registry</strong> is a set of repositories. The main types of container registries are:- Docker Hub: it is the official public container registry maintained by Docker, which hosts over 100,000 container images created by software vendors, open-source projects, and Docker’s community of users. - Third-party registry services: are managed registries that allow users to store and share their Docker images. Examples of third-party registries include Azure Container Registry, Google Container Registry, Amazon ECR, GitHub Container Registry, Red Hat Quay, and JFrog Container Registry.- Self-hosted registries: are managed by organizations that prefer to host container images on their own on-premises infrastructure, typically due to security, compliance concerns, or lower latency requirements. Running self-hosted registries requires to deploy a registry server.<a id="17.5.1-pull-and-push-images-on-docker-hub"></a>### 17.5.1 Pull and Push Images on Docker HubAs we mentioned, Docker Hub allows users to host and manage their own images, where Docker images can be easily shared between collaborators, allowing every collaborator to use reproducible environment. To push built images to the Docker Hub registry, users will need to first log in to Docker Hub (the command prompts for the password or an access token) and then push the image. The image must be tagged with the Docker Hub username as a prefix, e.g., <code>docker tag demo2-sklearn:0.1 username/demo2-sklearn:0.1</code>. <code>docker login --username=your_usernamedocker push username/image:tag</code>Also, pulling images by other developers from Docker Hub is very easy, and allows to use other images with little or no modification. <code>docker pull username/image:tag</code></p>
-<p><a id="17.5.2-benefits-of-docker"></a>### 17.5.2 Benefits of Docker- Code and dependencies can be packaged together into portable containers that can be run on a variety of different hosts, regardless of the hardware or operating system. - Provides versioning of build environments, where image versions can be tracked and rolled back.- Allow to replicate the working environment that is needed to train and deploy machine learning model on any system, and removes the reproducibility challenges. - Trained machine learning models can be easily wrapped into an API in a container, and deployed to remote servers.</p>
+<p><a id="17.1-reproducibility-of-data-science-projects"></a></p>
+<section id="reproducibility-of-data-science-projects" class="level2">
+<h2 class="anchored" data-anchor-id="reproducibility-of-data-science-projects">17.1 Reproducibility of Data Science Projects</h2>
+<p>Ensuring the reproducibility of Data Science projects is important for several reasons. One is that our customers (internal within your organization, or external) may use different operating systems, code dependencies, hardware, and they should be able to use our developed product and obtain the expected results. Another reason is collaborative development, where we may need to share our code with collaborators, and ensuring reproducibility of our code requires information about the full environment in which the code was developed.</p>
+<p>Predictions of Machine Learning models depend on the model architecture and parameters, code, libraries and dependencies needed to run the code. Ensuring reproducibility is a challenge that can affect the performance if not addressed. Regarding the model architecture and weights, we can simply save and load them, to ensure that the same model is used and that the predictions are consistent. Regarding code, we can use fixed random seeds and version control to ensure that the same data and code are used for training the model and making predictions. Dealing with code libraries and dependencies is more challenging, because libraries are updated frequently, and the model behavior can change, or even worse, the code can crash with some updates. To address this issue requires to apply a strategy for constraining the environment in which the model is developed and deployed.</p>
+<p>The main strategies to constrain the libraries and dependencies include:</p>
+<ol type="1">
+<li>Interoperable standards,</li>
+<li>Virtual environments,</li>
+<li>Docker containers.</li>
+</ol>
+<p>The first strategy involves standards like Open Neural Network Exchange (ONNX). ONNX is an open-source format for representing neural networks that allows interoperability between different frameworks (such as PyTorch and TensorFlow), or between different platforms. E.g., it allows a model trained in PyTorch to be imported and used for predictions in TensorFlow. Despite the potential, this strategy requires to frequently update the tools as the frameworks are updated, it has limited support for some operations in neural networks, it often has bugs in the conversions between the frameworks, and the performance of models can differ after the conversion to a target framework.</p>
+<p>The second strategy is to use virtual environments in Python or Conda. Although using virtual environments can isolate Python-level dependencies, they provide only partial solution, since operating system-level dependencies or dependencies like CUDA that involve interaction with hardware may be outside the scope of virtual environments and cannot be addressed with this strategy. The differences in OS-level dependencies or CUDA can impact execution consistency.</p>
+<p>The third strategy relies on using Docker containers and it is widely adopted at present time. <strong>Docker</strong> is an open-source platform that uses containers to constrain project dependencies. Container is a standardized unit of fully packaged software used for local development, shipping code, and deploying systems.</p>
+<p>The demo folders <code>demo1</code> and <code>demo2-sklearn</code> used in this lecture are provided next to this notebook in the course repository.</p>
+<p><a id="17.2-docker-containers"></a></p>
 </section>
-<section id="references1.-full-stack-deep-learning-course-lecture-11-deployment-monitoring-available-at-httpsfullstackdeeplearning.comspring2021lecture-11.2.-ml-in-production-docker-for-machine-learning-by-luigi-patruno-available-at-httpsmlinproduction.comdocker-for-ml-part-1.3.-a-beginners-guide-to-understanding-and-building-docker-images-available-at-httpsjfrog.comknowledge-basea-beginners-guide-to-understanding-and-building-docker-images.4.-machine-learning-with-docker-demonstrations-about-using-docker-for-machine-learning-available-at-httpsgithub.combinpipedocker-for-ml." class="level2">
-<h2 class="anchored" data-anchor-id="references1.-full-stack-deep-learning-course-lecture-11-deployment-monitoring-available-at-httpsfullstackdeeplearning.comspring2021lecture-11.2.-ml-in-production-docker-for-machine-learning-by-luigi-patruno-available-at-httpsmlinproduction.comdocker-for-ml-part-1.3.-a-beginners-guide-to-understanding-and-building-docker-images-available-at-httpsjfrog.comknowledge-basea-beginners-guide-to-understanding-and-building-docker-images.4.-machine-learning-with-docker-demonstrations-about-using-docker-for-machine-learning-available-at-httpsgithub.combinpipedocker-for-ml.">References1. Full Stack Deep Learning course, Lecture 11: Deployment &amp; Monitoring, available at <a href="https://fullstackdeeplearning.com/spring2021/lecture-11/">https://fullstackdeeplearning.com/spring2021/lecture-11/</a>.2. ML in Production, Docker for Machine Learning, by Luigi Patruno, available at: <a href="https://mlinproduction.com/docker-for-ml-part-1/">https://mlinproduction.com/docker-for-ml-part-1/</a>.3. A Beginner’s Guide to Understanding and Building Docker Images, available at: <a href="https://jfrog.com/knowledge-base/a-beginners-guide-to-understanding-and-building-docker-images/">https://jfrog.com/knowledge-base/a-beginners-guide-to-understanding-and-building-docker-images/</a>.4. Machine Learning with Docker, Demonstrations about Using Docker for Machine Learning, available at: <a href="https://github.com/BINPIPE/docker-for-ml">https://github.com/BINPIPE/docker-for-ml</a>.</h2>
+<section id="docker-containers" class="level2">
+<h2 class="anchored" data-anchor-id="docker-containers">17.2 Docker Containers</h2>
+<p>An example of the reproducibility challenge with Data Science projects is shown in the next figure, depicting the multiple points for failure when we move our code to a cluster. These issues can include different versions of libraries, dependencies, drivers, or operating system. The main advantages of Docker containers are that they contain all dependencies, including hardware libraries, and ensure reproducible and consistent code performance.</p>
+<p><img src="images/points_of_failure.png" width="600"></p>
+<p><em>Figure: Reproducibility challenge.</em></p>
+<p>Characteristics of containers are:</p>
+<ul>
+<li>Portable: because containers encapsulate the application code, dependencies, and runtime environment, making them independent of the specific setup of the host system. Although containers share the host operating system’s kernel, they can be run seamlessly across machines with compatible operating systems and hardware architectures. This portability enables teams to easily collaborate on projects and experiment with new software or frameworks without spending time configuring environments.</li>
+<li>Lightweight, since the containers don’t require a full operating system, and they share the kernel of the host operating system.</li>
+<li>Scalable, applications can easily be scaled by adding or removing container instances.</li>
+<li>Secure, the application and its dependencies run in an isolated environment, hence the containers are less exposed to attacks.</li>
+<li>Facilitate deployment, where Data Science projects can be easily containerized and deployed for consumption by the end-users, with consistent performance between development and production environments.</li>
+</ul>
+<p>Note also that there are notable differences between containers and Virtual Machines (VMs). VMs run a complete operating system with its own kernel, and each VM operates as an independent instance with its dedicated resources. Containers do not require hypervisor or hardware virtualization, and they share the host’s operating system kernel. This means that containers only need to package the application, its dependencies, and the minimal required components to run, without duplicating the entire operating system. Because of that, containers are smaller in size and faster to boot. VMs offer stronger isolation than containers, because each VM operates independently of the host, whereas containers share the same kernel with the host. Orchestration tools for containers such as Kubernetes and Docker Swarm can be used to manage and scale containerized applications across clusters of machines, whereas orchestration of VMs is more complex. Containers are well-suited for microservices architectures, continuous integration and deployment (CI/CD), and scalable, distributed applications, while VMs are used for running legacy applications, and environments requiring strong isolation or using multiple operating systems.</p>
+<p>Important concepts for working with Docker include:</p>
+<ul>
+<li><em>Dockerfile</em> - script that defines the steps to build a Docker image.</li>
+<li><em>Image</em> - is a built package containing the application and its dependencies.</li>
+<li><em>Container</em> - is an instance where the Docker image is run.</li>
+</ul>
+<p>We will explain these concepts through several examples in the following sections.</p>
+<p><a id="17.2.1-installing-docker"></a></p>
+<section id="installing-docker" class="level3">
+<h3 class="anchored" data-anchor-id="installing-docker">17.2.1 Installing Docker</h3>
+<p>Docker is installed on a personal computer with the <a href="https://docs.docker.com/desktop/">Docker Desktop</a> application, which is available for Windows, macOS, and Linux. On Windows, Docker Desktop runs Linux containers through the Windows Subsystem for Linux (WSL 2), and depending on the version of Windows, the installer may ask to install or update WSL. On Linux servers, the Docker Engine can also be installed from the command line without the desktop application. Please follow the instructions on the <a href="https://docs.docker.com/desktop/install/windows-install/">Docker installation page</a> for more detailed information.</p>
+<p>After the installation, open a terminal (e.g., Git Bash or PowerShell on Windows) and run <code>docker --version</code> to verify that Docker is installed and running.</p>
+<p><a id="17.3-hello-world-in-docker"></a></p>
+</section>
+</section>
+<section id="hello-world-in-docker" class="level2">
+<h2 class="anchored" data-anchor-id="hello-world-in-docker">17.3 Hello World in Docker</h2>
+<p>Let’s start with a simple “Hello World” example in Docker, where the goal is to create a container with a Python file to print the Hello World! statement.</p>
+<p><a id="17.3.1-step-1:-create-a-python-script"></a></p>
+<section id="step-1-create-a-python-script" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-create-a-python-script">17.3.1 Step 1: Create a Python Script</h3>
+<p>For this purpose, we will create the Python script shown below that has just one line of code, and we will save it under the name <code>hello_world.py</code> in the folder <code>demo1</code>.</p>
+<p><img src="images/hello_world_script.png" width="300"></p>
+<p><a id="17.3.2-step-2:-create-a-dockerfile"></a></p>
+</section>
+<section id="step-2-create-a-dockerfile" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-create-a-dockerfile">17.3.2 Step 2: Create a Dockerfile</h3>
+<p><strong>Dockerfiles</strong> provide instructions for defining custom environments for our projects. I.e., for each particular project we will define the required software packages and libraries in a Dockerfile, and we will use the Dockerfile to build a Docker image.</p>
+<p>It is common to start the Dockerfile with a <em>base environment</em>, which can simply include the latest Python version. Alternatively, as a base environment we can import pre-build environments by other developers. Docker provides access to <em>Docker Hub</em>, which is a registry with a large number of Docker images that have been published by other developers, and allows to directly import and take advantage of many pre-built environments.</p>
+<p>Dockerfiles are plain text files, and for this simple project the Dockerfile is shown below:</p>
+<ul>
+<li>The first line uses the <code>FROM</code> command to instruct Docker to use Python as a base image for the environment. The term <code>latest</code> instructs Docker to retrieve the image of the latest official Python version. Docker will first check if we have the latest Python version installed on our machine, and if we don’t, Docker will automatically download the image from Docker Hub. Alternatively, if we wanted to work with an earlier Python version, we can just write <code>FROM python:3.11</code>, for example. Pinning a specific version is recommended for reproducibility, since <code>latest</code> changes over time.</li>
+<li>The second line uses the <code>COPY</code> command to copy the created <code>hello_world.py</code> file from the local folder on my computer to the filesystem of the Docker image. The notation <code>./</code> is used for the root directory of the Docker image. The syntax is <code>COPY source_directory destination_directory</code>.</li>
+<li>The third line uses the <code>CMD</code> command to execute the <code>hello_world.py</code> script from the root directory in the image when the container is run.</li>
+</ul>
+<p><img src="images/dockerfile1.png" width="300"></p>
+<p>The file needs to be saved under the name <code>Dockerfile</code>. The organization of the <code>demo1</code> folder is:</p>
+<pre><code>demo1
+    ├── Dockerfile
+    ├── hello_world.py</code></pre>
+<p><a id="17.3.3-step-3:-build-the-docker-image"></a></p>
+</section>
+<section id="step-3-build-the-docker-image" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-build-the-docker-image">17.3.3 Step 3: Build the Docker Image</h3>
+<p><strong>Docker image</strong> is a template that contains instructions for creating a container that runs on the Docker platform. It provides a convenient way to package up code and preconfigured environments, which we can use for our own private use or share publicly with other Docker users.</p>
+<p>To build a Docker image from the Dockerfile, we will use the following code.</p>
+<pre><code>docker build -t demo1 .</code></pre>
+<p>Docker code begins with the keyword <code>docker</code>. The command <code>build</code> specifies to build a Docker image. <code>-t</code> is used to set a tag to the image, and in this case we tag the image with the name <code>demo1</code>. The dot <code>.</code> at the end of the line specifies to build the image by using the Dockerfile that is located in the current directory where <code>hello_world.py</code> script is located.</p>
+<p><img src="images/build1.png" width="1000"></p>
+<p>The Docker image that we just built represents a collection of files that are required for an operational environment. Each of the files that make up a Docker image is referred to as a <em>layer</em>. The images can contain multiple application codes and dependencies, i.e., they can have multiple layers.</p>
+<p>In general, it is possible to build a Docker image by typing Docker commands interactively in the command line, and creating a Dockerfile is not required. However, Dockerfiles provide convenience and a documented record of the steps taken to assemble an image.</p>
+<p><a id="17.3.4-step-4:-run-the-docker-container"></a></p>
+</section>
+<section id="step-4-run-the-docker-container" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-run-the-docker-container">17.3.4 Step 4: Run the Docker Container</h3>
+<p>To run the image, we just use the <code>run</code> command, followed by the image tag <code>demo1</code>. This will execute the <code>hello-world.py</code> script in the container, which will display <code>Hello World!</code> in the terminal.</p>
+<pre><code>docker run demo1</code></pre>
+<p><img src="images/run1.png" width="1000"></p>
+<p>In summary, we created a container that is independent of our local machine and that has an implementation of Python, and we displayed a message in that container.</p>
+<p><a id="17.3.5-summary"></a></p>
+</section>
+<section id="summary" class="level3">
+<h3 class="anchored" data-anchor-id="summary">17.3.5 Summary</h3>
+<p>The figure below shows the basic steps in Docker. We begin with a Dockerfile that contains the required commands to build a custom Docker image for our application. The Docker image is a custom environment, that contains the required code, libraries, and dependencies for the application. Docker containers are run using the Docker image. Within a container, the image comprises all the required files to run the application. By using containers, applications are isolated from other processes, preventing other processes from affecting the current application.</p>
+<p><img src="images/img1.png" width="500"></p>
+<p>Docker containers have an analogy with cargo containers used for shipping products. Once we place our product (code and dependencies) in the container, we can ship it by boat or train (laptop or cloud), and when it gets to its destination, it continues to function (run) just as before the shipment was made.</p>
+<p>And one more note is that Docker has an official <code>Hello World</code> image, which can be run directly from the terminal, and it is typically used by users when they install Docker for the first time to verify that it works properly. The following figure displays the output of the <code>Hello World</code> image.</p>
+<p><img src="images/docker_helloworld.png" width="1000"></p>
+<p><a id="17.4-scikit-learn-models-in-docker"></a></p>
+</section>
+</section>
+<section id="scikit-learn-models-in-docker" class="level2">
+<h2 class="anchored" data-anchor-id="scikit-learn-models-in-docker">17.4 Scikit-Learn Models in Docker</h2>
+<p>In this section, we will learn how to create a container for running a scikit-learn model.</p>
+<p>To demonstrate the concept, we will use the <em>California Housing Dataset</em> that is available in scikit-learn, and that we also used in Lecture 12 when we studied regression with ANNs. The dataset contains 20,640 records about housing prices in California, and it includes 9 features related to the number of rooms, population, latitude, longitude, and similar information. The target column is the median value of the house. This is a regression problem, where the goal is for a given set of input features to predict the housing price.</p>
+<p>For this task, we will create a new folder, containing a <code>Dockerfile</code> to build the Docker image, <code>train.py</code> script for loading the dataset, training the model, and saving the model parameters, and <code>inference.py</code> script for loading the trained model and predicting on test instances.</p>
+<pre><code>demo2-sklearn
+    ├── Dockerfile
+    ├── train.py
+    ├── inference.py</code></pre>
+<p><a id="17.4.1-step-1:-create-the-train.py-script"></a></p>
+<section id="step-1-create-the-train.py-script" class="level3">
+<h3 class="anchored" data-anchor-id="step-1-create-the-train.py-script">17.4.1 Step 1: Create the train.py Script</h3>
+<p>The code in <code>train.py</code> script is shown below (note that if you run the cell in this Jupyter notebook, it will give errors, because the code is intended to be executed as a script).</p>
+<p>This script is easy to understand. We import the necessary libraries, load the data, fit a Gradient Boosting Model, and save the model. From the imported <code>joblib</code> package we used the <code>dump</code> method to serialize the model parameters and save them at the <code>MODEL_PATH</code> location. Also note that the <code>train.py</code> script defines the paths to the directory <code>MODEL_DIR</code> and saved model <code>MODEL_FILE</code>. This will allow to pass the path to Docker at build time, and embed these locations into the Docker image. The <code>MODEL_DIR</code> and <code>MODEL_FILE</code> environmental variables are defined in the Dockerfile in the next section. Then, when the container is run, the script will read the locations of the files from the image, and use the saved model to predict on new data during inference.</p>
+<div id="2782a74b-0463-4d8d-8080-12c66aa5cf44" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn <span class="im">import</span> ensemble</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> dump</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and split data</span></span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>housing <span class="op">=</span> fetch_california_housing(as_frame<span class="op">=</span><span class="va">True</span>).frame</span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> housing.drop(<span class="st">'MedHouseVal'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> housing[<span class="st">'MedHouseVal'</span>]</span>
+<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X,  y, random_state<span class="op">=</span><span class="dv">13</span>, test_size<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb5-14"><a href="#cb5-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-15"><a href="#cb5-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Fit regression model</span></span>
+<span id="cb5-16"><a href="#cb5-16" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> ensemble.GradientBoostingRegressor()</span>
+<span id="cb5-17"><a href="#cb5-17" aria-hidden="true" tabindex="-1"></a>model.fit(X_train, y_train)</span>
+<span id="cb5-18"><a href="#cb5-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-19"><a href="#cb5-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Directory paths </span></span>
+<span id="cb5-20"><a href="#cb5-20" aria-hidden="true" tabindex="-1"></a>MODEL_DIR <span class="op">=</span> os.environ[<span class="st">"MODEL_DIR"</span>]</span>
+<span id="cb5-21"><a href="#cb5-21" aria-hidden="true" tabindex="-1"></a>MODEL_FILE <span class="op">=</span> os.environ[<span class="st">"MODEL_FILE"</span>]</span>
+<span id="cb5-22"><a href="#cb5-22" aria-hidden="true" tabindex="-1"></a>MODEL_PATH <span class="op">=</span> os.path.join(MODEL_DIR, MODEL_FILE)</span>
+<span id="cb5-23"><a href="#cb5-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-24"><a href="#cb5-24" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the model</span></span>
+<span id="cb5-25"><a href="#cb5-25" aria-hidden="true" tabindex="-1"></a>dump(model, MODEL_PATH)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="17.4.2-step-2:-create-the-inference.py-script"></a></p>
+</section>
+<section id="step-2-create-the-inference.py-script" class="level3">
+<h3 class="anchored" data-anchor-id="step-2-create-the-inference.py-script">17.4.2 Step 2: Create the inference.py Script</h3>
+<p>The script <code>inference.py</code> is very similar to <code>train.py</code>, except that the trained model is loaded, and in the last few lines of code, the loaded model is used to predict the price for the first 10 instances from the test dataset. The output includes both the predicted prices and the ground-truth prices from <code>y_test</code>.</p>
+<div id="bbc48ad6-2ac4-4ff7-b978-3e93b5ddbf9c" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.datasets <span class="im">import</span> fetch_california_housing</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> sklearn.model_selection <span class="im">import</span> train_test_split</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> joblib <span class="im">import</span> load</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a><span class="co"># Load and split data</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>housing <span class="op">=</span> fetch_california_housing(as_frame<span class="op">=</span><span class="va">True</span>).frame</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>X <span class="op">=</span> housing.drop(<span class="st">'MedHouseVal'</span>, axis<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>y <span class="op">=</span> housing[<span class="st">'MedHouseVal'</span>]</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>X_train, X_test, y_train, y_test <span class="op">=</span> train_test_split(X,  y, random_state<span class="op">=</span><span class="dv">13</span>, test_size<span class="op">=</span><span class="fl">0.2</span>)</span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a><span class="co"># Directory paths </span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>MODEL_DIR <span class="op">=</span> os.environ[<span class="st">"MODEL_DIR"</span>]</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>MODEL_FILE <span class="op">=</span> os.environ[<span class="st">"MODEL_FILE"</span>]</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>MODEL_PATH <span class="op">=</span> os.path.join(MODEL_DIR, MODEL_FILE)</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a><span class="co"># Load model</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> load(MODEL_PATH)</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Run inference</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test[:<span class="dv">10</span>])</span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Predicted price by the model:"</span>, np.around(y_pred,<span class="dv">1</span>))</span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Ground-truth price:"</span>, np.array(y_test[:<span class="dv">10</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="17.4.3-step-3:-create-the-dockerfile"></a></p>
+</section>
+<section id="step-3-create-the-dockerfile" class="level3">
+<h3 class="anchored" data-anchor-id="step-3-create-the-dockerfile">17.4.3 Step 3: Create the Dockerfile</h3>
+<p>The <code>Dockerfile</code> for this project is provided below, and contains the following parts:</p>
+<ul>
+<li><code>FROM jupyter/scipy-notebook</code> uses a pre-built image <code>jupyter/scipy-notebook</code> as a base image. The image contains a <code>python</code> installation, <code>scipy</code>, and other libraries to facilitate working with <code>Jupyter</code>. This image will be downloaded from Docker Hub.</li>
+<li>The next lines are used to first create a new directory called <code>model</code> where the trained model will be saved. Afterward, 2 environment variables are defined for <code>MODEL_DIR</code> and <code>MODEL_FILE</code> that will reference the newly created directory and the name of the saved model. The directory <code>/home/jovyan/</code> was set in the imported base image <code>jupyter/scipy-notebook</code>.</li>
+<li>The <code>COPY</code> commands are used to copy the <code>train.py</code> and <code>inference.py</code> scripts from our local machine to the working directory of the image.</li>
+<li><code>RUN python train.py</code> will execute the script to train and save the model. This will ensure that the model is saved at a specific location , and it is ready to predict on new data when the image is run. An advantage is that if the model training fails, it will happen when we build the image rather than at run time, which allows to debug the issue.</li>
+<li><code>CMD [ "python", "./inference.py"]</code> will execute the <code>inference.py</code> script when we run the container from the image.</li>
+</ul>
+<div id="d997e10e-1ac3-47a6-ae27-ec44f7c910ff" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>FROM jupyter<span class="op">/</span>scipy<span class="op">-</span>notebook</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>RUN mkdir model</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>ENV MODEL_DIR<span class="op">=/</span>home<span class="op">/</span>jovyan<span class="op">/</span>model</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>ENV MODEL_FILE<span class="op">=</span>model.joblib</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>COPY train.py .<span class="op">/</span>train.py</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>COPY inference.py .<span class="op">/</span>inference.py</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>RUN python train.py</span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>CMD [ <span class="st">"python"</span>, <span class="st">"./inference.py"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<section id="dockerfile-commands" class="level4">
+<h4 class="anchored" data-anchor-id="dockerfile-commands">Dockerfile Commands</h4>
+<p>Common commands that are used in Dockerfiles are shown in the next table.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Command</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>FROM</td>
+<td>To specify the base image from which the container is built.</td>
+</tr>
+<tr class="even">
+<td>WORKDIR</td>
+<td>To set the working directory.</td>
+</tr>
+<tr class="odd">
+<td>RUN</td>
+<td>To install any libraries and packages or perform setup steps during image build.</td>
+</tr>
+<tr class="even">
+<td>COPY</td>
+<td>To copy files or directories from the local build context into the image.</td>
+</tr>
+<tr class="odd">
+<td>ADD</td>
+<td>To add remote URLs and unpack compressed files.</td>
+</tr>
+<tr class="even">
+<td>ENTRYPOINT</td>
+<td>To specify commands to be executed when the container starts.</td>
+</tr>
+<tr class="odd">
+<td>CMD</td>
+<td>Commands the container executes.</td>
+</tr>
+<tr class="even">
+<td>EXPOSE</td>
+<td>To define the port to access the container application.</td>
+</tr>
+<tr class="odd">
+<td>LABEL</td>
+<td>To add metadata to the image, such as author, version, or description.</td>
+</tr>
+</tbody>
+</table>
+<p><a id="17.4.4-step-4:-build-the-docker-image"></a></p>
+</section>
+</section>
+<section id="step-4-build-the-docker-image" class="level3">
+<h3 class="anchored" data-anchor-id="step-4-build-the-docker-image">17.4.4 Step 4: Build the Docker Image</h3>
+<p>Next, we will build a Docker image from the Dockerfile, similarly to the previous example. Often, tags in the form <code>image_name:tag_name</code> are used, as in this case, where we assigned the image name <code>demo2-sklearn</code> and we assigned the tag name <code>0.1</code>. The tag name allows to apply versioning to Docker images, where, for instance, we can assign tag name <code>0.2</code> to the next version of image, or <code>1.0</code> if significant updates have been applied. If the tag name is omitted, Docker will pull the most recent image version, which is identified by the tag <code>latest</code>.</p>
+<pre><code>docker build -t demo2-sklearn:0.1 .</code></pre>
+<p>To list the Docker images that we have built, we can use, well, <code>docker images</code> shown in the figure. Note that the image <code>demo1</code> has the tag name <code>latest</code>, and the image <code>demo2-sklearn</code> has the tag name <code>0.1</code>.</p>
+<p><img src="images/images_list.png" width="1000"></p>
+<p>Now that we have an image that contains a saved trained model, next, we will run a container to make predictions using the model.</p>
+<p><a id="17.4.5-step-5:-run-the-docker-container"></a></p>
+</section>
+<section id="step-5-run-the-docker-container" class="level3">
+<h3 class="anchored" data-anchor-id="step-5-run-the-docker-container">17.4.5 Step 5: Run the Docker Container</h3>
+<p>We run the image by using <code>docker run</code> and the name of the image. This will load the saved model, make predictions, and display the predicted house prices for the first 10 records in the test dataset. For comparison, the target prices for the first 10 records are also displayed. In a real-world case, the model will make predictions on new data samples (e.g., the price for house information that may be inputted by a realtor).</p>
+<pre><code>docker run demo2-sklearn:0.1</code></pre>
+<p><img src="images/run2.png" width="1000"></p>
+<p>Note as well that we can launch multiple containers from one Docker image, with the containers maintaining their own individual state although sharing the same image. The changes to each individual container are stored in a <em>container layer</em>.</p>
+<p><a id="17.4.6-managing-images-and-containers"></a></p>
+</section>
+<section id="managing-images-and-containers" class="level3">
+<h3 class="anchored" data-anchor-id="managing-images-and-containers">17.4.6 Managing Images and Containers</h3>
+<p>Besides <code>build</code> and <code>run</code>, a few more commands are used in everyday work with Docker to inspect and clean up the images and containers on a machine.</p>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 50%">
+<col style="width: 50%">
+</colgroup>
+<thead>
+<tr class="header">
+<th><strong>Command</strong></th>
+<th><strong>Purpose</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td><code>docker images</code></td>
+<td>List the images on the machine.</td>
+</tr>
+<tr class="even">
+<td><code>docker ps</code></td>
+<td>List the running containers (<code>docker ps -a</code> also lists the stopped containers).</td>
+</tr>
+<tr class="odd">
+<td><code>docker run -it image bash</code></td>
+<td>Start a container and open an interactive terminal inside it (<code>-i</code> interactive, <code>-t</code> terminal).</td>
+</tr>
+<tr class="even">
+<td><code>docker run -p 5000:5000 image</code></td>
+<td>Map port 5000 of the host machine to port 5000 of the container, e.g., to access a web application running in the container.</td>
+</tr>
+<tr class="odd">
+<td><code>docker run -v /local/dir:/container/dir image</code></td>
+<td>Mount a local directory into the container, e.g., to give the container access to a dataset without copying it into the image.</td>
+</tr>
+<tr class="even">
+<td><code>docker logs container</code></td>
+<td>Show the output of a container.</td>
+</tr>
+<tr class="odd">
+<td><code>docker stop container</code></td>
+<td>Stop a running container.</td>
+</tr>
+<tr class="even">
+<td><code>docker rm container</code></td>
+<td>Remove a stopped container.</td>
+</tr>
+<tr class="odd">
+<td><code>docker rmi image</code></td>
+<td>Remove an image.</td>
+</tr>
+<tr class="even">
+<td><code>docker system prune</code></td>
+<td>Remove all stopped containers, unused images, and build cache to free disk space.</td>
+</tr>
+</tbody>
+</table>
+<p>Containers are referenced by the name or ID shown by <code>docker ps</code>. Note that a container that exits (e.g., after <code>inference.py</code> finishes) still exists in the stopped state until it is removed, and the images and containers can take up a lot of disk space over time.</p>
+<p><a id="17.4.7-docker-desktop"></a></p>
+</section>
+<section id="docker-desktop" class="level3">
+<h3 class="anchored" data-anchor-id="docker-desktop">17.4.7 Docker Desktop</h3>
+<p>Docker Desktop for Windows uses the Windows Subsystem for Linux (WSL2) to run Linux-based containers natively. It provides lists of all created images, containers, and other related information. For instance, in the Containers section, we can see the two containers that we ran, <code>demo1</code> and <code>demo2-sklearn</code>, with tag names <code>latest</code> and <code>0.1</code>, respectively.</p>
+<p><img src="images/docker_desktop.png" width="1000"></p>
+<p><a id="17.5-docker-registries-and-repositories"></a></p>
+</section>
+</section>
+<section id="docker-registries-and-repositories" class="level2">
+<h2 class="anchored" data-anchor-id="docker-registries-and-repositories">17.5 Docker Registries and Repositories</h2>
+<p><strong>Container repositories</strong> are the physical locations where Docker images are stored. Each repository contains different versions of each image, where each image is referenced by a different tag. For example, on Docker Hub, <code>mysql</code> is a repository that contains different versions of the Docker image for <code>MySQL</code>.</p>
+<p><strong>Container registry</strong> is a set of repositories. The main types of container registries are:</p>
+<ul>
+<li>Docker Hub: it is the official public container registry maintained by Docker, which hosts over 100,000 container images created by software vendors, open-source projects, and Docker’s community of users.<br>
+</li>
+<li>Third-party registry services: are managed registries that allow users to store and share their Docker images. Examples of third-party registries include Azure Container Registry, Google Container Registry, Amazon ECR, GitHub Container Registry, Red Hat Quay, and JFrog Container Registry.</li>
+<li>Self-hosted registries: are managed by organizations that prefer to host container images on their own on-premises infrastructure, typically due to security, compliance concerns, or lower latency requirements. Running self-hosted registries requires to deploy a registry server.</li>
+</ul>
+<p><a id="17.5.1-pull-and-push-images-on-docker-hub"></a></p>
+<section id="pull-and-push-images-on-docker-hub" class="level3">
+<h3 class="anchored" data-anchor-id="pull-and-push-images-on-docker-hub">17.5.1 Pull and Push Images on Docker Hub</h3>
+<p>As we mentioned, Docker Hub allows users to host and manage their own images, where Docker images can be easily shared between collaborators, allowing every collaborator to use reproducible environment.</p>
+<p>To push built images to the Docker Hub registry, users will need to first log in to Docker Hub (the command prompts for the password or an access token) and then push the image. The image must be tagged with the Docker Hub username as a prefix, e.g., <code>docker tag demo2-sklearn:0.1 username/demo2-sklearn:0.1</code>.</p>
+<pre><code>docker login --username=your_username
+docker push username/image:tag</code></pre>
+<p>Also, pulling images by other developers from Docker Hub is very easy, and allows to use other images with little or no modification.</p>
+<pre><code>docker pull username/image:tag</code></pre>
+<p><a id="17.5.2-benefits-of-docker"></a></p>
+</section>
+<section id="benefits-of-docker" class="level3">
+<h3 class="anchored" data-anchor-id="benefits-of-docker">17.5.2 Benefits of Docker</h3>
+<ul>
+<li>Code and dependencies can be packaged together into portable containers that can be run on a variety of different hosts, regardless of the hardware or operating system.</li>
+<li>Provides versioning of build environments, where image versions can be tracked and rolled back.</li>
+<li>Allow to replicate the working environment that is needed to train and deploy machine learning model on any system, and removes the reproducibility challenges.</li>
+<li>Trained machine learning models can be easily wrapped into an API in a container, and deployed to remote servers.</li>
+</ul>
+</section>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Full Stack Deep Learning course, Lecture 11: Deployment &amp; Monitoring, available at <a href="https://fullstackdeeplearning.com/spring2021/lecture-11/">https://fullstackdeeplearning.com/spring2021/lecture-11/</a>.</li>
+<li>ML in Production, Docker for Machine Learning, by Luigi Patruno, available at: <a href="https://mlinproduction.com/docker-for-ml-part-1/">https://mlinproduction.com/docker-for-ml-part-1/</a>.</li>
+<li>A Beginner’s Guide to Understanding and Building Docker Images, available at: <a href="https://jfrog.com/knowledge-base/a-beginners-guide-to-understanding-and-building-docker-images/">https://jfrog.com/knowledge-base/a-beginners-guide-to-understanding-and-building-docker-images/</a>.</li>
+<li>Machine Learning with Docker, Demonstrations about Using Docker for Machine Learning, available at: <a href="https://github.com/BINPIPE/docker-for-ml">https://github.com/BINPIPE/docker-for-ml</a>.</li>
+</ol>
 <p><a href="#top">BACK TO TOP</a></p>
 
 
