@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-e90d6670a4065f2536ac3afd6750ccb9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-49b554886c5cde5beb8c9f2b2757bc5f.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../site_libs/bootstrap/bootstrap-e90d6670a4065f2536ac3afd6750ccb9.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-a28804d2bcb605480f7d8b84262e65a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-969e9e9608635c71734298c72d6f4170.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-a28804d2bcb605480f7d8b84262e65a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -1113,7 +1113,7 @@ Classification Accuracy:  16.873212158679962</code></pre>
 <section id="learning-rate-1e-5-epochs-50" class="level4">
 <h4 class="anchored" data-anchor-id="learning-rate-1e-5-epochs-50">Learning rate = 1e-5, Epochs = 50</h4>
 <p>Let’s try the opposite case, and reduce the learning rate to <code>1e-5 = 0.00001</code>. Smaller learning rates produce smaller updates of the model parameters, and slower learning. This may avoid the problems of learning too fast when large learning rates are used.</p>
-<p>This model achieved slightly better accuracy than with the <code>1e-4</code> learning rate. Also, the learning curves look good, because the accuracy and loss gradually change, and the validation curves follow the training curves.</p>
+<p>This model achieved slightly lower accuracy than with the <code>1e-4</code> learning rate. The learning curves look good, because the accuracy and loss gradually change, and the validation curves follow the training curves.</p>
 <div id="cell-32" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:788468,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761488289054,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:360}}" data-outputid="daae7b52-e1f8-41ec-ddbd-3f0579302801">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-5</span></span>
 <span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">50</span></span>
@@ -1196,7 +1196,7 @@ Classification Accuracy:  71.21067643165588</code></pre>
 <section id="early-stopping" class="level3">
 <h3 class="anchored" data-anchor-id="early-stopping">14.3.1 Early Stopping</h3>
 <p>As we know, using <strong>Early Stopping</strong> callback is often beneficial, since we don’t need to guess the optimal number of epochs to train the model. Instead, the callback will terminate the training when a selected metric is not improving. In the next cell, we specified to stop the training when the validation loss does not improve for 20 epochs (the <code>patience</code> argument). We set the <code>EPOCHS_NUM</code> argument to 1000, although we know that the model will terminate after about 50-60 epochs. Therefore, the number of epochs is not very important when we use this callback, it only needs to be large enough so that the training is not stopped prematurely.</p>
-<p>This model achieved over 94% accuracy. Notice also in the accuracy curve that the accuracy in one of the latest epochs dropped a lot. We will see next how to handdle that case by using CheckPoint callback.</p>
+<p>This model achieved over 92% accuracy. Notice also in the accuracy curve that the accuracy in one of the latest epochs dropped a lot. We will see next how to handdle that case by using CheckPoint callback.</p>
 <div id="cell-38" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:1319844,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1761490392783,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:360}}" data-outputid="e22e31e2-2b5b-4bda-b8c3-d9859177ab4a">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb28"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb28-1"><a href="#cb28-1" aria-hidden="true" tabindex="-1"></a>LEARNING_RATE <span class="op">=</span> <span class="fl">1e-4</span></span>
 <span id="cb28-2"><a href="#cb28-2" aria-hidden="true" tabindex="-1"></a>EPOCHS_NUM <span class="op">=</span> <span class="dv">1000</span></span>
@@ -1574,7 +1574,7 @@ Classification Accuracy:  92.65967607498169</code></pre>
 <h2 class="anchored" data-anchor-id="grid-search">14.4 Grid Search</h2>
 <p>Applying <strong>Grid Search</strong> over the hyperparameters of neural networks that have long training times can be prohibitively computationally expensive. On the other hand, when working with smaller datasets and models, applying Grid Search for some of the hyperparameters can be an option.</p>
 <p>This section presents a simple Grid Search over two hyperparameters in the model: number of neurons in the first Dense layer, and the batch size. We can simply write a function that takes as arguments these two hyperparameters, as in the next cell. Afterward, we can create a for-loop and train and evaluate a model for each combination of the values for the selected hyperparameters.</p>
-<p>We examined 3 values for the number of neurons and 3 values for the batch size, resulting in 9 models. The results indicate that the model with 1,024 neurons and 128 batch size achieved the best performance. Consider that training each model took about 10 minutes, and evaluating 9 models took about 1.5 hours. Tuning a large number of hyperparameters over several different values can take a long time.</p>
+<p>We examined 3 values for the number of neurons and 3 values for the batch size, resulting in 9 models. The results indicate that the model with 512 neurons and 128 batch size achieved the best performance. Consider that training each model took about 10 minutes, and evaluating 9 models took about 1.5 hours. Tuning a large number of hyperparameters over several different values can take a long time.</p>
 <div id="cell-52" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb40"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb40-1"><a href="#cb40-1" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> Network(neurons_per_layer, batch_size):</span>
 <span id="cb40-2"><a href="#cb40-2" aria-hidden="true" tabindex="-1"></a></span>
