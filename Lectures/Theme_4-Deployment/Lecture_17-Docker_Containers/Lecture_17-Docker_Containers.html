@@ -83,9 +83,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-bf27225e3a48a9273f3daa8f8e829971.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-a28804d2bcb605480f7d8b84262e65a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-969e9e9608635c71734298c72d6f4170.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../site_libs/bootstrap/bootstrap-a28804d2bcb605480f7d8b84262e65a4.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-bc83c2bf0e080a26b08749d8d72b9df6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-08ec3d28dfa002ffaf216f68ea7fe7ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-bc83c2bf0e080a26b08749d8d72b9df6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -719,9 +719,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>Note also that there are notable differences between containers and Virtual Machines (VMs). VMs run a complete operating system with its own kernel, and each VM operates as an independent instance with its dedicated resources. Containers do not require hypervisor or hardware virtualization, and they share the host’s operating system kernel. This means that containers only need to package the application, its dependencies, and the minimal required components to run, without duplicating the entire operating system. Because of that, containers are smaller in size and faster to boot. VMs offer stronger isolation than containers, because each VM operates independently of the host, whereas containers share the same kernel with the host. Orchestration tools for containers such as Kubernetes and Docker Swarm can be used to manage and scale containerized applications across clusters of machines, whereas orchestration of VMs is more complex. Containers are well-suited for microservices architectures, continuous integration and deployment (CI/CD), and scalable, distributed applications, while VMs are used for running legacy applications, and environments requiring strong isolation or using multiple operating systems.</p>
 <p>Important concepts for working with Docker include:</p>
 <ul>
-<li><em>Dockerfile</em> - script that defines the steps to build a Docker image.</li>
-<li><em>Image</em> - is a built package containing the application and its dependencies.</li>
-<li><em>Container</em> - is an instance where the Docker image is run.</li>
+<li><em>Dockerfile</em> - a text file containing instructions for building a Docker image.</li>
+<li><em>Image</em> - a built package containing the application and its dependencies.</li>
+<li><em>Container</em> - an instance providing an isolated environment where the Docker image is run.</li>
 </ul>
 <p>We will explain these concepts through several examples in the following sections.</p>
 <p><a id="17.2.1-installing-docker"></a></p>
@@ -761,13 +761,21 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="step-3-build-the-docker-image" class="level3">
 <h3 class="anchored" data-anchor-id="step-3-build-the-docker-image">17.3.3 Step 3: Build the Docker Image</h3>
-<p><strong>Docker image</strong> is a template that contains instructions for creating a container that runs on the Docker platform. It provides a convenient way to package up code and preconfigured environments, which we can use for our own private use or share publicly with other Docker users.</p>
+<p><strong>Docker image</strong> is a packaged application that includes the application code, dependencies, and preconfigured environment needed to run it. Docker images provide a convenient way to distribute applications for private use or public sharing with other Docker users.</p>
 <p>To build a Docker image from the Dockerfile, we will use the following code.</p>
 <pre><code>docker build -t demo1 .</code></pre>
 <p>Docker code begins with the keyword <code>docker</code>. The command <code>build</code> specifies to build a Docker image. <code>-t</code> is used to set a tag to the image, and in this case we tag the image with the name <code>demo1</code>. The dot <code>.</code> at the end of the line specifies to build the image by using the Dockerfile that is located in the current directory where <code>hello_world.py</code> script is located.</p>
 <p><img src="images/build1.png" width="1000"></p>
-<p>The Docker image that we just built represents a collection of files that are required for an operational environment. Each of the files that make up a Docker image is referred to as a <em>layer</em>. The images can contain multiple application codes and dependencies, i.e., they can have multiple layers.</p>
-<p>In general, it is possible to build a Docker image by typing Docker commands interactively in the command line, and creating a Dockerfile is not required. However, Dockerfiles provide convenience and a documented record of the steps taken to assemble an image.</p>
+<p>When we build a Docker image using a Dockerfile, the following steps are executed:</p>
+<ol type="1">
+<li>Docker reads the Dockerfile.</li>
+<li>Downloads the base image (if it is not already available locally).</li>
+<li>Executes the Dockerfile instructions, such as installing dependencies and copying application files.</li>
+<li>Creates image layers that represent the filesystem changes made during the build process.</li>
+<li>Stores the resulting image in Docker’s local image storage.</li>
+</ol>
+<p>The Docker image that we just built contains a collection of files needed to provide an environment for running an application. Docker images consist of multiple layers, where each layer represents a set of filesystem changes. For example, an image can include layers containing operating system files, the Python interpreter and libraries, installed dependencies, and application code. Layers can be shared between different Docker images, reducing storage requirements and speeding up the build process.</p>
+<p>It is also possible to create a Docker image without a Dockerfile. For example, we can interactively modify a Docker container and save it as a new image using the <code>docker commit</code> command. However, Dockerfiles are the preferred approach because they provide a convenient, reproducible, and documented way to build Docker images.</p>
 <p><a id="17.3.4-step-4:-run-the-docker-container"></a></p>
 </section>
 <section id="step-4-run-the-docker-container" class="level3">
@@ -801,7 +809,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1-create-the-train.py-script" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-create-the-train.py-script">17.4.1 Step 1: Create the train.py Script</h3>
 <p>The code in <code>train.py</code> script is shown below (note that if you run the cell in this Jupyter notebook, it will give errors, because the code is intended to be executed as a script).</p>
-<p>This script is easy to understand. We import the necessary libraries, load the data, fit a Gradient Boosting Model, and save the model. From the imported <code>joblib</code> package we used the <code>dump</code> method to serialize the model parameters and save them at the <code>MODEL_PATH</code> location. Also note that the <code>train.py</code> script defines the paths to the directory <code>MODEL_DIR</code> and saved model <code>MODEL_FILE</code>. This will allow to pass the path to Docker at build time, and embed these locations into the Docker image. The <code>MODEL_DIR</code> and <code>MODEL_FILE</code> environmental variables are defined in the Dockerfile in the next section. Then, when the container is run, the script will read the locations of the files from the image, and use the saved model to predict on new data during inference.</p>
+<p>This script is easy to understand. We import the necessary libraries, load the data, fit a Gradient Boosting Model, and save the model. From the imported <code>joblib</code> package we used the <code>dump</code> method to serialize the model parameters and save them at the <code>MODEL_PATH</code> location. Also note that the <code>train.py</code> script defines the paths to the directory <code>MODEL_DIR</code> and saved model <code>MODEL_FILE</code>. This will allow to pass the path to Docker at build time, and embed these locations into the Docker image. The <code>MODEL_DIR</code> and <code>MODEL_FILE</code> environmental variables are defined in the Dockerfile in the next section. The trained model will be saved as <code>model.joblib</code>. Then, when the container is run, the <code>train.py</code> script will read the locations of the files from the image, and use the saved model to predict on new data during inference.</p>
 <div id="2782a74b-0463-4d8d-8080-12c66aa5cf44" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -868,7 +876,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The <code>Dockerfile</code> for this project is provided below, and contains the following parts:</p>
 <ul>
 <li><code>FROM jupyter/scipy-notebook</code> uses a pre-built image <code>jupyter/scipy-notebook</code> as a base image. The image contains a <code>python</code> installation, <code>scipy</code>, and other libraries to facilitate working with <code>Jupyter</code>. This image will be downloaded from Docker Hub.</li>
-<li>The next lines are used to first create a new directory called <code>model</code> where the trained model will be saved. Afterward, 2 environment variables are defined for <code>MODEL_DIR</code> and <code>MODEL_FILE</code> that will reference the newly created directory and the name of the saved model. The directory <code>/home/jovyan/</code> was set in the imported base image <code>jupyter/scipy-notebook</code>.</li>
+<li>The next lines are used to first create a new directory called <code>model</code> where the trained model will be saved. Afterward, 2 environment variables are defined for <code>MODEL_DIR</code> and <code>MODEL_FILE</code> that will reference the newly created directory and the name of the saved model, i.e., <code>model.joblib</code>. The directory <code>/home/jovyan/</code> was set in the imported base image <code>jupyter/scipy-notebook</code>.</li>
 <li>The <code>COPY</code> commands are used to copy the <code>train.py</code> and <code>inference.py</code> scripts from our local machine to the working directory of the image.</li>
 <li><code>RUN python train.py</code> will execute the script to train and save the model. This will ensure that the model is saved at a specific location , and it is ready to predict on new data when the image is run. An advantage is that if the model training fails, it will happen when we build the image rather than at run time, which allows to debug the issue.</li>
 <li><code>CMD [ "python", "./inference.py"]</code> will execute the <code>inference.py</code> script when we run the container from the image.</li>
