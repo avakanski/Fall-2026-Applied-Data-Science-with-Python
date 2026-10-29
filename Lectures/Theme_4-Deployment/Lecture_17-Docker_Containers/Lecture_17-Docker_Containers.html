@@ -727,7 +727,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><a id="17.2.1-installing-docker"></a></p>
 <section id="installing-docker" class="level3">
 <h3 class="anchored" data-anchor-id="installing-docker">17.2.1 Installing Docker</h3>
-<p>Docker is installed on a personal computer with the <a href="https://docs.docker.com/desktop/">Docker Desktop</a> application, which is available for Windows, macOS, and Linux. On Windows, Docker Desktop runs Linux containers through the Windows Subsystem for Linux (WSL 2), and depending on the version of Windows, the installer may ask to install or update WSL. On Linux servers, the Docker Engine can also be installed from the command line without the desktop application. Please follow the instructions on the <a href="https://docs.docker.com/desktop/install/windows-install/">Docker installation page</a> for more detailed information.</p>
+<p>Docker is installed on a personal computer with the <a href="https://docs.docker.com/desktop/">Docker Desktop</a> application, which is available for Windows, macOS, and Linux. On Windows, Docker Desktop runs Linux containers through the Windows Subsystem for Linux (WSL 2), and depending on the version of Windows, the installer may ask to install or update WSL. On Linux servers, the Docker Engine can also be installed from the command line without the desktop application. Please follow the instructions on the <a href="https://docs.docker.com/desktop/">Docker installation page</a> for more detailed information.</p>
 <p>After the installation, open a terminal (e.g., Git Bash or PowerShell on Windows) and run <code>docker --version</code> to verify that Docker is installed and running.</p>
 <p><a id="17.3-hello-world-in-docker"></a></p>
 </section>
@@ -748,9 +748,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>It is common to start the Dockerfile with a <em>base environment</em>, which can simply include the latest Python version. Alternatively, as a base environment we can import pre-build environments by other developers. Docker provides access to <em>Docker Hub</em>, which is a registry with a large number of Docker images that have been published by other developers, and allows to directly import and take advantage of many pre-built environments.</p>
 <p>Dockerfiles are plain text files, and for this simple project the Dockerfile is shown below:</p>
 <ul>
-<li>The first line uses the <code>FROM</code> command to instruct Docker to use Python as a base image for the environment. The term <code>latest</code> instructs Docker to retrieve the image of the latest official Python version. Docker will first check if we have the latest Python version installed on our machine, and if we don’t, Docker will automatically download the image from Docker Hub. Alternatively, if we wanted to work with an earlier Python version, we can just write <code>FROM python:3.11</code>, for example. Pinning a specific version is recommended for reproducibility, since <code>latest</code> changes over time.</li>
-<li>The second line uses the <code>COPY</code> command to copy the created <code>hello_world.py</code> file from the local folder on my computer to the filesystem of the Docker image. The notation <code>./</code> is used for the root directory of the Docker image. The syntax is <code>COPY source_directory destination_directory</code>.</li>
-<li>The third line uses the <code>CMD</code> command to execute the <code>hello_world.py</code> script from the root directory in the image when the container is run.</li>
+<li>The first line uses the <code>FROM</code> command to instruct Docker to use Python as a base image for the environment. The term <code>latest</code> instructs Docker to retrieve the image of the latest official Python version. Docker will first check if the image is already available on our machine, and if it isn’t, Docker will automatically download the image from Docker Hub. Alternatively, if we wanted to work with an earlier Python version, we can just write <code>FROM python:3.11</code>, for example. Pinning a specific version is recommended for reproducibility, since <code>latest</code> changes over time.</li>
+<li>The second line uses the <code>COPY</code> command to copy the created <code>hello_world.py</code> file from the local folder on my computer to the filesystem of the Docker image. The notation <code>./</code> refers to the working directory of the Docker image, which for the <code>python</code> base image is the root directory <code>/</code>. The syntax is <code>COPY source_directory destination_directory</code>.</li>
+<li>The third line uses the <code>CMD</code> command to execute the <code>hello_world.py</code> script from the working directory in the image when the container is run.</li>
 </ul>
 <p><img src="images/dockerfile1.png" width="300"></p>
 <p>The file needs to be saved under the name <code>Dockerfile</code>. The organization of the <code>demo1</code> folder is:</p>
@@ -780,7 +780,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="step-4-run-the-docker-container" class="level3">
 <h3 class="anchored" data-anchor-id="step-4-run-the-docker-container">17.3.4 Step 4: Run the Docker Container</h3>
-<p>To run the image, we just use the <code>run</code> command, followed by the image tag <code>demo1</code>. This will execute the <code>hello-world.py</code> script in the container, which will display <code>Hello World!</code> in the terminal.</p>
+<p>To run the image, we just use the <code>run</code> command, followed by the image tag <code>demo1</code>. This will execute the <code>hello_world.py</code> script in the container, which will display <code>Hello World!</code> in the terminal.</p>
 <pre><code>docker run demo1</code></pre>
 <p><img src="images/run1.png" width="1000"></p>
 <p>In summary, we created a container that is independent of our local machine and that has an implementation of Python, and we displayed a message in that container.</p>
@@ -799,7 +799,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="scikit-learn-models-in-docker" class="level2">
 <h2 class="anchored" data-anchor-id="scikit-learn-models-in-docker">17.4 Scikit-Learn Models in Docker</h2>
 <p>In this section, we will learn how to create a container for running a scikit-learn model.</p>
-<p>To demonstrate the concept, we will use the <em>California Housing Dataset</em> that is available in scikit-learn, and that we also used in Lecture 12 when we studied regression with ANNs. The dataset contains 20,640 records about housing prices in California, and it includes 9 features related to the number of rooms, population, latitude, longitude, and similar information. The target column is the median value of the house. This is a regression problem, where the goal is for a given set of input features to predict the housing price.</p>
+<p>To demonstrate the concept, we will use the <em>California Housing Dataset</em> that is available in scikit-learn, and that we also used in Lecture 12 when we studied regression with ANNs. The dataset contains 20,640 records about housing prices in California, and it includes 8 features related to the median income, house age, number of rooms, population, latitude, longitude, and similar information. The target column is the median house value. This is a regression problem, where the goal is for a given set of input features to predict the housing price.</p>
 <p>For this task, we will create a new folder, containing a <code>Dockerfile</code> to build the Docker image, <code>train.py</code> script for loading the dataset, training the model, and saving the model parameters, and <code>inference.py</code> script for loading the trained model and predicting on test instances.</p>
 <pre><code>demo2-sklearn
     ├── Dockerfile
@@ -809,7 +809,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="step-1-create-the-train.py-script" class="level3">
 <h3 class="anchored" data-anchor-id="step-1-create-the-train.py-script">17.4.1 Step 1: Create the train.py Script</h3>
 <p>The code in <code>train.py</code> script is shown below (note that if you run the cell in this Jupyter notebook, it will give errors, because the code is intended to be executed as a script).</p>
-<p>This script is easy to understand. We import the necessary libraries, load the data, fit a Gradient Boosting Model, and save the model. From the imported <code>joblib</code> package we used the <code>dump</code> method to serialize the model parameters and save them at the <code>MODEL_PATH</code> location. Also note that the <code>train.py</code> script defines the paths to the directory <code>MODEL_DIR</code> and saved model <code>MODEL_FILE</code>. This will allow to pass the path to Docker at build time, and embed these locations into the Docker image. The <code>MODEL_DIR</code> and <code>MODEL_FILE</code> environmental variables are defined in the Dockerfile in the next section. The trained model will be saved as <code>model.joblib</code>. Then, when the container is run, the <code>train.py</code> script will read the locations of the files from the image, and use the saved model to predict on new data during inference.</p>
+<p>This script is easy to understand. We import the necessary libraries, load the data, fit a Gradient Boosting Model, and save the model. From the imported <code>joblib</code> package we used the <code>dump</code> method to serialize the model parameters and save them at the <code>MODEL_PATH</code> location. Also note that the <code>train.py</code> script reads the directory <code>MODEL_DIR</code> and the file name <code>MODEL_FILE</code> from environment variables, which are defined in the Dockerfile in the next section. This embeds the model location into the Docker image, and the trained model will be saved as <code>model.joblib</code>. The <code>train.py</code> script is executed when the image is built. Then, when the container is run, the <code>inference.py</code> script will read the same environment variables, load the saved model, and use it to predict on new data.</p>
 <div id="2782a74b-0463-4d8d-8080-12c66aa5cf44" class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Import libraries</span></span>
 <span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> numpy <span class="im">as</span> np</span>
@@ -867,7 +867,8 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a><span class="co"># Run inference</span></span>
 <span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>y_pred <span class="op">=</span> model.predict(X_test[:<span class="dv">10</span>])</span>
 <span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Predicted price by the model:"</span>, np.around(y_pred,<span class="dv">1</span>))</span>
-<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Ground-truth price:"</span>, np.array(y_test[:<span class="dv">10</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>np.set_printoptions(precision<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Ground-truth price:"</span>, np.array(y_test[:<span class="dv">10</span>]))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
 </div>
 <p><a id="17.4.3-step-3:-create-the-dockerfile"></a></p>
 </section>
@@ -878,7 +879,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><code>FROM jupyter/scipy-notebook</code> uses a pre-built image <code>jupyter/scipy-notebook</code> as a base image. The image contains a <code>python</code> installation, <code>scipy</code>, and other libraries to facilitate working with <code>Jupyter</code>. This image will be downloaded from Docker Hub.</li>
 <li>The next lines are used to first create a new directory called <code>model</code> where the trained model will be saved. Afterward, 2 environment variables are defined for <code>MODEL_DIR</code> and <code>MODEL_FILE</code> that will reference the newly created directory and the name of the saved model, i.e., <code>model.joblib</code>. The directory <code>/home/jovyan/</code> was set in the imported base image <code>jupyter/scipy-notebook</code>.</li>
 <li>The <code>COPY</code> commands are used to copy the <code>train.py</code> and <code>inference.py</code> scripts from our local machine to the working directory of the image.</li>
-<li><code>RUN python train.py</code> will execute the script to train and save the model. This will ensure that the model is saved at a specific location , and it is ready to predict on new data when the image is run. An advantage is that if the model training fails, it will happen when we build the image rather than at run time, which allows to debug the issue.</li>
+<li><code>RUN python train.py</code> will execute the script to train and save the model. This will ensure that the model is saved at a specific location, and it is ready to predict on new data when the image is run. An advantage is that if the model training fails, it will happen when we build the image rather than at run time, which allows to debug the issue.</li>
 <li><code>CMD [ "python", "./inference.py"]</code> will execute the <code>inference.py</code> script when we run the container from the image.</li>
 </ul>
 <div id="d997e10e-1ac3-47a6-ae27-ec44f7c910ff" class="cell">
@@ -932,15 +933,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tr>
 <tr class="even">
 <td>ENTRYPOINT</td>
-<td>To specify commands to be executed when the container starts.</td>
+<td>To specify the main executable that always runs when the container starts.</td>
 </tr>
 <tr class="odd">
 <td>CMD</td>
-<td>Commands the container executes.</td>
+<td>To specify the default command or arguments for the container, which can be overridden by arguments passed to <code>docker run</code>.</td>
 </tr>
 <tr class="even">
 <td>EXPOSE</td>
-<td>To define the port to access the container application.</td>
+<td>To document the port on which the container application listens (the port is published with the <code>-p</code> option of <code>docker run</code>).</td>
 </tr>
 <tr class="odd">
 <td>LABEL</td>
@@ -953,7 +954,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="step-4-build-the-docker-image" class="level3">
 <h3 class="anchored" data-anchor-id="step-4-build-the-docker-image">17.4.4 Step 4: Build the Docker Image</h3>
-<p>Next, we will build a Docker image from the Dockerfile, similarly to the previous example. Often, tags in the form <code>image_name:tag_name</code> are used, as in this case, where we assigned the image name <code>demo2-sklearn</code> and we assigned the tag name <code>0.1</code>. The tag name allows to apply versioning to Docker images, where, for instance, we can assign tag name <code>0.2</code> to the next version of image, or <code>1.0</code> if significant updates have been applied. If the tag name is omitted, Docker will pull the most recent image version, which is identified by the tag <code>latest</code>.</p>
+<p>Next, we will build a Docker image from the Dockerfile, similarly to the previous example. Often, tags in the form <code>image_name:tag_name</code> are used, as in this case, where we assigned the image name <code>demo2-sklearn</code> and we assigned the tag name <code>0.1</code>. The tag name allows to apply versioning to Docker images, where, for instance, we can assign tag name <code>0.2</code> to the next version of image, or <code>1.0</code> if significant updates have been applied. If the tag name is omitted, Docker assigns the default tag <code>latest</code>. Note that <code>latest</code> is just a default name, and it does not necessarily refer to the most recent version of an image.</p>
 <pre><code>docker build -t demo2-sklearn:0.1 .</code></pre>
 <p>To list the Docker images that we have built, we can use, well, <code>docker images</code> shown in the figure. Note that the image <code>demo1</code> has the tag name <code>latest</code>, and the image <code>demo2-sklearn</code> has the tag name <code>0.1</code>.</p>
 <p><img src="images/images_list.png" width="1000"></p>
@@ -1030,7 +1031,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </section>
 <section id="docker-desktop" class="level3">
 <h3 class="anchored" data-anchor-id="docker-desktop">17.4.7 Docker Desktop</h3>
-<p>Docker Desktop for Windows uses the Windows Subsystem for Linux (WSL2) to run Linux-based containers natively. It provides lists of all created images, containers, and other related information. For instance, in the Containers section, we can see the two containers that we ran, <code>demo1</code> and <code>demo2-sklearn</code>, with tag names <code>latest</code> and <code>0.1</code>, respectively.</p>
+<p>Docker Desktop for Windows uses the Windows Subsystem for Linux (WSL2) to run Linux-based containers natively. It provides lists of all created images, containers, and other related information. For instance, in the Containers section, we can see the two containers that we ran from the images <code>demo1:latest</code> and <code>demo2-sklearn:0.1</code>. Docker assigns random names to containers (e.g., <code>compassionate_alba</code>) unless a name is specified with the <code>--name</code> option of <code>docker run</code>.</p>
 <p><img src="images/docker_desktop.png" width="1000"></p>
 <p><a id="17.5-docker-registries-and-repositories"></a></p>
 </section>
@@ -1040,9 +1041,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p><strong>Container repositories</strong> are the physical locations where Docker images are stored. Each repository contains different versions of each image, where each image is referenced by a different tag. For example, on Docker Hub, <code>mysql</code> is a repository that contains different versions of the Docker image for <code>MySQL</code>.</p>
 <p><strong>Container registry</strong> is a set of repositories. The main types of container registries are:</p>
 <ul>
-<li>Docker Hub: it is the official public container registry maintained by Docker, which hosts over 100,000 container images created by software vendors, open-source projects, and Docker’s community of users.<br>
+<li>Docker Hub: it is the official public container registry maintained by Docker, which hosts millions of container images created by software vendors, open-source projects, and Docker’s community of users.<br>
 </li>
-<li>Third-party registry services: are managed registries that allow users to store and share their Docker images. Examples of third-party registries include Azure Container Registry, Google Container Registry, Amazon ECR, GitHub Container Registry, Red Hat Quay, and JFrog Container Registry.</li>
+<li>Third-party registry services: are managed registries that allow users to store and share their Docker images. Examples of third-party registries include Azure Container Registry, Google Artifact Registry, Amazon ECR, GitHub Container Registry, Red Hat Quay, and JFrog Container Registry.</li>
 <li>Self-hosted registries: are managed by organizations that prefer to host container images on their own on-premises infrastructure, typically due to security, compliance concerns, or lower latency requirements. Running self-hosted registries requires to deploy a registry server.</li>
 </ul>
 <p><a id="17.5.1-pull-and-push-images-on-docker-hub"></a></p>
