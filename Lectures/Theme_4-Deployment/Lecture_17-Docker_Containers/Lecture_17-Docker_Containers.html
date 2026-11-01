@@ -618,8 +618,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#step-3-create-the-dockerfile" id="toc-step-3-create-the-dockerfile" class="nav-link" data-scroll-target="#step-3-create-the-dockerfile">17.4.3 Step 3: Create the Dockerfile</a></li>
   <li><a href="#step-4-build-the-docker-image" id="toc-step-4-build-the-docker-image" class="nav-link" data-scroll-target="#step-4-build-the-docker-image">17.4.4 Step 4: Build the Docker Image</a></li>
   <li><a href="#step-5-run-the-docker-container" id="toc-step-5-run-the-docker-container" class="nav-link" data-scroll-target="#step-5-run-the-docker-container">17.4.5 Step 5: Run the Docker Container</a></li>
-  <li><a href="#managing-images-and-containers" id="toc-managing-images-and-containers" class="nav-link" data-scroll-target="#managing-images-and-containers">17.4.6 Managing Images and Containers</a></li>
-  <li><a href="#docker-desktop" id="toc-docker-desktop" class="nav-link" data-scroll-target="#docker-desktop">17.4.7 Docker Desktop</a></li>
+  <li><a href="#using-a-python-base-image-and-a-requirements.txt-file" id="toc-using-a-python-base-image-and-a-requirements.txt-file" class="nav-link" data-scroll-target="#using-a-python-base-image-and-a-requirements.txt-file">17.4.6 Using a Python Base Image and a requirements.txt File</a></li>
+  <li><a href="#managing-images-and-containers" id="toc-managing-images-and-containers" class="nav-link" data-scroll-target="#managing-images-and-containers">17.4.7 Managing Images and Containers</a></li>
+  <li><a href="#docker-desktop" id="toc-docker-desktop" class="nav-link" data-scroll-target="#docker-desktop">17.4.8 Docker Desktop</a></li>
   </ul></li>
   <li><a href="#docker-registries-and-repositories" id="toc-docker-registries-and-repositories" class="nav-link" data-scroll-target="#docker-registries-and-repositories">17.5 Docker Registries and Repositories</a>
   <ul class="collapse">
@@ -676,8 +677,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><a href="#17.4.3-step-3:-create-the-dockerfile">17.4.3 Step 3: Create the Dockerfile</a></li>
 <li><a href="#17.4.4-step-4:-build-the-docker-image">17.4.4 Step 4: Build the Docker Image</a></li>
 <li><a href="#17.4.5-step-5:-run-the-docker-container">17.4.5 Step 5: Run the Docker Container</a></li>
-<li><a href="#17.4.6-managing-images-and-containers">17.4.6 Managing Images and Containers</a></li>
-<li><a href="#17.4.7-docker-desktop">17.4.7 Docker Desktop</a></li>
+<li><a href="#17.4.6-using-a-python-base-image-and-a-requirements.txt-file">17.4.6 Using a Python Base Image and a requirements.txt File</a></li>
+<li><a href="#17.4.7-managing-images-and-containers">17.4.7 Managing Images and Containers</a></li>
+<li><a href="#17.4.8-docker-desktop">17.4.8 Docker Desktop</a></li>
 </ul></li>
 <li><a href="#17.5-docker-registries-and-repositories">17.5 Docker Registries and Repositories</a>
 <ul>
@@ -700,7 +702,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>The first strategy involves standards like Open Neural Network Exchange (ONNX). ONNX is an open-source format for representing neural networks that allows interoperability between different frameworks (such as PyTorch and TensorFlow), or between different platforms. E.g., it allows a model trained in PyTorch to be imported and used for predictions in TensorFlow. Despite the potential, this strategy requires to frequently update the tools as the frameworks are updated, it has limited support for some operations in neural networks, it often has bugs in the conversions between the frameworks, and the performance of models can differ after the conversion to a target framework.</p>
 <p>The second strategy is to use virtual environments in Python or Conda. Although using virtual environments can isolate Python-level dependencies, they provide only partial solution, since operating system-level dependencies or dependencies like CUDA that involve interaction with hardware may be outside the scope of virtual environments and cannot be addressed with this strategy. The differences in OS-level dependencies or CUDA can impact execution consistency.</p>
 <p>The third strategy relies on using Docker containers and it is widely adopted at present time. <strong>Docker</strong> is an open-source platform that uses containers to constrain project dependencies. Container is a standardized unit of fully packaged software used for local development, shipping code, and deploying systems.</p>
-<p>The demo folders <code>demo1</code> and <code>demo2-sklearn</code> used in this lecture are provided next to this notebook in the course repository.</p>
+<p>The demo folders <code>demo1</code>, <code>demo2-sklearn</code>, and <code>demo3-requirements</code> used in this lecture are provided next to this notebook in the course repository.</p>
 <p><a id="17.2-docker-containers"></a></p>
 </section>
 <section id="docker-containers" class="level2">
@@ -967,10 +969,79 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <pre><code>docker run demo2-sklearn:0.1</code></pre>
 <p><img src="images/run2.png" width="1000"></p>
 <p>Note as well that we can launch multiple containers from one Docker image, with the containers maintaining their own individual state although sharing the same image. The changes to each individual container are stored in a <em>container layer</em>.</p>
-<p><a id="17.4.6-managing-images-and-containers"></a></p>
+<p><a id="17.4.6-using-a-python-base-image-and-a-requirements.txt-file"></a></p>
+</section>
+<section id="using-a-python-base-image-and-a-requirements.txt-file" class="level3">
+<h3 class="anchored" data-anchor-id="using-a-python-base-image-and-a-requirements.txt-file">17.4.6 Using a Python Base Image and a requirements.txt File</h3>
+<p>The base image <code>jupyter/scipy-notebook</code> in the previous example is convenient, because it already contains Python, scikit-learn, and many other scientific libraries. However, the image is several gigabytes in size, and it includes many libraries that our project does not use. Another approach is to start from a small official Python image, and to install only the libraries that the project needs. We will show two ways to do this.</p>
+<p><strong>Option 1: Install the libraries in the Dockerfile</strong></p>
+<p>The following Dockerfile builds an image for the same project as in the previous sections, but it uses the official <code>python:3.11-slim</code> image as a base image.</p>
+<div id="1b93c269-7d06-4092-bde4-62c672165147" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>FROM python:<span class="fl">3.11</span><span class="op">-</span>slim</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>WORKDIR <span class="op">/</span>app</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a>RUN pip install <span class="op">--</span>no<span class="op">-</span>cache<span class="op">-</span><span class="bu">dir</span> numpy pandas scikit<span class="op">-</span>learn joblib</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>RUN mkdir model</span>
+<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a>ENV MODEL_DIR<span class="op">=/</span>app<span class="op">/</span>model</span>
+<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a>ENV MODEL_FILE<span class="op">=</span>model.joblib</span>
+<span id="cb10-10"><a href="#cb10-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-11"><a href="#cb10-11" aria-hidden="true" tabindex="-1"></a>COPY train.py .<span class="op">/</span>train.py</span>
+<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a>COPY inference.py .<span class="op">/</span>inference.py</span>
+<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a>RUN python train.py</span>
+<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a>CMD [<span class="st">"python"</span>, <span class="st">"./inference.py"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<ul>
+<li><code>FROM python:3.11-slim</code> uses the official Python 3.11 image as a base image. The <code>slim</code> version contains only a minimal set of operating system packages needed to run Python, and it is much smaller (about 150 MB) than the <code>jupyter/scipy-notebook</code> image. This image contains only Python and <code>pip</code>, and it does not contain NumPy, pandas, scikit-learn, or any other Data Science libraries.</li>
+<li><code>WORKDIR /app</code> creates the directory <code>/app</code> in the image and sets it as the working directory. The following <code>RUN</code>, <code>COPY</code>, and <code>CMD</code> commands are executed in this directory, i.e., <code>./train.py</code> refers to <code>/app/train.py</code>.</li>
+<li><code>RUN pip install</code> installs the libraries <code>numpy</code>, <code>pandas</code>, <code>scikit-learn</code> and <code>joblib</code> in the image while the image is being built. The scripts <code>train.py</code> and <code>inference.py</code> import <code>numpy</code>, <code>sklearn</code>, and <code>joblib</code>, and <code>pandas</code> is also needed because <code>fetch_california_housing(as_frame=True)</code> returns a pandas dataframe. The option <code>--no-cache-dir</code> instructs <code>pip</code> not to store the downloaded installation files, which reduces the size of the image.</li>
+<li>The remaining lines are the same as in the Dockerfile above.</li>
+</ul>
+<p><strong>Option 2: Install the libraries from a requirements.txt file</strong></p>
+<p>When a project uses many libraries, listing them all in the <code>RUN pip install</code> line becomes long and difficult to maintain. The common convention in Python projects is to list the required libraries in a text file named <code>requirements.txt</code>, with one library per line. For our project, the <code>requirements.txt</code> file is:</p>
+<pre><code>numpy
+pandas
+scikit-learn
+joblib</code></pre>
+<p>The Dockerfile copies the <code>requirements.txt</code> file into the image, and installs all libraries listed in the file with <code>pip install -r requirements.txt</code>, where the option <code>-r</code> instructs <code>pip</code> to read the names of the libraries from the file.</p>
+<div id="3d08802f-1f17-4d9a-8049-70e142a6c775" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>FROM python:<span class="fl">3.11</span><span class="op">-</span>slim</span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>WORKDIR <span class="op">/</span>app</span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>COPY requirements.txt .<span class="op">/</span>requirements.txt</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>RUN pip install <span class="op">--</span>no<span class="op">-</span>cache<span class="op">-</span><span class="bu">dir</span> <span class="op">-</span>r requirements.txt</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a>RUN mkdir model</span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>ENV MODEL_DIR<span class="op">=/</span>app<span class="op">/</span>model</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a>ENV MODEL_FILE<span class="op">=</span>model.joblib</span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>COPY train.py .<span class="op">/</span>train.py</span>
+<span id="cb12-13"><a href="#cb12-13" aria-hidden="true" tabindex="-1"></a>COPY inference.py .<span class="op">/</span>inference.py</span>
+<span id="cb12-14"><a href="#cb12-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-15"><a href="#cb12-15" aria-hidden="true" tabindex="-1"></a>RUN python train.py</span>
+<span id="cb12-16"><a href="#cb12-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-17"><a href="#cb12-17" aria-hidden="true" tabindex="-1"></a>CMD [ <span class="st">"python"</span>, <span class="st">"./inference.py"</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Note that the <code>requirements.txt</code> file must be copied into the image before the <code>RUN pip install</code> line, since the commands in the Dockerfile are executed inside the image, and they can only access the local files that have been copied into the image.</p>
+<p>Also, the <code>requirements.txt</code> file is copied separately from the Python scripts for a reason. Since each command in the Dockerfile creates an image layer, when we build the image again, Docker reuses the layers from the previous build for all commands that have not changed. Therefore, if we only modify <code>train.py</code> or <code>inference.py</code>, Docker will reuse the layer with the installed libraries and will not install them again, which makes rebuilding the image much faster. The libraries are installed again only if the <code>requirements.txt</code> file is modified.</p>
+<p>The organization of the <code>demo3-requirements</code> folder is:</p>
+<pre><code>demo3-requirements
+    ├── Dockerfile
+    ├── requirements.txt
+    ├── train.py
+    ├── inference.py</code></pre>
+<p>The image is built and the container is run in the same way as in the previous example.</p>
+<pre><code>docker build -t demo3-requirements:0.1 .
+docker run demo3-requirements:0.1</code></pre>
+<p>Another note is that when <code>requirements.txt</code> lists only the names of the libraries, <code>pip</code> installs the latest version of each library at the time when the image is built. As a result, building the image several months later can install different versions of the libraries, which can change the behavior of the code. For reproducibility, the versions of the libraries can be fixed in <code>requirements.txt</code>, where for example <code>scikit-learn==1.5.2</code> installs version 1.5.2.</p>
+<p><a id="17.4.7-managing-images-and-containers"></a></p>
 </section>
 <section id="managing-images-and-containers" class="level3">
-<h3 class="anchored" data-anchor-id="managing-images-and-containers">17.4.6 Managing Images and Containers</h3>
+<h3 class="anchored" data-anchor-id="managing-images-and-containers">17.4.7 Managing Images and Containers</h3>
 <p>Besides <code>build</code> and <code>run</code>, a few more commands are used in everyday work with Docker to inspect and clean up the images and containers on a machine.</p>
 <table class="caption-top table">
 <colgroup>
@@ -1027,10 +1098,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </tbody>
 </table>
 <p>Containers are referenced by the name or ID shown by <code>docker ps</code>. Note that a container that exits (e.g., after <code>inference.py</code> finishes) still exists in the stopped state until it is removed, and the images and containers can take up a lot of disk space over time.</p>
-<p><a id="17.4.7-docker-desktop"></a></p>
+<p><a id="17.4.8-docker-desktop"></a></p>
 </section>
 <section id="docker-desktop" class="level3">
-<h3 class="anchored" data-anchor-id="docker-desktop">17.4.7 Docker Desktop</h3>
+<h3 class="anchored" data-anchor-id="docker-desktop">17.4.8 Docker Desktop</h3>
 <p>Docker Desktop for Windows uses the Windows Subsystem for Linux (WSL2) to run Linux-based containers natively. It provides lists of all created images, containers, and other related information. For instance, in the Containers section, we can see the two containers that we ran from the images <code>demo1:latest</code> and <code>demo2-sklearn:0.1</code>. Docker assigns random names to containers (e.g., <code>compassionate_alba</code>) unless a name is specified with the <code>--name</code> option of <code>docker run</code>.</p>
 <p><img src="images/docker_desktop.png" width="1000"></p>
 <p><a id="17.5-docker-registries-and-repositories"></a></p>
