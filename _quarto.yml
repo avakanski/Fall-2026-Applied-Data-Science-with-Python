@@ -80,6 +80,8 @@ website:
             text: "Lecture 15 - Artificial Neural Networks with PyTorch"
           - href: "Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.ipynb"
             text: "Lecture 18 - Natural Language Processing"
+          - href: "Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.ipynb"
+            text: "Lecture 19 - Transformer Networks"
       - section: "Theme 4 - Deployment Pipelines"
         contents:
           - href: "Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.ipynb"
