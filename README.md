@@ -45,6 +45,10 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.ipynb">Lecture 18 - Natural Language Processing</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.ipynb">Lecture 19 - Transformer Networks</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_20-LLMs/Lecture_20-LLMs.ipynb">Lecture 20 - Large Language Models</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_21-RAG/Lecture_21-RAG.ipynb">Lecture 21 - Retrieval-Augmented Generation</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.ipynb">Lecture 22 - Multi-modal Models</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_23-Reasoning_LLMs/Lecture_23-Reasoning_LLMs.ipynb">Lecture 23 - Reasoning Large Language Models</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_24-Agentic_AI/Lecture_24-Agentic_AI.ipynb">Lecture 24 - Agentic AI</a>
 
 ### Theme 4: Deployment Pipelines
 
