@@ -1,0 +1,1664 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.20">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 19 - Transformer Networks – Applied Data Science with Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.html" rel="next">
+<link href="../../../Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.html" rel="prev">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0ae969d3293726db143f6e9eb89af930.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-bc83c2bf0e080a26b08749d8d72b9df6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-08ec3d28dfa002ffaf216f68ea7fe7ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-bc83c2bf0e080a26b08749d8d72b9df6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html">Theme 3 - Model Engineering Pipelines</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.html">Lecture 19 - Transformer Networks</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../">Applied Data Science with Python</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python" title="GitHub repository" class="quarto-navigation-tool px-1" aria-label="GitHub repository"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Information</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-syllabus" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-description" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#textbooks" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Textbooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#learning-outcomes" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#prerequisites" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#grading" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Grading</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-schedule" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 1 - A Short History of AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 1 - Python Programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2 - Python Data Types, Statements</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 3 - Files, Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 4 - OOP, Modules, Packages</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 2 - Data Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 5 - NumPy for Array Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 6 - Data Manipulation with Pandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 7 - Data Visualization with Matplotlib and Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 8 - Databases and SQL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 9 - Data Exploration and Preprocessing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 3 - Model Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 10 - Scikit-Learn Library for Data Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 11 - Ensemble Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_15-ANNs_with_PyTorch/Lecture_15-ANNs_with_PyTorch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 15 - Artificial Neural Networks with PyTorch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 18 - Natural Language Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lecture 19 - Transformer Networks</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 4 - Deployment Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 16 - Deploying Projects as Web Applications</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 17 - Reproducible Projects, Docker Containers</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 2 - Python IDEs, VS Code</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 3 - Terminal and Command Line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 4 - Virtual Environments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 5 - Google Colab</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 6 - TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_7-PyTorch/Tutorial_7-PyTorch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 7 - PyTorch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 8 - Git and Version Control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 9 - Deployment on the Cloud with Azure</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-transformers" id="toc-introduction-to-transformers" class="nav-link active" data-scroll-target="#introduction-to-transformers">19.1 Introduction to Transformers</a></li>
+  <li><a href="#self-attention-mechanism" id="toc-self-attention-mechanism" class="nav-link" data-scroll-target="#self-attention-mechanism">19.2 Self-attention Mechanism</a></li>
+  <li><a href="#multi-head-attention" id="toc-multi-head-attention" class="nav-link" data-scroll-target="#multi-head-attention">19.3 Multi-head Attention</a></li>
+  <li><a href="#encoder-block" id="toc-encoder-block" class="nav-link" data-scroll-target="#encoder-block">19.4 Encoder Block</a></li>
+  <li><a href="#positional-encoding" id="toc-positional-encoding" class="nav-link" data-scroll-target="#positional-encoding">19.5 Positional Encoding</a></li>
+  <li><a href="#using-a-transformer-model-for-classification" id="toc-using-a-transformer-model-for-classification" class="nav-link" data-scroll-target="#using-a-transformer-model-for-classification">19.6 Using a Transformer Model for Classification</a>
+  <ul class="collapse">
+  <li><a href="#model-definition" id="toc-model-definition" class="nav-link" data-scroll-target="#model-definition">19.6.1 Model Definition</a></li>
+  <li><a href="#loading-the-dataset" id="toc-loading-the-dataset" class="nav-link" data-scroll-target="#loading-the-dataset">19.6.2 Loading the Dataset</a></li>
+  <li><a href="#model-training" id="toc-model-training" class="nav-link" data-scroll-target="#model-training">19.6.3 Model Training</a></li>
+  <li><a href="#model-evaluation" id="toc-model-evaluation" class="nav-link" data-scroll-target="#model-evaluation">19.6.4 Model Evaluation</a></li>
+  </ul></li>
+  <li><a href="#decoder-sub-network" id="toc-decoder-sub-network" class="nav-link" data-scroll-target="#decoder-sub-network">19.7 Decoder Sub-network</a></li>
+  <li><a href="#vision-transformers" id="toc-vision-transformers" class="nav-link" data-scroll-target="#vision-transformers">19.8 Vision Transformers</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html">Theme 3 - Model Engineering Pipelines</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.html">Lecture 19 - Transformer Networks</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Lecture 19 - Transformer Networks</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a id="top"></a></p>
+<ul>
+<li><a href="#19.1-introduction-to-transformers">19.1 Introduction to Transformers</a></li>
+<li><a href="#19.2-self-attention-mechanism">19.2 Self-attention Mechanism</a></li>
+<li><a href="#19.3-multi-head-attention">19.3 Multi-head Attention</a></li>
+<li><a href="#19.4-encoder-block">19.4 Encoder Block</a></li>
+<li><a href="#19.5-positional-encoding">19.5 Positional Encoding</a></li>
+<li><a href="#19.6-using-a-transformer-model-for-classification">19.6 Using a Transformer Model for Classification</a>
+<ul>
+<li><a href="#19.6.1-model-definition">19.6.1 Model Definition</a></li>
+<li><a href="#19.6.2-loading-the-dataset">19.6.2 Loading the Dataset</a></li>
+<li><a href="#19.6.3-model-training">19.6.3 Model Training</a></li>
+<li><a href="#19.6.4-model-evaluation">19.6.4 Model Evaluation</a></li>
+</ul></li>
+<li><a href="#19.7-decoder-sub-network">19.7 Decoder Sub-network</a></li>
+<li><a href="#19.8-vision-transformers">19.8 Vision Transformers</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<p><a id="19.1-introduction-to-transformers"></a></p>
+<section id="introduction-to-transformers" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-transformers">19.1 Introduction to Transformers</h2>
+<p><strong>Transformer Networks</strong>, or simply <strong>Transformers</strong>, are a neural network architecture introduced in 2017 in the now-famous paper <a href="https://arxiv.org/abs/1706.03762">“Attention is All You Need”</a>. The title refers to the <em>attention mechanism</em>, which forms the basis for data processing in Transformers.</p>
+<p>Transformer networks have become the predominant type of deep learning models for NLP in recent years. They have replaced Recurrent Neural Networks (RNNs) in nearly all NLP tasks, and all Large Language Models (LLMs) today employ the Transformer architecture. Furthermore, Transformer models have been successfully adapted for many other tasks, including image and video processing, protein and DNA sequence prediction, time-series forecasting, and reinforcement learning. Consequently, Transformers are currently considered the most influential Neural Network architecture.</p>
+<p><a id="19.2-self-attention-mechanism"></a></p>
+</section>
+<section id="self-attention-mechanism" class="level2">
+<h2 class="anchored" data-anchor-id="self-attention-mechanism">19.2 Self-attention Mechanism</h2>
+<p>The <strong>self-attention</strong> mechanism in NNs enables a model to focus on the most relevant parts of the input data when making predictions. In NLP, self-attention is used to identify which words in a sentence are important for understanding the meaning of a given query word. That is, the model learns to pay more attention to relevant words in sentences, and less attention to other words that are less relevant for a given task.</p>
+<p>In the following two sentences, in the left subfigure the word “it” refers to “street”, while in the right subfigure the word “it” refers to “animal”. Understanding the relationships between the words in such sentences has been challenging with traditional NLP approaches. Transformers overcome this by using the self-attention mechanism to model the relationships between all words in a sentence, and assign weights to other words in sentences based on their importance. In the left subfigure, the mechanism estimated that the <strong>query word</strong> “it” is most related to the word “street”, but the word “it” is also somewhat related to the words “The” and “animal”. These words are referred to as <strong>key words</strong> for the query word “it”. The intensity of the lines connecting the words, as well as the intensity of the blue color, signifies the attention scores (i.e., weights). The wider and darker the lines, the higher the attention scores between two words are.</p>
+<p><img src="images/attn_1.png" width="700"></p>
+<p><em>Figure: Attention to words in sentences.</em></p>
+<p>Specifically, Transformer Networks compare each word to every other word in the sentence, and calculate <strong>attention scores</strong>. This is shown in the next figure, where for example, the word “caves” has the highest attention scores for the words “glacier” and “formed”. The attention scores between two words are calculated as the dot product (i.e., inner product) of their vector representations. For a Query vector <span class="math inline">\(Q\)</span> and a Key vector <span class="math inline">\(K\)</span>, the attention score is the dot product of the vectors: <span class="math inline">\({\text{Attention score}} = Q \cdot K\)</span>.</p>
+<p><img src="images/attn_2.png" width="300"></p>
+<p><em>Figure: Attention scores.</em></p>
+<p>Transformers employ <strong>word embeddings</strong> to represent individual words as vectors in a continuous space. Recall from the previous lectures that word embeddings are vector representations, such that the vectors of words that have similar semantic meaning have close spatial positions in the embeddings space. Therefore, attention scores are calculated as dot products of the embedding vectors for each pair of words in sentences.</p>
+<p>The obtained attention scores for each word are then first scaled (by dividing the values with <span class="math inline">\(\sqrt d\)</span>) and afterward are normalized to be in the [0,1] range (by applying a softmax function). That is, the attention scores are calculated as <span class="math inline">\(a_{ij}=softmax(\frac{Q_i\cdot K_j}{\sqrt d})\)</span>, where <span class="math inline">\(d\)</span> is the dimensionality of the embedding vectors. As discussed in previous lectures, the dimensionality of embedding vectors in modern Large Language Models typically ranges from 2,048 to 7,168 dimensions. Scaling the values by <span class="math inline">\(\sqrt d\)</span> is helpful for improving the flow of the gradients during training. Softmax produces scores that sum to 1 for each query, i.e., a probability distribution over keys.</p>
+<p>The resulting scaled and normalized attention scores are then multiplied with the initial representation of the words, which in the self-attention module is referred to as <strong>value</strong> or <span class="math inline">\(V\)</span>. This is shown in the next figure. The left subfigure shows the attention scores calculated as product of the input representations of the words <span class="math inline">\(Q\)</span> and <span class="math inline">\(K\)</span>, which are afterwards multiplied with the input representation <span class="math inline">\(V\)</span> to obtain the output of the self-attention module. Note that for text classification, all three terms Query, Key, and Value originate from the input representation of the words in sentences. However, the original Transformer was developed for machine translation, where the words in the target language are queries, and the words in the source language are pairs of keys and values. This terminology is also related to search engines, which compare queries to keys, and return values (e.g., the user submits a query, the search engine identifies key words within the query to search for, and it returns the results of the search as values). Self-attention works in a similar way, where each query word is matched to other key words, and a weighted value is returned.</p>
+<p>The right subfigure below shows how self-attention is implemented in Transformer Networks. Namely, <code>Matmul</code> stands for a matrix multiplication layer which calculates the dot product <span class="math inline">\(Q\cdot K\)</span>, which is afterwards scaled by <span class="math inline">\(\sqrt d\)</span>, then there is an optional masking layer, and afterward the final attention scores are obtained by passing it through a <code>Softmax</code> layer to obtain <span class="math inline">\(softmax(\frac{Q_i\cdot K_j}{\sqrt d})\)</span>. Finally, the attention scores are multiplied with <span class="math inline">\(V\)</span> via another matrix multiplication layer <code>Matmul</code> to calculate the output of the self-attention module. The optional masking layer can be used for two purposes: (a) to set the attention scores for future tokens to zero, so that the model can only attend to previous tokens, as explained in the section below on decoder sub-networks; and (b) to ensure that attention scores are not calculated for the padding tokens in padded sequences (e.g., 0 is often used as the padding token), but instead are calculated only for the positions in input sequences that have actual words in padded sequences.</p>
+<p><img src="images/attn_3.png" width="400"></p>
+<p><em>Figure: Self-attention in Transformer Networks</em></p>
+<p>In conclusion, self-attention enables the Transformer to capture the context-dependent meaning of each word by relating it to all others in the sequence. Through training, the model learns refined contextual embeddings that represent not just the word itself, but its role and meaning within the surrounding text.</p>
+<p><a id="19.3-multi-head-attention"></a></p>
+</section>
+<section id="multi-head-attention" class="level2">
+<h2 class="anchored" data-anchor-id="multi-head-attention">19.3 Multi-head Attention</h2>
+<p>Transformer Networks include multiple self-attention modules in their architecture. Each self-attention module is called an <strong>attention head</strong>, and the aggregation of the outputs of multiple attention heads is called <strong>multi-head attention</strong>. For instance, the original Transformer model had 8 attention heads, while LLaMA 3 language model has 32 attention heads.</p>
+<p>The multi-head attention module is shown in the next figure, where the inputs are first passed through a linear layer (i.e., fully-connected dense layer), next they are fed to the multiple attention heads, and the outputs of all attention heads are concatenated, and passed through one more linear layer.</p>
+<p><img src="images/multihead_1.png" width="600"></p>
+<p><em>Figure: Multi-head attention</em></p>
+<p>The following figure provides another visualization of single-head and multi-head attention. The keys, queries, and values are obtained by multiplying the word embeddings with the matrices <span class="math inline">\(W_k\)</span>, <span class="math inline">\(W_q\)</span>, and <span class="math inline">\(W_v\)</span>, respectively. These operations correspond to the linear layers shown in the figure above. They are implemented using the <code>nn.Linear</code> layer in PyTorch, that is, they are fully connected (dense) layers without activation functions. In the single-head attention subfigure, the attention scores are multiplied by the value vectors and passed to the next layer. In the multi-head attention subfigure, the outputs from multiple attention heads are concatenated and passed through another linear layer, whose matrix is typically denoted <span class="math inline">\(W_o\)</span> (the output projection matrix). The matrices <span class="math inline">\(W_k\)</span>, <span class="math inline">\(W_q\)</span>, <span class="math inline">\(W_v\)</span>, and <span class="math inline">\(W_o\)</span> contain the trainable parameters that are learned during model training.</p>
+<p><img src="images/multi-head-attention.png" width="1200"></p>
+<p><em>Figure: Single head and multi-head attention</em></p>
+<p>A logical question one may ask is: Why are multiple attention heads needed? The reason is that multiple attention heads can learn different relationships between words in sentences. Each head can extract context independently from the other heads, allowing the model to capture diverse and subtle dependencies that a single head might miss. For example, one head may capture relationship between nouns and numerical values in sentences, another head may focus on the relationship between the adjectives in sentences, and another head may focus on rhyming words, etc. And, if one head becomes too specialized in capturing one type of patterns, the other heads can compensate for it and provide redundancy that can improve the overall performance of the model.</p>
+<p>In addition, the computations of different attention heads can be performed in parallel on different workers, which enables faster training and allows the model to scale efficiently to larger architectures.</p>
+<p><a id="19.4-encoder-block"></a></p>
+</section>
+<section id="encoder-block" class="level2">
+<h2 class="anchored" data-anchor-id="encoder-block">19.4 Encoder Block</h2>
+<p>The <strong>Encoder Block</strong> in Transformer Networks is shown in the next figure. It processes the input word embeddings and extracts representations of text data that can afterwards be used for different NLP tasks.</p>
+<p>The components in the Encoder Block are:</p>
+<ul>
+<li><em>Multi-Head Self-Attention layer</em>, which as explained, consists of multiple self-attention modules.</li>
+<li><em>Dropout layer</em>, is a regular dropout layer.</li>
+<li><em>Residual connections</em>, are skip connections in neural networks, where the input to a layer is added to the processed output of the layer. Residual connections were popularized in ResNet models, as they were shown to stabilize the training and mitigate the problems of <em>vanishing and exploding gradients</em> in neural networks (i.e., they refer to cases when the gradients become too small or too large during training). In the figure, the <code>Add</code> term in the layer refers to the residual connection, which adds the input embeddings to the output of the Dropout layer.</li>
+<li><em>Layer Normalization</em>, is similar in concept to batch normalization in CNNs, but instead of normalizing across the batch dimension, it normalizes the hidden features of each token independently. Similar to batch normalization, it scales the data to have zero mean and unit variance. Layer normalization is applied within each sublayer in the multi-head attention and feed-forward layers, and it stabilizes the training and improves gradient flow. The “Norm” label in the Transformer diagrams refers to the Layer Normalization operation.</li>
+<li><em>Feed Forward network</em>, consists of 2 fully-connected (dense) layers that extract useful data representations.</li>
+<li>The Encoder Block also contains one more <em>Dropout layer</em>, and another <em>Add &amp; Norm</em> layer that forms a residual connection for the input to the Feed Forward network and applies a layer normalization operation.</li>
+</ul>
+<p>Transformer networks typically include several such encoder blocks in a sequence. For instance, in the original paper, the authors used 6 encoder blocks.</p>
+<p><img src="images/enc_1.png" width="250"></p>
+<p><em>Figure: Encoder block</em></p>
+<p>The implementation of the Encoder Block in PyTorch is shown in the cell below following the imported libraries.</p>
+<p>The Encoder Block is implemented as a subclass of <code>nn.Module</code>. The <code>__init__()</code> constructor method lists the definitions of the layers in the Encoder, and the method <code>forward()</code> provides the forward pass through the layers.</p>
+<ul>
+<li><em>Multi-head attention</em> layer is implemented in PyTorch as <code>nn.MultiheadAttention</code>. The arguments in the layer are: <code>embed_dim</code> is the dimension of the embeddings of the input tokens, and <code>num_heads</code> is the number of attention heads. PyTorch splits the embedding vectors among the heads, i.e., each head works with vectors of size <code>embed_dim / num_heads</code>, and therefore <code>embed_dim</code> must be divisible by <code>num_heads</code>. The argument <code>batch_first=True</code> indicates that the first dimension of the inputs is the batch dimension, i.e., the inputs have the shape (batch, sequence length, embedding dimension).</li>
+<li><em>Dropout</em> and <em>Normalization</em> layers are also directly available as <code>nn.Dropout</code> and <code>nn.LayerNorm</code>, with arguments <code>rate</code> for the dropout rate, and <code>eps</code> is a small float added to the standard deviation to avoid division by 0.</li>
+<li><em>Feed forward network</em> includes 2 linear layers with a ReLU activation in between, with the number of neurons set to <code>ff_dim</code> and <code>embed_dim</code>, respectively.</li>
+</ul>
+<p>The <code>forward()</code> method specifies the forward pass of the network. Note that the <code>multi_head_attention</code> layer has as arguments the <code>inputs</code> three times, which are used as the query, the key, and the value in the self-attention. The layer returns two outputs: the output of the attention module and the attention scores, and we only use the first output. Also note the residual connections that are implemented in the layer normalization, e.g., the inputs are added to the output of the multi-head attention.</p>
+<div id="7e14f6f9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563910659,&quot;user_tz&quot;:420,&quot;elapsed&quot;:7006,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-execution_count="1">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch.nn <span class="im">as</span> nn</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TransformerEncoder(nn.Module):</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, embed_dim, num_heads, ff_dim, rate<span class="op">=</span><span class="fl">0.1</span>):</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.multi_head_attention <span class="op">=</span> nn.MultiheadAttention(embed_dim, num_heads, batch_first<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.feed_forward_net <span class="op">=</span> nn.Sequential(nn.Linear(embed_dim, ff_dim), nn.ReLU(), nn.Linear(ff_dim, embed_dim))</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.layer_normalization1 <span class="op">=</span> nn.LayerNorm(embed_dim, eps<span class="op">=</span><span class="fl">1e-6</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.layer_normalization2 <span class="op">=</span> nn.LayerNorm(embed_dim, eps<span class="op">=</span><span class="fl">1e-6</span>)</span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropout1 <span class="op">=</span> nn.Dropout(rate)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.dropout2 <span class="op">=</span> nn.Dropout(rate)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>        multi_head_att_output, _ <span class="op">=</span> <span class="va">self</span>.multi_head_attention(inputs, inputs, inputs)</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>        multi_head_att_dropout <span class="op">=</span> <span class="va">self</span>.dropout1(multi_head_att_output)</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        add_norm_output_1 <span class="op">=</span> <span class="va">self</span>.layer_normalization1(inputs <span class="op">+</span> multi_head_att_dropout)</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>        feed_forward_output <span class="op">=</span> <span class="va">self</span>.feed_forward_net(add_norm_output_1)</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>        feed_forward_dropout <span class="op">=</span> <span class="va">self</span>.dropout2(feed_forward_output)</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>        add_norm_output_2 <span class="op">=</span> <span class="va">self</span>.layer_normalization2(add_norm_output_1 <span class="op">+</span> feed_forward_dropout)</span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> add_norm_output_2</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="19.5-positional-encoding"></a></p>
+</section>
+<section id="positional-encoding" class="level2">
+<h2 class="anchored" data-anchor-id="positional-encoding">19.5 Positional Encoding</h2>
+<p>We mentioned that Transformers use token/words embeddings as inputs, however, the embeddings alone don’t provide information about the order of words in sentences. Understandably, the order of the words in a sentence is important, and different order of the words can convey a different meaning. To provide such information, Transformer Network introduces <strong>positional encoding</strong> for each token that is added to the input embedding, as shown in the next figure. Positional encoding vectors have the same dimensionality as the input embedding vectors, and they are designed in such way so that the difference in values between any two positions reflects their distance in the input sequence.</p>
+<p><img src="images/positional_encoding_1.png" width="300"></p>
+<p><em>Figure: Positional encoding</em></p>
+<p>There are several different ways to implement positional encoding.</p>
+<ul>
+<li><em>Fixed (sinusoidal) positional encodings</em>: In the original Transformer paper, the authors used a combination of sine and cosine functions of different frequencies to generate position vectors. These encodings are designed so that each position in the sequence is uniquely represented by a distinct pattern of sine and cosine values. The values are scaled to be in the range from -1 to 1, ensuring that the model can handle different sequence lengths.</li>
+<li><em>Learned positional encodings</em>: Another common approach is to let the model learn positional embeddings directly during training, similar to how it learns word embeddings. In this case, instead of computing positions using a fixed mathematical formula, the model learns a separate encoding vector for each position, enabling it to adapt positional representations to the specific task and data.</li>
+<li><em>Rotary positional encodings (RoPE)</em>: Unlike the fixed and learned positional encodings techniques that encode information for each token based on the absolute position of the token in a sequence, the RoPE technique introduces the positional information based on the relative distance of tokens in the sequence. This results in positional encoding values that are reduced for tokens that are distant from one another in the sequence. As well as, instead of adding the positional encoding vectors to token embeddings as in the above figure, RoPE introduces the positional information directly into the self-attention mechanism of Transformer networks. Specifically, RoPE applies a unique rotation angle to each position in the sequence, and inserts a multiplicative term based on the rotation angle directly into the dot product of query and key vectors <span class="math inline">\(Q_i\cdot K_j\)</span> of the self-attention mechanism <span class="math inline">\(a_{ij}=softmax(\frac{Q_i\cdot K_j}{\sqrt d})\)</span>. Such relative positional encodings make RoPE scalable to longer sequences and allow capturing relative distances between tokens more naturally than fixed and learned positional encodings. Consequently, RoPE is widely used for positional encoding in many modern LLMs.</li>
+</ul>
+<p>The following cell implements the addition of learned positional encoding to word embeddings in PyTorch. For both token and positional embedding vectors we will use the <code>nn.Embedding</code> layer in PyTorch, which maps each token index to a trainable vector. The arguments in the <code>nn.Embedding</code> layer are the number of embedding vectors and the dimension of the embedding vectors. For the token embeddings layer, the number of vectors is the size of the vocabulary (<code>vocab_size</code> below), whereas for the positional embeddings layer it is the maximum length of the text sequences (<code>maxlen</code> below), i.e., there is one embedding vector for each position in the sequence.</p>
+<p>In the <code>forward</code> method, the function <code>torch.arange</code> creates the positions 0, 1, 2, …, up to the length of the input sequences (similar to NumPy’s <code>arange</code>). Next, the two separate <code>nn.Embedding</code> layers are called, and returned is the sum of the token and positional embeddings.</p>
+<div id="871ddc02" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563910662,&quot;user_tz&quot;:420,&quot;elapsed&quot;:2,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-execution_count="2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TokenAndPositionEmbedding(nn.Module):</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maxlen, vocab_size, embed_dim):</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.token_embeddings <span class="op">=</span> nn.Embedding(vocab_size, embed_dim)</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.positional_embeddings <span class="op">=</span> nn.Embedding(maxlen, embed_dim)</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>        positions <span class="op">=</span> torch.arange(inputs.shape[<span class="dv">1</span>], device<span class="op">=</span>inputs.device)</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>        position_embeddings <span class="op">=</span> <span class="va">self</span>.positional_embeddings(positions)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>        input_embeddings <span class="op">=</span> <span class="va">self</span>.token_embeddings(inputs)</span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> input_embeddings <span class="op">+</span> position_embeddings</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="19.6-using-a-transformer-model-for-classification"></a></p>
+</section>
+<section id="using-a-transformer-model-for-classification" class="level2">
+<h2 class="anchored" data-anchor-id="using-a-transformer-model-for-classification">19.6 Using a Transformer Model for Classification</h2>
+<p><a id="19.6.1-model-definition"></a></p>
+<section id="model-definition" class="level3">
+<h3 class="anchored" data-anchor-id="model-definition">19.6.1 Model Definition</h3>
+<p>We will now employ the layers that we defined above, to create a Transformer model for text classification.</p>
+<p>It is a simple model that consists of the following parts:</p>
+<ul>
+<li><strong>Encoder</strong>, which includes the <code>TokenAndPositionEmbedding</code> layer, and the <code>TransformerEncoder</code> layer.</li>
+<li><strong>Classifier</strong>, which consists of global average pooling, and two <code>Dropout</code> and <code>Linear</code> layers. Global average pooling calculates the average of the embedding vectors of all tokens in a sequence, to produce a single fixed-size vector per sample, and it passes those values to the linear layers to classify the text sequences. It is implemented with the <code>mean()</code> method over the dimension of the tokens (<code>dim=1</code>).</li>
+</ul>
+<p>The model will be used to classify movie reviews as negative or positive, therefore the last layer has 2 outputs (<code>num_classes=2</code>).</p>
+<div id="322722f0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563910678,&quot;user_tz&quot;:420,&quot;elapsed&quot;:17,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-execution_count="3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb3"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> TransformerClassifier(nn.Module):</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, maxlen, vocab_size, embed_dim, num_heads, ff_dim, num_classes):</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>        <span class="bu">super</span>().<span class="fu">__init__</span>()</span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>        <span class="co"># encoder</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.embedding <span class="op">=</span> TokenAndPositionEmbedding(maxlen, vocab_size, embed_dim)</span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.encoder <span class="op">=</span> TransformerEncoder(embed_dim, num_heads, ff_dim)</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>        <span class="co"># classifier</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.classifier <span class="op">=</span> nn.Sequential(</span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>            nn.Dropout(<span class="fl">0.1</span>),</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>            nn.Linear(embed_dim, <span class="dv">100</span>),</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            nn.ReLU(),</span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            nn.Dropout(<span class="fl">0.1</span>),</span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>            nn.Linear(<span class="dv">100</span>, num_classes))</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> forward(<span class="va">self</span>, inputs):</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.embedding(inputs)</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> <span class="va">self</span>.encoder(x)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>        x <span class="op">=</span> x.mean(dim<span class="op">=</span><span class="dv">1</span>)     <span class="co"># global average pooling over the tokens</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">self</span>.classifier(x)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Next, we set the parameters of the model and create the model. The input sequences will be tokenized with the DistilBERT tokenizer from Lecture 18, and therefore the size of the vocabulary is set to the vocabulary size of that tokenizer (30,522 tokens). The maximum length of the input sequences for the movie reviews is set to 256 tokens. The function <code>torch.manual_seed()</code> makes the random initialization of the model parameters reproducible.</p>
+<div id="52e4621b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563910757,&quot;user_tz&quot;:420,&quot;elapsed&quot;:77,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-execution_count="4">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>maxlen <span class="op">=</span> <span class="dv">256</span>  <span class="co"># Maximum length of input sequences is 256 tokens</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>embed_dim <span class="op">=</span> <span class="dv">32</span>  <span class="co"># Embedding size for each token</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>num_heads <span class="op">=</span> <span class="dv">2</span>  <span class="co"># Number of attention heads</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>ff_dim <span class="op">=</span> <span class="dv">32</span>  <span class="co"># Layer size in the feed forward network inside transformer</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>vocab_size <span class="op">=</span> <span class="dv">30522</span>  <span class="co"># The size of the vocabulary of the DistilBERT tokenizer</span></span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>num_classes <span class="op">=</span> <span class="dv">2</span>  <span class="co"># Number of classes (negative and positive reviews)</span></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>torch.manual_seed(<span class="dv">0</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> TransformerClassifier(maxlen, vocab_size, embed_dim, num_heads, ff_dim, num_classes)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>The structure and the number of parameters of the model are shown below.</p>
+<div id="69bb2cbb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563910805,&quot;user_tz&quot;:420,&quot;elapsed&quot;:46,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="a19edc2a-2648-4496-cf41-87e5a7287115" data-execution_count="5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(model)</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Number of parameters:"</span>, <span class="bu">sum</span>(p.numel() <span class="cf">for</span> p <span class="kw">in</span> model.parameters()))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TransformerClassifier(
+  (embedding): TokenAndPositionEmbedding(
+    (token_embeddings): Embedding(30522, 32)
+    (positional_embeddings): Embedding(256, 32)
+  )
+  (encoder): TransformerEncoder(
+    (multi_head_attention): MultiheadAttention(
+      (out_proj): NonDynamicallyQuantizableLinear(in_features=32, out_features=32, bias=True)
+    )
+    (feed_forward_net): Sequential(
+      (0): Linear(in_features=32, out_features=32, bias=True)
+      (1): ReLU()
+      (2): Linear(in_features=32, out_features=32, bias=True)
+    )
+    (layer_normalization1): LayerNorm((32,), eps=1e-06, elementwise_affine=True)
+    (layer_normalization2): LayerNorm((32,), eps=1e-06, elementwise_affine=True)
+    (dropout1): Dropout(p=0.1, inplace=False)
+    (dropout2): Dropout(p=0.1, inplace=False)
+  )
+  (classifier): Sequential(
+    (0): Dropout(p=0.1, inplace=False)
+    (1): Linear(in_features=32, out_features=100, bias=True)
+    (2): ReLU()
+    (3): Dropout(p=0.1, inplace=False)
+    (4): Linear(in_features=100, out_features=2, bias=True)
+  )
+)
+Number of parameters: 994862</code></pre>
+</div>
+</div>
+<p><a id="19.6.2-loading-the-dataset"></a></p>
+</section>
+<section id="loading-the-dataset" class="level3">
+<h3 class="anchored" data-anchor-id="loading-the-dataset">19.6.2 Loading the Dataset</h3>
+<p>Let’s apply the model for sentiment classification of movie reviews in the <strong>IMDB</strong> dataset. The dataset contains 50,000 movie reviews from the Internet Movie Database (IMDB), which are labeled as negative or positive. The reviews are split into 25,000 training and 25,000 test reviews, and each set contains an equal number of negative and positive reviews.</p>
+<p>We will use the function <code>load_dataset()</code> from the Hugging Face <code>datasets</code> library to download the dataset from the Hub by its name.</p>
+<div id="8f8dd447" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563917883,&quot;user_tz&quot;:420,&quot;elapsed&quot;:7077,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-execution_count="6">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>imdb <span class="op">=</span> load_dataset(<span class="st">"stanfordnlp/imdb"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c06d5077" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563917895,&quot;user_tz&quot;:420,&quot;elapsed&quot;:11,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="d93ac4a9-2c35-402b-c9c6-963adf993962" data-execution_count="7">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb8"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>imdb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>DatasetDict({
+    train: Dataset({
+        features: ['text', 'label'],
+        num_rows: 25000
+    })
+    test: Dataset({
+        features: ['text', 'label'],
+        num_rows: 25000
+    })
+    unsupervised: Dataset({
+        features: ['text', 'label'],
+        num_rows: 50000
+    })
+})</code></pre>
+</div>
+</div>
+<p>We can see that <code>imdb</code> is a <code>DatasetDict</code> object with three sets: train, test, and unsupervised. The <code>unsupervised</code> set contains 50,000 additional reviews without labels, and we will not use it.</p>
+<p>The dataset does not have a validation set, and therefore we will create one by using the <code>train_test_split()</code> method to randomly select 5,000 reviews from the training set for validation. The remaining 20,000 reviews will be used for training. The argument <code>seed</code> makes the random split reproducible.</p>
+<div id="b2c3d4e5" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563917919,&quot;user_tz&quot;:420,&quot;elapsed&quot;:21,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="65c1d12a-57e8-497e-8492-07385302e232" data-execution_count="8">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a>train_val <span class="op">=</span> imdb[<span class="st">"train"</span>].train_test_split(test_size<span class="op">=</span><span class="dv">5000</span>, seed<span class="op">=</span><span class="dv">0</span>)</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a>imdb[<span class="st">"train"</span>] <span class="op">=</span> train_val[<span class="st">"train"</span>]</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a>imdb[<span class="st">"validation"</span>] <span class="op">=</span> train_val[<span class="st">"test"</span>]</span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> imdb[<span class="st">"unsupervised"</span>]</span>
+<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a>imdb</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="8">
+<pre><code>DatasetDict({
+    train: Dataset({
+        features: ['text', 'label'],
+        num_rows: 20000
+    })
+    test: Dataset({
+        features: ['text', 'label'],
+        num_rows: 25000
+    })
+    validation: Dataset({
+        features: ['text', 'label'],
+        num_rows: 5000
+    })
+})</code></pre>
+</div>
+</div>
+<div id="c3d4e5f6" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563917949,&quot;user_tz&quot;:420,&quot;elapsed&quot;:29,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="1083d636-68f3-4020-e404-15dd8680b40c" data-execution_count="9">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a>imdb[<span class="st">"train"</span>][<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="9">
+<pre><code>{'text': 'The movie was TERRIBLE!!! Easily the worst movie I have seen in the past few years. One of those movies I will be able to tell people for the next three years that it was the worst movie I can think of. Thank you for giving me an answer to that burning question "What is the worst movie you have seen?" Answer: Celestine Prophecy. Trust me...I read the book, enjoyed the message and was excited to see the movie, but then, they treated the audience like we are r*tarded. There is no story and the story that is there is crippled by too much magic and coincidence. It is too bad they have to spell out the nine prophecies and can\'t simply weave them into a story that is entertaining to follow. They didn\'t spend any time on character development and it was easy to not care if any character died. It was embarrassing to be one of the few people who stuck around until the end of this incredibly boring movie. The book is pretty boring too but I enjoyed the parallels that could be seen in everyday life while you read the book. The film does not offer the same opportunity and I would suggest not seeing it if you want to continue to hold the words of the book close to your heart. DON\'T SEE THIS MOVIE. Trust me.',
+ 'label': 0}</code></pre>
+</div>
+</div>
+<p>The labels are integers 0 and 1, and the names of the corresponding classes can be obtained from the <code>features</code> attribute of the dataset, i.e., 0 is <code>neg</code> (negative review), and 1 is <code>pos</code> (positive review).</p>
+<div id="ace30021" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563917989,&quot;user_tz&quot;:420,&quot;elapsed&quot;:39,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="229458ff-cc03-4553-8122-392fc231c596" data-execution_count="10">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>class_names <span class="op">=</span> imdb[<span class="st">"train"</span>].features[<span class="st">"label"</span>].names</span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>class_names</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="10">
+<pre><code>['neg', 'pos']</code></pre>
+</div>
+</div>
+<p>Next, we will use the DistilBERT tokenizer to convert the text into sequences of token indices. We define a function <code>tokenize_padded()</code> and apply it to the dataset with the <code>map()</code> method. The reviews are padded (or truncated) to the same length of 256 tokens with <code>padding="max_length"</code>, which is required by our model, since the positional embeddings layer has 256 positions. Note that many reviews are longer than 256 tokens, and only the first 256 tokens of such reviews will be used by the model.</p>
+<p>The <code>set_format("torch", ...)</code> method of the dataset returns the selected columns as PyTorch tensors, and a Hugging Face <code>Dataset</code> can be passed directly to a PyTorch <code>DataLoader</code> to iterate over the data in batches. The training data is shuffled at each epoch.</p>
+<div id="0ec0ac37" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563927588,&quot;user_tz&quot;:420,&quot;elapsed&quot;:9602,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-execution_count="11">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb16"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> AutoTokenizer</span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> torch.utils.data <span class="im">import</span> DataLoader</span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>tokenizer <span class="op">=</span> AutoTokenizer.from_pretrained(<span class="st">"distilbert-base-uncased"</span>)</span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Tokenize the reviews with padding to a fixed length of 256 tokens</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tokenize_padded(rows):</span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> tokenizer(rows[<span class="st">"text"</span>], truncation<span class="op">=</span><span class="va">True</span>, padding<span class="op">=</span><span class="st">"max_length"</span>, max_length<span class="op">=</span><span class="dv">256</span>)</span>
+<span id="cb16-9"><a href="#cb16-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-10"><a href="#cb16-10" aria-hidden="true" tabindex="-1"></a>padded_imdb <span class="op">=</span> imdb.<span class="bu">map</span>(tokenize_padded, batched<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb16-11"><a href="#cb16-11" aria-hidden="true" tabindex="-1"></a>padded_imdb.set_format(<span class="st">"torch"</span>, columns<span class="op">=</span>[<span class="st">"input_ids"</span>, <span class="st">"attention_mask"</span>, <span class="st">"label"</span>])</span>
+<span id="cb16-12"><a href="#cb16-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-13"><a href="#cb16-13" aria-hidden="true" tabindex="-1"></a>train_dataloader <span class="op">=</span> DataLoader(padded_imdb[<span class="st">"train"</span>], shuffle<span class="op">=</span><span class="va">True</span>, batch_size<span class="op">=</span><span class="dv">128</span>)</span>
+<span id="cb16-14"><a href="#cb16-14" aria-hidden="true" tabindex="-1"></a>val_dataloader <span class="op">=</span> DataLoader(padded_imdb[<span class="st">"validation"</span>], shuffle<span class="op">=</span><span class="va">False</span>, batch_size<span class="op">=</span><span class="dv">256</span>)</span>
+<span id="cb16-15"><a href="#cb16-15" aria-hidden="true" tabindex="-1"></a>test_dataloader <span class="op">=</span> DataLoader(padded_imdb[<span class="st">"test"</span>], shuffle<span class="op">=</span><span class="va">False</span>, batch_size<span class="op">=</span><span class="dv">256</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p><a id="19.6.3-model-training"></a></p>
+</section>
+<section id="model-training" class="level3">
+<h3 class="anchored" data-anchor-id="model-training">19.6.3 Model Training</h3>
+<p>The model is trained with the standard PyTorch training loop, implemented in the function <code>train()</code>. For each batch, we perform a forward pass, calculate the cross-entropy loss, perform a backward pass, and update the parameters with the Adam optimizer. The function returns the training loss and accuracy for one epoch. After each epoch, the accuracy on the validation set is calculated with the function <code>evaluate()</code>.</p>
+<div id="e18533d9" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563968959,&quot;user_tz&quot;:420,&quot;elapsed&quot;:41216,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="11da7079-2476-4cf5-9fb8-093135960002" data-execution_count="12">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>device <span class="op">=</span> torch.device(<span class="st">"cuda"</span> <span class="cf">if</span> torch.cuda.is_available() <span class="cf">else</span> <span class="st">"cpu"</span>)</span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>model.to(device)</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>criterion <span class="op">=</span> nn.CrossEntropyLoss()</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>optimizer <span class="op">=</span> torch.optim.Adam(model.parameters(), lr<span class="op">=</span><span class="fl">1e-3</span>)</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> train(model, dataloader):</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    model.train()</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>    running_loss, correct, total <span class="op">=</span> <span class="fl">0.0</span>, <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">for</span> batch <span class="kw">in</span> dataloader:</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        input_ids <span class="op">=</span> batch[<span class="st">"input_ids"</span>].to(device)</span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> batch[<span class="st">"label"</span>].to(device)</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>        optimizer.zero_grad()                 <span class="co"># reset the gradients</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        outputs <span class="op">=</span> model(input_ids)            <span class="co"># forward pass</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        loss <span class="op">=</span> criterion(outputs, labels)     <span class="co"># loss calculation</span></span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>        loss.backward()                       <span class="co"># backward pass</span></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        optimizer.step()                      <span class="co"># parameters update</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        running_loss <span class="op">+=</span> loss.item() <span class="op">*</span> labels.size(<span class="dv">0</span>)</span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a>        correct <span class="op">+=</span> (outputs.argmax(dim<span class="op">=</span><span class="dv">1</span>) <span class="op">==</span> labels).<span class="bu">sum</span>().item()</span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        total <span class="op">+=</span> labels.size(<span class="dv">0</span>)</span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> running_loss <span class="op">/</span> total, correct <span class="op">/</span> total</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> evaluate(model, dataloader):</span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>    model.<span class="bu">eval</span>()</span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>    correct, total <span class="op">=</span> <span class="dv">0</span>, <span class="dv">0</span></span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.no_grad():</span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> batch <span class="kw">in</span> dataloader:</span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>            input_ids <span class="op">=</span> batch[<span class="st">"input_ids"</span>].to(device)</span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>            labels <span class="op">=</span> batch[<span class="st">"label"</span>].to(device)</span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>            outputs <span class="op">=</span> model(input_ids)</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a>            correct <span class="op">+=</span> (outputs.argmax(dim<span class="op">=</span><span class="dv">1</span>) <span class="op">==</span> labels).<span class="bu">sum</span>().item()</span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>            total <span class="op">+=</span> labels.size(<span class="dv">0</span>)</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> correct <span class="op">/</span> total</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>epoch_num <span class="op">=</span> <span class="dv">10</span></span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> epoch <span class="kw">in</span> <span class="bu">range</span>(epoch_num):</span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a>    train_loss, train_accuracy <span class="op">=</span> train(model, train_dataloader)</span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>    val_accuracy <span class="op">=</span> evaluate(model, val_dataloader)</span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"Epoch </span><span class="sc">{</span>epoch<span class="op">+</span><span class="dv">1</span><span class="sc">}</span><span class="ss">/</span><span class="sc">{</span>epoch_num<span class="sc">}</span><span class="ss"> - loss: </span><span class="sc">{</span>train_loss<span class="sc">:.4f}</span><span class="ss"> - accuracy: </span><span class="sc">{</span>train_accuracy<span class="sc">:.4f}</span><span class="ss"> - val accuracy: </span><span class="sc">{</span>val_accuracy<span class="sc">:.4f}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Epoch 1/10 - loss: 0.6662 - accuracy: 0.5759 - val accuracy: 0.6822
+Epoch 2/10 - loss: 0.5273 - accuracy: 0.7390 - val accuracy: 0.7714
+Epoch 3/10 - loss: 0.4215 - accuracy: 0.8107 - val accuracy: 0.7938
+Epoch 4/10 - loss: 0.3596 - accuracy: 0.8474 - val accuracy: 0.8168
+Epoch 5/10 - loss: 0.3065 - accuracy: 0.8766 - val accuracy: 0.8280
+Epoch 6/10 - loss: 0.2679 - accuracy: 0.8967 - val accuracy: 0.8366
+Epoch 7/10 - loss: 0.2332 - accuracy: 0.9136 - val accuracy: 0.8394
+Epoch 8/10 - loss: 0.2005 - accuracy: 0.9276 - val accuracy: 0.8362
+Epoch 9/10 - loss: 0.1755 - accuracy: 0.9408 - val accuracy: 0.8392
+Epoch 10/10 - loss: 0.1424 - accuracy: 0.9557 - val accuracy: 0.8306</code></pre>
+</div>
+</div>
+<p>The validation accuracy levels off at about 83% after 10 epochs. The training accuracy continues to increase, which indicates that training the model for more epochs would lead to overfitting.</p>
+<p><a id="19.6.4-model-evaluation"></a></p>
+</section>
+<section id="model-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="model-evaluation">19.6.4 Model Evaluation</h3>
+<p>The next cell evaluates the accuracy of the model on the test dataset, which is 80%. Note that our model has one small encoder block, it is trained from scratch on 20,000 reviews, and it only uses the first 256 tokens of each review. Fine-tuning a pretrained model such as DistilBERT that was pretrained on a large text corpus would typically achieve higher accuracy on this dataset.</p>
+<div id="441170b4" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563972147,&quot;user_tz&quot;:420,&quot;elapsed&quot;:3170,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="f944a713-ec5b-4195-bfad-bbb5f29d6019" data-execution_count="13">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>test_accuracy <span class="op">=</span> evaluate(model, test_dataloader)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f'Test Accuracy: </span><span class="sc">{</span>test_accuracy<span class="sc">:.4f}</span><span class="ss">'</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Test Accuracy: 0.8066</code></pre>
+</div>
+</div>
+<p>Let’s also predict the class labels for two reviews in the test dataset (the reviews with indices 0 and 12500), and compare the predictions to the ground-truth labels.</p>
+<div id="0bc0993b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563972194,&quot;user_tz&quot;:420,&quot;elapsed&quot;:45,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="4c96f67e-57b3-4ea0-8451-8a3ce4c67ba5" data-execution_count="14">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb21"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Make predictions for two test samples</span></span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>test_samples <span class="op">=</span> padded_imdb[<span class="st">"test"</span>][[<span class="dv">0</span>, <span class="dv">12500</span>]]</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>    outputs <span class="op">=</span> model(test_samples[<span class="st">"input_ids"</span>].to(device))</span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"Predicted labels:"</span>, outputs.argmax(dim<span class="op">=</span><span class="dv">1</span>).tolist())</span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="st">"True labels:"</span>, test_samples[<span class="st">"label"</span>].tolist())</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Predicted labels: [0, 1]
+True labels: [0, 1]</code></pre>
+</div>
+</div>
+<p>To see the text of the two reviews, we can convert the token indices back into text with the <code>decode()</code> method of the tokenizer. The argument <code>skip_special_tokens=True</code> removes the special tokens and the padding tokens. Note that the reviews longer than 256 tokens are truncated. The test set is sorted by label, and therefore the first review (index 0) is negative and the review with index 12,500 is positive. The model predicted both reviews correctly.</p>
+<div id="oKSXB9KFubMy" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793563972202,&quot;user_tz&quot;:420,&quot;elapsed&quot;:6,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="2f3f27a3-232c-4506-c516-51cc80223a50" data-execution_count="15">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb23"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Review 0 (</span><span class="sc">{</span>class_names[test_samples[<span class="st">'label'</span>][<span class="dv">0</span>]]<span class="sc">}</span><span class="ss">):"</span>)</span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenizer.decode(test_samples[<span class="st">"input_ids"</span>][<span class="dv">0</span>], skip_special_tokens<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Review 0 (neg):
+i love sci - fi and am willing to put up with a lot. sci - fi movies / tv are usually underfunded, under - appreciated and misunderstood. i tried to like this, i really did, but it is to good tv sci - fi as babylon 5 is to star trek ( the original ). silly prosthetics, cheap cardboard sets, stilted dialogues, cg that doesn ' t match the background, and painfully one - dimensional characters cannot be overcome with a ' sci - fi ' setting. ( i ' m sure there are those of you out there who think babylon 5 is good sci - fi tv. it ' s not. it ' s cliched and uninspiring. ) while us viewers might like emotion and character development, sci - fi is a genre that does not take itself seriously ( cf. star trek ). it may treat important issues, yet not as a serious philosophy. it ' s really difficult to care about the characters here as they are not simply foolish, just missing a spark of life. their actions and reactions are wooden and predictable, often painful to watch. the makers of earth know it ' s rubbish as they have to always say " gene roddenberry ' s earth...</code></pre>
+</div>
+</div>
+<div id="5kkaz8TfurxB" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793564006493,&quot;user_tz&quot;:420,&quot;elapsed&quot;:8,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="7e09f5d6-95b5-4184-aa92-472589369180" data-execution_count="17">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Review 12500 (</span><span class="sc">{</span>class_names[padded_imdb[<span class="st">'test'</span>][<span class="dv">12500</span>][<span class="st">'label'</span>]]<span class="sc">}</span><span class="ss">):"</span>)</span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(tokenizer.decode(padded_imdb[<span class="st">"test"</span>][<span class="dv">12500</span>][<span class="st">"input_ids"</span>], skip_special_tokens<span class="op">=</span><span class="va">True</span>))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Review 12500 (pos):
+previous reviewer claudio carvalho gave a much better recap of the film ' s plot details than i could. what i recall mostly is that it was just so beautiful, in every sense - emotionally, visually, editorially - just gorgeous. &lt; br / &gt; &lt; br / &gt; if you like movies that are wonderful to look at, and also have emotional content to which that beauty is relevant, i think you will be glad to have seen this extraordinary and unusual work of art. &lt; br / &gt; &lt; br / &gt; on a scale of 1 to 10, i ' d give it about an 8. 75. the only reason i shy away from 9 is that it is a mood piece. if you are in the mood for a really artistic, very romantic film, then it ' s a 10. i definitely think it ' s a must - see, but none of us can be in that mood all the time, so, overall, 8. 75.</code></pre>
+</div>
+</div>
+<p>Let’s also consider one more example, where we will provide four short reviews that are not in the dataset, and we will obtain the predictions by the model.</p>
+<div id="be82ae7e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1793564009765,&quot;user_tz&quot;:420,&quot;elapsed&quot;:63,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="ba1de28b-f1fd-4cbf-ab61-5b3282104cce" data-execution_count="18">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb27"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a>sample_sentences <span class="op">=</span> [<span class="st">"This movie was fantastic, I loved every minute of it!"</span>,</span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"The plot was boring and the acting was terrible."</span>,</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"A beautiful story with great performances by the whole cast."</span>,</span>
+<span id="cb27-4"><a href="#cb27-4" aria-hidden="true" tabindex="-1"></a>                    <span class="st">"I wasted two hours of my life watching this film."</span>]</span>
+<span id="cb27-5"><a href="#cb27-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-6"><a href="#cb27-6" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(sample_sentences, padding<span class="op">=</span><span class="st">"max_length"</span>, truncation<span class="op">=</span><span class="va">True</span>, max_length<span class="op">=</span>maxlen, return_tensors<span class="op">=</span><span class="st">"pt"</span>)[<span class="st">"input_ids"</span>]</span>
+<span id="cb27-7"><a href="#cb27-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-8"><a href="#cb27-8" aria-hidden="true" tabindex="-1"></a>model.<span class="bu">eval</span>()</span>
+<span id="cb27-9"><a href="#cb27-9" aria-hidden="true" tabindex="-1"></a><span class="cf">with</span> torch.no_grad():</span>
+<span id="cb27-10"><a href="#cb27-10" aria-hidden="true" tabindex="-1"></a>    predictions <span class="op">=</span> model(inputs.to(device)).argmax(dim<span class="op">=</span><span class="dv">1</span>)</span>
+<span id="cb27-11"><a href="#cb27-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb27-12"><a href="#cb27-12" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> sentence, label <span class="kw">in</span> <span class="bu">zip</span>(sample_sentences, predictions):</span>
+<span id="cb27-13"><a href="#cb27-13" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"</span><span class="sc">{</span>class_names[label]<span class="sc">}</span><span class="ss">: </span><span class="sc">{</span>sentence<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>pos: This movie was fantastic, I loved every minute of it!
+neg: The plot was boring and the acting was terrible.
+pos: A beautiful story with great performances by the whole cast.
+neg: I wasted two hours of my life watching this film.</code></pre>
+</div>
+</div>
+<p><a id="19.7-decoder-sub-network"></a></p>
+</section>
+</section>
+<section id="decoder-sub-network" class="level2">
+<h2 class="anchored" data-anchor-id="decoder-sub-network">19.7 Decoder Sub-network</h2>
+<p>The Transformer Network in the original paper was designed for machine translation. Differently from the text classification task where for an input text sentence the model predicts a class label, in machine translation for an input text sentence in a source language the model predicts the corresponding text sentence in a target language. Therefore, both the input and output of the model are text sequences. These type of models are called <strong>sequence-to-sequence models</strong>, or oftentimes this term is abbreviated to <strong>seq2seq models</strong>. Beside machine translation, other NLP tasks that employ seq2seq models include question answering, text summarization, dialog generation, and others.</p>
+<p>The architecture of Transformer Networks designed to handle seq2seq tasks consists of encoder and decoder sub-networks.</p>
+<ul>
+<li><strong>Encoder sub-network</strong> takes a source text sequence as an input, and extracts a useful representation of the text data.</li>
+<li><strong>Decoder sub-network</strong> takes a target text sequence as an input, as well as it receives the intermediate representation from the encoder sub-network. The decoder combines the information from the target sequence and the encoded source sequence, and learns to predict the next word (token) in the target sequence.</li>
+</ul>
+<p>This is shown in the next figure, where the French sequence “Je suis etudiant” is translated into “I am a student”. The decoder outputs one word at each time step until the end-of-sequence is reached.</p>
+<p><img src="images/transformer_decoding_2.gif" width="700"></p>
+<p><em>Figure: Decoder block</em></p>
+<p>Such models that predict future values based on past observations under the assumption that the current value is dependent on previous values are called <strong>autoregressive models</strong>. Autoregressive text generation involves iteratively generating one token at a time, by predicting the next word or token based on the preceding words in the sequence. This approach allows the model to produce coherent and relevant responses by chatbots.</p>
+<p>An example of autoregressive text generation is shown in the next figure. For instance, the first generated word by the model is <em>Binge</em>, and given this word, the model assigns probabilities to all possible next words. The considered words shown in the top line in the figure include <em>on</em>, <em>and</em>, <em>of</em>, <em>is</em>, etc. The generated word is <em>drinking</em>. Next, the model considers the words <em>Binge drinking</em> and generates the next word. This process is repeated for the entire output text, where the model takes as input all previously generated words, and generates the next word in the sequence. Note that this process is computationally expensive, since the model needs to repeatedly evaluate all previous words to generate every new word; as a result, inference with autoregressive models requires significant resources and time.</p>
+<p><img src="images/next-word-prediction.png" width="600"></p>
+<p><em>Figure: Autoregressive text generation. Source: [8].</em></p>
+<p>The architecture of the decoder is similar to the encoder and it is shown in the next figure. The upper part of the decoder is practically the same as the encoder, and it consists of a multi-head attention module with residual connections and layer normalization, followed by a feed-forward network with residual connections and layer normalization. The main difference from the encoder is the <em>masked multi-head attention</em> module in the lower part of the decoder. This module is inserted before the multi-head attention module in the decoder. Masked multi-head attention module applies masking to the next words in the target sequence during training, so that the network does not have access to those words. That is, during training, if the model needs to predict the 4th word in a sentence, masks will be applied to all words after the 3rd word, so that the model has access only to the words 1, 2, and 3, in order to predict the 4th word.</p>
+<p><img src="images/transformer.png" width="700"></p>
+<p><em>Figure: Transformer Network</em></p>
+<p>For example, in the next figure, for predicting the word <em>with</em> the model has access to the attention coefficients only for the words <em>Your</em>, <em>journey</em>, and <em>starts</em>, whereas the attention coefficients for the words <em>with</em>, <em>one</em>, and <em>step</em> are masked and the model does not have access to those values. This ensures that the model uses only the previous words to predict the next words in the target sequence. This type of mask is referred to as <strong>causal attention mask</strong>.</p>
+<p><img src="images/causal_attention_mask.png" width="500"></p>
+<p><em>Figure: Causal attention mask. Source: [9].</em></p>
+<p>This also explains why in the figure for the Transformer network inputs to the decoder sub-network are “Outputs (shifted right)”. It is because at each step, the target sequence is shifted to the right and it is fed again into the decoder. E.g., after predicting the 4th word, to predict the 5th word the input to the decoder will be words 1, 2, 3, and 4, and so on.</p>
+<p>Finally, the output representations from the decoder are passed to a linear (dense) layer and a softmax layer, that outputs the probability for the next word in the vocabulary learned from the training dataset.</p>
+<p>And also note the marks <code>Nx</code> in the figure. They indicate that the shown encoder and decoder blocks are repeated multiple times in the network. In the original Transformer Network, there are 6 encoder blocks, and similarly there are 6 decoder blocks. Introducing multiple blocks in the encoder and decoder sub-networks increases the learning ability as it allows the model to learn more abstract representations.</p>
+<p>Note that Recurrent Neural Networks are also a type of seq2seq models. Transformer Networks have several advantages over RNNs, due to the ability to inspect entire text sequences at once, capture context in long sequences, are parallelizable, and are more powerful in general. Conversely, RNNs process sequences step-by-step and maintain a hidden state that summarizes previous tokens. They do not observe the entire sequence at once, and have difficulty finding correlations in long sequences because the information needs to pass through many processing steps. In addition, sequential dependence of RNNs limits parallelism across time steps (are slow to train), and the gradients can become unstable.</p>
+<p><a id="19.8-vision-transformers"></a></p>
+</section>
+<section id="vision-transformers" class="level2">
+<h2 class="anchored" data-anchor-id="vision-transformers">19.8 Vision Transformers</h2>
+<p>After the initial success of Transformer Networks in NLP, they were adapted for computer vision tasks as well. The initial Transformer model for vision tasks proposed in 2021 was called <strong>Vision Transformer (ViT)</strong>.</p>
+<p>The architecture of ViT is very similar to the Transformers used in NLP. However, Transformer Networks were designed for working with sequential data, while images are spatial data types. To consider each pixel in an image as a sequential token would be impractical and too time-consuming. Therefore, ViT splits images into a set of smaller image patches (16x16 pixels), and it uses the sequence of image patches as inputs to the model (i.e., each image patch is considered a token). Each image patch is first flattened to one-dimensional vector, and those vectors are afterward passed through a dense layer to learn lower-dimensional embeddings for each patch. Positional embeddings and class embeddings are added, and the sequences are fed to a standard transformer encoder. Class embedding tokens are learned and prepended to the patch sequence, and are used to aggregate sequence information for classification. The encoder block in ViT is identical to the encoder in the original Transformer Network. The steps are depicted in the figure below.</p>
+<p><img src="images/vision_transformer.gif" width="700"></p>
+<p><em>Figure: Vision Transformer</em></p>
+<p>The authors trained 3 versions of ViT, called Base (12 encoder blocks, 768 embeddings dimension, 86M parameters), Large (24 encoder blocks, 1,024 embeddings dimension, 307M parameters), and Huge (32 encoder blocks, 1,280 embeddings dimension, 632M parameters).</p>
+<p>Various other versions of vision transformers were introduced afterwards, which include MaxViT (Multi-axis ViT), Swin (Shifted Window ViT), DeiT (Data-efficient image Transformer), T2T-ViT (Token-to-token ViT), and others. These models achieved higher accuracy on many vision tasks in comparison to Convolutional Neural Networks (EffNet, ConvNeXt, NFNet). The following figure shows the accuracy on ImageNet.</p>
+<p><img src="images/imagenet_accuracy.png" width="500"></p>
+<p><em>Figure: Accuracy on the ImageNet dataset</em></p>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>The Illustrated Transformer, Jay Alammar, available at: <a href="https://jalammar.github.io/illustrated-transformer/">https://jalammar.github.io/illustrated-transformer/</a>.</li>
+<li>Keras Examples, Text classification with Transformer (the model in Section 19.6 is a PyTorch version of this example), available at: <a href="https://keras.io/examples/nlp/text_classification_with_transformer/">https://keras.io/examples/nlp/text_classification_with_transformer/</a>.</li>
+<li>Using Pretrained BERT for Text Classification, Jean de Dieu Nyandwi, available at: <a href="https://github.com/Nyandwi/machine_learning_complete/blob/main/9_nlp_with_tensorflow/5_using_pretrained_bert_for_text_classification.ipynb">https://github.com/Nyandwi/machine_learning_complete/blob/main/9_nlp_with_tensorflow/5_using_pretrained_bert_for_text_classification.ipynb</a>.</li>
+<li>Deep Learning with Python, Francois Chollet, Second Edition, Manning Publications, 2021.</li>
+<li>TensorFlow Tutorials, Neural Machine Translation with a Transformer and Keras, available at <a href="https://www.tensorflow.org/text/tutorials/transformer">https://www.tensorflow.org/text/tutorials/transformer</a>.</li>
+<li>The Transformer Architecture (V2): Understanding LLMs, by Damien Benveniste, available at <a href="https://newsletter.theaiedge.io/p/the-transformer-architecture-v2">https://newsletter.theaiedge.io/p/the-transformer-architecture-v2</a>.</li>
+<li>How the Vision Transformer (ViT) Works in 10 Minutes: An Image is Worth 16x16 Words, Nikolas Adaloglou, available at <a href="https://theaisummer.com/vision-transformer/">https://theaisummer.com/vision-transformer/</a>.</li>
+<li>Benedetta Cevoli, Chris Watkins and Kathleen Rastle, “Prediction as a basis for skilled reading: insights from modern language models,” The Royal Society 9(6), 2022.</li>
+<li>Building a GPT-Style LLM Classifier From Scratch, Sebastian Raschka, available at <a href="https://www.linkedin.com/pulse/building-gpt-style-llm-classifier-from-scratch-sebastian-raschka-phd-itp5c/">https://www.linkedin.com/pulse/building-gpt-style-llm-classifier-from-scratch-sebastian-raschka-phd-itp5c/</a>.</li>
+<li>PyTorch documentation, MultiheadAttention, available at <a href="https://docs.pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html">https://docs.pytorch.org/docs/stable/generated/torch.nn.MultiheadAttention.html</a>.</li>
+<li>Learning Word Vectors for Sentiment Analysis (the IMDB dataset), A. Maas et al., ACL 2011, available at <a href="https://aclanthology.org/P11-1015/">https://aclanthology.org/P11-1015/</a>.</li>
+</ol>
+<p><a href="#top">BACK TO TOP</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+// Left sidebar: start with the "Course Information" section collapsed
+// while lecture sections stay expanded (collapse-level: 2 expands all;
+// Quarto has no per-section setting, so this collapses just that one).
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#quarto-sidebar .sidebar-item-section").forEach(function (sec) {
+    var text = sec.querySelector(":scope > .sidebar-item-container .menu-text");
+    if (!text || text.textContent.trim() !== "Course Information") return;
+    var sub = sec.querySelector(":scope > ul.collapse");
+    if (sub) sub.classList.remove("show");
+    sec.querySelectorAll(":scope > .sidebar-item-container a[data-bs-toggle]").forEach(function (a) {
+      a.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
+<script>
+// Add expand/collapse arrows to right-pane TOC entries that have subsections.
+// Clicking the arrow toggles the subsection list without navigating; an
+// inline display style is used so Quarto's scroll-spy can't override it.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+  toc.querySelectorAll("li").forEach(function (li) {
+    var sub = li.querySelector(":scope > ul");
+    var link = li.querySelector(":scope > a");
+    if (!sub || !link) return;
+    var btn = document.createElement("span");
+    btn.className = "toc-chevron";
+    btn.setAttribute("role", "button");
+    btn.setAttribute("tabindex", "0");
+    btn.setAttribute("aria-label", "Toggle subsections");
+    btn.setAttribute("title", "Show/hide subsections");
+    btn.setAttribute("aria-expanded", "false");
+    link.after(btn);
+    function toggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = sub.style.display === "block";
+      sub.style.display = open ? "" : "block";
+      btn.classList.toggle("toc-chevron-expanded", !open);
+      btn.setAttribute("aria-expanded", String(!open));
+    }
+    btn.addEventListener("click", toggle);
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") toggle(e);
+    });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/avakanski\.github\.io\/Fall-2026-Applied-Data-Science-with-Python\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.html" class="pagination-link" aria-label="Lecture 18 - Natural Language Processing">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 18 - Natural Language Processing</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.html" class="pagination-link" aria-label="Lecture 16 - Deploying Projects as Web Applications">
+        <span class="nav-page-text">Lecture 16 - Deploying Projects as Web Applications</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
