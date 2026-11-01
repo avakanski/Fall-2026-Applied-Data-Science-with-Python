@@ -1,0 +1,2224 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.10.20">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+
+<title>Lecture 22 - Multi-modal Models – Applied Data Science with Python</title>
+<style>
+/* Default styles provided by pandoc.
+** See https://pandoc.org/MANUAL.html#variables-for-html for config info.
+*/
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: 1.5em;}
+div.column{flex: auto;}
+@media screen {
+div.columns{gap: min(4vw, 1.5em);}
+div.column{overflow-x: auto;}
+}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+/* CSS for syntax highlighting */
+html { -webkit-text-size-adjust: 100%; }
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { display: inline-block; line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
+</style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js" integrity="sha384-ZvpUoO/+PpLXR1lu4jmpXWu80pZlYUAfxl5NsBMWOEPSjUn/6Z/hRTt8+pR6L4N2" crossorigin="anonymous"></script><script src="../../../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../../../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../../../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../../../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../../../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../../../">
+<link href="../../../Lectures/Theme_3-Model_Engineering/Lecture_23-Reasoning_LLMs/Lecture_23-Reasoning_LLMs.html" rel="next">
+<link href="../../../Lectures/Theme_3-Model_Engineering/Lecture_21-RAG/Lecture_21-RAG.html" rel="prev">
+<script src="../../../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../../../site_libs/quarto-html/popper.min.js"></script>
+<script src="../../../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../../../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../../../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" class="quarto-color-scheme" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-dark-0ae969d3293726db143f6e9eb89af930.css" rel="stylesheet" class="quarto-color-scheme quarto-color-alternate" id="quarto-text-highlighting-styles">
+<link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-17888a1159294d3eb470f19f6f52f5a5.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
+<script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../../../site_libs/bootstrap/bootstrap-bc83c2bf0e080a26b08749d8d72b9df6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-08ec3d28dfa002ffaf216f68ea7fe7ef.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-bc83c2bf0e080a26b08749d8d72b9df6.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "sidebar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "start",
+  "type": "textbox",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="https://cdn.jsdelivr.net/npm/requirejs@2.3.6/require.min.js" integrity="sha384-c9c+LnTbwQ3aujuU7ULEPVvgLs+Fn6fJUvIGTsuu1ZcCf11fiEubah0ttpca4ntM sha384-6V1/AdqZRWk1KAlWbKBlGhN7VG4iE/yAZcO6NZPMF8od0vukrvr0tg4qY6NSrItx" crossorigin="anonymous"></script>
+
+<script type="application/javascript">define('jquery', [],function() {return window.jQuery;})</script>
+<script src="https://cdn.jsdelivr.net/npm/@jupyter-widgets/html-manager@*/dist/embed-amd.js" crossorigin="anonymous"></script>
+
+  <script src="https://cdnjs.cloudflare.com/polyfill/v3/polyfill.min.js?features=es6"></script>
+  <script defer="" src="https://cdn.jsdelivr.net/npm/mathjax@4/tex-chtml.js" type="text/javascript"></script>
+
+<script type="text/javascript">
+const typesetMath = (el) => {
+  if (window.MathJax) {
+    // MathJax Typeset
+    window.MathJax.typeset([el]);
+  } else if (window.katex) {
+    // KaTeX Render
+    var mathElements = el.getElementsByClassName("math");
+    var macros = [];
+    for (var i = 0; i < mathElements.length; i++) {
+      var texText = mathElements[i].firstChild;
+      if (mathElements[i].tagName == "SPAN" && texText && texText.data) {
+        window.katex.render(texText.data, mathElements[i], {
+          displayMode: mathElements[i].classList.contains('display'),
+          throwOnError: false,
+          macros: macros,
+          fleqn: false
+        });
+      }
+    }
+  }
+}
+window.Quarto = {
+  typesetMath
+};
+</script>
+
+<link rel="stylesheet" href="../../../styles.css">
+</head>
+
+<body class="nav-sidebar docked quarto-light"><script id="quarto-html-before-body" type="application/javascript">
+    const toggleBodyColorMode = (bsSheetEl) => {
+      const mode = bsSheetEl.getAttribute("data-mode");
+      const bodyEl = window.document.querySelector("body");
+      if (mode === "dark") {
+        bodyEl.classList.add("quarto-dark");
+        bodyEl.classList.remove("quarto-light");
+      } else {
+        bodyEl.classList.add("quarto-light");
+        bodyEl.classList.remove("quarto-dark");
+      }
+    }
+    const toggleBodyColorPrimary = () => {
+      const bsSheetEl = window.document.querySelector("link#quarto-bootstrap:not([rel=disabled-stylesheet])");
+      if (bsSheetEl) {
+        toggleBodyColorMode(bsSheetEl);
+      }
+    }
+    const setColorSchemeToggle = (alternate) => {
+      const toggles = window.document.querySelectorAll('.quarto-color-scheme-toggle');
+      for (let i=0; i < toggles.length; i++) {
+        const toggle = toggles[i];
+        if (toggle) {
+          if (alternate) {
+            toggle.classList.add("alternate");
+          } else {
+            toggle.classList.remove("alternate");
+          }
+        }
+      }
+    };
+    const toggleColorMode = (alternate) => {
+      // Switch the stylesheets
+      const primaryStylesheets = window.document.querySelectorAll('link.quarto-color-scheme:not(.quarto-color-alternate)');
+      const alternateStylesheets = window.document.querySelectorAll('link.quarto-color-scheme.quarto-color-alternate');
+      manageTransitions('#quarto-margin-sidebar .nav-link', false);
+      if (alternate) {
+        // note: dark is layered on light, we don't disable primary!
+        enableStylesheet(alternateStylesheets);
+        for (const sheetNode of alternateStylesheets) {
+          if (sheetNode.id === "quarto-bootstrap") {
+            toggleBodyColorMode(sheetNode);
+          }
+        }
+      } else {
+        disableStylesheet(alternateStylesheets);
+        enableStylesheet(primaryStylesheets)
+        toggleBodyColorPrimary();
+      }
+      manageTransitions('#quarto-margin-sidebar .nav-link', true);
+      // Switch the toggles
+      setColorSchemeToggle(alternate)
+      // Hack to workaround the fact that safari doesn't
+      // properly recolor the scrollbar when toggling (#1455)
+      if (navigator.userAgent.indexOf('Safari') > 0 && navigator.userAgent.indexOf('Chrome') == -1) {
+        manageTransitions("body", false);
+        window.scrollTo(0, 1);
+        setTimeout(() => {
+          window.scrollTo(0, 0);
+          manageTransitions("body", true);
+        }, 40);
+      }
+    }
+    const disableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        stylesheet.rel = 'disabled-stylesheet';
+      }
+    }
+    const enableStylesheet = (stylesheets) => {
+      for (let i=0; i < stylesheets.length; i++) {
+        const stylesheet = stylesheets[i];
+        if(stylesheet.rel !== 'stylesheet') { // for Chrome, which will still FOUC without this check
+          stylesheet.rel = 'stylesheet';
+        }
+      }
+    }
+    const manageTransitions = (selector, allowTransitions) => {
+      const els = window.document.querySelectorAll(selector);
+      for (let i=0; i < els.length; i++) {
+        const el = els[i];
+        if (allowTransitions) {
+          el.classList.remove('notransition');
+        } else {
+          el.classList.add('notransition');
+        }
+      }
+    }
+    const isFileUrl = () => {
+      return window.location.protocol === 'file:';
+    }
+    const hasAlternateSentinel = () => {
+      let styleSentinel = getColorSchemeSentinel();
+      if (styleSentinel !== null) {
+        return styleSentinel === "alternate";
+      } else {
+        return false;
+      }
+    }
+    const setStyleSentinel = (alternate) => {
+      const value = alternate ? "alternate" : "default";
+      if (!isFileUrl()) {
+        window.localStorage.setItem("quarto-color-scheme", value);
+      } else {
+        localAlternateSentinel = value;
+      }
+    }
+    const getColorSchemeSentinel = () => {
+      if (!isFileUrl()) {
+        const storageValue = window.localStorage.getItem("quarto-color-scheme");
+        return storageValue != null ? storageValue : localAlternateSentinel;
+      } else {
+        return localAlternateSentinel;
+      }
+    }
+    const toggleGiscusIfUsed = (isAlternate, darkModeDefault) => {
+      const baseTheme = document.querySelector('#giscus-base-theme')?.value ?? 'light';
+      const alternateTheme = document.querySelector('#giscus-alt-theme')?.value ?? 'dark';
+      let newTheme = '';
+      if(authorPrefersDark) {
+        newTheme = isAlternate ? baseTheme : alternateTheme;
+      } else {
+        newTheme = isAlternate ? alternateTheme : baseTheme;
+      }
+      const changeGiscusTheme = () => {
+        // From: https://github.com/giscus/giscus/issues/336
+        const sendMessage = (message) => {
+          const iframe = document.querySelector('iframe.giscus-frame');
+          if (!iframe) return;
+          iframe.contentWindow.postMessage({ giscus: message }, 'https://giscus.app');
+        }
+        sendMessage({
+          setConfig: {
+            theme: newTheme
+          }
+        });
+      }
+      const isGiscussLoaded = window.document.querySelector('iframe.giscus-frame') !== null;
+      if (isGiscussLoaded) {
+        changeGiscusTheme();
+      }
+    };
+    const authorPrefersDark = false;
+    const darkModeDefault = authorPrefersDark;
+      document.querySelector('link#quarto-text-highlighting-styles.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+      document.querySelector('link#quarto-bootstrap.quarto-color-scheme-extra').rel = 'disabled-stylesheet';
+    let localAlternateSentinel = darkModeDefault ? 'alternate' : 'default';
+    // Dark / light mode switch
+    window.quartoToggleColorScheme = () => {
+      // Read the current dark / light value
+      let toAlternate = !hasAlternateSentinel();
+      toggleColorMode(toAlternate);
+      setStyleSentinel(toAlternate);
+      toggleGiscusIfUsed(toAlternate, darkModeDefault);
+      window.dispatchEvent(new Event('resize'));
+    };
+    // Switch to dark mode if need be
+    if (hasAlternateSentinel()) {
+      toggleColorMode(true);
+    } else {
+      toggleColorMode(false);
+    }
+  </script>
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+  <nav class="quarto-secondary-nav">
+    <div class="container-fluid d-flex">
+      <button type="button" class="quarto-btn-toggle btn" data-bs-toggle="collapse" role="button" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+        <i class="bi bi-layout-text-sidebar-reverse"></i>
+      </button>
+        <nav class="quarto-page-breadcrumbs" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html">Theme 3 - Model Engineering Pipelines</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.html">Lecture 22 - Multi-modal Models</a></li></ol></nav>
+        <a class="flex-grow-1" role="navigation" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item" aria-controls="quarto-sidebar" aria-expanded="false" aria-label="Toggle sidebar navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">      
+        </a>
+      <button type="button" class="btn quarto-search-button" aria-label="Search" onclick="window.quartoOpenSearch();">
+        <i class="bi bi-search"></i>
+      </button>
+    </div>
+  </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation docked overflow-auto">
+    <div class="pt-lg-2 mt-2 text-center sidebar-header">
+    <div class="sidebar-title mb-0 py-0">
+      <a href="../../../">Applied Data Science with Python</a> 
+        <div class="sidebar-tools-main">
+    <a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python" title="GitHub repository" class="quarto-navigation-tool px-1" aria-label="GitHub repository"><i class="bi bi-github"></i></a>
+  <a href="" class="quarto-color-scheme-toggle quarto-navigation-tool  px-1" onclick="window.quartoToggleColorScheme(); return false;" title="Toggle dark mode"><i class="bi"></i></a>
+</div>
+    </div>
+      </div>
+        <div class="mt-2 flex-shrink-0 align-items-center">
+        <div class="sidebar-search">
+        <div id="quarto-search" class="" title="Search"></div>
+        </div>
+        </div>
+    <div class="sidebar-menu-container"> 
+    <ul class="list-unstyled mt-1">
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a href="../../../index.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Information</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-1" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-1" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-syllabus" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Syllabus</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-description" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Description</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#textbooks" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Textbooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#learning-outcomes" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Learning Outcomes</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#prerequisites" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Prerequisites</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#grading" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Grading</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../index.html#course-schedule" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Course Schedule</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Lecture_1-A_Short_History_of_AI/Lecture_1-A_Short_History_of_AI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 1 - A Short History of AI</span></a>
+  </div>
+</li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 1 - Python Programming</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-2" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-2" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_2-Python_Data_Types,_Statements/Lecture_2-Python_Data_Types,_Statements.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 2 - Python Data Types, Statements</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_3-Files,_Functions/Lecture_3-Files,_Functions.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 3 - Files, Functions</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_1-Python_Programming/Lecture_4-OOP,_Modules,_Packages/Lecture_4-OOP,_Modules,_Packages.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 4 - OOP, Modules, Packages</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 2 - Data Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-3" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-3" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_5-NumPy/Lecture_5-NumPy.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 5 - NumPy for Array Operations</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_6-Pandas/Lecture_6-Pandas.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 6 - Data Manipulation with Pandas</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_7-Matplotlib,_Seaborn/Lecture_7-Matplotlib,_Seaborn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 7 - Data Visualization with Matplotlib and Seaborn</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_8-SQL/Lecture_8-SQL.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 8 - Databases and SQL</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_2-Data_Engineering/Lecture_9-Data_Exploration/Lecture_9-Data_Exploration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 9 - Data Exploration and Preprocessing</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 3 - Model Engineering Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-4" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-4" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 10 - Scikit-Learn Library for Data Science</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_11-Ensemble_Models/Lecture_11-Ensemble_Models.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 11 - Ensemble Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_12-ANNs/Lecture_12-ANNs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 12 - Artificial Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_13-ConvNets/Lecture_13-ConvNets.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 13 - Convolutional Neural Networks with Keras-TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_14-Model_Selection/Lecture_14-Model_Selection.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 14 - Model Selection, Hyperparameter Tuning, Callbacks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_15-ANNs_with_PyTorch/Lecture_15-ANNs_with_PyTorch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 15 - Artificial Neural Networks with PyTorch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_18-NLP/Lecture_18-NLP.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 18 - Natural Language Processing</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_19-Transformer_Networks/Lecture_19-Transformer_Networks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 19 - Transformer Networks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_20-LLMs/Lecture_20-LLMs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 20 - Large Language Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_21-RAG/Lecture_21-RAG.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 21 - Retrieval-Augmented Generation</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.html" class="sidebar-item-text sidebar-link active">
+ <span class="menu-text">Lecture 22 - Multi-modal Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_23-Reasoning_LLMs/Lecture_23-Reasoning_LLMs.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 23 - Reasoning Large Language Models</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_24-Agentic_AI/Lecture_24-Agentic_AI.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 24 - Agentic AI</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true">
+ <span class="menu-text">Theme 4 - Deployment Pipelines</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-5" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-5" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 16 - Deploying Projects as Web Applications</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 17 - Reproducible Projects, Docker Containers</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+        <li class="sidebar-item sidebar-item-section">
+      <div class="sidebar-item-container"> 
+            <a class="sidebar-item-text sidebar-link text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true">
+ <span class="menu-text">Tutorials</span></a>
+          <a class="sidebar-item-toggle text-start" data-bs-toggle="collapse" data-bs-target="#quarto-sidebar-section-6" role="navigation" aria-expanded="true" aria-label="Toggle section">
+            <i class="bi bi-chevron-right ms-2"></i>
+          </a> 
+      </div>
+      <ul id="quarto-sidebar-section-6" class="collapse list-unstyled sidebar-section depth1 show">  
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 1 - Jupyter Notebooks</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_2-VS_Code/Tutorial_2-VS_Code.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 2 - Python IDEs, VS Code</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_3-Terminal_and_Command_Line/Tutorial_3-Terminal_and_Command_Line.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 3 - Terminal and Command Line</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_4-Virtual_Environments/Tutorial_4-Virtual_Environments.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 4 - Virtual Environments</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_5-Google_Colab/Tutorial_5-Google_Colab.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 5 - Google Colab</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_6-TensorFlow/Tutorial_6-TensorFlow.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 6 - TensorFlow</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_7-PyTorch/Tutorial_7-PyTorch.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 7 - PyTorch</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_8-Git_and_Version_Control/Tutorial_8-Git_and_Version_Control.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 8 - Git and Version Control</span></a>
+  </div>
+</li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Tutorials/Tutorial_9-Azure/Tutorial_9-Azure.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Tutorial 9 - Deployment on the Cloud with Azure</span></a>
+  </div>
+</li>
+      </ul>
+  </li>
+    </ul>
+    </div>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar">
+        <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction-to-vision-language-models" id="toc-introduction-to-vision-language-models" class="nav-link active" data-scroll-target="#introduction-to-vision-language-models">22.1 Introduction to Vision-Language Models</a></li>
+  <li><a href="#vlm-architectures" id="toc-vlm-architectures" class="nav-link" data-scroll-target="#vlm-architectures">22.2 VLM Architectures</a></li>
+  <li><a href="#benchmarking-vlms" id="toc-benchmarking-vlms" class="nav-link" data-scroll-target="#benchmarking-vlms">22.3 Benchmarking VLMs</a></li>
+  <li><a href="#vlms-importance" id="toc-vlms-importance" class="nav-link" data-scroll-target="#vlms-importance">22.4 VLMs Importance</a></li>
+  <li><a href="#vlm-finetuning" id="toc-vlm-finetuning" class="nav-link" data-scroll-target="#vlm-finetuning">22.5 VLM Finetuning</a></li>
+  <li><a href="#appendix-vlm-finetuning-with-unsloth-library" id="toc-appendix-vlm-finetuning-with-unsloth-library" class="nav-link" data-scroll-target="#appendix-vlm-finetuning-with-unsloth-library">Appendix: VLM Finetuning with Unsloth Library</a></li>
+  <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
+  </ul>
+</nav>
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+
+<header id="title-block-header" class="quarto-title-block default"><nav class="quarto-page-breadcrumbs quarto-title-breadcrumbs d-none d-lg-block" aria-label="breadcrumb"><ol class="breadcrumb"><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_10-Scikit-Learn/Lecture_10-Scikit-Learn.html">Theme 3 - Model Engineering Pipelines</a></li><li class="breadcrumb-item"><a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.html">Lecture 22 - Multi-modal Models</a></li></ol></nav>
+<div class="quarto-title">
+<h1 class="title">Lecture 22 - Multi-modal Models</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<p><a href="https://github.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.ipynb"><img src="https://img.shields.io/static/v1.svg?logo=github&amp;label=Repo&amp;message=View%20On%20Github&amp;color=lightgrey" class="img-fluid" alt="View notebook on Github"></a> <a href="https://colab.research.google.com/github/avakanski/Fall-2026-Applied-Data-Science-with-Python/blob/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.ipynb"><img src="https://colab.research.google.com/assets/colab-badge.svg" class="img-fluid" alt="Open In Collab"></a> <a href="https://avakanski.github.io/Fall-2026-Applied-Data-Science-with-Python/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.html"><img src="https://img.shields.io/static/v1.svg?logo=quarto&amp;label=Web&amp;message=View%20on%20Website&amp;color=blue" class="img-fluid" alt="View on Website"></a></p>
+<p><a id="top"></a></p>
+<ul>
+<li><a href="#22.1-introduction-to-vision-language-models">22.1 Introduction to Vision-Language Models</a></li>
+<li><a href="#22.2-vlm-architectures">22.2 VLM Architectures</a></li>
+<li><a href="#22.3-benchmarking-vlms">22.3 Benchmarking VLMs</a></li>
+<li><a href="#22.4-vlms-importance">22.4 VLMs Importance</a></li>
+<li><a href="#22.5-vlm-finetuning">22.5 VLM Finetuning</a></li>
+<li><a href="#appendix:-vlm-finetuning-with-unsloth-library">Appendix: VLM Finetuning with Unsloth Library</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+<p>This lecture introduces <strong>multimodal models</strong>, which process and integrate information from more than one data modality, such as text, images, audio, and video. We will focus on <strong>Vision-Language Models (VLMs)</strong>, which are currently the most widely used class of multimodal models. We will cover VLM architectures, benchmarking, and importance, followed by an example of finetuning a VLM on a custom dataset of medical images.</p>
+<p><a id="22.1-introduction-to-vision-language-models"></a></p>
+<section id="introduction-to-vision-language-models" class="level2">
+<h2 class="anchored" data-anchor-id="introduction-to-vision-language-models">22.1 Introduction to Vision-Language Models</h2>
+<p><strong>Vision Language Models (VLMs)</strong> are multimodal systems that jointly process and reason over visual (images, videos) and linguistic (text) information. By integrating the two modalities, VLMs can understand and communicate about visual content using natural language.</p>
+<p>VLMs take both an image and its textual description as input and generate text as output. In addition, VLM variants have also been developed that can output images. In this lecture, we will focus on VLMs that output text, as the most common type.</p>
+<p><img src="images/vlm_structure.png" width="450"></p>
+<p><em>Figure: VLM structure.</em> Source: [1].</p>
+<p>Building datasets for VLMs requires collecting a large number of images and corresponding text, typically in the form of image captions or descriptive phrases. Several very large such datasets exist that have been essential for training modern VLMs and contain millions or billions of image-text pairs, with descriptions in English and other languages. For instance, the <a href="https://laion.ai/blog/laion-5b/">LAION-5B</a> dataset has 5.8 billion image-text examples, and the <a href="https://huggingface.co/datasets/facebook/pmd">PMD (Public Model Dataset)</a> contains 70 million image-text examples.</p>
+<p>During training, a VLM learns to map visual and textual representations into a joint embedding space. This mapping allows the model to associate visual features (shapes, colors, spatial relations) with linguistic concepts, enabling it to generalize to a wide range of vision tasks and perform zero-shot inference on unseen examples.</p>
+<p>The example below illustrates a VLM performing tasks such as object localization, segmentation, visual question answering, and image learning with instructions. The user prompts are shown on the left, and the model responses are given on the right. As demonstrated in this example, VLM models can not only interpret the semantic content of images, but can also understand spatial relations in images, such as identifying relative positions of objects, or generating segmentation masks. VLMs can also output bounding boxes of objects, and perform other spatial tasks.</p>
+<p><img src="images/VLM_capabilities.jpg" width="500"></p>
+<p><em>Figure: VLM prompts and responses.</em> Source: [2].</p>
+<p>In general, VLMs can perform various multimodal tasks including:</p>
+<ul>
+<li>Image and video captioning/summarization: generate context-aware descriptions of images or video frames.</li>
+<li>Visual question answering (VQA): answer open-ended questions based on visual content.</li>
+<li>Image-based reasoning: provide explanations or logical reasoning about visual scenes.</li>
+<li>Multimodal dialogues: engage in conversations involving visual inputs.</li>
+<li>Text-to-image search: retrieve images, figures, or diagrams in documents that match a textual query.</li>
+<li>Image generation: generate new images based on textual prompts.</li>
+</ul>
+<p><a id="22.2-vlm-architectures"></a></p>
+</section>
+<section id="vlm-architectures" class="level2">
+<h2 class="anchored" data-anchor-id="vlm-architectures">22.2 VLM Architectures</h2>
+<p>Numerous architectures of VLMs have been proposed in recent years that employ different strategies to integrate visual and textual information. Two broad categories include VLM architectures with shared multimodal embeddings and with fused multimodal embeddings, illustrated in the figure.</p>
+<p><img src="images/vlm_architectures.png" width="550"></p>
+<p><em>Figure: VLM architectures.</em> Source: [3].</p>
+<section id="vlms-with-shared-multimodal-embeddings" class="level4">
+<h4 class="anchored" data-anchor-id="vlms-with-shared-multimodal-embeddings"><strong>VLMs with Shared Multimodal Embeddings</strong></h4>
+<p>VLM architectures with shared embeddings include the following main components.</p>
+<p><strong>Multimodal inputs</strong>. Input modalities in VLMs include <em>visual inputs</em> (images, PDF documents, or videos) and <em>textual inputs</em> (captions, question-answer pairs, or instructions).</p>
+<p><strong>Encoding Modalities.</strong> A <em>vision encoder</em> transforms the visual input into numerical representations, referred to as visual embeddings. The vision encoder in VLMs is commonly a variant of the Vision Transformer (ViT) architecture. A <em>text encoder</em> converts textual prompts into text embeddings. The text encoder is typically a Transformer-based encoder often pretrained on large text corpora.</p>
+<p><strong>Projection into a multimodal embedding space.</strong> The visual and textual embeddings are next projected into a shared multimodal embedding space. This step is achieved through a <em>projector head</em> (a.k.a. projector layer or just projector), which is usually implemented as a small Transformer block or a block of fully-connected layers. The projector aligns the visual and textual representations into a shared embedding space, allowing the model to reason simultaneously across images and language.</p>
+<p>The shared embedding space enables VLMs to link textual concepts (e.g., cat) with corresponding visual evidence (a cat’s color or location in the image), allowing reasoning across both language and vision. For instance, the model understands “cat” not just as a word, but also as a visual object in the image.</p>
+<p>One representative model of this type of VLM architectures is CLIP (Contrastive Language-Image Pretraining). It is one of the earliest models that introduced vision-language alignment through contrastive learning. CLIP employs both a vision encoder and a text encoder, and learns a shared embedding space in which images and their textual descriptions are semantically aligned. <em>Contrastive learning</em> in CLIP is employed to associate visual and textual content by maximizing the similarity between matched image and text pairs and minimizing the similarity between mismatched ones. In the figure below, the image encoder outputs image embeddings <span class="math inline">\(I_1, I_2, I_3, ..., I_N\)</span> for each image in the batch, and the text encoder outputs text embeddings <span class="math inline">\(T_1, T_2, T_3, ..., T_N\)</span> for each corresponding text in the batch. The model computes a similarity score between each pair of image embeddings (e.g., <span class="math inline">\(I_i\)</span>) and text embeddings (e.g., <span class="math inline">\(T_j\)</span>) to align them into a shared embedding space <span class="math inline">\(I_i\cdot T_j\)</span>. Similarity scores are calculated using the dot product (i.e., cosine similarity) <span class="math inline">\(I_i\cdot T_j\)</span> between image and text embeddings. As training progresses, the two encoders are updated so that image and text representations corresponding to similar concepts are drawn close to each other in the shared embedding space, while dissimilar concepts are pushed apart.</p>
+<p><img src="images/CLIP.png" width="450"></p>
+<p><em>Figure: CLIP architecture.</em> Source: [3].</p>
+<p>The pretrained vision encoder of CLIP has been widely adopted as a vision encoder component in numerous later VLM variants.</p>
+</section>
+<section id="vlms-with-fused-multimodal-embeddings" class="level4">
+<h4 class="anchored" data-anchor-id="vlms-with-fused-multimodal-embeddings"><strong>VLMs with Fused Multimodal Embeddings</strong></h4>
+<p>Other VLM architectures fuse together image and text representations into joint multimodal embeddings to enable more advanced visual reasoning. These models typically employ a <em>text decoder</em> network from pretrained LLM, which generates a text output.</p>
+<p>The following figure illustrates the workflow of this class of VLMs. The visual embeddings from the vision encoder are first matched by the multimodal projector to the corresponding text embeddings of the LLM. The LLM decoder receives a combined representation consisting of visual embeddings (image tokens) from the projector and text embeddings (text tokens) from the user’s prompt or question. The LLM decoder serves as the text generation backbone, and using the combined image and text tokens, it generates a textual output in an autoregressive manner, one token at a time. Each new token is conditioned on previously generated tokens and on the fused multimodal embeddings.</p>
+<p><img src="images/vlm_fused_embeddings.png" width="300"></p>
+<p><em>Figure: Fused multimodal embeddings.</em> Source: [4].</p>
+<p>Training VLMs with fused vision and text embeddings typically involves multiple stages, as shown in the next figure. In the first stage only the multimodal projector (also referred to as fusion layer or adapter) is trained while keeping the image encoder and the LLM text decoder frozen. This is followed by a second stage that involves additional finetuning of the multimodal projector and parts of the text decoder, while keeping the image encoder frozen.</p>
+<p><img src="images/vlm_training.png" width="550"></p>
+<p><em>Figure: VLM training.</em> Source: [4].</p>
+<p>In addition, in some VLM architectures, the vision encoder is also finetuned in the second stage to further improve cross-modal reasoning.</p>
+<p>Representative models of this VLM architectures are BLIP and Flamingo, which introduced cross-attention mechanism to fuse image and text embeddings (this is similar to the cross-attention module connecting the encoder and decoder in standard Transformer networks). Cross-modal attention enables direct fusion of image and text embeddings into a single multimodal representation, allowing the models to reason more efficiently over both modalities.</p>
+<p>LLaVA (Large Language and Vision Assistant) architecture introduced a different design which replaced the cross-attention module with an MLP (Multi-Layer Perceptron) adapter for fusing multimodal embeddings. Specifically, the MLP adapter is a small fully connected network that linearly projects vision and text tokens and then concatenates them into a fused representation that is passed to the text decoder.</p>
+<p>These VLMs laid the foundations for the modern multimodal foundation models, such as Gemini 2.5 (Google), GPT-5 (OpenAI), Claude Opus 4 (Anthropic), Qwen-VL (Alibaba), and Mistral 3.1 (Mistral AI). The modern multimodal models typically employ MLP adapters for fusing image and text representations within a unified embedding space, and provide enhanced visual comprehension, reasoning, and dialog capabilities.</p>
+<p>Also, many open-source VLM alternatives have made this fused-architecture functionality widely accessible to the research community, and include LLaVA (Microsoft), Qwen-VL (Alibaba), LLaMA 3.2 Vision (Meta AI), InternVL (OpenGVLab), Pixtral (Mistral AI), and others.</p>
+<p><a id="22.3-benchmarking-vlms"></a></p>
+</section>
+</section>
+<section id="benchmarking-vlms" class="level2">
+<h2 class="anchored" data-anchor-id="benchmarking-vlms">22.3 Benchmarking VLMs</h2>
+<p>Performance of VLMs is assessed using multimodal benchmarks that evaluate models on a variety of tasks, such as reasoning, visual question answering, document comprehension, video understanding, and other tasks. Most benchmarks consist of a set of images with associated questions, often posed as multiple-choice questions. Popular benchmarks are <a href="https://mmmu-benchmark.github.io/">MMMU</a>, <a href="https://video-mme.github.io/home_page.html">Video-MME</a>, <a href="https://mathvista.github.io/">MathVista</a>, and <a href="https://github.com/vis-nlp/ChartQA">ChartQA</a>. MMMU is the most comprehensive benchmark, and contains 11.5K multimodal challenges that require knowledge and reasoning across different disciplines such as arts and engineering.</p>
+<p>Several VLM-specific leaderboards provide comparative rankings across diverse metrics. <a href="https://lmarena.ai/leaderboard/vision">Vision Arena</a> ranks models based on anonymous voting of model outputs by human preferences. <a href="https://huggingface.co/spaces/opencompass/open_vlm_leaderboard">Open VLM Leaderboard</a> provides comparative ranking of VLMs according to different metrics and average scores.</p>
+<p><a id="22.4-vlms-importance"></a></p>
+</section>
+<section id="vlms-importance" class="level2">
+<h2 class="anchored" data-anchor-id="vlms-importance">22.4 VLMs Importance</h2>
+<p>Traditional computer vision (CV) models are constrained to learning from a predefined and fixed set of categories or objects for image classification or object detection (e.g., identify whether an image contains a cat or a dog). Moreover, these tasks require users to manually label a large number of images with a specific category for classification, or assign bounding boxes to multiple objects in each image for object detection, which is a tedious, time-consuming, and expensive process.</p>
+<p>Conversely, VLMs are trained with more detailed textual descriptions of images, where for example an image can contain cats, dogs, and other objects, as well as the text description can provide additional contextual information (e.g., the cat is sitting, the dog is running, etc.). Learning from rich natural language descriptions allows VLMs to better understand visual scenes without limiting the learning to a narrow set of visual concepts comprising a fixed number of classes and objects. Also, it eliminates the need for exhaustive manual image labeling and extends VLMs’ utility beyond traditional CV tasks like classification or detection to new capabilities including reasoning, summarization, question answering, and interactive dialogue, by simply changing the text prompt.</p>
+<p>VLMs have been applied across many domains and industries, and offer great potential to enhance visual perception. For instance, they can be used to review videos and extract insights for industrial inspection and robotics (detect faults, monitor operations, identify anomalies in real time), safety and infrastructure monitoring (recognize floods, fires, or traffic hazards), retail and logistics (track empty shelves, detect misplaced items, identify supply-chain bottlenecks), and numerous other tasks.</p>
+<p><a id="22.5-vlm-finetuning"></a></p>
+</section>
+<section id="vlm-finetuning" class="level2">
+<h2 class="anchored" data-anchor-id="vlm-finetuning">22.5 VLM Finetuning</h2>
+<p>This section presents an example of finetuning a VLM on custom dataset containing medical images, icluding X-rays, CT scans and ultrasounds showcasing medical conditions and diseases. Each image has a caption written by experts describing it. The dataset was created by the Unsloth team, and it is a sampled smaller version of the ROCO radiography dataset.</p>
+<p>The goal is to finetune a general VLM which does not have in-depth knowledge for analysis of medical images, and to make the VLM a useful analysis tool for medical professionals.</p>
+<p>By relying on performance-efficient finetuning techniques inlcuding quantization and LoRA, we will finetune the VLM using a single T4 GPU.</p>
+<section id="install-dependencies" class="level4">
+<h4 class="anchored" data-anchor-id="install-dependencies">Install Dependencies</h4>
+<p>Let’s first install the libraries for VLM finetuning and import the required libraries and modulds.</p>
+<div id="aa0d58bb" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Note that this line requires to Restart the kernel (Runtime &gt; Restart Session) and run it one more time</span></span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>Uqq transformers accelerate peft datasets qwen<span class="op">-</span>vl<span class="op">-</span>utils bitsandbytes pillow trl</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="177f6b11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342855108,&quot;user_tz&quot;:420,&quot;elapsed&quot;:34014,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="4b86c401-0045-474e-cf15-86c5e43ff35c">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb2"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> (Qwen3VLForConditionalGeneration, AutoProcessor, BitsAndBytesConfig)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> peft <span class="im">import</span> LoraConfig, get_peft_model, prepare_model_for_kbit_training</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> trl <span class="im">import</span> SFTConfig, SFTTrainer</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> qwen_vl_utils <span class="im">import</span> process_vision_info</span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> random</span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> warnings</span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>warnings.filterwarnings(<span class="st">'ignore'</span>)</span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a><span class="co"># PyTorch version</span></span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"PyTorch version: </span><span class="sc">{</span>torch<span class="sc">.</span>__version__<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>PyTorch version: 2.8.0+cu126</code></pre>
+</div>
+</div>
+</section>
+<section id="load-vlm-model" class="level4">
+<h4 class="anchored" data-anchor-id="load-vlm-model">Load VLM Model</h4>
+<p>Next, we will load the VLM <code>Qwen3-VL-4B-Instruct</code>. The first cell defines the BitsAndBytes Configuration for loading the model parameters using 4-bit quantization, and afterward the model and tokenizer for Qwen3-VL are loaded. The parameters for BitsAndBytesConfiguration are explained in Lecture 20.</p>
+<div id="cdddadc4" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb4"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define bnb_config for loading quantized parameters</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>bnb_config <span class="op">=</span> BitsAndBytesConfig(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    load_in_4bit<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    bnb_4bit_quant_type<span class="op">=</span><span class="st">"nf4"</span>,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    bnb_4bit_compute_dtype<span class="op">=</span>torch.bfloat16,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    bnb_4bit_use_double_quant<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="8487217e" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342902610,&quot;user_tz&quot;:420,&quot;elapsed&quot;:47495,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="30ae7851-37ac-44f1-85ec-496ad0500bb5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb5"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>model_name <span class="op">=</span> <span class="st">"Qwen/Qwen3-VL-4B-Instruct"</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Load model</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> Qwen3VLForConditionalGeneration.from_pretrained(model_name, quantization_config<span class="op">=</span>bnb_config, device_map<span class="op">=</span><span class="st">"auto"</span>, dtype<span class="op">=</span>torch.bfloat16)</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="co"># Load tokenizer</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>processor <span class="op">=</span> AutoProcessor.from_pretrained(model_name, min_pixels<span class="op">=</span><span class="dv">256</span><span class="op">*</span><span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, max_pixels<span class="op">=</span><span class="dv">512</span><span class="op">*</span><span class="dv">28</span><span class="op">*</span><span class="dv">28</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"2a08048b2f5540c391866e49211f3d37","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"de122682311f4e99ae5df96b433b9735","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"fd6a1645fdc64cf29cab338e951b0f71","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"e3d46b0ae53b40d18bb2817f74064726","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"6ac08611013643bda1a64bbe0cdffcb0","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"49bcb8a038b442cf9ba6a79a7fb88696","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"5fbb898f94d643f79603fb02949c1cd5","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"10c7270b7bb14e689a54af144ce72899","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"b3c7acf3f9ba4237b79a9b2a22d516c8","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"2482a041387d4e7ebf7e5ac176dbf5b3","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"9aa4bc3f2bd24fa0a9eaf0bad3e18d04","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"912f8fad820f439abc9808497cb5806d","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"43c60de2f67444008c8b8daedf127d99","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"e6b44698f23344449be3720bb27614aa","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+</section>
+<section id="prepare-model-for-finetuning" class="level4">
+<h4 class="anchored" data-anchor-id="prepare-model-for-finetuning">Prepare Model for Finetuning</h4>
+<p>We will use LoRA to finetune the model. The parameters for LoRA Configuration are explained in Lecture 20. As seen from the output below, LoRA finetunes about 0.7% of the 4B parameters.</p>
+<div id="8667b6b7" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb6"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare model for quantized training</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> prepare_model_for_kbit_training(model, use_gradient_checkpointing<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define LoRA configuration</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>lora_config <span class="op">=</span> LoraConfig(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    r<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    lora_alpha<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    target_modules<span class="op">=</span>[<span class="st">"q_proj"</span>, <span class="st">"k_proj"</span>, <span class="st">"v_proj"</span>, <span class="st">"o_proj"</span>, <span class="st">"gate_proj"</span>, <span class="st">"up_proj"</span>, <span class="st">"down_proj"</span>],</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>    lora_dropout<span class="op">=</span><span class="fl">0.05</span>,</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>    bias<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>    task_type<span class="op">=</span><span class="st">"CAUSAL_LM"</span>,</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c6bb27d1" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342910587,&quot;user_tz&quot;:420,&quot;elapsed&quot;:677,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="2bc0d262-acf3-47ca-efca-e0228a20638c">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply LoRA to the model</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> get_peft_model(model, lora_config)</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number trainable parameters</span></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>model.print_trainable_parameters()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>trainable params: 33,030,144 || all params: 4,470,845,952 || trainable%: 0.7388</code></pre>
+</div>
+</div>
+</section>
+<section id="load-and-format-the-dataset" class="level4">
+<h4 class="anchored" data-anchor-id="load-and-format-the-dataset">Load and Format the Dataset</h4>
+<p>The radiology dataset is loaded next. It consits of 1,978 samples containing images and text. The code in the following cells reformat the dataset for processing with Qwen3-VL, and splits it into training and evaluation subsets. Formating prompts for VLM is slightly more difficult then LLMs, because user’s prompts should contain both text and corresponding images.</p>
+<div id="42fbff6f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342922664,&quot;user_tz&quot;:420,&quot;elapsed&quot;:10610,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="585b29d2-8852-42c1-fe13-836cfffed7ca">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb9"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the dataset</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> load_dataset(<span class="st">"unsloth/Radiology_mini"</span>, split<span class="op">=</span><span class="st">"train"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"eb74aaa755b643288ef6e6f86202ae67","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"a20b2f1ea13c410085daace3d20943d8","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"bc73ddaaea6a4fe797785fa233970cfe","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"804b33d7e42d4e52a65e4add017985d5","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"c3af13c5234e49d49a25cac8b49689ba","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+<div id="576824b8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342922680,&quot;user_tz&quot;:420,&quot;elapsed&quot;:6,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="6b1fa63e-575e-4ff7-ea48-91951eed1c4d">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb10"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the number of samples</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Number of samples: </span><span class="sc">{</span><span class="bu">len</span>(dataset)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Print the column names</span></span>
+<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Dataset columns: </span><span class="sc">{</span>dataset<span class="sc">.</span>column_names<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Number of samples: 1978
+Dataset columns: ['image', 'image_id', 'caption', 'cui']</code></pre>
+</div>
+</div>
+<div id="9d2013ca" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb12"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Format the radiology dataset to chat format</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> format_radiology_sample(sample):</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-4"><a href="#cb12-4" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [<span class="st">"Describe this medical image in detail."</span>,</span>
+<span id="cb12-5"><a href="#cb12-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"What are the key findings in this radiology image?"</span>,</span>
+<span id="cb12-6"><a href="#cb12-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">"Analyze this medical scan and provide your observations."</span>,</span>
+<span id="cb12-7"><a href="#cb12-7" aria-hidden="true" tabindex="-1"></a>    <span class="st">"What abnormalities or notable features do you see?"</span>]</span>
+<span id="cb12-8"><a href="#cb12-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-9"><a href="#cb12-9" aria-hidden="true" tabindex="-1"></a>    instruction <span class="op">=</span> random.choice(messages)</span>
+<span id="cb12-10"><a href="#cb12-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb12-11"><a href="#cb12-11" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> {<span class="st">"text"</span>: <span class="ss">f"&lt;|im_start|&gt;user</span><span class="ch">\n</span><span class="ss">&lt;|vision_start|&gt;&lt;|image_pad|&gt;&lt;|vision_end|&gt;</span><span class="sc">{</span>messages<span class="sc">}</span><span class="ss">&lt;|im_end|&gt;</span><span class="ch">\n</span><span class="ss">&lt;|im_start|&gt;assistant</span><span class="ch">\n</span><span class="sc">{</span>sample[<span class="st">'caption'</span>]<span class="sc">}</span><span class="ss">&lt;|im_end|&gt;"</span>,</span>
+<span id="cb12-12"><a href="#cb12-12" aria-hidden="true" tabindex="-1"></a>        <span class="st">"image"</span>: sample[<span class="st">"image"</span>]}</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="c6a3bd9b" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763343040947,&quot;user_tz&quot;:420,&quot;elapsed&quot;:118262,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="e32d1d0d-a9f6-4ac1-a96f-1358ee7e8d7d">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb13"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply formatting to the Dataset</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>formatted_dataset <span class="op">=</span> dataset.<span class="bu">map</span>(</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    format_radiology_sample,</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    remove_columns<span class="op">=</span>[col <span class="cf">for</span> col <span class="kw">in</span> dataset.column_names <span class="cf">if</span> col <span class="op">!=</span> <span class="st">'image'</span>],</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>    desc<span class="op">=</span><span class="st">"Formatting dataset"</span>,</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    num_proc<span class="op">=</span><span class="dv">4</span>,</span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"399e9f97028b4dcb85044bb5ab1c4d04","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+<div id="bdb3c853" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Split into train and evalation datasets</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>train_dataset <span class="op">=</span> formatted_dataset.select(<span class="bu">range</span>(<span class="bu">len</span>(formatted_dataset) <span class="op">-</span> <span class="dv">100</span>))</span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>eval_dataset <span class="op">=</span> formatted_dataset.select(<span class="bu">range</span>(<span class="bu">len</span>(formatted_dataset) <span class="op">-</span> <span class="dv">100</span>, <span class="bu">len</span>(formatted_dataset)))</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="5763462c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763343040966,&quot;user_tz&quot;:420,&quot;elapsed&quot;:7,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="cdd8eff0-85fc-4e02-df4d-dabe3405d1f3">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb15"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Training samples: </span><span class="sc">{</span><span class="bu">len</span>(train_dataset)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Validation samples: </span><span class="sc">{</span><span class="bu">len</span>(eval_dataset)<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(<span class="ss">f"Columns: </span><span class="sc">{</span>train_dataset<span class="sc">.</span>column_names<span class="sc">}</span><span class="ss">"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Training samples: 1878
+Validation samples: 100
+Columns: ['image', 'text']</code></pre>
+</div>
+</div>
+</section>
+<section id="data-collator" class="level4">
+<h4 class="anchored" data-anchor-id="data-collator">Data Collator</h4>
+<p>The next cell defines a data collator for Qwen3 that combines images and text into batches for processing by the VLM.</p>
+<div id="5f69d375" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb17"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Collate text and images into batches for Qwen3VLM</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a><span class="co"># The code in this cell is not required in preparation for quizzes</span></span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a><span class="kw">class</span> Qwen3VLDataCollator:</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__init__</span>(<span class="va">self</span>, processor):</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.processor <span class="op">=</span> processor</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.image_token_id <span class="op">=</span> processor.tokenizer.convert_tokens_to_ids(<span class="st">"&lt;|image_pad|&gt;"</span>)</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.im_start_id <span class="op">=</span> processor.tokenizer.convert_tokens_to_ids(<span class="st">"&lt;|im_start|&gt;"</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>        <span class="va">self</span>.im_end_id <span class="op">=</span> processor.tokenizer.convert_tokens_to_ids(<span class="st">"&lt;|im_end|&gt;"</span>)</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>    <span class="kw">def</span> <span class="fu">__call__</span>(<span class="va">self</span>, features):</span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Extract text and images</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>        batch_texts <span class="op">=</span> [f[<span class="st">"text"</span>] <span class="cf">for</span> f <span class="kw">in</span> features]</span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>        batch_images <span class="op">=</span> [f[<span class="st">"image"</span>] <span class="cf">for</span> f <span class="kw">in</span> features]</span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Process</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>        batch <span class="op">=</span> <span class="va">self</span>.processor(text<span class="op">=</span>batch_texts, images<span class="op">=</span>batch_images, padding<span class="op">=</span><span class="va">True</span>, truncation<span class="op">=</span><span class="va">False</span>, return_tensors<span class="op">=</span><span class="st">"pt"</span>)</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Create labels</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>        labels <span class="op">=</span> batch[<span class="st">"input_ids"</span>].clone()</span>
+<span id="cb17-20"><a href="#cb17-20" aria-hidden="true" tabindex="-1"></a>        labels[labels <span class="op">==</span> <span class="va">self</span>.processor.tokenizer.pad_token_id] <span class="op">=</span> <span class="op">-</span><span class="dv">100</span></span>
+<span id="cb17-21"><a href="#cb17-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-22"><a href="#cb17-22" aria-hidden="true" tabindex="-1"></a>        <span class="co"># Mask image tokens and instruction</span></span>
+<span id="cb17-23"><a href="#cb17-23" aria-hidden="true" tabindex="-1"></a>        <span class="cf">for</span> idx, text <span class="kw">in</span> <span class="bu">enumerate</span>(batch_texts):</span>
+<span id="cb17-24"><a href="#cb17-24" aria-hidden="true" tabindex="-1"></a>            input_ids <span class="op">=</span> batch[<span class="st">"input_ids"</span>][idx]</span>
+<span id="cb17-25"><a href="#cb17-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-26"><a href="#cb17-26" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Mask image pad tokens</span></span>
+<span id="cb17-27"><a href="#cb17-27" aria-hidden="true" tabindex="-1"></a>            image_token_mask <span class="op">=</span> (input_ids <span class="op">==</span> <span class="va">self</span>.image_token_id)</span>
+<span id="cb17-28"><a href="#cb17-28" aria-hidden="true" tabindex="-1"></a>            labels[idx][image_token_mask] <span class="op">=</span> <span class="op">-</span><span class="dv">100</span></span>
+<span id="cb17-29"><a href="#cb17-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-30"><a href="#cb17-30" aria-hidden="true" tabindex="-1"></a>            <span class="co"># Find assistant response</span></span>
+<span id="cb17-31"><a href="#cb17-31" aria-hidden="true" tabindex="-1"></a>            assistant_marker <span class="op">=</span> <span class="st">"&lt;|im_start|&gt;assistant</span><span class="ch">\n</span><span class="st">"</span></span>
+<span id="cb17-32"><a href="#cb17-32" aria-hidden="true" tabindex="-1"></a>            assistant_pos <span class="op">=</span> text.find(assistant_marker)</span>
+<span id="cb17-33"><a href="#cb17-33" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-34"><a href="#cb17-34" aria-hidden="true" tabindex="-1"></a>            <span class="cf">if</span> assistant_pos <span class="op">!=</span> <span class="op">-</span><span class="dv">1</span>:</span>
+<span id="cb17-35"><a href="#cb17-35" aria-hidden="true" tabindex="-1"></a>                prompt_text <span class="op">=</span> text[:assistant_pos <span class="op">+</span> <span class="bu">len</span>(assistant_marker)]</span>
+<span id="cb17-36"><a href="#cb17-36" aria-hidden="true" tabindex="-1"></a>                prompt_ids <span class="op">=</span> <span class="va">self</span>.processor.tokenizer.encode(prompt_text, add_special_tokens<span class="op">=</span><span class="va">False</span>)</span>
+<span id="cb17-37"><a href="#cb17-37" aria-hidden="true" tabindex="-1"></a>                prompt_length <span class="op">=</span> <span class="bu">min</span>(<span class="bu">len</span>(prompt_ids), <span class="bu">len</span>(labels[idx]))</span>
+<span id="cb17-38"><a href="#cb17-38" aria-hidden="true" tabindex="-1"></a>                labels[idx, :prompt_length] <span class="op">=</span> <span class="op">-</span><span class="dv">100</span></span>
+<span id="cb17-39"><a href="#cb17-39" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-40"><a href="#cb17-40" aria-hidden="true" tabindex="-1"></a>                <span class="co"># Mask final &lt;|im_end|&gt;</span></span>
+<span id="cb17-41"><a href="#cb17-41" aria-hidden="true" tabindex="-1"></a>                <span class="cf">try</span>:</span>
+<span id="cb17-42"><a href="#cb17-42" aria-hidden="true" tabindex="-1"></a>                    im_end_positions <span class="op">=</span> (input_ids <span class="op">==</span> <span class="va">self</span>.im_end_id).nonzero(as_tuple<span class="op">=</span><span class="va">True</span>)[<span class="dv">0</span>]</span>
+<span id="cb17-43"><a href="#cb17-43" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">if</span> <span class="bu">len</span>(im_end_positions) <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb17-44"><a href="#cb17-44" aria-hidden="true" tabindex="-1"></a>                        labels[idx, im_end_positions[<span class="op">-</span><span class="dv">1</span>].item()] <span class="op">=</span> <span class="op">-</span><span class="dv">100</span></span>
+<span id="cb17-45"><a href="#cb17-45" aria-hidden="true" tabindex="-1"></a>                <span class="cf">except</span>:</span>
+<span id="cb17-46"><a href="#cb17-46" aria-hidden="true" tabindex="-1"></a>                    <span class="cf">pass</span></span>
+<span id="cb17-47"><a href="#cb17-47" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-48"><a href="#cb17-48" aria-hidden="true" tabindex="-1"></a>        batch[<span class="st">"labels"</span>] <span class="op">=</span> labels</span>
+<span id="cb17-49"><a href="#cb17-49" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb17-50"><a href="#cb17-50" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> batch</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="fb336300" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb18"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Apply the collator class</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>data_collator <span class="op">=</span> Qwen3VLDataCollator(processor)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+</section>
+<section id="test-the-qwen-vlm-response-before-finetuning" class="level4">
+<h4 class="anchored" data-anchor-id="test-the-qwen-vlm-response-before-finetuning">Test the Qwen VLM Response Before Finetuning</h4>
+<p>Let’s check the responses by Qwen3 VLM to three samples images before finetuning the model. Notice that the generated responses by the model are quite accurate, and the model can understand the images fairly well. However, the descriptions are more general and explain what the images show, while the ground truth captions prepared by clinicians use concrete medical terms to describe the images.</p>
+<div id="69a7b1eb" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763343109989,&quot;user_tz&quot;:420,&quot;elapsed&quot;:68960,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="415b7ac0-9c04-4ee7-9f0f-13a417535224">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb19"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The code in this cell is not required in preparation for quizzes</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>instruction <span class="op">=</span> <span class="st">"Describe this medical image in detail."</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test with 3 samples</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>test_indices <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>]</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx <span class="kw">in</span> test_indices:</span>
+<span id="cb19-8"><a href="#cb19-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-9"><a href="#cb19-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"TEST EXAMPLE </span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb19-10"><a href="#cb19-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-11"><a href="#cb19-11" aria-hidden="true" tabindex="-1"></a>    test_image <span class="op">=</span> dataset[idx][<span class="st">"image"</span>]</span>
+<span id="cb19-12"><a href="#cb19-12" aria-hidden="true" tabindex="-1"></a>    ground_truth <span class="op">=</span> dataset[idx][<span class="st">"caption"</span>]</span>
+<span id="cb19-13"><a href="#cb19-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-14"><a href="#cb19-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show image</span></span>
+<span id="cb19-15"><a href="#cb19-15" aria-hidden="true" tabindex="-1"></a>    display_image <span class="op">=</span> test_image.copy()</span>
+<span id="cb19-16"><a href="#cb19-16" aria-hidden="true" tabindex="-1"></a>    display_image.thumbnail((<span class="dv">300</span>, <span class="dv">300</span>))</span>
+<span id="cb19-17"><a href="#cb19-17" aria-hidden="true" tabindex="-1"></a>    display(display_image)</span>
+<span id="cb19-18"><a href="#cb19-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-19"><a href="#cb19-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format input</span></span>
+<span id="cb19-20"><a href="#cb19-20" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: [{<span class="st">"type"</span>: <span class="st">"image"</span>, <span class="st">"image"</span>: test_image}, {<span class="st">"type"</span>: <span class="st">"text"</span>, <span class="st">"text"</span>: instruction}]}]</span>
+<span id="cb19-21"><a href="#cb19-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-22"><a href="#cb19-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply chat template</span></span>
+<span id="cb19-23"><a href="#cb19-23" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> processor.apply_chat_template(messages, tokenize<span class="op">=</span><span class="va">False</span>, add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-24"><a href="#cb19-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-25"><a href="#cb19-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Process inputs</span></span>
+<span id="cb19-26"><a href="#cb19-26" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> processor(text<span class="op">=</span>[text], images<span class="op">=</span>[test_image], padding<span class="op">=</span><span class="va">True</span>, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(model.device)</span>
+<span id="cb19-27"><a href="#cb19-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-28"><a href="#cb19-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Generated Caption: "</span>)</span>
+<span id="cb19-29"><a href="#cb19-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.inference_mode():</span>
+<span id="cb19-30"><a href="#cb19-30" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> model.generate(<span class="op">**</span>inputs, max_new_tokens<span class="op">=</span><span class="dv">128</span>, temperature<span class="op">=</span><span class="fl">0.7</span>, top_p<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb19-31"><a href="#cb19-31" aria-hidden="true" tabindex="-1"></a>            repetition_penalty<span class="op">=</span><span class="fl">1.2</span>, do_sample<span class="op">=</span><span class="va">True</span>, use_cache<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb19-32"><a href="#cb19-32" aria-hidden="true" tabindex="-1"></a>            pad_token_id<span class="op">=</span>processor.tokenizer.pad_token_id,</span>
+<span id="cb19-33"><a href="#cb19-33" aria-hidden="true" tabindex="-1"></a>            eos_token_id<span class="op">=</span>processor.tokenizer.eos_token_id)</span>
+<span id="cb19-34"><a href="#cb19-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-35"><a href="#cb19-35" aria-hidden="true" tabindex="-1"></a>    generated_text <span class="op">=</span> processor.decode(output[<span class="dv">0</span>], skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb19-36"><a href="#cb19-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-37"><a href="#cb19-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract assistant's response</span></span>
+<span id="cb19-38"><a href="#cb19-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"assistant"</span> <span class="kw">in</span> generated_text:</span>
+<span id="cb19-39"><a href="#cb19-39" aria-hidden="true" tabindex="-1"></a>        parts <span class="op">=</span> generated_text.split(<span class="st">"assistant"</span>)</span>
+<span id="cb19-40"><a href="#cb19-40" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> parts[<span class="op">-</span><span class="dv">1</span>].strip() <span class="cf">if</span> <span class="bu">len</span>(parts) <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">else</span> generated_text</span>
+<span id="cb19-41"><a href="#cb19-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb19-42"><a href="#cb19-42" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> generated_text</span>
+<span id="cb19-43"><a href="#cb19-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-44"><a href="#cb19-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(response)</span>
+<span id="cb19-45"><a href="#cb19-45" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ground Truth:"</span>)</span>
+<span id="cb19-46"><a href="#cb19-46" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(ground_truth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TEST EXAMPLE 0</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_22-Multimodal_Models_files/figure-html/cell-16-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generated Caption: 
+This is a panoramic radiograph (also known as an “odontogram” or “panoramic X-ray”), which provides a broad view of the entire mouth, including all teeth, jaws, and surrounding structures.
+
+**Overall Appearance:**
+- The image displays both the maxillary (upper) and mandibular (lower) dental arches.
+- It shows clear differentiation between tooth roots, crowns, bone density, and adjacent soft tissues.
+- Several white arrows are superimposed on the image to highlight specific areas of interest—likely pathological findings such as cysts, tumors, or lesions within the jawbone.
+
+---
+
+**Detailed
+
+Ground Truth:
+Panoramic radiography shows an osteolytic lesion in the right posterior maxilla with resorption of the floor of the maxillary sinus (arrows).
+TEST EXAMPLE 5</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_22-Multimodal_Models_files/figure-html/cell-16-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generated Caption: 
+This is a grayscale angiographic image, likely from a cardiac catheterization procedure, showing the proximal portion of the thoracic vasculature.
+
+Key anatomical structures and labels:
+
+- **Subclavian Artery**: A large vessel running horizontally across the upper part of the frame, labeled clearly at the top center.
+- **LIMA (Left Internal Mammary Artery)**: An artery branching off to the lower left side, identified by its label “LIMA” near the bottom-left corner. It appears as a distinct, relatively straight vascular structure with contrast-filled lumen.
+  
+Anatomical relationships:
+- The LIMA
+
+Ground Truth:
+Anteroposterior coronary angiographic view of the subclavian artery and left internal mammary artery (LIMA), showing the proximal LIMA compression and severe flow interruption associated with the hyperabduction of left arm (The arrow indicates the area of the compression and the flow interruption.)
+TEST EXAMPLE 10</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_22-Multimodal_Models_files/figure-html/cell-16-output-6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generated Caption: 
+This is a grayscale ultrasound (OB — Obstetrics) image, captured on a Medison ultrasound machine using the “Extreme” probe model 3D5-8EK, dated October 5, 2012 at 11:36 AM.
+
+**Image Content &amp; Structure:**
+The scan shows an internal pelvic structure consistent with a pregnant uterus, likely viewed transvaginally or abdominally for obstetric assessment.
+– The central region contains a heterogeneous area of tissue and fluid-filled structures that are characteristic of fetal development within the gestational sac/uterine cavity.
+– A distinct, somewhat oval-shaped dark space (
+
+Ground Truth:
+Ultrasound shows irregular endometrial contour with typical adhesion appearnace.</code></pre>
+</div>
+</div>
+</section>
+<section id="vlm-finetuning-1" class="level4">
+<h4 class="anchored" data-anchor-id="vlm-finetuning-1">VLM Finetuning</h4>
+<p>Similar to Lecture 20, we will use Supervised Fine-Tuning (SFT) to refine the model parameters on the radiology dataset. The training arguments are explained in the first lecture on LLMs.</p>
+<div id="4e5e15b4" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb24"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Training configuration</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>training_args <span class="op">=</span> SFTConfig(</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    output_dir<span class="op">=</span><span class="st">"./qwen3-vlm-4b-radiology"</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="co"># training steps</span></span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    max_steps<span class="op">=</span><span class="dv">20</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Batch settings</span></span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>    per_device_train_batch_size<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb24-8"><a href="#cb24-8" aria-hidden="true" tabindex="-1"></a>    gradient_accumulation_steps<span class="op">=</span><span class="dv">16</span>,</span>
+<span id="cb24-9"><a href="#cb24-9" aria-hidden="true" tabindex="-1"></a>    gradient_checkpointing<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb24-10"><a href="#cb24-10" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Learning rate</span></span>
+<span id="cb24-11"><a href="#cb24-11" aria-hidden="true" tabindex="-1"></a>    learning_rate<span class="op">=</span><span class="fl">2e-4</span>,</span>
+<span id="cb24-12"><a href="#cb24-12" aria-hidden="true" tabindex="-1"></a>    lr_scheduler_type<span class="op">=</span><span class="st">"cosine"</span>,</span>
+<span id="cb24-13"><a href="#cb24-13" aria-hidden="true" tabindex="-1"></a>    warmup_ratio<span class="op">=</span><span class="fl">0.1</span>,</span>
+<span id="cb24-14"><a href="#cb24-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Optimizer</span></span>
+<span id="cb24-15"><a href="#cb24-15" aria-hidden="true" tabindex="-1"></a>    optim<span class="op">=</span><span class="st">"adamw_torch_fused"</span>,</span>
+<span id="cb24-16"><a href="#cb24-16" aria-hidden="true" tabindex="-1"></a>    weight_decay<span class="op">=</span><span class="fl">0.01</span>,</span>
+<span id="cb24-17"><a href="#cb24-17" aria-hidden="true" tabindex="-1"></a>    max_grad_norm<span class="op">=</span><span class="fl">0.3</span>,</span>
+<span id="cb24-18"><a href="#cb24-18" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Precision</span></span>
+<span id="cb24-19"><a href="#cb24-19" aria-hidden="true" tabindex="-1"></a>    bf16<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb24-20"><a href="#cb24-20" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Logging</span></span>
+<span id="cb24-21"><a href="#cb24-21" aria-hidden="true" tabindex="-1"></a>    logging_steps<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb24-22"><a href="#cb24-22" aria-hidden="true" tabindex="-1"></a>    report_to<span class="op">=</span><span class="st">"none"</span>,</span>
+<span id="cb24-23"><a href="#cb24-23" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Dataset processing</span></span>
+<span id="cb24-24"><a href="#cb24-24" aria-hidden="true" tabindex="-1"></a>    remove_unused_columns<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb24-25"><a href="#cb24-25" aria-hidden="true" tabindex="-1"></a>    dataset_text_field<span class="op">=</span><span class="st">""</span>,</span>
+<span id="cb24-26"><a href="#cb24-26" aria-hidden="true" tabindex="-1"></a>    dataset_kwargs<span class="op">=</span>{<span class="st">"skip_prepare_dataset"</span>: <span class="va">True</span>})</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="eac22eb9" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb25"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize trainer</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> SFTTrainer(</span>
+<span id="cb25-3"><a href="#cb25-3" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
+<span id="cb25-4"><a href="#cb25-4" aria-hidden="true" tabindex="-1"></a>    args<span class="op">=</span>training_args,</span>
+<span id="cb25-5"><a href="#cb25-5" aria-hidden="true" tabindex="-1"></a>    train_dataset<span class="op">=</span>train_dataset,</span>
+<span id="cb25-6"><a href="#cb25-6" aria-hidden="true" tabindex="-1"></a>    data_collator<span class="op">=</span>data_collator,</span>
+<span id="cb25-7"><a href="#cb25-7" aria-hidden="true" tabindex="-1"></a>    processing_class<span class="op">=</span>processor,</span>
+<span id="cb25-8"><a href="#cb25-8" aria-hidden="true" tabindex="-1"></a>    peft_config<span class="op">=</span>lora_config,</span>
+<span id="cb25-9"><a href="#cb25-9" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Finetuning the model took close to 3 hours, where 20 steps used 2x16 samples, i.e., in total 640 samples were used, out of 1,800 available samples in the train dataset. One can conclude that VLM finetuning is more computationally intense than LLM finetuning. In this case, finetuning the model for 1 full epoch would have taken about 9 hours.</p>
+<div id="1e02baa8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763354379727,&quot;user_tz&quot;:420,&quot;elapsed&quot;:11160497,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="b5a34956-534d-4858-c063-7b3a3f643f94">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb26"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Training</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>trainer.train()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The tokenizer has new PAD/BOS/EOS tokens that differ from the model config and generation config. The model config and generation config were aligned accordingly, being updated with the tokenizer's values. Updated tokens: {'eos_token_id': 151645, 'bos_token_id': None, 'pad_token_id': 151643}.</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+      
+      <progress value="20" max="20" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [20/20 2:56:37, Epoch 0/1]
+    </div>
+    
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Step</th>
+<th data-quarto-table-cell-role="th">Training Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>2</td>
+<td>3.943400</td>
+</tr>
+<tr class="even">
+<td>4</td>
+<td>3.224800</td>
+</tr>
+<tr class="odd">
+<td>6</td>
+<td>2.151000</td>
+</tr>
+<tr class="even">
+<td>8</td>
+<td>1.638800</td>
+</tr>
+<tr class="odd">
+<td>10</td>
+<td>1.184200</td>
+</tr>
+<tr class="even">
+<td>12</td>
+<td>1.174600</td>
+</tr>
+<tr class="odd">
+<td>14</td>
+<td>0.973300</td>
+</tr>
+<tr class="even">
+<td>16</td>
+<td>0.957700</td>
+</tr>
+<tr class="odd">
+<td>18</td>
+<td>1.021700</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>0.913200</td>
+</tr>
+</tbody>
+</table>
+<p>
+</p></div>
+<div class="cell-output cell-output-display" data-execution_count="18">
+<pre><code>TrainOutput(global_step=20, training_loss=1.71826012134552, metrics={'train_runtime': 11160.0658, 'train_samples_per_second': 0.057, 'train_steps_per_second': 0.002, 'total_flos': 6966597909897216.0, 'train_loss': 1.71826012134552, 'epoch': 0.3407880724174654})</code></pre>
+</div>
+</div>
+<div id="777fa747" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763354380781,&quot;user_tz&quot;:420,&quot;elapsed&quot;:1047,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="19ee9a85-fa5b-451e-ffb2-82e2135785f2">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb29"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb29-1"><a href="#cb29-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Save the finetuned model</span></span>
+<span id="cb29-2"><a href="#cb29-2" aria-hidden="true" tabindex="-1"></a>output_dir <span class="op">=</span> <span class="st">"./qwen3-vlm-4b-radiology-final"</span></span>
+<span id="cb29-3"><a href="#cb29-3" aria-hidden="true" tabindex="-1"></a>trainer.model.save_pretrained(output_dir)</span>
+<span id="cb29-4"><a href="#cb29-4" aria-hidden="true" tabindex="-1"></a>processor.save_pretrained(output_dir)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="19">
+<pre><code>[]</code></pre>
+</div>
+</div>
+</section>
+<section id="perform-inference-with-the-finetuned-model" class="level4">
+<h4 class="anchored" data-anchor-id="perform-inference-with-the-finetuned-model">Perform Inference with the Finetuned Model</h4>
+<p>Now that the VLM has been finetuned, let’s test the model using the same examples from above, and check the generated responses.</p>
+<div id="6dad5273" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb31"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb31-1"><a href="#cb31-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Clear the training model from memory</span></span>
+<span id="cb31-2"><a href="#cb31-2" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> model</span>
+<span id="cb31-3"><a href="#cb31-3" aria-hidden="true" tabindex="-1"></a><span class="kw">del</span> trainer</span>
+<span id="cb31-4"><a href="#cb31-4" aria-hidden="true" tabindex="-1"></a>torch.cuda.empty_cache()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="1cabad3c" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb32"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> peft <span class="im">import</span> PeftModel</span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-3"><a href="#cb32-3" aria-hidden="true" tabindex="-1"></a><span class="co"># Reload base model with bnb quantization</span></span>
+<span id="cb32-4"><a href="#cb32-4" aria-hidden="true" tabindex="-1"></a>base_model <span class="op">=</span> Qwen3VLForConditionalGeneration.from_pretrained(<span class="st">"Qwen/Qwen3-VL-4B-Instruct"</span>,</span>
+<span id="cb32-5"><a href="#cb32-5" aria-hidden="true" tabindex="-1"></a>    quantization_config<span class="op">=</span>bnb_config,</span>
+<span id="cb32-6"><a href="#cb32-6" aria-hidden="true" tabindex="-1"></a>    device_map<span class="op">=</span><span class="st">"auto"</span>,</span>
+<span id="cb32-7"><a href="#cb32-7" aria-hidden="true" tabindex="-1"></a>    torch_dtype<span class="op">=</span>torch.bfloat16)</span>
+<span id="cb32-8"><a href="#cb32-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-9"><a href="#cb32-9" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the trained adapters</span></span>
+<span id="cb32-10"><a href="#cb32-10" aria-hidden="true" tabindex="-1"></a>inference_model <span class="op">=</span> PeftModel.from_pretrained(base_model, <span class="st">"./qwen3-vlm-4b-radiology-final/"</span>)</span>
+<span id="cb32-11"><a href="#cb32-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-12"><a href="#cb32-12" aria-hidden="true" tabindex="-1"></a><span class="co"># Load tokenizer</span></span>
+<span id="cb32-13"><a href="#cb32-13" aria-hidden="true" tabindex="-1"></a>processor <span class="op">=</span> AutoProcessor.from_pretrained(<span class="st">"./qwen3-vlm-4b-radiology-final/"</span>, min_pixels<span class="op">=</span><span class="dv">256</span><span class="op">*</span><span class="dv">28</span><span class="op">*</span><span class="dv">28</span>, max_pixels<span class="op">=</span><span class="dv">512</span><span class="op">*</span><span class="dv">28</span><span class="op">*</span><span class="dv">28</span>)</span>
+<span id="cb32-14"><a href="#cb32-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb32-15"><a href="#cb32-15" aria-hidden="true" tabindex="-1"></a><span class="co"># Perform inference</span></span>
+<span id="cb32-16"><a href="#cb32-16" aria-hidden="true" tabindex="-1"></a>inference_model.<span class="bu">eval</span>()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="2bca64a0" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763354529574,&quot;user_tz&quot;:420,&quot;elapsed&quot;:98815,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="54a9e0d4-c25d-4085-98a7-4fd1a7ad0afd">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb33"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="co"># The code in this cell is not required in preparation for quizzes</span></span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a>instruction <span class="op">=</span> <span class="st">"Describe this medical image in detail."</span></span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Test with teh same 3 samples</span></span>
+<span id="cb33-5"><a href="#cb33-5" aria-hidden="true" tabindex="-1"></a>test_indices <span class="op">=</span> [<span class="dv">0</span>, <span class="dv">5</span>, <span class="dv">10</span>]</span>
+<span id="cb33-6"><a href="#cb33-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-7"><a href="#cb33-7" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> idx <span class="kw">in</span> test_indices:</span>
+<span id="cb33-8"><a href="#cb33-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-9"><a href="#cb33-9" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="ss">f"TEST EXAMPLE </span><span class="sc">{</span>idx<span class="sc">}</span><span class="ss">"</span>)</span>
+<span id="cb33-10"><a href="#cb33-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-11"><a href="#cb33-11" aria-hidden="true" tabindex="-1"></a>    test_image <span class="op">=</span> dataset[idx][<span class="st">"image"</span>]</span>
+<span id="cb33-12"><a href="#cb33-12" aria-hidden="true" tabindex="-1"></a>    ground_truth <span class="op">=</span> dataset[idx][<span class="st">"caption"</span>]</span>
+<span id="cb33-13"><a href="#cb33-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-14"><a href="#cb33-14" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Show image</span></span>
+<span id="cb33-15"><a href="#cb33-15" aria-hidden="true" tabindex="-1"></a>    display_image <span class="op">=</span> test_image.copy()</span>
+<span id="cb33-16"><a href="#cb33-16" aria-hidden="true" tabindex="-1"></a>    display_image.thumbnail((<span class="dv">300</span>, <span class="dv">300</span>))</span>
+<span id="cb33-17"><a href="#cb33-17" aria-hidden="true" tabindex="-1"></a>    display(display_image)</span>
+<span id="cb33-18"><a href="#cb33-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-19"><a href="#cb33-19" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Format input</span></span>
+<span id="cb33-20"><a href="#cb33-20" aria-hidden="true" tabindex="-1"></a>    messages <span class="op">=</span> [{<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: [{<span class="st">"type"</span>: <span class="st">"image"</span>, <span class="st">"image"</span>: test_image}, {<span class="st">"type"</span>: <span class="st">"text"</span>, <span class="st">"text"</span>: instruction}]}]</span>
+<span id="cb33-21"><a href="#cb33-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-22"><a href="#cb33-22" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Apply chat template</span></span>
+<span id="cb33-23"><a href="#cb33-23" aria-hidden="true" tabindex="-1"></a>    text <span class="op">=</span> processor.apply_chat_template(messages, tokenize<span class="op">=</span><span class="va">False</span>, add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-24"><a href="#cb33-24" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-25"><a href="#cb33-25" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Process inputs</span></span>
+<span id="cb33-26"><a href="#cb33-26" aria-hidden="true" tabindex="-1"></a>    inputs <span class="op">=</span> processor(text<span class="op">=</span>[text], images<span class="op">=</span>[test_image], padding<span class="op">=</span><span class="va">True</span>, return_tensors<span class="op">=</span><span class="st">"pt"</span>).to(inference_model.device)</span>
+<span id="cb33-27"><a href="#cb33-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-28"><a href="#cb33-28" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"Generated Caption: "</span>)</span>
+<span id="cb33-29"><a href="#cb33-29" aria-hidden="true" tabindex="-1"></a>    <span class="cf">with</span> torch.inference_mode():</span>
+<span id="cb33-30"><a href="#cb33-30" aria-hidden="true" tabindex="-1"></a>        output <span class="op">=</span> inference_model.generate(<span class="op">**</span>inputs, max_new_tokens<span class="op">=</span><span class="dv">128</span>, temperature<span class="op">=</span><span class="fl">0.7</span>, top_p<span class="op">=</span><span class="fl">0.9</span>,</span>
+<span id="cb33-31"><a href="#cb33-31" aria-hidden="true" tabindex="-1"></a>            repetition_penalty<span class="op">=</span><span class="fl">1.2</span>, do_sample<span class="op">=</span><span class="va">True</span>, use_cache<span class="op">=</span><span class="va">True</span>,</span>
+<span id="cb33-32"><a href="#cb33-32" aria-hidden="true" tabindex="-1"></a>            pad_token_id<span class="op">=</span>processor.tokenizer.pad_token_id,</span>
+<span id="cb33-33"><a href="#cb33-33" aria-hidden="true" tabindex="-1"></a>            eos_token_id<span class="op">=</span>processor.tokenizer.eos_token_id)</span>
+<span id="cb33-34"><a href="#cb33-34" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-35"><a href="#cb33-35" aria-hidden="true" tabindex="-1"></a>    generated_text <span class="op">=</span> processor.decode(output[<span class="dv">0</span>], skip_special_tokens<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb33-36"><a href="#cb33-36" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-37"><a href="#cb33-37" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Extract assistant's response</span></span>
+<span id="cb33-38"><a href="#cb33-38" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">"assistant"</span> <span class="kw">in</span> generated_text:</span>
+<span id="cb33-39"><a href="#cb33-39" aria-hidden="true" tabindex="-1"></a>        parts <span class="op">=</span> generated_text.split(<span class="st">"assistant"</span>)</span>
+<span id="cb33-40"><a href="#cb33-40" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> parts[<span class="op">-</span><span class="dv">1</span>].strip() <span class="cf">if</span> <span class="bu">len</span>(parts) <span class="op">&gt;</span> <span class="dv">1</span> <span class="cf">else</span> generated_text</span>
+<span id="cb33-41"><a href="#cb33-41" aria-hidden="true" tabindex="-1"></a>    <span class="cf">else</span>:</span>
+<span id="cb33-42"><a href="#cb33-42" aria-hidden="true" tabindex="-1"></a>        response <span class="op">=</span> generated_text</span>
+<span id="cb33-43"><a href="#cb33-43" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb33-44"><a href="#cb33-44" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(response)</span>
+<span id="cb33-45"><a href="#cb33-45" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(<span class="st">"</span><span class="ch">\n</span><span class="st">Ground Truth:"</span>)</span>
+<span id="cb33-46"><a href="#cb33-46" aria-hidden="true" tabindex="-1"></a>    <span class="bu">print</span>(ground_truth)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>TEST EXAMPLE 0</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_22-Multimodal_Models_files/figure-html/cell-23-output-2.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generated Caption: 
+Radiographic view of the mandible and maxilla showing four radiolucent cysts (white arrows) near teeth 34, 25, 16 and 78 respectively; note: a tooth with root resorption at position number 39 is also visible on right side. The presence of these lesions may suggest possible pathology or developmental anomaly requiring further clinical evaluation.
+
+[Note]: This case represents an incidental finding rather than pathological lesion which needs to be evaluated clinically for differential diagnosis such as radicular cyst / odontoma etc..] [Image provided by Dr.S.Krishnan].
+
+- Image Description:
+    -
+
+Ground Truth:
+Panoramic radiography shows an osteolytic lesion in the right posterior maxilla with resorption of the floor of the maxillary sinus (arrows).
+TEST EXAMPLE 5</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_22-Multimodal_Models_files/figure-html/cell-23-output-4.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generated Caption: 
+Radiology Image Description: A 64-year-old male with a history of prior myocardial infarction and chronic renal failure underwent coronary angiography for evaluation of his right ventricular outflow tract (RVOT) obstruction due to hypertrophic cardiomyopathy, which was suspected on cardiac magnetic resonance imaging but not confirmed by echocardiogram or CT scan.
+This radiological study depicts the left internal mammary artery as it runs along its course from beneath the subclavian vessel toward the heart's apex; there is no sign that any portion has been blocked off.
+
+The patient had undergone two previous bypass grafts during an initial surgery
+
+Ground Truth:
+Anteroposterior coronary angiographic view of the subclavian artery and left internal mammary artery (LIMA), showing the proximal LIMA compression and severe flow interruption associated with the hyperabduction of left arm (The arrow indicates the area of the compression and the flow interruption.)
+TEST EXAMPLE 10</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_22-Multimodal_Models_files/figure-html/cell-23-output-6.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Generated Caption: 
+Transvaginal ultrasound showing a 34 mm complex cystic mass with an associated echogenic structure on the left adnexa, which is suggestive of uterine fibroid or ovarian tumor (Figure). The lesion measures approximately 62 x 58 mm and contains numerous fluid-filled sacs separated by septae that extend into the pelvic cavity.
+
+Radiology report details:
+- Pelvic scan: transabdomen.
+- Date scanned: October 07, 2012.
+- Patient ID number: 965/25.
+- Scan duration: 2 minutes.
+- Operator name:
+
+Ground Truth:
+Ultrasound shows irregular endometrial contour with typical adhesion appearnace.</code></pre>
+</div>
+</div>
+<p>Note that the generated responses by the finetuned VLM contain more clinical terms in comparison to the responses by the VLM before the finetuning phases that were more basic. While the accuracy of the responses can be evaluated by clinicians, it seems, at least, from an LLM perspective, that the model has acquired knowledge about the images from the finetuning samples.</p>
+<p><a id="appendix:-vlm-finetuning-with-unsloth-library"></a></p>
+</section>
+</section>
+<section id="appendix-vlm-finetuning-with-unsloth-library" class="level2">
+<h2 class="anchored" data-anchor-id="appendix-vlm-finetuning-with-unsloth-library">Appendix: VLM Finetuning with Unsloth Library</h2>
+<p><strong>(The material in the Appendix is not required for quizzes and assignments.)</strong></p>
+<p>This section presents another example of finetuning the Qwen3 VLM with the Unsloth library [8]. The code with Unsloth is simpler, and it is optimized for minimizing the memory use and computational resources.</p>
+<div id="9140114c" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb38"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb38-1"><a href="#cb38-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install Unsloth</span></span>
+<span id="cb38-2"><a href="#cb38-2" aria-hidden="true" tabindex="-1"></a><span class="op">%%</span>capture</span>
+<span id="cb38-3"><a href="#cb38-3" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> os, re</span>
+<span id="cb38-4"><a href="#cb38-4" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> <span class="st">"COLAB_"</span> <span class="kw">not</span> <span class="kw">in</span> <span class="st">""</span>.join(os.environ.keys()):</span>
+<span id="cb38-5"><a href="#cb38-5" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>pip install unsloth</span>
+<span id="cb38-6"><a href="#cb38-6" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb38-7"><a href="#cb38-7" aria-hidden="true" tabindex="-1"></a>    <span class="co"># Do this only in Colab notebooks! Otherwise use pip install unsloth</span></span>
+<span id="cb38-8"><a href="#cb38-8" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> torch<span class="op">;</span> v <span class="op">=</span> re.match(<span class="vs">r"</span><span class="pp">[0-9</span><span class="ch">\.</span><span class="pp">]</span><span class="op">{3,}</span><span class="vs">"</span>, <span class="bu">str</span>(torch.__version__)).group(<span class="dv">0</span>)</span>
+<span id="cb38-9"><a href="#cb38-9" aria-hidden="true" tabindex="-1"></a>    xformers <span class="op">=</span> <span class="st">"xformers=="</span> <span class="op">+</span> (<span class="st">"0.0.32.post2"</span> <span class="cf">if</span> v <span class="op">==</span> <span class="st">"2.8.0"</span> <span class="cf">else</span> <span class="st">"0.0.29.post3"</span>)</span>
+<span id="cb38-10"><a href="#cb38-10" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>pip install <span class="op">--</span>no<span class="op">-</span>deps bitsandbytes accelerate {xformers} peft trl triton cut_cross_entropy unsloth_zoo</span>
+<span id="cb38-11"><a href="#cb38-11" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>pip install sentencepiece protobuf <span class="st">"datasets&gt;=3.4.1,&lt;4.0.0"</span> <span class="st">"huggingface_hub&gt;=0.34.0"</span> hf_transfer</span>
+<span id="cb38-12"><a href="#cb38-12" aria-hidden="true" tabindex="-1"></a>    <span class="op">!</span>pip install <span class="op">--</span>no<span class="op">-</span>deps unsloth</span>
+<span id="cb38-13"><a href="#cb38-13" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install transformers<span class="op">==</span><span class="fl">4.57.0</span></span>
+<span id="cb38-14"><a href="#cb38-14" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">--</span>no<span class="op">-</span>deps trl<span class="op">==</span><span class="fl">0.22.2</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="db27bb11" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763341355164,&quot;user_tz&quot;:420,&quot;elapsed&quot;:85500,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="2ccbd365-7e83-4964-ac7b-77e39d3083b5">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb39"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb39-1"><a href="#cb39-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unsloth <span class="im">import</span> FastVisionModel</span>
+<span id="cb39-2"><a href="#cb39-2" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> torch</span>
+<span id="cb39-3"><a href="#cb39-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb39-4"><a href="#cb39-4" aria-hidden="true" tabindex="-1"></a>model, tokenizer <span class="op">=</span> FastVisionModel.from_pretrained(</span>
+<span id="cb39-5"><a href="#cb39-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">"unsloth/Qwen3-VL-8B-Instruct-unsloth-bnb-4bit"</span>,</span>
+<span id="cb39-6"><a href="#cb39-6" aria-hidden="true" tabindex="-1"></a>    load_in_4bit <span class="op">=</span> <span class="va">True</span>, <span class="co"># Use 4bit to reduce memory use. False for 16bit LoRA.</span></span>
+<span id="cb39-7"><a href="#cb39-7" aria-hidden="true" tabindex="-1"></a>    use_gradient_checkpointing <span class="op">=</span> <span class="st">"unsloth"</span>, <span class="co"># True or "unsloth" for long context</span></span>
+<span id="cb39-8"><a href="#cb39-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>🦥 Unsloth: Will patch your computer to enable 2x faster free finetuning.
+🦥 Unsloth Zoo will now patch everything to make training faster!
+==((====))==  Unsloth 2025.11.3: Fast Qwen3_Vl patching. Transformers: 4.57.0.
+   \\   /|    Tesla T4. Num GPUs = 1. Max memory: 14.741 GB. Platform: Linux.
+O^O/ \_/ \    Torch: 2.8.0+cu126. CUDA: 7.5. CUDA Toolkit: 12.6. Triton: 3.4.0
+\        /    Bfloat16 = FALSE. FA [Xformers = 0.0.32.post2. FA2 = False]
+ "-____-"     Free license: http://github.com/unslothai/unsloth
+Unsloth: Fast downloading is enabled - ignore downloading bars which are red colored!</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<script type="application/vnd.jupyter.widget-view+json">
+{"version_major":2,"version_minor":0,"model_id":"23838a35a9b54427adcfe672a6b9b611","quarto_mimetype":"application/vnd.jupyter.widget-view+json"}
+</script>
+</div>
+</div>
+<p>Add LoRA adapters for parameter efficient finetuning allowing to train a small portion of all parameters. Unsloth also supports finetuning only the vision part of the model, only the language part, or both the vision and language parts.</p>
+<div id="f5959b80" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb41"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb41-1"><a href="#cb41-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Prepare the model for LoRA finetuning</span></span>
+<span id="cb41-2"><a href="#cb41-2" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> FastVisionModel.get_peft_model(</span>
+<span id="cb41-3"><a href="#cb41-3" aria-hidden="true" tabindex="-1"></a>    model,</span>
+<span id="cb41-4"><a href="#cb41-4" aria-hidden="true" tabindex="-1"></a>    finetune_vision_layers     <span class="op">=</span> <span class="va">True</span>, <span class="co"># False if not finetuning vision layers</span></span>
+<span id="cb41-5"><a href="#cb41-5" aria-hidden="true" tabindex="-1"></a>    finetune_language_layers   <span class="op">=</span> <span class="va">True</span>, <span class="co"># False if not finetuning language layers</span></span>
+<span id="cb41-6"><a href="#cb41-6" aria-hidden="true" tabindex="-1"></a>    finetune_attention_modules <span class="op">=</span> <span class="va">True</span>, <span class="co"># False if not finetuning attention layers</span></span>
+<span id="cb41-7"><a href="#cb41-7" aria-hidden="true" tabindex="-1"></a>    finetune_mlp_modules       <span class="op">=</span> <span class="va">True</span>, <span class="co"># False if not finetuning MLP layers</span></span>
+<span id="cb41-8"><a href="#cb41-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb41-9"><a href="#cb41-9" aria-hidden="true" tabindex="-1"></a>    r <span class="op">=</span> <span class="dv">16</span>,           <span class="co"># The larger, the higher the accuracy, but might overfit</span></span>
+<span id="cb41-10"><a href="#cb41-10" aria-hidden="true" tabindex="-1"></a>    lora_alpha <span class="op">=</span> <span class="dv">16</span>,  <span class="co"># Recommended alpha == r at least</span></span>
+<span id="cb41-11"><a href="#cb41-11" aria-hidden="true" tabindex="-1"></a>    lora_dropout <span class="op">=</span> <span class="dv">0</span>,</span>
+<span id="cb41-12"><a href="#cb41-12" aria-hidden="true" tabindex="-1"></a>    bias <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span id="cb41-13"><a href="#cb41-13" aria-hidden="true" tabindex="-1"></a>    random_state <span class="op">=</span> <span class="dv">3407</span>,</span>
+<span id="cb41-14"><a href="#cb41-14" aria-hidden="true" tabindex="-1"></a>    use_rslora <span class="op">=</span> <span class="va">False</span>,  <span class="co"># We support rank stabilized LoRA</span></span>
+<span id="cb41-15"><a href="#cb41-15" aria-hidden="true" tabindex="-1"></a>    loftq_config <span class="op">=</span> <span class="va">None</span>, <span class="co"># And LoftQ</span></span>
+<span id="cb41-16"><a href="#cb41-16" aria-hidden="true" tabindex="-1"></a>    <span class="co"># target_modules = "all-linear", # Optional now! Can specify a list if needed</span></span>
+<span id="cb41-17"><a href="#cb41-17" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="b594916b" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb42"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb42-1"><a href="#cb42-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Load the radiology dataset</span></span>
+<span id="cb42-2"><a href="#cb42-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> datasets <span class="im">import</span> load_dataset</span>
+<span id="cb42-3"><a href="#cb42-3" aria-hidden="true" tabindex="-1"></a>dataset <span class="op">=</span> load_dataset(<span class="st">"unsloth/Radiology_mini"</span>, split <span class="op">=</span> <span class="st">"train"</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<p>Format the dataset for finetuning.</p>
+<div id="c6413879" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb43"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb43-1"><a href="#cb43-1" aria-hidden="true" tabindex="-1"></a>instruction <span class="op">=</span> <span class="st">"You are an expert radiographer. Describe accurately what you see in this image."</span></span>
+<span id="cb43-2"><a href="#cb43-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb43-3"><a href="#cb43-3" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> convert_to_conversation(sample):</span>
+<span id="cb43-4"><a href="#cb43-4" aria-hidden="true" tabindex="-1"></a>    conversation <span class="op">=</span> [</span>
+<span id="cb43-5"><a href="#cb43-5" aria-hidden="true" tabindex="-1"></a>        { <span class="st">"role"</span>: <span class="st">"user"</span>,</span>
+<span id="cb43-6"><a href="#cb43-6" aria-hidden="true" tabindex="-1"></a>          <span class="st">"content"</span> : [</span>
+<span id="cb43-7"><a href="#cb43-7" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"type"</span> : <span class="st">"text"</span>,  <span class="st">"text"</span>  : instruction},</span>
+<span id="cb43-8"><a href="#cb43-8" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"type"</span> : <span class="st">"image"</span>, <span class="st">"image"</span> : sample[<span class="st">"image"</span>]} ]</span>
+<span id="cb43-9"><a href="#cb43-9" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb43-10"><a href="#cb43-10" aria-hidden="true" tabindex="-1"></a>        { <span class="st">"role"</span> : <span class="st">"assistant"</span>,</span>
+<span id="cb43-11"><a href="#cb43-11" aria-hidden="true" tabindex="-1"></a>          <span class="st">"content"</span> : [</span>
+<span id="cb43-12"><a href="#cb43-12" aria-hidden="true" tabindex="-1"></a>            {<span class="st">"type"</span> : <span class="st">"text"</span>,  <span class="st">"text"</span>  : sample[<span class="st">"caption"</span>]} ]</span>
+<span id="cb43-13"><a href="#cb43-13" aria-hidden="true" tabindex="-1"></a>        },</span>
+<span id="cb43-14"><a href="#cb43-14" aria-hidden="true" tabindex="-1"></a>    ]</span>
+<span id="cb43-15"><a href="#cb43-15" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> { <span class="st">"messages"</span> : conversation }</span>
+<span id="cb43-16"><a href="#cb43-16" aria-hidden="true" tabindex="-1"></a><span class="cf">pass</span></span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="2321e980" class="cell">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb44"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb44-1"><a href="#cb44-1" aria-hidden="true" tabindex="-1"></a>converted_dataset <span class="op">=</span> [convert_to_conversation(sample) <span class="cf">for</span> sample <span class="kw">in</span> dataset]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+</div>
+<div id="86c98050" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763341392337,&quot;user_tz&quot;:420,&quot;elapsed&quot;:7,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="284ffac1-c966-4204-cf1c-860929e3d640">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb45"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb45-1"><a href="#cb45-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Check the formatted dataset</span></span>
+<span id="cb45-2"><a href="#cb45-2" aria-hidden="true" tabindex="-1"></a>converted_dataset[<span class="dv">0</span>]</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display" data-execution_count="7">
+<pre><code>{'messages': [{'role': 'user',
+   'content': [{'type': 'text',
+     'text': 'You are an expert radiographer. Describe accurately what you see in this image.'},
+    {'type': 'image',
+     'image': &lt;PIL.PngImagePlugin.PngImageFile image mode=L size=657x442&gt;}]},
+  {'role': 'assistant',
+   'content': [{'type': 'text',
+     'text': 'Panoramic radiography shows an osteolytic lesion in the right posterior maxilla with resorption of the floor of the maxillary sinus (arrows).'}]}]}</code></pre>
+</div>
+</div>
+<p>Next, the model is trained for 60 steps. You can set <code>num_train_epochs=1</code> for longer finetuning.</p>
+<div id="4dbc8610" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763341392761,&quot;user_tz&quot;:420,&quot;elapsed&quot;:423,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="4b26f519-8baa-41b8-8926-e83c57923bfe">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb47"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb47-1"><a href="#cb47-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> unsloth.trainer <span class="im">import</span> UnslothVisionDataCollator</span>
+<span id="cb47-2"><a href="#cb47-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> trl <span class="im">import</span> SFTTrainer, SFTConfig</span>
+<span id="cb47-3"><a href="#cb47-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-4"><a href="#cb47-4" aria-hidden="true" tabindex="-1"></a>FastVisionModel.for_training(model) <span class="co"># Enable for training!</span></span>
+<span id="cb47-5"><a href="#cb47-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-6"><a href="#cb47-6" aria-hidden="true" tabindex="-1"></a>trainer <span class="op">=</span> SFTTrainer(</span>
+<span id="cb47-7"><a href="#cb47-7" aria-hidden="true" tabindex="-1"></a>    model <span class="op">=</span> model,</span>
+<span id="cb47-8"><a href="#cb47-8" aria-hidden="true" tabindex="-1"></a>    tokenizer <span class="op">=</span> tokenizer,</span>
+<span id="cb47-9"><a href="#cb47-9" aria-hidden="true" tabindex="-1"></a>    data_collator <span class="op">=</span> UnslothVisionDataCollator(model, tokenizer), <span class="co"># Must use!</span></span>
+<span id="cb47-10"><a href="#cb47-10" aria-hidden="true" tabindex="-1"></a>    train_dataset <span class="op">=</span> converted_dataset,</span>
+<span id="cb47-11"><a href="#cb47-11" aria-hidden="true" tabindex="-1"></a>    args <span class="op">=</span> SFTConfig(</span>
+<span id="cb47-12"><a href="#cb47-12" aria-hidden="true" tabindex="-1"></a>        per_device_train_batch_size <span class="op">=</span> <span class="dv">2</span>,</span>
+<span id="cb47-13"><a href="#cb47-13" aria-hidden="true" tabindex="-1"></a>        gradient_accumulation_steps <span class="op">=</span> <span class="dv">16</span>,</span>
+<span id="cb47-14"><a href="#cb47-14" aria-hidden="true" tabindex="-1"></a>        warmup_steps <span class="op">=</span> <span class="dv">3</span>,</span>
+<span id="cb47-15"><a href="#cb47-15" aria-hidden="true" tabindex="-1"></a>        max_steps <span class="op">=</span> <span class="dv">30</span>,</span>
+<span id="cb47-16"><a href="#cb47-16" aria-hidden="true" tabindex="-1"></a>        <span class="co"># num_train_epochs = 1, # Set this instead of max_steps for full training runs</span></span>
+<span id="cb47-17"><a href="#cb47-17" aria-hidden="true" tabindex="-1"></a>        learning_rate <span class="op">=</span> <span class="fl">2e-4</span>,</span>
+<span id="cb47-18"><a href="#cb47-18" aria-hidden="true" tabindex="-1"></a>        logging_steps <span class="op">=</span> <span class="dv">5</span>,</span>
+<span id="cb47-19"><a href="#cb47-19" aria-hidden="true" tabindex="-1"></a>        optim <span class="op">=</span> <span class="st">"adamw_8bit"</span>,</span>
+<span id="cb47-20"><a href="#cb47-20" aria-hidden="true" tabindex="-1"></a>        weight_decay <span class="op">=</span> <span class="fl">0.01</span>,</span>
+<span id="cb47-21"><a href="#cb47-21" aria-hidden="true" tabindex="-1"></a>        lr_scheduler_type <span class="op">=</span> <span class="st">"linear"</span>,</span>
+<span id="cb47-22"><a href="#cb47-22" aria-hidden="true" tabindex="-1"></a>        seed <span class="op">=</span> <span class="dv">3407</span>,</span>
+<span id="cb47-23"><a href="#cb47-23" aria-hidden="true" tabindex="-1"></a>        output_dir <span class="op">=</span> <span class="st">"outputs"</span>,</span>
+<span id="cb47-24"><a href="#cb47-24" aria-hidden="true" tabindex="-1"></a>        report_to <span class="op">=</span> <span class="st">"none"</span>,</span>
+<span id="cb47-25"><a href="#cb47-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb47-26"><a href="#cb47-26" aria-hidden="true" tabindex="-1"></a>        <span class="co"># You MUST put the below items for vision finetuning:</span></span>
+<span id="cb47-27"><a href="#cb47-27" aria-hidden="true" tabindex="-1"></a>        remove_unused_columns <span class="op">=</span> <span class="va">False</span>,</span>
+<span id="cb47-28"><a href="#cb47-28" aria-hidden="true" tabindex="-1"></a>        dataset_text_field <span class="op">=</span> <span class="st">""</span>,</span>
+<span id="cb47-29"><a href="#cb47-29" aria-hidden="true" tabindex="-1"></a>        dataset_kwargs <span class="op">=</span> {<span class="st">"skip_prepare_dataset"</span>: <span class="va">True</span>},</span>
+<span id="cb47-30"><a href="#cb47-30" aria-hidden="true" tabindex="-1"></a>        max_length <span class="op">=</span> <span class="dv">2048</span>,</span>
+<span id="cb47-31"><a href="#cb47-31" aria-hidden="true" tabindex="-1"></a>    ),</span>
+<span id="cb47-32"><a href="#cb47-32" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unsloth: Model does not have a default image size - using 512</code></pre>
+</div>
+</div>
+<div id="766fbf0f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342466425,&quot;user_tz&quot;:420,&quot;elapsed&quot;:1073648,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="9ccc1068-a265-41f8-a254-32e87785d770">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Train the model</span></span>
+<span id="cb49-2"><a href="#cb49-2" aria-hidden="true" tabindex="-1"></a>trainer_stats <span class="op">=</span> trainer.train()</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>The model is already on multiple devices. Skipping the move to device specified in `args`.
+==((====))==  Unsloth - 2x faster free finetuning | Num GPUs used = 1
+   \\   /|    Num examples = 1,978 | Num Epochs = 1 | Total steps = 30
+O^O/ \_/ \    Batch size per device = 2 | Gradient accumulation steps = 16
+\        /    Data Parallel GPUs = 1 | Total batch size (2 x 16 x 1) = 32
+ "-____-"     Trainable parameters = 51,346,944 of 8,818,470,640 (0.58% trained)</code></pre>
+</div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Unsloth: Will smartly offload gradients to save VRAM!</code></pre>
+</div>
+<div class="cell-output cell-output-display">
+<div>
+      
+      <progress value="30" max="30" style="width:300px; height:20px; vertical-align: middle;"></progress>
+      [30/30 16:57, Epoch 0/1]
+    </div>
+    
+<table class="dataframe caption-top table table-sm table-striped small" data-border="1">
+<thead>
+<tr class="header">
+<th data-quarto-table-cell-role="th">Step</th>
+<th data-quarto-table-cell-role="th">Training Loss</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>5</td>
+<td>3.280000</td>
+</tr>
+<tr class="even">
+<td>10</td>
+<td>2.047400</td>
+</tr>
+<tr class="odd">
+<td>15</td>
+<td>1.527300</td>
+</tr>
+<tr class="even">
+<td>20</td>
+<td>1.294400</td>
+</tr>
+<tr class="odd">
+<td>25</td>
+<td>1.268300</td>
+</tr>
+<tr class="even">
+<td>30</td>
+<td>1.300300</td>
+</tr>
+</tbody>
+</table>
+<p>
+</p></div>
+</div>
+<p>Next, a response is generated with the finetuned model for the first radiology image.</p>
+<div id="eee320b8" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342523383,&quot;user_tz&quot;:420,&quot;elapsed&quot;:4833,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="c344338c-11a6-41ef-c537-d5da52abb71d">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb52"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb52-1"><a href="#cb52-1" aria-hidden="true" tabindex="-1"></a>FastVisionModel.for_inference(model) <span class="co"># Enable for inference!</span></span>
+<span id="cb52-2"><a href="#cb52-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-3"><a href="#cb52-3" aria-hidden="true" tabindex="-1"></a>image <span class="op">=</span> dataset[<span class="dv">0</span>][<span class="st">"image"</span>]</span>
+<span id="cb52-4"><a href="#cb52-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-5"><a href="#cb52-5" aria-hidden="true" tabindex="-1"></a>instruction <span class="op">=</span> <span class="st">"You are an expert radiographer. Describe accurately what you see in this image."</span></span>
+<span id="cb52-6"><a href="#cb52-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-7"><a href="#cb52-7" aria-hidden="true" tabindex="-1"></a>messages <span class="op">=</span> [</span>
+<span id="cb52-8"><a href="#cb52-8" aria-hidden="true" tabindex="-1"></a>    {<span class="st">"role"</span>: <span class="st">"user"</span>, <span class="st">"content"</span>: [</span>
+<span id="cb52-9"><a href="#cb52-9" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"type"</span>: <span class="st">"image"</span>},</span>
+<span id="cb52-10"><a href="#cb52-10" aria-hidden="true" tabindex="-1"></a>        {<span class="st">"type"</span>: <span class="st">"text"</span>, <span class="st">"text"</span>: instruction}</span>
+<span id="cb52-11"><a href="#cb52-11" aria-hidden="true" tabindex="-1"></a>    ]}</span>
+<span id="cb52-12"><a href="#cb52-12" aria-hidden="true" tabindex="-1"></a>]</span>
+<span id="cb52-13"><a href="#cb52-13" aria-hidden="true" tabindex="-1"></a>input_text <span class="op">=</span> tokenizer.apply_chat_template(messages, add_generation_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb52-14"><a href="#cb52-14" aria-hidden="true" tabindex="-1"></a>inputs <span class="op">=</span> tokenizer(</span>
+<span id="cb52-15"><a href="#cb52-15" aria-hidden="true" tabindex="-1"></a>    image,</span>
+<span id="cb52-16"><a href="#cb52-16" aria-hidden="true" tabindex="-1"></a>    input_text,</span>
+<span id="cb52-17"><a href="#cb52-17" aria-hidden="true" tabindex="-1"></a>    add_special_tokens<span class="op">=</span><span class="va">False</span>,</span>
+<span id="cb52-18"><a href="#cb52-18" aria-hidden="true" tabindex="-1"></a>    return_tensors<span class="op">=</span><span class="st">"pt"</span>,</span>
+<span id="cb52-19"><a href="#cb52-19" aria-hidden="true" tabindex="-1"></a>).to(<span class="st">"cuda"</span>)</span>
+<span id="cb52-20"><a href="#cb52-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb52-21"><a href="#cb52-21" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> transformers <span class="im">import</span> TextStreamer</span>
+<span id="cb52-22"><a href="#cb52-22" aria-hidden="true" tabindex="-1"></a>text_streamer <span class="op">=</span> TextStreamer(tokenizer, skip_prompt<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb52-23"><a href="#cb52-23" aria-hidden="true" tabindex="-1"></a>_ <span class="op">=</span> model.generate(<span class="op">**</span>inputs, streamer<span class="op">=</span>text_streamer, max_new_tokens<span class="op">=</span><span class="dv">128</span>,</span>
+<span id="cb52-24"><a href="#cb52-24" aria-hidden="true" tabindex="-1"></a>                   use_cache<span class="op">=</span><span class="va">True</span>, do_sample<span class="op">=</span><span class="va">True</span>, temperature<span class="op">=</span><span class="fl">1.5</span>, min_p<span class="op">=</span><span class="fl">0.1</span>)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-stdout">
+<pre><code>Cephalometric X-ray showing the presence of supernumerary tooth on upper and lower incisors.&lt;|im_end|&gt;</code></pre>
+</div>
+</div>
+<div id="9cf12bc2" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1763342486424,&quot;user_tz&quot;:420,&quot;elapsed&quot;:57,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;}}}" data-outputid="55fcbaf4-ac64-4b42-91c6-8db334825306">
+<div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb54"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb54-1"><a href="#cb54-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Show image</span></span>
+<span id="cb54-2"><a href="#cb54-2" aria-hidden="true" tabindex="-1"></a>display_image <span class="op">=</span> image.copy()</span>
+<span id="cb54-3"><a href="#cb54-3" aria-hidden="true" tabindex="-1"></a>display_image.thumbnail((<span class="dv">300</span>, <span class="dv">300</span>))</span>
+<span id="cb54-4"><a href="#cb54-4" aria-hidden="true" tabindex="-1"></a>display(display_image)</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
+<div class="cell-output cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="Lecture_22-Multimodal_Models_files/figure-html/cell-34-output-1.png" class="img-fluid figure-img"></p>
+</figure>
+</div>
+</div>
+</div>
+</section>
+<section id="references" class="level2">
+<h2 class="anchored" data-anchor-id="references">References</h2>
+<ol type="1">
+<li>Vision-language models (VLMs) Explained (pt.&nbsp;1), by Sean Trott, available at <a href="https://seantrott.substack.com/p/vision-language-models-vlms-explained">https://seantrott.substack.com/p/vision-language-models-vlms-explained</a>.</li>
+<li>CLIP: Connecting text and images, OpenAI, available at <a href="https://openai.com/index/clip/">https://openai.com/index/clip/</a>.</li>
+<li>Vision Language Models (VLMs) Explained - GeeksForGeeks, available at <a href="https://www.geeksforgeeks.org/artificial-intelligence/vision-language-models-vlms-explained/">https://www.geeksforgeeks.org/artificial-intelligence/vision-language-models-vlms-explained/</a>.</li>
+<li>Vision Language Models Explained - Hugging Face Blog, by Merve, Edward Beeching, available at <a href="https://huggingface.co/blog/vlms">https://huggingface.co/blog/vlms</a>.</li>
+<li>Understanding Vision-Language Models (VLMs): A Practical Guide, by Pietro Bolcato, available at <a href="https://medium.com/@pietrobolcato/understanding-vision-language-models-vlms-a-practical-guide-8da18e9f0e0c">https://medium.com/<span class="citation" data-cites="pietrobolcato/understanding-vision-language-models-vlms-a-practical-guide-8da18e9f0e0c">@pietrobolcato/understanding-vision-language-models-vlms-a-practical-guide-8da18e9f0e0c</span></a>.</li>
+<li>What Are Vision Language Models, by NVIDIA, available at <a href="https://www.nvidia.com/en-us/glossary/vision-language-models/">https://www.nvidia.com/en-us/glossary/vision-language-models/</a>.</li>
+<li>Vision Language Models, by Rohit Bandaru, available at <a href="https://rohitbandaru.github.io/blog/Vision-Language-Models/">https://rohitbandaru.github.io/blog/Vision-Language-Models/</a>.</li>
+<li>Vision Fine-tuning, by Unsloth, available at <a href="https://docs.unsloth.ai/basics/vision-fine-tuning">https://docs.unsloth.ai/basics/vision-fine-tuning</a></li>
+</ol>
+<p><a href="#top">BACK TO TOP</a></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script>
+// Left sidebar: start with the "Course Information" section collapsed
+// while lecture sections stay expanded (collapse-level: 2 expands all;
+// Quarto has no per-section setting, so this collapses just that one).
+document.addEventListener("DOMContentLoaded", function () {
+  document.querySelectorAll("#quarto-sidebar .sidebar-item-section").forEach(function (sec) {
+    var text = sec.querySelector(":scope > .sidebar-item-container .menu-text");
+    if (!text || text.textContent.trim() !== "Course Information") return;
+    var sub = sec.querySelector(":scope > ul.collapse");
+    if (sub) sub.classList.remove("show");
+    sec.querySelectorAll(":scope > .sidebar-item-container a[data-bs-toggle]").forEach(function (a) {
+      a.setAttribute("aria-expanded", "false");
+    });
+  });
+});
+</script>
+<script>
+// Add expand/collapse arrows to right-pane TOC entries that have subsections.
+// Clicking the arrow toggles the subsection list without navigating; an
+// inline display style is used so Quarto's scroll-spy can't override it.
+document.addEventListener("DOMContentLoaded", function () {
+  var toc = document.getElementById("TOC");
+  if (!toc) return;
+  toc.querySelectorAll("li").forEach(function (li) {
+    var sub = li.querySelector(":scope > ul");
+    var link = li.querySelector(":scope > a");
+    if (!sub || !link) return;
+    var btn = document.createElement("span");
+    btn.className = "toc-chevron";
+    btn.setAttribute("role", "button");
+    btn.setAttribute("tabindex", "0");
+    btn.setAttribute("aria-label", "Toggle subsections");
+    btn.setAttribute("title", "Show/hide subsections");
+    btn.setAttribute("aria-expanded", "false");
+    link.after(btn);
+    function toggle(e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var open = sub.style.display === "block";
+      sub.style.display = open ? "" : "block";
+      btn.classList.toggle("toc-chevron-expanded", !open);
+      btn.setAttribute("aria-expanded", String(!open));
+    }
+    btn.addEventListener("click", toggle);
+    btn.addEventListener("keydown", function (e) {
+      if (e.key === "Enter" || e.key === " ") toggle(e);
+    });
+  });
+});
+</script>
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    // Ensure there is a toggle, if there isn't float one in the top right
+    if (window.document.querySelector('.quarto-color-scheme-toggle') === null) {
+      const a = window.document.createElement('a');
+      a.classList.add('top-right');
+      a.classList.add('quarto-color-scheme-toggle');
+      a.href = "";
+      a.onclick = function() { try { window.quartoToggleColorScheme(); } catch {} return false; };
+      const i = window.document.createElement("i");
+      i.classList.add('bi');
+      a.appendChild(i);
+      window.document.body.appendChild(a);
+    }
+    setColorSchemeToggle(hasAlternateSentinel())
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+      const outerScaffold = trigger.parentElement.cloneNode(true);
+      const codeEl = outerScaffold.querySelector('code');
+      for (const childEl of codeEl.children) {
+        if (isCodeAnnotation(childEl)) {
+          childEl.remove();
+        }
+      }
+      return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp("https:\/\/avakanski\.github\.io\/Fall-2026-Applied-Data-Science-with-Python\/");
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+<nav class="page-navigation">
+  <div class="nav-page nav-page-previous">
+      <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_21-RAG/Lecture_21-RAG.html" class="pagination-link" aria-label="Lecture 21 - Retrieval-Augmented Generation">
+        <i class="bi bi-arrow-left-short"></i> <span class="nav-page-text">Lecture 21 - Retrieval-Augmented Generation</span>
+      </a>          
+  </div>
+  <div class="nav-page nav-page-next">
+      <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_23-Reasoning_LLMs/Lecture_23-Reasoning_LLMs.html" class="pagination-link" aria-label="Lecture 23 - Reasoning Large Language Models">
+        <span class="nav-page-text">Lecture 23 - Reasoning Large Language Models</span> <i class="bi bi-arrow-right-short"></i>
+      </a>
+  </div>
+</nav>
+</div> <!-- /content -->
+<footer class="footer">
+  <div class="nav-footer">
+    <div class="nav-footer-left">
+      &nbsp;
+    </div>   
+    <div class="nav-footer-center">
+<p>CS 4622/5622 - Applied Data Science with Python, University of Idaho, Fall 2026</p>
+</div>
+    <div class="nav-footer-right">
+      &nbsp;
+    </div>
+  </div>
+</footer>
+
+
+
+
+</body></html>
