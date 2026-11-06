@@ -63,6 +63,26 @@ carries no number, so Quarto's auto-id is already exactly `references` — addin
 `<a id="references"></a>` just emits that id twice on the page. The TOC's
 `[References](#references)` link resolves to the auto-id on its own.
 
+#### Inline math must stay on one line
+
+Keep every inline `$...$` formula on a single line of the markdown cell, with
+no space between the dollar signs and the formula. Display math (`$$...$$`)
+may span lines freely.
+
+Jupyter and Colab render math with MathJax, which accepts a `$...$` formula
+split across lines. The website is built by Pandoc (bundled inside Quarto),
+which only treats `$...$` as math when the opening `$` is followed and the
+closing `$` is preceded by a non-space character, and the closing `$` is not
+followed by a digit. A formula whose closing `$` sits alone on its own line
+fails that test, Pandoc parses the text as prose, silently drops the LaTeX
+commands (`\operatorname{...}`, `\mathrm{...}`, …) as raw TeX, and the page
+shows a garbled remnant like `( _1,,_h )W_o. $`. Lecture 19's multi-head
+`Concat` formula broke this way; the notebook looked fine in Jupyter.
+
+Checking the rendered page is the reliable test: in `_site/...html` the
+formula must appear inside `<span class="math inline">`, otherwise it was not
+recognized as math.
+
 ### 4. Register the lecture in all three places
 
 A lecture is listed in three files, and they drift apart if you update only
