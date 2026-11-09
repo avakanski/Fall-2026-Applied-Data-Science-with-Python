@@ -813,13 +813,6 @@ window.Quarto = {
 <p>A brief summary of the main charactistics of the shown LLMs is as follows:</p>
 <ul>
 <li><em>Multi-Head Attention</em> layers are replaced with more efficient variants such as <strong>Grouped-Query Attention</strong> layers. While Multi-head Attention assigns a separate set of parameters to each attention head which allows each head to learn distinct query, key, and values projections, Grouped-Query Attention shares key and value projections across groups of heads which reduces memory usage and computational costs.</li>
-</ul>
-<p><img src="images/grouped_query_attention.png" width="1200"></p>
-<p><em>Figure: Grouped-query attention.</em></p>
-<p>Also, decoder-only LLMs use a <em>causal attention mask</em>, which allows each token to attend only to itself and to the preceding tokens in the sequence, and prevents the model from “seeing” future tokens when predicting the next token.</p>
-<p><img src="images/causal_attention_mask.png" width="500"></p>
-<p><em>Figure: Causal attention mask.</em></p>
-<ul>
 <li><em>Layer Normalization</em> is replaced with <strong>RMS Normalization</strong> (Root Mean Square Normalization). Differently from Layer Normalization which ensures zero-mean and unit-variance outputs by subtracting the mean and dividing by the standard deviation across the hidden dimension, RMS normalization scales the outputs only by their root mean square. In other words, it does not subtract the mean to center the outputs, and it divides the outputs by the root mean square. This makes it computationally simpler and often more stable in very deep models.</li>
 <li><strong>Rotary Positional Encodings (RoPE)</strong> are commonly used in modern LLMs to encode positional information more effectively than traditional fixed (sinusoidal) or learned positional encodings.</li>
 <li><strong>SiLU Activation Function</strong> is usually preferred in the feed-forward network block instead of ReLU. An overview of SiLU and other recent activation functions is presented below.</li>
@@ -963,8 +956,6 @@ window.Quarto = {
 <section id="quantized-lora-qlora" class="level3">
 <h3 class="anchored" data-anchor-id="quantized-lora-qlora">20.3.3 Quantized LoRA (QLoRA)</h3>
 <p><strong>Quantized LoRA (QLoRA)</strong> is a modified version of LoRA that uses 4-bit quantized weights. <em>Quantization</em> reduces the precision for the values of the network weights. In TensorFlow and PyTorch, the network weights by default are stored with 32-bit floating-point precision. With quantization techniques, the network weights are stored with lower precision, such as 16-bit, 8-bit, or 4-bit precision.</p>
-<p><img src="images/quantization.png" width="600"></p>
-<p><em>Figure: Quantization of 32-bit floating-point weights to 4-bit precision.</em></p>
 <p>This approach introduces a new 4-bit quantization format called “nf4” (normalized float 4) where the range of values is normalized to the range [-1, 1] by dividing the values evenly into 16 bins (4-bit allows <span class="math inline">\(2^4=16\)</span> values). While 4-bit floating point precision (fp4) applies non-linear floating point representation of the original values and results in unequal spacing of the values, normalized float 4 precision (nf4) applies linear quantization of the original values into equally spaced bins and follows a normal distribution.</p>
 <p>QLoRA combines 4-bit quantization of the model weights in the pretrained model and LoRA that adds low-rank adaptor layers. The benefits of QLoRA with 4-bit quantization of the model weights include reduced size of the model and increased inference speed, while having a modest decrease in the overall model performance.</p>
 <p>For example, with QLoRA a 70B parameter model can be finetuned with 48 GB VRAM, in comparison to 780 GB VRAM required for finetuning all weights of the original model (using 32-bit floating-point precision). Similarly, QLoRA enables to train the smaller version of LlaMA 2 with 7B parameters on a T4 GPU (provided by Google Colab) that has 16 GB VRAM. In cases when only a single GPU is available, using quantization is necessary for finetuning LLMs.</p>
