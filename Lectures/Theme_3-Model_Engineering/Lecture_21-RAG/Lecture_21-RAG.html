@@ -681,6 +681,11 @@ window.Quarto = {
   <li><a href="#defining-the-graph-with-nodes-and-edges" id="toc-defining-the-graph-with-nodes-and-edges" class="nav-link" data-scroll-target="#defining-the-graph-with-nodes-and-edges">21.4.1 Defining the Graph with Nodes and Edges</a></li>
   <li><a href="#running-the-graph" id="toc-running-the-graph" class="nav-link" data-scroll-target="#running-the-graph">21.4.2 Running the Graph</a></li>
   </ul></li>
+  <li><a href="#evaluation-of-rag-systems" id="toc-evaluation-of-rag-systems" class="nav-link" data-scroll-target="#evaluation-of-rag-systems">21.5 Evaluation of RAG Systems</a>
+  <ul class="collapse">
+  <li><a href="#retrieval-evaluation" id="toc-retrieval-evaluation" class="nav-link" data-scroll-target="#retrieval-evaluation">21.5.1 Retrieval Evaluation</a></li>
+  <li><a href="#generation-evaluation" id="toc-generation-evaluation" class="nav-link" data-scroll-target="#generation-evaluation">21.5.2 Generation Evaluation</a></li>
+  </ul></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -730,6 +735,11 @@ window.Quarto = {
 <ul>
 <li><a href="#21.4.1-defining-the-graph-with-nodes-and-edges">21.4.1 Defining the Graph with Nodes and Edges</a></li>
 <li><a href="#21.4.2-running-the-graph">21.4.2 Running the Graph</a></li>
+</ul></li>
+<li><a href="#21.5-evaluation-of-rag-systems">21.5 Evaluation of RAG Systems</a>
+<ul>
+<li><a href="#21.5.1-retrieval-evaluation">21.5.1 Retrieval Evaluation</a></li>
+<li><a href="#21.5.2-generation-evaluation">21.5.2 Generation Evaluation</a></li>
 </ul></li>
 <li><a href="#references">References</a></li>
 </ul>
@@ -1945,6 +1955,36 @@ Late Fees</code></pre>
 </div>
 </div>
 <p>The graph in this section has only two nodes connected sequentially, and it performs the same steps as the two previous implementations in the lecture. The benefits of the graph-based design become apparent for more complex RAG pipelines. For instance, we can add a node that rewrites the user query before retrieval, a node that grades the relevance of the retrieved chunks and performs a web search if none of them is relevant, or a node that checks the generated answer for hallucinations and generates a new answer if needed. Such pipelines require <strong>conditional edges</strong>, where the next node is selected based on the current state, as well as loops, and both are supported by LangGraph. We will learn more on this in the upcoming lecture on AI agents orchestration.</p>
+<p><a id="21.5-evaluation-of-rag-systems"></a></p>
+</section>
+</section>
+<section id="evaluation-of-rag-systems" class="level2">
+<h2 class="anchored" data-anchor-id="evaluation-of-rag-systems">21.5 Evaluation of RAG Systems</h2>
+<p>Evaluating a RAG system involves assessing both the retrieval of relevant information and the quality of the generated answers. The two components can fail independently, and a single end-to-end score cannot tell us which one needs to be improved. For example, if the relevant chunks are not retrieved, the answer cannot be correct regardless of the quality of the LLM. Therefore, retrieval is typically evaluated first, since retrieval metrics are inexpensive to compute and do not require generating answers.</p>
+<p><a id="21.5.1-retrieval-evaluation"></a></p>
+<section id="retrieval-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="retrieval-evaluation">21.5.1 Retrieval Evaluation</h3>
+<p>Retrieval evaluation measures whether the retrieved text chunks contain the information needed to answer the user’s query. Common metrics include:</p>
+<ul>
+<li><strong>Precision@k</strong>: The proportion of the top-k retrieved chunks that are relevant to the query.</li>
+<li><strong>Recall@k</strong>: The proportion of all relevant chunks in the document collection that are retrieved among the top-k chunks.</li>
+<li><strong>Context precision</strong>: Measures whether the relevant chunks are ranked higher than irrelevant chunks in the retrieved context.</li>
+<li><strong>Context recall</strong>: Measures whether the retrieved context contains the information needed to answer the question, typically by checking how much of a reference answer is supported by the retrieved context.</li>
+</ul>
+<p>Precision@k and Recall@k require that the relevant chunks for each question are labeled in advance, whereas context precision and context recall are typically computed by an LLM that judges the retrieved chunks against the question and a reference answer.</p>
+<p><a id="21.5.2-generation-evaluation"></a></p>
+</section>
+<section id="generation-evaluation" class="level3">
+<h3 class="anchored" data-anchor-id="generation-evaluation">21.5.2 Generation Evaluation</h3>
+<p>Generation evaluation measures the quality of the answers produced by the LLM using the retrieved context. Common metrics include:</p>
+<ul>
+<li><strong>Faithfulness</strong> (or groundedness): Measures whether the statements in the generated answer are supported by the retrieved context. This metric helps identify hallucinations.</li>
+<li><strong>Answer correctness</strong>: Measures whether the generated answer is factually correct, typically by comparing it against a reference (ground-truth) answer.</li>
+<li><strong>Answer relevance</strong>: Measures whether the generated answer directly addresses the user’s question.</li>
+</ul>
+<p>To evaluate a RAG system, we create a test dataset containing questions, reference answers, and the relevant document chunks. Test questions can be written manually or generated by an LLM from the document collection, although manually written questions are generally more reliable. The system generates answers to the test questions, and the results are compared against the reference information.</p>
+<p>Since LLMs can generate correct answers using different wording, exact text matching is often insufficient. A common approach is <strong>LLM-as-a-Judge</strong>, introduced in Lecture 20, where another LLM scores the retrieved context or the generated answers based on criteria such as context recall, faithfulness, and answer correctness. LLM-based evaluation is not always reliable, and it is recommended to validate the judge against human ratings on a sample of the test questions.</p>
+<p>Several frameworks support automated RAG evaluation, including Ragas and DeepEval. These frameworks provide implementations of retrieval and generation metrics and facilitate evaluating RAG pipelines on collections of test questions. The names and exact definitions of the metrics differ between frameworks; for instance, DeepEval refers to context precision and context recall as contextual precision and contextual recall.</p>
 </section>
 </section>
 <section id="references" class="level2">
@@ -1957,6 +1997,8 @@ Late Fees</code></pre>
 <li>Build a Retrieval Augmented Generation (RAG) App: Part 1, LangChain Documentation, available at <a href="https://python.langchain.com/docs/tutorials/rag/">https://python.langchain.com/docs/tutorials/rag/</a>.</li>
 <li>LangGraph Overview, LangChain Documentation, available at <a href="https://docs.langchain.com/oss/python/langgraph/overview">https://docs.langchain.com/oss/python/langgraph/overview</a>.</li>
 <li>Chroma Documentation, available at <a href="https://docs.trychroma.com/">https://docs.trychroma.com/</a>.</li>
+<li>Ragas Documentation, available at <a href="https://docs.ragas.io/">https://docs.ragas.io/</a>.</li>
+<li>DeepEval Documentation, available at <a href="https://deepeval.com/docs/">https://deepeval.com/docs/</a>.</li>
 </ol>
 <p><a href="#top">BACK TO TOP</a></p>
 
