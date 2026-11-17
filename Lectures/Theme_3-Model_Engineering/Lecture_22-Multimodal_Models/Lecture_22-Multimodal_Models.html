@@ -668,16 +668,11 @@ window.Quarto = {
   <li><a href="#vlms-with-fused-multi-modal-embeddings" id="toc-vlms-with-fused-multi-modal-embeddings" class="nav-link" data-scroll-target="#vlms-with-fused-multi-modal-embeddings">22.2.2 VLMs with Fused Multi-modal Embeddings</a></li>
   <li><a href="#modern-vlms" id="toc-modern-vlms" class="nav-link" data-scroll-target="#modern-vlms">22.2.3 Modern VLMs</a></li>
   </ul></li>
-  <li><a href="#vision-encoders-and-training-objectives" id="toc-vision-encoders-and-training-objectives" class="nav-link" data-scroll-target="#vision-encoders-and-training-objectives">22.3 Vision Encoders and Training Objectives</a>
-  <ul class="collapse">
-  <li><a href="#vision-encoders-in-vlms" id="toc-vision-encoders-in-vlms" class="nav-link" data-scroll-target="#vision-encoders-in-vlms">22.3.1 Vision Encoders in VLMs</a></li>
-  <li><a href="#training-objectives" id="toc-training-objectives" class="nav-link" data-scroll-target="#training-objectives">22.3.2 Training Objectives</a></li>
-  </ul></li>
-  <li><a href="#finetuning-example-qwen3-vl-on-radiology-images" id="toc-finetuning-example-qwen3-vl-on-radiology-images" class="nav-link" data-scroll-target="#finetuning-example-qwen3-vl-on-radiology-images">22.4 Finetuning Example: Qwen3-VL on Radiology Images</a></li>
-  <li><a href="#benchmarking-vlms" id="toc-benchmarking-vlms" class="nav-link" data-scroll-target="#benchmarking-vlms">22.5 Benchmarking VLMs</a></li>
-  <li><a href="#importance-of-vlms" id="toc-importance-of-vlms" class="nav-link" data-scroll-target="#importance-of-vlms">22.6 Importance of VLMs</a></li>
-  <li><a href="#vlm-limitations" id="toc-vlm-limitations" class="nav-link" data-scroll-target="#vlm-limitations">22.7 VLM Limitations</a></li>
-  <li><a href="#other-multi-modal-models" id="toc-other-multi-modal-models" class="nav-link" data-scroll-target="#other-multi-modal-models">22.8 Other Multi-modal Models</a></li>
+  <li><a href="#finetuning-example-qwen3-vl-on-radiology-images" id="toc-finetuning-example-qwen3-vl-on-radiology-images" class="nav-link" data-scroll-target="#finetuning-example-qwen3-vl-on-radiology-images">22.3 Finetuning Example: Qwen3-VL on Radiology Images</a></li>
+  <li><a href="#benchmarking-vlms" id="toc-benchmarking-vlms" class="nav-link" data-scroll-target="#benchmarking-vlms">22.4 Benchmarking VLMs</a></li>
+  <li><a href="#importance-of-vlms" id="toc-importance-of-vlms" class="nav-link" data-scroll-target="#importance-of-vlms">22.5 Importance of VLMs</a></li>
+  <li><a href="#vlm-limitations" id="toc-vlm-limitations" class="nav-link" data-scroll-target="#vlm-limitations">22.6 VLM Limitations</a></li>
+  <li><a href="#other-multi-modal-models" id="toc-other-multi-modal-models" class="nav-link" data-scroll-target="#other-multi-modal-models">22.7 Other Multi-modal Models</a></li>
   <li><a href="#references" id="toc-references" class="nav-link" data-scroll-target="#references">References</a></li>
   </ul>
 </nav>
@@ -715,16 +710,11 @@ window.Quarto = {
 <li><a href="#22.2.2-vlms-with-fused-multi-modal-embeddings">22.2.2 VLMs with Fused Multi-modal Embeddings</a></li>
 <li><a href="#22.2.3-modern-vlms">22.2.3 Modern VLMs</a></li>
 </ul></li>
-<li><a href="#22.3-vision-encoders-and-training-objectives">22.3 Vision Encoders and Training Objectives</a>
-<ul>
-<li><a href="#22.3.1-vision-encoders-in-vlms">22.3.1 Vision Encoders in VLMs</a></li>
-<li><a href="#22.3.2-training-objectives">22.3.2 Training Objectives</a></li>
-</ul></li>
-<li><a href="#22.4-finetuning-example-qwen3-vl-on-radiology-images">22.4 Finetuning Example: Qwen3-VL on Radiology Images</a></li>
-<li><a href="#22.5-benchmarking-vlms">22.5 Benchmarking VLMs</a></li>
-<li><a href="#22.6-importance-of-vlms">22.6 Importance of VLMs</a></li>
-<li><a href="#22.7-vlm-limitations">22.7 VLM Limitations</a></li>
-<li><a href="#22.8-other-multi-modal-models">22.8 Other Multi-modal Models</a></li>
+<li><a href="#22.3-finetuning-example-qwen3-vl-on-radiology-images">22.3 Finetuning Example: Qwen3-VL on Radiology Images</a></li>
+<li><a href="#22.4-benchmarking-vlms">22.4 Benchmarking VLMs</a></li>
+<li><a href="#22.5-importance-of-vlms">22.5 Importance of VLMs</a></li>
+<li><a href="#22.6-vlm-limitations">22.6 VLM Limitations</a></li>
+<li><a href="#22.7-other-multi-modal-models">22.7 Other Multi-modal Models</a></li>
 <li><a href="#references">References</a></li>
 </ul>
 <p>This lecture introduces <strong>multi-modal models</strong>, which process and integrate information from more than one data modality, such as text, images, audio, video, and other modalities. We will focus on <strong>Vision-Language Models (VLMs)</strong>, which are currently the most widely used class of multi-modal models. We will cover VLM architectures, followed by an example of finetuning a VLM on a custom dataset of medical images. The lecture concludes with a discussion of the importance and limitations of VLMs, and a brief overview of other types of multi-modal models.</p>
@@ -742,13 +732,13 @@ window.Quarto = {
 <p><em>Figure: VLM structure.</em> Source: [1].</p>
 <p>Training data for VLMs can include image-caption pairs, documents with interleaved images and text, visual question-answer pairs, grounding annotations, and video-text examples. Building datasets for VLMs requires collecting a large number of images and corresponding text. Several very large datasets that have been essential for training modern VLMs contain millions or billions of image-text pairs, with descriptions in English and other languages. For instance, the <a href="https://laion.ai/blog/laion-5b/">LAION-5B</a> dataset has 5.8 billion image-text examples, and the <a href="https://huggingface.co/datasets/facebook/pmd">PMD (Public Multimodal Dataset)</a> contains 70 million image-text examples. However, dataset scale alone does not guarantee a high-quality VLM, as captions may be noisy or contain information that is not visible in the image.</p>
 <p>During training, a VLM learns relationships between visual and textual representations, which allow the model to associate visual features (shapes, colors, spatial relations) with linguistic concepts. The figure below illustrates a VLM performing tasks such as object localization, segmentation, visual question answering, and learning from image-based instructions. The user prompts are shown on the left, and the model responses are shown on the right. As demonstrated in this example, VLMs can interpret not only the semantic content of images, but also spatial relations in images, such as the relative positions of objects. Some VLMs can also output bounding boxes or segmentation masks of objects, although these capabilities require suitable training data and output formats, and are not supported by every VLM.</p>
-<p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/VLM_capabilities.jpg" width="500"></p>
-<p><em>Figure: VLM prompts and responses.</em> Source: [4].</p>
+<p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/VLM_capabilities.jpg" width="700"></p>
+<p><em>Figure: VLM prompts and responses.</em> Source: [2].</p>
 <p>In general, VLMs can perform various multi-modal tasks, including:</p>
 <ul>
 <li>Image and video captioning or summarization: generate context-aware descriptions of images or video frames.</li>
 <li>Visual question answering (VQA): answer open-ended questions based on visual content.</li>
-<li>Image-based reasoning and grounding: provide explanations or logical reasoning about visual scenes, or identify the object referred in a phrase.</li>
+<li>Image-based reasoning and grounding: provide explanations or logical reasoning about visual scenes, or identify the object referred to in a phrase.</li>
 <li>Text-to-image search: retrieve images, figures, or diagrams in documents that match a textual query.</li>
 <li>Optical Character Recognition (OCR): read text in images, documents, tables, and charts.</li>
 <li>Image generation and editing: generate new images or edit existing images based on textual prompts (in models designed for visual outputs).</li>
@@ -763,14 +753,15 @@ window.Quarto = {
 <p><a id="22.2.1-vlms-with-shared-multi-modal-embeddings"></a></p>
 <section id="vlms-with-shared-multi-modal-embeddings" class="level3">
 <h3 class="anchored" data-anchor-id="vlms-with-shared-multi-modal-embeddings">22.2.1 VLMs with Shared Multi-modal Embeddings</h3>
-<p>VLMs with shared multi-modal embeddings typically have a dual-encoder architecture (i.e., separate vision and text encoders) that produces aligned embeddings. These models include the following main components [5].</p>
-<p><strong>Multi-modal inputs:</strong> Input modalities include <em>visual inputs</em> (images, PDF documents, or videos) and <em>textual inputs</em> (captions, question-answer pairs, or instructions).</p>
+<p>VLMs with shared multi-modal embeddings typically have a dual-encoder architecture (i.e., separate vision and text encoders) that produces aligned embeddings [4].</p>
+<p>Input modalities include <em>visual inputs</em> (images, PDF documents, or videos) and <em>textual inputs</em> (captions, question-answer pairs, or instructions).</p>
 <p><strong>Encoders:</strong> A <em>vision encoder</em> converts an image into visual features, and a <em>text encoder</em> converts the text (e.g., an image caption) into text features. The vision encoder in VLMs is commonly a variant of the Vision Transformer (ViT), although other designs are also possible. The text encoder is typically a Transformer-based encoder that is pretrained on large text corpora.</p>
+<p>Regarding the <em>vision encoder</em> part, recall from the section on Vision Transformers in Lecture 19 that a ViT divides the image into patches, embeds each patch, and uses self-attention to allow the patch representations to incorporate information from other parts of the image. Positional information helps the model represent where the features occur. For example, a 224 × 224 image divided into 16 × 16 patches produces 14 × 14 = 196 patch positions.</p>
 <p><strong>Projection and alignment:</strong> The visual and textual features are projected into a shared multi-modal embedding space. This step is achieved through a <em>projector head</em> (a.k.a. projector layer, or just projector), which is usually implemented as a linear layer or a small block of fully-connected layers. The two encoders process the image and the text separately, and the projectors align their outputs so that the embeddings of an image and its matching description are close to each other in the shared embedding space.</p>
 <p>The shared embedding space enables VLMs to link textual concepts (e.g., the word “cat”) with the corresponding visual content (images of cats). For instance, the model represents “cat” not just as a word, but also in terms of how cats appear in images.</p>
-<p>One representative model of this type of VLM architecture is CLIP (Contrastive Language-Image Pretraining) [9]. It was one of the first models to introduce large-scale vision-language alignment through contrastive learning. CLIP employs both a vision encoder and a text encoder, and learns a shared embedding space in which images and their textual descriptions are semantically aligned. <em>Contrastive learning</em> in CLIP is employed to associate visual and textual content by maximizing the similarity between matched image and text pairs and minimizing the similarity between mismatched pairs. In the figure below, the image encoder outputs image embeddings <span class="math inline">\(I_1, I_2, I_3, ..., I_N\)</span> for the images in the batch, and the text encoder outputs text embeddings <span class="math inline">\(T_1, T_2, T_3, ..., T_N\)</span> for the corresponding texts in the batch. The model computes a similarity score <span class="math inline">\(I_i\cdot T_j\)</span> between each image embedding (e.g., <span class="math inline">\(I_i\)</span>) and text embedding (e.g., <span class="math inline">\(T_j\)</span>) in the batch. The similarity scores are calculated as the dot product of the image and text embeddings, which equals the cosine similarity because CLIP normalizes the embeddings to unit length. As training progresses, the two encoders are updated so that image and text representations corresponding to similar concepts are drawn close to each other in the shared embedding space, while dissimilar concepts are pushed apart.</p>
+<p>One representative model of this type of VLM architecture is CLIP (Contrastive Language-Image Pretraining) [5]. It was one of the first models to introduce large-scale vision-language alignment through contrastive learning. CLIP employs both a vision encoder and a text encoder, and learns a shared embedding space in which images and their textual descriptions are semantically aligned. <em>Contrastive learning</em> in CLIP is employed to associate visual and textual content by maximizing the similarity between matched image and text pairs and minimizing the similarity between mismatched pairs. In the figure below, the image encoder outputs image embeddings <span class="math inline">\(I_1, I_2, I_3, ..., I_N\)</span> for the images in the batch, and the text encoder outputs text embeddings <span class="math inline">\(T_1, T_2, T_3, ..., T_N\)</span> for the corresponding texts in the batch. The model computes a similarity score <span class="math inline">\(I_i\cdot T_j\)</span> between each image embedding (e.g., <span class="math inline">\(I_i\)</span>) and text embedding (e.g., <span class="math inline">\(T_j\)</span>) in the batch. The similarity scores are calculated as the dot product of the image and text embeddings, which equals the cosine similarity because CLIP normalizes the embeddings to unit length. As training progresses, the two encoders are updated so that image and text representations corresponding to similar concepts are drawn close to each other in the shared embedding space, while dissimilar concepts are pushed apart.</p>
 <p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/CLIP.png" width="450"></p>
-<p><em>Figure: CLIP architecture.</em> Source: [2].</p>
+<p><em>Figure: CLIP architecture.</em> Source: [6].</p>
 <p>A trained CLIP model can perform <em>zero-shot classification</em>, where an image is encoded together with candidate text prompts such as “a photo of a cat” and “a photo of a dog”, and the prompt with the most similar embedding is selected as the predicted class.</p>
 <p>The pretrained vision encoder of CLIP has been widely adopted as the vision encoder component in numerous later VLMs.</p>
 <p><a id="22.2.2-vlms-with-fused-multi-modal-embeddings"></a></p>
@@ -780,58 +771,45 @@ window.Quarto = {
 <p>Generative VLMs commonly employ architectures with fused multi-modal embeddings, which combine a pretrained <em>vision encoder</em> with a pretrained <em>decoder-only language model</em>. These models fuse image and text representations into joint multi-modal representations, which enables more advanced visual reasoning.</p>
 <p>Two important connection patterns in this category of VLMs are:</p>
 <ul>
-<li><strong>Projected visual tokens:</strong> a projector maps the visual features to the hidden dimension of the language model. The visual tokens are placed alongside the text-token embeddings, and the language model decoder applies self-attention over the combined sequence of visual and text tokens. LLaVA is an example of this pattern.</li>
+<li><strong>Projected visual tokens:</strong> a projector maps the visual features to the hidden dimension (the size of token embedding vectors) of the language model. The visual tokens are placed alongside the text-token embeddings, and the language model decoder applies self-attention over the combined sequence of visual and text tokens. LLaVA is an example of this pattern.</li>
 <li><strong>Cross-attention:</strong> the layers of the language model attend to a separate sequence of visual features through cross-attention. Flamingo and Llama 3.2 Vision are examples of this pattern.</li>
 </ul>
 <p><strong>VLMs with Projected Visual Tokens</strong></p>
 <p>The following figure illustrates the workflow of VLMs with projected visual tokens. The visual embeddings from the <strong>vision encoder</strong> are first transformed by the multi-modal <strong>projector</strong> into the embedding space of the LLM. The projector learns a transformation that makes the visual features usable by the LLM. The <strong>LLM decoder</strong> receives a combined input sequence consisting of visual embeddings (image tokens) from the projector and text embeddings (text tokens) from the user’s prompt. The LLM decoder serves as the text generation backbone, and using the combined image and text tokens, it generates a textual output in an autoregressive manner, one token at a time. Each new token is conditioned on the previously generated tokens and on the image and text tokens in the input.</p>
-<p>The original LLaVA model used a single linear (dense) layer as the projector, and LLaVA-1.5 replaced it with a two-layer network [10, 11].</p>
+<p>The original LLaVA model used a single linear (dense) layer as the projector, and LLaVA-1.5 replaced it with a two-layer network [7, 8].</p>
+<p>If a projector maps each feature to an embedding vector with dimension 4,096 (the hidden dimension of the LLM), the resulting sequence of visual tokens has shape 196 × 4,096.</p>
+<p>Higher-resolution images can preserve small text and fine details, but they generally produce more visual tokens and increase the memory use and computation. To manage the number of visual tokens, models may resize images, divide them into tiles, merge neighboring features, or use learned resampling. For document analysis or medical images, aggressive resizing can remove exactly the small features that are needed to answer a question.</p>
+<p>For instance, Qwen3-VL uses 16 × 16 spatial patches and the feature vectors for each 2 × 2 group of neighboring patches are afterward merged, producing a spatial compression factor of 32. A 512 × 512 image therefore yields approximately (512 / 32)² = 16² = 256 visual tokens [9, 10].</p>
 <p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/vlm_fused_embeddings.png" width="300"></p>
-<p><em>Figure: Fused multi-modal VLM with projected visual tokens.</em> Source: [4].</p>
-<p>A common <em>training strategy</em> for VLMs with projected visual tokens involves multiple stages, as shown in the next figure. In the first stage, only the multi-modal projector (also referred to as fusion layer, adapter, or connector) is trained, while the image encoder and the LLM text decoder are kept frozen. This is followed by a second, instruction-tuning stage that involves additional finetuning of the multi-modal projector and parts of the LLM text decoder, while the image encoder is kept frozen. Other training recipes also finetune the vision encoder, or add further post-training stages.</p>
+<p><em>Figure: Fused multi-modal VLM with projected visual tokens.</em> Source: [2].</p>
+<p>A common <em>training strategy</em> for VLMs with projected visual tokens involves multiple stages, as shown in the next figure. In the first stage, only the multi-modal projector (also referred to as fusion layer, adapter, or connector) is trained, while the image encoder and the LLM text decoder are kept frozen. This is followed by a second, instruction-tuning stage that involves additional finetuning of the multi-modal projector and parts of the LLM text decoder, while the image encoder is kept frozen. Other training strategies also finetune the vision encoder, or add further post-training stages.</p>
 <p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/vlm_training.png" width="550"></p>
-<p><em>Figure: VLM training.</em> Source: [4].</p>
+<p><em>Figure: VLM training.</em> Source: [2].</p>
 <p><strong>VLMs with Cross-attention</strong></p>
-<p>Representative models of this class of VLM architectures (shown on the right in the above figure on VLM architectures) are Flamingo and Llama 3.2 Visio [12], which use a <strong>cross-attention mechanism</strong> to fuse image and text embeddings [7]. This mechanism is similar to the cross-attention module that connects the encoder and decoder in the standard Transformer network. Instead of adding image tokens to the input sequence, cross-attention layers inserted in the language model allow the text tokens to attend directly to the visual features.</p>
+<p>Representative models of this class of VLM architectures are Flamingo and Llama 3.2 Vision [11], which use a <strong>cross-attention mechanism</strong> to fuse image and text embeddings [12]. This architecture is shown in the next figure, as well as in the above figure on VLM architectures on the right. The cross-attention mechanism in VLMs is similar to the cross-attention module that connects the encoder and decoder in the standard Transformer network. Instead of adding image tokens to the input sequence as in the projected visual tokens concept, cross-attention layers inserted in the language model allow the text tokens to attend directly to the visual features.</p>
+<p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/vlm_cross_attention.png" width="550"></p>
+<p><em>Figure: VLMs with cross-attention.</em></p>
 <p><a id="22.2.3-modern-vlms"></a></p>
 </section>
 <section id="modern-vlms" class="level3">
 <h3 class="anchored" data-anchor-id="modern-vlms">22.2.3 Modern VLMs</h3>
-<p>The VLMs discussed above laid the foundations for modern multi-modal models. Among open-weight VLMs, the design with projected visual tokens is now dominant. Models such as Qwen3-VL, InternVL, Gemma 3, and Pixtral combine a ViT-based vision encoder, an MLP projector, and an LLM decoder. The improvements in these models mostly concern how images are converted into visual tokens (e.g., support for different image resolutions and aspect ratios, and merging of neighboring visual tokens), as well as the scale and quality of the training data. Cross-attention designs have become less common. For instance, Meta used cross-attention in Llama 3.2 Vision [12], but adopted a different design in Llama 4 [17].</p>
-<p><strong>Late fusion and early fusion.</strong> Multi-modal architectures can also be distinguished by the stage at which the modalities are fused and categorized as:</p>
+<p>The VLMs discussed above laid the foundations for modern multi-modal models. Among open-weight VLMs, the design with projected visual tokens is currently dominant. Models such as Qwen3-VL, InternVL, Gemma 3, and Pixtral combine a ViT-based vision encoder, an MLP projector, and an LLM decoder. The improvements in these models mostly concern how images are converted into visual tokens (e.g., support for different image resolutions and aspect ratios, and merging of neighboring visual tokens), as well as the scale and quality of the training data. Cross-attention designs have become less common. For instance, Meta used cross-attention in Llama 3.2 Vision [11], but adopted a different design in Llama 4 [13].</p>
+<p><strong>Late fusion and early fusion.</strong> Multi-modal architectures can also be distinguished by the stage at which the modalities are fused, and are categorized as:</p>
 <ul>
 <li><strong>Late fusion:</strong> the image is first processed by a separate, deep vision encoder, which is typically pretrained on its own (e.g., the vision encoder of CLIP), and the output of the encoder is then fused with the text in the language model. The VLMs with projected visual tokens and with cross-attention that we discussed above are late fusion models.</li>
-<li><strong>Early fusion:</strong> the image is converted into tokens with minimal processing, and the image and text tokens are processed together by a single Transformer from the first layer. For example, Fuyu has no image encoder, and the image patches are linearly projected into the first layer of the Transformer [19], while Chameleon converts images into discrete image tokens, similar to text tokens, which allows it to both understand and generate images [20].</li>
+<li><strong>Early fusion:</strong> the image is converted into tokens with minimal processing, and the image and text tokens are processed together by a single Transformer from the first layer. For example, Fuyu has no image encoder, and the image patches are linearly projected into the first layer of the Transformer [14], while Chameleon converts images into discrete image tokens, similar to text tokens, which allows it to both understand and generate images [15].</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/vlm_fusion.png" width="700"></p>
 <p><em>Figure: Late-fusion and early-fusion VLM architectures.</em></p>
-<p><strong>Natively multi-modal models.</strong> A related distinction concerns how the models are trained. Developers typically use the term <em>natively multi-modal</em> for models that are pretrained jointly on text, images, and often audio and video, from the start of training using early fusion. For instance, Google describes the Gemini models as multi-modal from the ground up, trained jointly across text, image, audio, and video data [21]. OpenAI described GPT-4o as a single model trained end-to-end across text, vision, and audio [22], and Meta describes Llama 4 as natively multi-modal, using early fusion to integrate text and vision tokens into a unified model backbone [17].</p>
-<p>The exact architectures of commercial frontier models, such as the Gemini, GPT, and Claude families of models, are not publicly disclosed. Therefore, although their developers describe joint multi-modal training, we cannot tell which fusion design they use.</p>
-<p><a id="22.3-vision-encoders-and-training-objectives"></a></p>
-</section>
-</section>
-<section id="vision-encoders-and-training-objectives" class="level2">
-<h2 class="anchored" data-anchor-id="vision-encoders-and-training-objectives">22.3 Vision Encoders and Training Objectives</h2>
-<p><a id="22.3.1-vision-encoders-in-vlms"></a></p>
-<section id="vision-encoders-in-vlms" class="level3">
-<h3 class="anchored" data-anchor-id="vision-encoders-in-vlms">22.3.1 Vision Encoders in VLMs</h3>
-<p>As explained in the section on Vision Transformers in Lecture 19, a ViT divides the image into patches, embeds each patch, and uses self-attention to allow the patch representations to incorporate information from other parts of the image. Positional information helps the model represent where the features occur. For example, a 224 × 224 image divided into 16 × 16 patches produces 14 × 14 = 196 patch positions. If a projector maps each feature to an embedding vector with dimension 4,096, the resulting sequence of visual tokens has shape 196 × 4,096.</p>
-<p>Higher-resolution images can preserve small text and fine details, but they generally produce more visual tokens and increase the memory use and computation. To manage the number of visual tokens, models may resize images, divide them into tiles, merge neighboring features, or use learned resampling. For document analysis or medical images, aggressive resizing can remove exactly the small features that are needed to answer a question.</p>
-<p>For instance, Qwen3-VL uses 16 × 16 spatial patches and merges 2 × 2 neighboring features, producing a spatial compression factor of 32. A 512 × 512 image therefore yields approximately (512 / 32)² = 16² = 256 visual tokens [13, 14].</p>
-<p><a id="22.3.2-training-objectives"></a></p>
-</section>
-<section id="training-objectives" class="level3">
-<h3 class="anchored" data-anchor-id="training-objectives">22.3.2 Training Objectives</h3>
-<p>Training strategies and objectives for VLMs depend on the intended tasks and designs of the models.</p>
-<p>CLIP employs <em>contrastive learning</em> to assign higher similarity to matched image-text pairs than to mismatched pairs within a training batch. It applies classification losses in both the image-to-text and text-to-image directions, and its output is an embedding used for matching images with text [9].</p>
-<p>Generative VLMs employ <em>conditional next-token prediction</em> to predict the next token based on the image, the user prompt, and the preceding response tokens. During supervised training, the preceding tokens come from the reference response, and during inference, they come from the model’s own generated output.</p>
-<p><em>Instruction tuning</em> uses examples such as questions about images, explanations, and structured extraction tasks to teach the model useful response behavior. Some models also undergo <em>post-training</em> steps, such as preference optimization or reinforcement learning, to improve response quality and reasoning.</p>
-<p><a id="22.4-finetuning-example-qwen3-vl-on-radiology-images"></a></p>
+<p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/images/vlm_late_early_fusion.png" width="700"></p>
+<p><em>Figure: Late-fusion vs early-fusion.</em></p>
+<p><strong>Natively multi-modal models.</strong> Developers typically use the term <em>natively multi-modal</em> for models that are pretrained jointly on text, images, and often audio and video, from the start of training using early fusion. For instance, Google describes the Gemini models as multi-modal from the ground up, trained jointly across text, image, audio, and video data [16]. OpenAI described GPT-4o as a single model trained end-to-end across text, vision, and audio [17], and Meta describes Llama 4 as natively multi-modal, using early fusion to integrate text and vision tokens into a unified model backbone [13]. The exact architectures of commercial frontier models are not publicly disclosed, and we cannot tell which fusion design they use.</p>
+<p><a id="22.3-finetuning-example-qwen3-vl-on-radiology-images"></a></p>
 </section>
 </section>
 <section id="finetuning-example-qwen3-vl-on-radiology-images" class="level2">
-<h2 class="anchored" data-anchor-id="finetuning-example-qwen3-vl-on-radiology-images">22.4 Finetuning Example: Qwen3-VL on Radiology Images</h2>
-<p>This section presents an example of finetuning a VLM on a custom dataset containing medical images, including X-rays, CT scans, and ultrasound images that show various medical conditions and diseases. Each image is paired with a caption from the published article in which the image appeared. The dataset was created by the Unsloth team [8], and it is a smaller sampled version of the ROCO (Radiology Objects in COntext) dataset.</p>
+<h2 class="anchored" data-anchor-id="finetuning-example-qwen3-vl-on-radiology-images">22.3 Finetuning Example: Qwen3-VL on Radiology Images</h2>
+<p>This section presents an example of finetuning a VLM on a custom dataset containing medical images, including X-rays, CT scans, and ultrasound images that show various medical conditions and diseases. Each image is paired with a caption from the published article in which the image appeared. The dataset was created by the Unsloth team [18], and it is a smaller sampled version of the ROCO (Radiology Objects in COntext) dataset.</p>
 <p>The goal is to adapt a general-purpose VLM, which does not have in-depth knowledge of medical image analysis, to the terminology and style of radiology image descriptions.</p>
 <p>By relying on parameter-efficient finetuning techniques, including quantization and LoRA, we will finetune the VLM using a single L4 GPU.</p>
 <section id="install-dependencies" class="level4">
@@ -1499,25 +1477,25 @@ Ground Truth:
 Frontal chest radiograph displays bilateral scattered lung infiltrates most pronounced in right lower lung zone.</code></pre>
 </div>
 </div>
-<p>Note that the responses generated by the finetuned VLM are much shorter than the responses before finetuning, and they follow the concise style and clinical vocabulary of the captions in the finetuning dataset. However, the findings in the responses only partially match the ground truth captions. The responses also contain invented details that cannot be inferred from the images. This is because the captions in the dataset were taken from published case reports, and the model learned to imitate their narrative style. Also, the model was trained only for 40 steps on 640 images, which was insuficient in this case. The hallucinated clinical details illustrate why the outputs of a finetuned VLM must be evaluated on many held-out examples and validated by clinicians before such a model can be used as a tool by medical professionals.</p>
-<p><a id="22.5-benchmarking-vlms"></a></p>
+<p>Note that the responses generated by the finetuned VLM are much shorter than the responses before finetuning, and they follow the concise style and clinical vocabulary of the captions in the finetuning dataset. However, the findings in the responses only partially match the ground truth captions. The responses also contain invented details that cannot be inferred from the images. This is because the captions in the dataset were taken from published case reports, and the model learned to imitate their narrative style. Also, the model was trained only for 40 steps on 640 images, which was insufficient in this case. The hallucinated clinical details illustrate why the outputs of a finetuned VLM must be evaluated on many held-out examples and validated by clinicians before such a model can be used as a tool by medical professionals.</p>
+<p><a id="22.4-benchmarking-vlms"></a></p>
 </section>
 </section>
 <section id="benchmarking-vlms" class="level2">
-<h2 class="anchored" data-anchor-id="benchmarking-vlms">22.5 Benchmarking VLMs</h2>
+<h2 class="anchored" data-anchor-id="benchmarking-vlms">22.4 Benchmarking VLMs</h2>
 <p>The performance of VLMs is assessed using multi-modal benchmarks that evaluate models on a variety of tasks, such as reasoning, visual question answering, document comprehension, and video understanding. Most benchmarks consist of a set of images with associated questions, often posed as multiple-choice questions. Popular benchmarks include <a href="https://mmmu-benchmark.github.io/">MMMU</a>, <a href="https://video-mme.github.io/home_page.html">Video-MME</a>, <a href="https://mathvista.github.io/">MathVista</a>, and <a href="https://github.com/vis-nlp/ChartQA">ChartQA</a>. MMMU is one of the most comprehensive benchmarks, and contains 11.5K multi-modal questions that require knowledge and reasoning across different disciplines, such as art and engineering.</p>
 <p>Several VLM-specific leaderboards provide comparative rankings across diverse metrics. <a href="https://lmarena.ai/leaderboard/vision">Vision Arena</a> ranks models based on anonymous votes by human users who compare the outputs of two models. The <a href="https://huggingface.co/spaces/opencompass/open_vlm_leaderboard">Open VLM Leaderboard</a> ranks VLMs according to their scores on different benchmarks and their average scores.</p>
-<p><a id="22.6-importance-of-vlms"></a></p>
+<p><a id="22.5-importance-of-vlms"></a></p>
 </section>
 <section id="importance-of-vlms" class="level2">
-<h2 class="anchored" data-anchor-id="importance-of-vlms">22.6 Importance of VLMs</h2>
+<h2 class="anchored" data-anchor-id="importance-of-vlms">22.5 Importance of VLMs</h2>
 <p>Traditional computer vision models are constrained to learning from a predefined and fixed set of categories or objects for image classification or object detection (e.g., identifying whether an image contains a cat or a dog). Moreover, these tasks require users to manually label a large number of images with a specific category for classification, or to draw bounding boxes around multiple objects in each image for object detection, which is a tedious, time-consuming, and expensive process.</p>
 <p>Conversely, VLMs are trained with more detailed textual descriptions of images, where, for example, an image can contain cats, dogs, and other objects, and the text description can provide additional contextual information (e.g., the cat is sitting, the dog is running, etc.). Learning from rich natural language descriptions allows VLMs to better understand visual scenes, without limiting the learning to a narrow set of visual concepts comprising a fixed number of classes and objects. It also greatly reduces the need for manual image labeling, and extends the utility of VLMs beyond traditional CV tasks like classification or detection to new capabilities, including reasoning, summarization, question answering, and interactive dialogue, by simply changing the text prompt.</p>
-<p>VLMs have been applied across many domains and industries, and offer great potential to enhance visual perception [6]. For instance, they can be used to review videos and extract insights for industrial inspection and robotics (detect faults, monitor operations, identify anomalies), safety and infrastructure monitoring (recognize floods, fires, or traffic hazards), retail and logistics (track empty shelves, detect misplaced items, identify supply-chain bottlenecks), and numerous other tasks.</p>
-<p><a id="22.7-vlm-limitations"></a></p>
+<p>VLMs have been applied across many domains and industries, and offer great potential to enhance visual perception [19]. For instance, they can be used to review videos and extract insights for industrial inspection and robotics (detect faults, monitor operations, identify anomalies), safety and infrastructure monitoring (recognize floods, fires, or traffic hazards), retail and logistics (track empty shelves, detect misplaced items, identify supply-chain bottlenecks), and numerous other tasks.</p>
+<p><a id="22.6-vlm-limitations"></a></p>
 </section>
 <section id="vlm-limitations" class="level2">
-<h2 class="anchored" data-anchor-id="vlm-limitations">22.7 VLM Limitations</h2>
+<h2 class="anchored" data-anchor-id="vlm-limitations">22.6 VLM Limitations</h2>
 <p>VLM responses can sound confident even when the visual evidence is weak. Important limitations of VLMs include:</p>
 <ul>
 <li><em>Hallucinations:</em> inventing objects, findings, or contextual details that are not supported by the input.</li>
@@ -1527,40 +1505,39 @@ Frontal chest radiograph displays bilateral scattered lung infiltrates most pron
 <li><em>Temporal errors:</em> missing a short event or incorrectly ordering events in sampled video frames.</li>
 <li><em>Domain shift:</em> failing on image types, devices, or settings that differ from the training data.</li>
 </ul>
-<p><a id="22.8-other-multi-modal-models"></a></p>
+<p><a id="22.7-other-multi-modal-models"></a></p>
 </section>
 <section id="other-multi-modal-models" class="level2">
-<h2 class="anchored" data-anchor-id="other-multi-modal-models">22.8 Other Multi-modal Models</h2>
-<p><strong>Video-language models</strong> sample frames from a video and encode them into visual tokens. Frame order, timestamps, and temporal positional information help represent events over time. Sampling more frames can capture brief events but increases the number of input tokens, whereas sparse sampling can miss such events. For example, Qwen3-VL supports video inputs and explicit timestamp-based temporal alignment [13, 14].</p>
-<p><strong>Audio-capable models</strong> can encode speech or other sounds and produce text, speech, or both. Direct audio processing can preserve cues such as speaker identity, emotion, and intonation that are lost when only a transcript is supplied. Qwen3-Omni is an example of a model that processes text, images, audio, and video, and generates text and speech [15].</p>
-<p><strong>Generative models</strong> for visual generation and editing can create or edit images and videos. Visual generation often relies on diffusion or flow-matching components, rather than only on a text decoder. Some systems, such as UniVideo, combine visual understanding, generation, and editing in a single model [16].</p>
+<h2 class="anchored" data-anchor-id="other-multi-modal-models">22.7 Other Multi-modal Models</h2>
+<p><strong>Video-language models</strong> sample frames from a video and encode them into visual tokens. Frame order, timestamps, and temporal positional information help represent events over time. Sampling more frames can capture brief events but increases the number of input tokens, whereas sparse sampling can miss such events. For example, Qwen3-VL supports video inputs and explicit timestamp-based temporal alignment [9, 10].</p>
+<p><strong>Audio-capable models</strong> can encode speech or other sounds and produce text, speech, or both. Direct audio processing can preserve cues such as speaker identity, emotion, and intonation that are lost when only a transcript is supplied. Qwen3-Omni is an example of a model that processes text, images, audio, and video, and generates text and speech [20].</p>
+<p><strong>Generative models</strong> for visual generation and editing can create or edit images and videos. Visual generation often relies on diffusion or flow-matching components, rather than only on a text decoder. Some systems, such as UniVideo, combine visual understanding, generation, and editing in a single model [21].</p>
 <p><strong>Visual AI agents</strong> can interpret screenshots and supply actions to a tool that operates a user interface. <strong>Vision-language-action (VLA) models</strong> extend this idea to physical actions. For instance, in robotics, such systems can use a camera to capture images of the environment, a VLM to interpret the images and propose actions, and an action module to control the robot’s movements while executing the actions.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
 <ol type="1">
 <li>Vision-language models (VLMs) Explained (pt.&nbsp;1), by Sean Trott, available at <a href="https://seantrott.substack.com/p/vision-language-models-vlms-explained">https://seantrott.substack.com/p/vision-language-models-vlms-explained</a>.</li>
-<li>CLIP: Connecting text and images, by OpenAI, available at <a href="https://openai.com/index/clip/">https://openai.com/index/clip/</a>.</li>
-<li>Vision Language Models (VLMs) Explained, by GeeksforGeeks, available at <a href="https://www.geeksforgeeks.org/artificial-intelligence/vision-language-models-vlms-explained/">https://www.geeksforgeeks.org/artificial-intelligence/vision-language-models-vlms-explained/</a>.</li>
 <li>Vision Language Models Explained, Hugging Face Blog, by Merve Noyan and Edward Beeching, available at <a href="https://huggingface.co/blog/vlms">https://huggingface.co/blog/vlms</a>.</li>
+<li>Vision Language Models (VLMs) Explained, by GeeksforGeeks, available at <a href="https://www.geeksforgeeks.org/artificial-intelligence/vision-language-models-vlms-explained/">https://www.geeksforgeeks.org/artificial-intelligence/vision-language-models-vlms-explained/</a>.</li>
 <li>Understanding Vision-Language Models (VLMs): A Practical Guide, by Pietro Bolcato, available at <a href="https://medium.com/@pietrobolcato/understanding-vision-language-models-vlms-a-practical-guide-8da18e9f0e0c">https://medium.com/<span class="citation" data-cites="pietrobolcato/understanding-vision-language-models-vlms-a-practical-guide-8da18e9f0e0c">@pietrobolcato/understanding-vision-language-models-vlms-a-practical-guide-8da18e9f0e0c</span></a>.</li>
-<li>What Are Vision Language Models, by NVIDIA, available at <a href="https://www.nvidia.com/en-us/glossary/vision-language-models/">https://www.nvidia.com/en-us/glossary/vision-language-models/</a>.</li>
-<li>Vision Language Models, by Rohit Bandaru, available at <a href="https://rohitbandaru.github.io/blog/Vision-Language-Models/">https://rohitbandaru.github.io/blog/Vision-Language-Models/</a>.</li>
-<li>Vision Fine-tuning, by Unsloth, available at <a href="https://docs.unsloth.ai/basics/vision-fine-tuning">https://docs.unsloth.ai/basics/vision-fine-tuning</a>.</li>
 <li>Learning Transferable Visual Models From Natural Language Supervision (CLIP), by Alec Radford et al., available at <a href="https://arxiv.org/abs/2103.00020">https://arxiv.org/abs/2103.00020</a>.</li>
+<li>CLIP: Connecting text and images, by OpenAI, available at <a href="https://openai.com/index/clip/">https://openai.com/index/clip/</a>.</li>
 <li>Visual Instruction Tuning (LLaVA), by Haotian Liu et al., available at <a href="https://arxiv.org/abs/2304.08485">https://arxiv.org/abs/2304.08485</a>.</li>
 <li>Improved Baselines with Visual Instruction Tuning (LLaVA-1.5), by Haotian Liu et al., available at <a href="https://arxiv.org/abs/2310.03744">https://arxiv.org/abs/2310.03744</a>.</li>
-<li>Llama 3.2 Model Cards and Prompt Formats, by Meta, available at <a href="https://dev.meta.ai/llama/docs/model-cards-and-prompt-formats/llama3_2">https://dev.meta.ai/llama/docs/model-cards-and-prompt-formats/llama3_2</a>.</li>
 <li>Qwen3-VL Technical Report, by Shuai Bai et al., available at <a href="https://arxiv.org/abs/2511.21631">https://arxiv.org/abs/2511.21631</a>.</li>
 <li>Qwen3-VL GitHub Repository (inference, resolution controls, and video examples), by the Qwen Team, available at <a href="https://github.com/QwenLM/Qwen3-VL">https://github.com/QwenLM/Qwen3-VL</a>.</li>
-<li>Qwen3-Omni Technical Report, by Jin Xu et al., available at <a href="https://arxiv.org/abs/2509.17765">https://arxiv.org/abs/2509.17765</a>.</li>
-<li>UniVideo: Unified Understanding, Generation, and Editing for Videos, by Cong Wei et al., ICLR 2026, available at <a href="https://proceedings.iclr.cc/paper_files/paper/2026/hash/b940430f7acd23302bbaf0680f458e61-Abstract-Conference.html">https://proceedings.iclr.cc/paper_files/paper/2026/hash/b940430f7acd23302bbaf0680f458e61-Abstract-Conference.html</a>.</li>
+<li>Llama 3.2 Model Cards and Prompt Formats, by Meta, available at <a href="https://dev.meta.ai/llama/docs/model-cards-and-prompt-formats/llama3_2">https://dev.meta.ai/llama/docs/model-cards-and-prompt-formats/llama3_2</a>.</li>
+<li>Vision Language Models, by Rohit Bandaru, available at <a href="https://rohitbandaru.github.io/blog/Vision-Language-Models/">https://rohitbandaru.github.io/blog/Vision-Language-Models/</a>.</li>
 <li>The Llama 4 Herd: The Beginning of a New Era of Natively Multimodal AI Innovation, by Meta, available at <a href="https://ai.meta.com/blog/llama-4-multimodal-intelligence/">https://ai.meta.com/blog/llama-4-multimodal-intelligence/</a>.</li>
-<li>NVLM: Open Frontier-Class Multimodal LLMs, by Wenliang Dai et al., available at <a href="https://arxiv.org/abs/2409.11402">https://arxiv.org/abs/2409.11402</a>.</li>
 <li>Fuyu-8B Model Card, by Adept AI, available at <a href="https://huggingface.co/adept/fuyu-8b">https://huggingface.co/adept/fuyu-8b</a>.</li>
 <li>Chameleon: Mixed-Modal Early-Fusion Foundation Models, by the Chameleon Team (Meta), available at <a href="https://arxiv.org/abs/2405.09818">https://arxiv.org/abs/2405.09818</a>.</li>
 <li>Gemini: A Family of Highly Capable Multimodal Models, by the Gemini Team (Google), available at <a href="https://arxiv.org/abs/2312.11805">https://arxiv.org/abs/2312.11805</a>.</li>
 <li>Hello GPT-4o, by OpenAI, available at <a href="https://openai.com/index/hello-gpt-4o/">https://openai.com/index/hello-gpt-4o/</a>.</li>
+<li>Vision Fine-tuning, by Unsloth, available at <a href="https://docs.unsloth.ai/basics/vision-fine-tuning">https://docs.unsloth.ai/basics/vision-fine-tuning</a>.</li>
+<li>What Are Vision Language Models, by NVIDIA, available at <a href="https://www.nvidia.com/en-us/glossary/vision-language-models/">https://www.nvidia.com/en-us/glossary/vision-language-models/</a>.</li>
+<li>Qwen3-Omni Technical Report, by Jin Xu et al., available at <a href="https://arxiv.org/abs/2509.17765">https://arxiv.org/abs/2509.17765</a>.</li>
+<li>UniVideo: Unified Understanding, Generation, and Editing for Videos, by Cong Wei et al., ICLR 2026, available at <a href="https://proceedings.iclr.cc/paper_files/paper/2026/hash/b940430f7acd23302bbaf0680f458e61-Abstract-Conference.html">https://proceedings.iclr.cc/paper_files/paper/2026/hash/b940430f7acd23302bbaf0680f458e61-Abstract-Conference.html</a>.</li>
 </ol>
 <p><a href="#top">BACK TO TOP</a></p>
 
