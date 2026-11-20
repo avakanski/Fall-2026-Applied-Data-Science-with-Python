@@ -84,9 +84,9 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <link href="../../../site_libs/quarto-html/quarto-syntax-highlighting-63b5708e65d6cd79cd7618c58d0c21e7.css" rel="stylesheet" class="quarto-color-scheme-extra" id="quarto-text-highlighting-styles">
 <script src="../../../site_libs/bootstrap/bootstrap.min.js"></script>
 <link href="../../../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="../../../site_libs/bootstrap/bootstrap-90dd6b352e7236cceeb5dfdbb7cff062.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
-<link href="../../../site_libs/bootstrap/bootstrap-dark-70f5736893d6fc5b17fd374ac47833c2.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
-<link href="../../../site_libs/bootstrap/bootstrap-90dd6b352e7236cceeb5dfdbb7cff062.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-b6e900b225323537c944b5ece6893d9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme" id="quarto-bootstrap" data-mode="light">
+<link href="../../../site_libs/bootstrap/bootstrap-dark-42374238e35b5f00b143f6813814af7c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme quarto-color-alternate" id="quarto-bootstrap" data-mode="dark">
+<link href="../../../site_libs/bootstrap/bootstrap-b6e900b225323537c944b5ece6893d9c.min.css" rel="stylesheet" append-hash="true" class="quarto-color-scheme-extra" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "sidebar",
   "copy-button": false,
@@ -767,13 +767,13 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <li><strong>Observability</strong>: logs every model call and tool call, with token counts, latency, and errors, so that developers can debug and evaluate the agent.</li>
 </ul>
 <p>A useful way to think about modern agentic systems is <strong>agent = model + harness</strong>. The same LLM can perform very differently depending on the quality of its harness. Coding assistants such as Claude Code, OpenAI Codex, and Cursor are examples of carefully engineered harnesses around frontier LLMs, where most of the engineering effort goes into context management, tool design, and safety, rather than into the model itself.</p>
-<p>Agentic frameworks covered in this lectures such as LangGraph, CrewAI, and AutoGen, can be understood as libraries that provide developed harness components, so that developers do not need to write them from scratch.</p>
+<p>Agentic frameworks covered in this lecture such as LangGraph, CrewAI, and AutoGen, can be understood as libraries that provide developed harness components, so that developers do not need to write them from scratch.</p>
 <p><strong>Harness Design Patterns</strong></p>
 <p>Although harnesses for different applications vary in their details, most of them are built from a few recurring design patterns [9]:</p>
 <ul>
 <li><em>Workflow loop</em>: the agent repeatedly plans, executes an action, observes or tests the outcome, and improves its approach until the goal is reached, asking the user for clarification when needed. The figure below shows this loop for a coding agent, where running the tests is used to check whether the task is completed.</li>
 <li><em>File system as persistent memory</em>: long-running tasks produce more information than can fit in the context window. This can include plans, experiment logs, code changes, intermediate results, etc. Instead of keeping everything in the context, the harness lets the agent write its state to files and read it back when needed.</li>
-<li><em>Sub-agents and background jobs</em>: the main agent can delegate subtasks to sub-agents, each running in its own separate context, or launch long-running jobs in the background. This allows parallel work and keeps the main context free from the details of the subtasks. Storing the outputs as files and logs makes the work easier to track, and allows recovering after interruptions.Sub-agents are usually <em>bounded</em>, i.e., they receive enough context to complete their subtask, but run with tighter limits, such as read-only access to files, or a limit on how many further sub-agents they can launch [12].</li>
+<li><em>Sub-agents and background jobs</em>: the main agent can delegate subtasks to sub-agents, each running in its own separate context, or launch long-running jobs in the background. This allows parallel work and keeps the main context free from the details of the subtasks. Storing the outputs as files and logs makes the work easier to track, and allows recovering after interruptions. Sub-agents are usually <em>bounded</em>, i.e., they receive enough context to complete their subtask, but run with tighter limits, such as read-only access to files, or a limit on how many further sub-agents they can launch [12].</li>
 </ul>
 <p><img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/Lectures/Theme_3-Model_Engineering/Lecture_25-AI_Orchestration/images/coding_agent_harness_loop.png" width="700"></p>
 <p><em>Figure: The workflow loop of a coding agent harness.</em> Source [9].</p>
@@ -1011,7 +1011,7 @@ I don't have the specific due date for Homework 6. Please check the course sylla
 <span id="cb11-17"><a href="#cb11-17" aria-hidden="true" tabindex="-1"></a>    <span class="st">"security"</span>: <span class="st">"Review this code only for security issues."</span>,</span>
 <span id="cb11-18"><a href="#cb11-18" aria-hidden="true" tabindex="-1"></a>}</span>
 <span id="cb11-19"><a href="#cb11-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a review for each apect</span></span>
+<span id="cb11-20"><a href="#cb11-20" aria-hidden="true" tabindex="-1"></a><span class="co"># Generate a review for each aspect</span></span>
 <span id="cb11-21"><a href="#cb11-21" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> review(aspect):</span>
 <span id="cb11-22"><a href="#cb11-22" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> aspect, llm(<span class="ss">f"</span><span class="sc">{</span>aspects[aspect]<span class="sc">}</span><span class="ss"> Give at most three short bullet points.</span><span class="ch">\n</span><span class="sc">{</span>code_snippet<span class="sc">}</span><span class="ss">"</span>)</span>
 <span id="cb11-23"><a href="#cb11-23" aria-hidden="true" tabindex="-1"></a></span>
@@ -1091,7 +1091,7 @@ def load(path):
 <li>The application (not the model) executes the tool, and sends the result back to the model as a message with the role <code>tool</code>.</li>
 <li>The model uses the tool result to produce the final answer, or requests another tool call.</li>
 </ol>
-<p>It is important to note that the LLM doesn’t executes anything itself. It only produces text that describes which function should be called. The harness is responsible for parsing the request, validating it, executing it, and returning the result.</p>
+<p>It is important to note that the LLM doesn’t execute anything itself. It only produces text that describes which function should be called. The harness is responsible for parsing the request, validating it, executing it, and returning the result.</p>
 <p>The next cell defines two simple Python functions and their JSON Schema descriptions in the format expected by OpenAI-compatible APIs.</p>
 <div id="c96d5a2a" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:17,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1795206789301,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-execution_count="20">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb14"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="im">import</span> json, math</span>
@@ -1847,7 +1847,7 @@ FINAL DRAFT:
 <li><strong>Crew</strong>: A team of agents and a list of tasks, executed with a <strong>process</strong>. In a <em>sequential</em> process, tasks run in order, and the output of each task is passed to the next. In a <em>hierarchical</em> process, a manager agent (or manager LLM) assigns tasks to the agents and validates the results.</li>
 <li><strong>Flows</strong>: An event-driven layer for building production workflows that combine regular Python code with crews.</li>
 </ul>
-<p>In the example below, we create a crew of two agents: (1) a data analyst who designs an analysis plan, and (2)a technical writer who turns the plan into a short report.</p>
+<p>In the example below, we create a crew of two agents: (1) a data analyst who designs an analysis plan, and (2) a technical writer who turns the plan into a short report.</p>
 <p>Note that installing <code>crewai</code> in Colab may upgrade some pre-installed packages, and if a warning is displayed, restart the session before running the cells.</p>
 <div id="ec5ed56c" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:45186,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1795209670441,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="a9206ae0-6813-4783-a3af-a77794bdc833" data-execution_count="43">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb49"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb49-1"><a href="#cb49-1" aria-hidden="true" tabindex="-1"></a><span class="op">!</span>pip install <span class="op">-</span>q crewai</span></code></pre></div><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></div>
@@ -2300,7 +2300,7 @@ It is currently raining in Seattle, and the temperature is 10°C.</code></pre>
 </div>
 </div>
 <p><strong>A Team of Agents</strong></p>
-<p>Next, we create a team of two agents that collaborate in a round-robin conversation: (1) a programmer who writes Python code, and (2)a reviewer who checks the code and replies “APPROVE” when it is acceptable. The conversation ends when the word “APPROVE” appears, or after 6 messages, whichever comes first. Combining termination conditions with <code>|</code> (logical OR) is a recommended guardrail, since multi-agent conversations can otherwise continue indefinitely.</p>
+<p>Next, we create a team of two agents that collaborate in a round-robin conversation: (1) a programmer who writes Python code, and (2) a reviewer who checks the code and replies “APPROVE” when it is acceptable. The conversation ends when the word “APPROVE” appears, or after 6 messages, whichever comes first. Combining termination conditions with <code>|</code> (logical OR) is a recommended guardrail, since multi-agent conversations can otherwise continue indefinitely.</p>
 <div id="4379189f" class="cell" data-quarto-private-1="{&quot;key&quot;:&quot;executionInfo&quot;,&quot;value&quot;:{&quot;elapsed&quot;:68087,&quot;status&quot;:&quot;ok&quot;,&quot;timestamp&quot;:1795209837728,&quot;user&quot;:{&quot;displayName&quot;:&quot;Aleksandar Vakanski&quot;,&quot;userId&quot;:&quot;07675307153279708378&quot;},&quot;user_tz&quot;:420}}" data-outputid="cde55f7f-0774-4c9f-8074-1882f76a1250" data-execution_count="50">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb59"><pre class="sourceCode python code-with-copy"><code class="sourceCode python"><span id="cb59-1"><a href="#cb59-1" aria-hidden="true" tabindex="-1"></a>programmer <span class="op">=</span> AssistantAgent(</span>
 <span id="cb59-2"><a href="#cb59-2" aria-hidden="true" tabindex="-1"></a>    name<span class="op">=</span><span class="st">"programmer"</span>,</span>
@@ -2623,7 +2623,7 @@ APPROVE</code></pre>
 <li><strong>Use AutoGen (or Microsoft Agent Framework)</strong> when the solution is naturally expressed as a dialogue between agents, or when integrating with the Microsoft ecosystem.</li>
 <li><strong>Consider single-agent solutions first.</strong> Multi-agent systems use many more tokens, and errors can propagate between agents. They are most beneficial when subtasks are independent and can run in parallel, or when separate contexts are needed for different subtasks.</li>
 </ul>
-<p>Frameworks evolve very quickly, and their APIs change often. The concepts covered in this lecture like workflows, tool calling, harness, memory, state, multi-agent coordination are applicalbe even with changes in libraries.</p>
+<p>Frameworks evolve very quickly, and their APIs change often. The concepts covered in this lecture like workflows, tool calling, harness, memory, state, multi-agent coordination are applicable even with changes in libraries.</p>
 <p><a id="25.9-production-considerations"></a></p>
 </section>
 <section id="production-considerations" class="level2">
@@ -2640,7 +2640,7 @@ APPROVE</code></pre>
 <p><strong>Security</strong></p>
 <p>Agents that read external content (web pages, emails, documents) are vulnerable to <strong>prompt injection</strong>, where malicious text instructs the agent to perform unintended actions, such as sending private data to an attacker. Mitigations include following the principle of least privilege for tools and credentials, sandboxing code execution, requiring human approval for sensitive or irreversible actions, and separating trusted instructions from untrusted data. In multi-agent systems, a related approach is <em>quarantine</em>, where the agents that read untrusted content are not allowed to perform high-privilege actions, which are instead performed by separate agents that act only on the information extracted from that content [14].</p>
 <p><strong>Self-Improving Harnesses</strong></p>
-<p>Since a harness is code that combines prompts, tools, control flow, and memory, the harness itself can be optimized automatically [9]. For instance, AFlow represents workflows as graphs of LLM calls and searches for better-performing graphs, and the Darwin Gödel Machine lets a coding agent edit its own harness code and keeps the changes that improve its benchmark score. With the latter approach, the success rate on the SWE-bench Verified coding benchmark increased from 20% to 50%. Such methods work best when the results can be checked automatically, e.g., by running tests. They also introduce a new risk, becayse an agent that can modify its own harness may learn to exploit its evaluation (e.g., by overfitting to the tests) instead of solving the task, which is a form of reward hacking. Therefore, the evaluators, tests, and permission controls must be kept outside the part of the system that the agent is allowed to change.</p>
+<p>Since a harness is code that combines prompts, tools, control flow, and memory, the harness itself can be optimized automatically [9]. For instance, AFlow represents workflows as graphs of LLM calls and searches for better-performing graphs, and the Darwin Gödel Machine lets a coding agent edit its own harness code and keeps the changes that improve its benchmark score. With the latter approach, the success rate on the SWE-bench Verified coding benchmark increased from 20% to 50%. Such methods work best when the results can be checked automatically, e.g., by running tests. They also introduce a new risk, because an agent that can modify its own harness may learn to exploit its evaluation (e.g., by overfitting to the tests) instead of solving the task, which is a form of reward hacking. Therefore, the evaluators, tests, and permission controls must be kept outside the part of the system that the agent is allowed to change.</p>
 </section>
 <section id="references" class="level2">
 <h2 class="anchored" data-anchor-id="references">References</h2>
