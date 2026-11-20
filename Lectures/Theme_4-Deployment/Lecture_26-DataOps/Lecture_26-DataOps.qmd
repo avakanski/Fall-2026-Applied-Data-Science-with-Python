@@ -1,0 +1,8 @@
+---
+title: "Lecture 26 - Introduction to Data Operations (DataOps)"
+toc: false
+---
+
+[Click to Open the Lecture in a New Window](Lecture_26-DataOps.pdf){target="_blank"}
+
+<iframe src="Lecture_26-DataOps.pdf" width="100%" height="800" style="border: none;"></iframe>

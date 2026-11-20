@@ -55,6 +55,7 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 
 * <a href="Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.ipynb">Lecture 16 - Deploying Projects as Web Applications</a>
 * <a href="Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.ipynb">Lecture 17 - Reproducible Projects, Docker Containers</a>
+* <a href="Lectures/Theme_4-Deployment/Lecture_26-DataOps/Lecture_26-DataOps.pdf">Lecture 26 - Introduction to Data Operations (DataOps)</a>
 
 *(Additional lectures will be added during the semester.)*
 

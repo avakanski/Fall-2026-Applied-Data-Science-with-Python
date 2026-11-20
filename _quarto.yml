@@ -100,6 +100,8 @@ website:
             text: "Lecture 16 - Deploying Projects as Web Applications"
           - href: "Lectures/Theme_4-Deployment/Lecture_17-Docker_Containers/Lecture_17-Docker_Containers.ipynb"
             text: "Lecture 17 - Reproducible Projects, Docker Containers"
+          - href: "Lectures/Theme_4-Deployment/Lecture_26-DataOps/Lecture_26-DataOps.qmd"
+            text: "Lecture 26 - Introduction to DataOps"
       - section: "Tutorials"
         contents:
           - href: "Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"
