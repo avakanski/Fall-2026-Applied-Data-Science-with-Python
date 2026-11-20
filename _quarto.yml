@@ -92,6 +92,8 @@ website:
             text: "Lecture 23 - Reasoning Large Language Models"
           - href: "Lectures/Theme_3-Model_Engineering/Lecture_24-Agentic_AI/Lecture_24-Agentic_AI.ipynb"
             text: "Lecture 24 - Agentic AI"
+          - href: "Lectures/Theme_3-Model_Engineering/Lecture_25-AI_Orchestration/Lecture_25-AI_Orchestration.ipynb"
+            text: "Lecture 25 - AI Orchestration and Agent Frameworks"
       - section: "Theme 4 - Deployment Pipelines"
         contents:
           - href: "Lectures/Theme_4-Deployment/Lecture_16-Deploying_to_Web/Lecture_16-Deploying_to_Web.ipynb"

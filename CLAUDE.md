@@ -12,11 +12,24 @@ in `_quarto.yml` — builds never run notebook code; saved outputs render as-is)
 ```
 Lectures/Theme_X-Theme_Name/Lecture_N-Short_Title/
 ├── Lecture_N-Short_Title.ipynb     (same name as folder)
-└── images/                          (all figures, relative paths)
+└── images/                          (all figures; referenced by GitHub URL, see below)
 ```
 
 Spaces in names become `_`; commas are fine (e.g. `Lecture_3-Files,_Functions`).
 Run the notebook fully before committing so all cell outputs are saved.
+
+**Figure links (from Lecture 22 on).** Store figures in the lecture's
+`images/` folder, but reference them in markdown by their raw GitHub URL,
+not a relative path, so they also display when the notebook is opened
+outside the repo (e.g. downloaded or opened in Colab):
+
+```markdown
+<img src="https://raw.githubusercontent.com/avakanski/Fall-2026-Applied-Data-Science-with-Python/main/<LECTURE_FOLDER_PATH>/images/figure.png" width="500">
+```
+
+The `images/` folder must stay in the repo, since the URLs load from it. Push a
+new figure before relying on its URL: it returns 404 until it is on `main`.
+Lectures before 22 keep their relative `images/...` paths; don't convert them.
 
 ### 2. Required notebook header (first 4 markdown cells)
 

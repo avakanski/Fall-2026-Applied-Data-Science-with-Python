@@ -49,6 +49,7 @@ Teaching Assistant: Lily Mason (lmason@uidaho.edu)
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_22-Multimodal_Models/Lecture_22-Multimodal_Models.ipynb">Lecture 22 - Multi-modal Models</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_23-Reasoning_LLMs/Lecture_23-Reasoning_LLMs.ipynb">Lecture 23 - Reasoning Large Language Models</a>
 * <a href="Lectures/Theme_3-Model_Engineering/Lecture_24-Agentic_AI/Lecture_24-Agentic_AI.ipynb">Lecture 24 - Agentic AI</a>
+* <a href="Lectures/Theme_3-Model_Engineering/Lecture_25-AI_Orchestration/Lecture_25-AI_Orchestration.ipynb">Lecture 25 - AI Orchestration and Agent Frameworks</a>
 
 ### Theme 4: Deployment Pipelines
 
