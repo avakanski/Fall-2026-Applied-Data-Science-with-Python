@@ -567,6 +567,12 @@ window.Quarto = {
  <span class="menu-text">Lecture 24 - Agentic AI</span></a>
   </div>
 </li>
+          <li class="sidebar-item">
+  <div class="sidebar-item-container"> 
+  <a href="../../../Lectures/Theme_3-Model_Engineering/Lecture_25-AI_Orchestration/Lecture_25-AI_Orchestration.html" class="sidebar-item-text sidebar-link">
+ <span class="menu-text">Lecture 25 - AI Orchestration and Agent Frameworks</span></a>
+  </div>
+</li>
       </ul>
   </li>
         <li class="sidebar-item sidebar-item-section">
@@ -1540,7 +1546,7 @@ CS 4622/5622 – Applied Data Science with Python
 </section>
 <section id="rag-with-langgraph" class="level2">
 <h2 class="anchored" data-anchor-id="rag-with-langgraph">21.4 RAG with LangGraph</h2>
-<p>This section presents a third implementation of a RAG system using <strong>LangGraph</strong>. LangGraph is a framework developed by the LangChain team for building LLM applications as <em>graphs</em>. The nodes of the graph are Python functions that perform individual steps (e.g., retrieve documents, generate an answer), and the edges define the order in which the steps are executed. The nodes communicate through a shared <em>state</em>, which is a Python dictionary that is passed from one node to the next and updated along the way. The graph-based design makes the structure of an application explicit, and it makes it easy to add steps such as rewriting the query, re-ranking the retrieved chunks, or checking the quality of the generated answer. LangGraph is also one of the most widely used frameworks for building agents, and we will cover it again in the lecture on Agentic AI.</p>
+<p>This section presents a third implementation of a RAG system using <strong>LangGraph</strong>. LangGraph is a framework developed by the LangChain team for building LLM applications as <em>graphs</em>. The nodes of the graph are Python functions that perform individual steps (e.g., retrieve documents, generate an answer), and the edges define the order in which the steps are executed. The nodes communicate through a shared <em>state</em>, which is a Python dictionary that is passed from one node to the next and updated along the way. The graph-based design makes the structure of an application explicit, and it makes it easy to add steps such as rewriting the query, re-ranking the retrieved chunks, or checking the quality of the generated answer. LangGraph is also one of the most widely used frameworks for building agents, and we will cover it again in Lecture 25.</p>
 <p>For data loading, text splitting, embedding, and vector storage, LangGraph relies on the components of the <strong>LangChain</strong> library. Similar to LlamaIndex, LangChain provides document loaders for many file formats, text splitters, wrappers for embedding models and LLMs, and interfaces to many vector stores.</p>
 <p>As an external text source in this section, we will use a short plain text file <code>library_guide.txt</code>, which contains a visitor guide for the Maple Hollow Public Library. The library and the town are fictional, and therefore the LLM could not have learned any facts about them during training. Any correct answer to a question about the library must come from the retrieved text, which makes this document a good test case for a RAG system. We will follow the same steps as in the previous sections: data loading, splitting the text into chunks, embedding, retrieval, and generation. The retrieval and generation steps will be implemented as the two nodes of a LangGraph graph.</p>
 <section id="data-loading-2" class="level4">
