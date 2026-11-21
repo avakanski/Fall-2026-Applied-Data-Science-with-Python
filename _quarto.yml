@@ -102,6 +102,8 @@ website:
             text: "Lecture 17 - Reproducible Projects, Docker Containers"
           - href: "Lectures/Theme_4-Deployment/Lecture_26-DataOps/Lecture_26-DataOps.qmd"
             text: "Lecture 26 - Introduction to DataOps"
+          - href: "Lectures/Theme_4-Deployment/Lecture_27-LLM_Deployment/Lecture_27-LLM_Deployment.ipynb"
+            text: "Lecture 27 - LLM Deployment"
       - section: "Tutorials"
         contents:
           - href: "Lectures/Tutorials/Tutorial_1-Jupyter_Notebooks/Tutorial_1-Jupyter_Notebooks.ipynb"
